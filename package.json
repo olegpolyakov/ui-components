@@ -1,6 +1,6 @@
 {
   "name": "@codedojo/react-components",
-  "version": "0.10.0",
+  "version": "0.1.0",
   "description": "CodeDojo ui components implemented in React",
   "main": "./dist/index.js",
   "sass": "./dest/index.scss",
