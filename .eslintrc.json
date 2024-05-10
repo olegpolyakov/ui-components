@@ -21,6 +21,14 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "arrow-parens": [
+            "warn",
+            "as-needed"
+        ],
+        "comma-dangle": [
+            "warn",
+            "never"
+        ],
         "indent": [
             "error",
             4,
@@ -28,6 +36,10 @@
                 "SwitchCase": 1,
                 "MemberExpression": 1
             }
+        ],
+        "jsx-quotes": [
+            "warn",
+            "prefer-double"
         ],
         "object-curly-spacing": [
             "warn",
@@ -41,7 +53,9 @@
             "error",
             "always"
         ],
-        "@typescript-eslint/ban-ts-comment": "off"
+        "@typescript-eslint/ban-ts-comment": "off",
+        "@typescript-eslint/no-explicit-any": "warn",
+        "@typescript-eslint/no-unused-vars": "warn"
     },
     "ignorePatterns": [
         "**/*.js"

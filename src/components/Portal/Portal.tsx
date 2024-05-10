@@ -1,18 +1,31 @@
-import {
-    Portal as FluentPortal,
-    PortalProps as FluentPortalProps
-} from '@fluentui/react-components';
+import { createPortal } from 'react-dom';
 
-export type PortalProps = FluentPortalProps;
+import type { Children } from '../../types';
 
-const Portal = (props: PortalProps) => {
-    return (
-        <FluentPortal
-            {...props}
-        />
+import Provider from '../Provider';
+
+export type PortalProps = {
+    container?: HTMLElement;
+    children: Children;
+};
+
+const displayName = 'Portal';
+
+const Portal = ({
+    container = document.body,
+
+    children
+}: PortalProps) => {
+    return createPortal(
+        container === document.body ? (
+            <Provider>
+                {children}
+            </Provider>
+        ) : children,
+        container
     );
 };
 
-Portal.displayName = 'Portal';
+Portal.displayName = displayName;
 
 export default Portal;

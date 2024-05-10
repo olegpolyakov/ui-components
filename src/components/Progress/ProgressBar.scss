@@ -1,0 +1,43 @@
+.root {
+    --ui-ProgressBar-thickness: 6px;
+    --ui-ProgressBar-border-radius: var(--ui-ProgressBar-thickness);
+
+    position: relative;
+    box-sizing: border-box;
+    min-height: var(--ui-ProgressBar-thickness);
+    flex: 1 1 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--ui-ProgressBar-border-radius);
+    background-color: var(--ui-primary-color);
+    color: var(--ui-on-primary-color);
+
+    &::before {
+        content: '';
+        display: block;
+        box-sizing: inherit;
+        block-size: var(--ui-ProgressBar-progressThickness);
+        border-radius: var(--ui-ProgressBar-progressRadius);
+        background-color: currentcolor;
+        color: inherit;
+        position: absolute;
+
+        left: var(--_ui-ProgressBar-padding);
+        width: calc(var(--ui-ProgressBar-percent) * 1% - 2 * var(--_ui-ProgressBar-padding));
+    }
+}
+
+.indeterminate {
+    animation: slide 2.5s ease-in-out 0s infinite normal none running;
+}
+
+@keyframes slide {
+    0% {
+
+    }
+
+    100% {
+        
+    }
+}

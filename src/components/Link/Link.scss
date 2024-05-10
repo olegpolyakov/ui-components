@@ -1,0 +1,49 @@
+@use '../../styles/mixins' as *;
+
+.root {
+    box-sizing: border-box;
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+    color: var(--ui-Link-color, var(--ui-primary-color));
+    font-family: var(--ui-font-family);
+    font-size: var(--ui-font-size);
+    font-weight: var(--ui-font-weight-normal);
+    text-align: left;
+    text-overflow: inherit;
+    overflow: inherit;
+    user-select: text;
+    cursor: pointer;
+}
+
+
+// States
+
+.root {
+    &:hover {
+        color: var(--ui-Link-hover-color, var(--ui-primary-6-color));
+    }
+    
+    &:active {
+        color: var(--ui-Link-active-color, var(--ui-primary-7-color));
+    }
+}
+
+.disabled {
+    color: var(--ui-Link-disabled-color);
+
+    &:hover {
+        color: var(--ui-Link-disabled-color);
+    }
+    
+    &:active {
+        color: var(--ui-Link-disabled-color);
+    }
+}
+
+
+// Colors
+
+@include color-state-variables-for-palettes('Link', 'color');

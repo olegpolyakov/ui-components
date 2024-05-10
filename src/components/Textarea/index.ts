@@ -1,1 +1,1 @@
-export { default, default as Textarea, type TextareaProps } from './Textarea';
+export { default, default as Textarea, type TextareaChangeHandler, type TextareaProps } from './Textarea';

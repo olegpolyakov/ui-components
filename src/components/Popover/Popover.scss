@@ -1,0 +1,100 @@
+@use 'sass:map';
+
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    --ui-Popover-background-color: var(--ui-background-color);
+    --ui-Popover-text-color: var(--ui-text-color);
+    --ui-Popover-border-color: var(--ui-border-color);
+    --ui-Popover-border-radius: var(--ui-border-radius-medium);
+    --ui-Popover-shadow: 0 12px 28px #0003, 0 2px 4px #0000001a, inset 0 0 0 1px #ffffff80;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+
+.surface {
+    border-radius: var(--ui-Popover-border-radius);
+    box-shadow: var(--ui-Popover-shadow);
+    z-index: 10;
+}
+
+.content {
+    box-sizing: border-box;
+    border-radius: var(--ui-Popover-border-radius);
+    padding: var(--ui-Popover-padding);
+    background-color: var(--ui-Popover-background-color);
+    color: var(--ui-Popover-text-color);
+    font-family: var(--ui-font-family);
+    overflow: hidden;
+}
+
+.arrow {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    z-index: -1;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 10px;
+        height: 10px;
+        background: var(--ui-Popover-background-color);
+        transform: rotate(45deg);
+        transition: transform 0.2s ease-out 0s, visibility 0.2s ease-out 0s;
+        transform: translateX(0px) rotate(45deg);
+        transform-origin: center center;
+        visibility: visible;
+        z-index: -1;
+    }
+}
+
+
+// Sizes
+
+.small {
+    --ui-Popover-padding: var(--ui-padding-small);
+}
+
+.medium {
+    --ui-Popover-padding: var(--ui-padding-medium);
+}
+
+.large {
+    --ui-Popover-padding: var(--ui-padding-large);
+}
+
+
+// Variants
+
+.plain {
+    @include color-variable-for-palettes('Popover', 'text-color', $color: 5);
+}
+
+.filled {
+    @include color-variable-for-palettes('Popover', 'background-color', $color: 5, $override: ('neutral': 8));
+    @include color-variable-for-palettes('Popover', 'text-color', $color: 5, $on: true, $override: ('neutral': 8));
+}
+
+.outlined {
+    @include color-variable-for-palettes('Popover', 'border-color', $color: 2);
+    @include color-variable-for-palettes('Popover', 'text-color', $color: 5);
+
+    .surface,
+    .arrow::before {
+        border: 1px solid var(--ui-Popover-border-color);
+    }
+}
+
+.tinted {
+    @include color-variable-for-palettes('Popover', 'background-color', $color: 1);
+    @include color-variable-for-palettes('Popover', 'text-color', $color: 6);
+}

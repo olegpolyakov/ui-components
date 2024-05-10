@@ -1,1 +1,1 @@
-export { default, default as Popover, type PopoverProps } from './Popover';
+export { default, default as Popover, type PopoverProps, type VirtualElement } from './Popover';

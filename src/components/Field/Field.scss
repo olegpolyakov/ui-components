@@ -1,0 +1,34 @@
+.root {
+    --ui-Field-gap: .25rem;
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--ui-Field-gap);
+    font-family: var(--ui-font-family);
+}
+
+
+// Sizes
+
+.small {
+    --ui-Field-gap: .25rem;
+}
+
+.medium {
+    --ui-Field-gap: .5rem;
+}
+
+.large {
+    --ui-Field-gap: .75rem;
+}
+
+
+// Misc
+
+.inline {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+}

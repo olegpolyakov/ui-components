@@ -1,1 +1,8 @@
-export { default, default as Combobox, type ComboboxProps } from './Combobox';
+export {
+    default,
+    default as Combobox,
+    type ComboboxChangeHandler,
+    type ComboboxOption,
+    type ComboboxProps,
+    createFilterOptions
+} from './Combobox';

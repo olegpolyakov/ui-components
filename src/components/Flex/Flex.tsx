@@ -1,29 +1,34 @@
-import { FC, ForwardRefExoticComponent, RefAttributes, forwardRef } from 'react';
+import { forwardRef } from 'react';
 
-import type { HTMLDivProps, PropsWithChildren } from '../../types';
-import { classnames as cn } from '../../utils';
+import type { Align, HTMLDivProps, Justify, PropsWithChildren, SizeFull } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-import FlexItem, { FlexItemProps } from './FlexItem';
+import cssClasses from './Flex.scss';
 
 export type FlexProps = PropsWithChildren<{
     as?: 'div';
     dir?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
-    align?: 'start' | 'center' | 'end';
-    justify?: 'start' | 'center' | 'end' | 'around' | 'between' | 'evenly';
-    gap?: 'smallest' | 'smaller' | 'small' | 'medium' | 'large' | 'larger' | 'largest';
+    align?: Align;
+    justify?: Justify;
+    gap?: SizeFull;
+    padding?: SizeFull;
+    paddingX?: SizeFull;
+    paddingY?: SizeFull;
     inline?: boolean;
     wrap?: boolean;
 }, HTMLDivProps>;
 
-type FlexFC = ForwardRefExoticComponent<FlexProps & RefAttributes<HTMLDivElement>> & {
-    Item?: FC<FlexItemProps>;
-};
+const displayName = 'Flex';
+const elementClassNames = getElementClassNames(displayName);
 
-const Flex: FlexFC = forwardRef<HTMLDivElement, FlexProps>(({
+const Flex = forwardRef<HTMLDivElement, FlexProps>(({
     dir = 'row',
     align,
     justify,
     gap,
+    padding,
+    paddingX,
+    paddingY,
     inline,
     wrap,
 
@@ -31,22 +36,26 @@ const Flex: FlexFC = forwardRef<HTMLDivElement, FlexProps>(({
     className,
     ...props
 }, ref) => {
-    const classNames = cn(className, 'fui-Flex', {
-        [`fui-Flex--${dir}`]: dir,
-        [`fui-Flex--align-${align}`]: align,
-        [`fui-Flex--justify-${justify}`]: justify,
-        [`fui-Flex--gap-${gap}`]: gap,
-        'fui-Flex--inline': inline,
-        'fui-Flex--wrap': wrap
-    });
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        cssClasses[dir],
+        align && cssClasses[`align-${align}`],
+        justify && cssClasses[`justify-${justify}`],
+        gap && cssClasses[`gap-${gap}`],
+        padding && cssClasses[`padding-${padding}`],
+        paddingX && cssClasses[`padding-x-${paddingX}`],
+        paddingY && cssClasses[`padding-y-${paddingY}`],
+        inline && cssClasses.inline,
+        wrap && cssClasses.wrap
+    );
 
     return (
         <Tag ref={ref} className={classNames} {...props} />
     );
 });
 
-Flex.displayName = 'Flex';
-
-Flex.Item = FlexItem;
+Flex.displayName = displayName;
 
 export default Flex;

@@ -1,0 +1,57 @@
+@use 'sass:map';
+
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    --ui-Option-background-color: transparent;
+    --ui-Option-text-color: var(--ui-text-color);
+
+    display: flex;
+    padding: 8px;
+    gap: .8rem;
+    background-color: var(--ui-Option-background-color);
+    color: var(--ui-Option-text-color);
+    cursor: pointer;
+    user-select: none;
+}
+
+.start,
+.end {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.content {
+    flex-grow: 1;
+}
+
+
+// States
+
+.root {
+    @include color-state-variables('Option', 'background-color', global.$surface-color);
+
+    &:hover {
+        --ui-Option-background-color: var(--ui-Option-hover-background-color);
+    }
+
+    &:active {
+        --ui-Option-background-color: var(--ui-Option-active-background-color);
+    }
+
+    &.disabled {
+        --ui-Option-background-color: var(--ui-Option-disabled-background-color);
+        --ui-Option-text-color: var(--ui-disabled-color);
+    }
+}
+
+.highlighted {
+    @include color-state-variables('Option', 'background-color', map.get(global.$primary-palette, 1));
+}
+
+.selected {
+    @include color-state-variables('Option', 'background-color', global.$primary-color);
+    @include color-state-variables('Option', 'text-color', global.$on-primary-color);
+}

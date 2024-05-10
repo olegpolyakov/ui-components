@@ -1,0 +1,90 @@
+.root {
+    --ui-Checkbox-border-color: var(--ui-very-light-gray);
+    --ui-Checkbox-background-color: var(--ui-very-light-gray);
+
+    display: flex;
+    align-items: center;
+    gap: var(--ui-Checkbox-gap);
+}
+
+.input {
+    appearance: none;
+    width: var(--ui-Checkbox-size);
+    height: var(--ui-Checkbox-size);
+    border: 2px solid var(--ui-Checkbox-border-color);
+    border-radius: 4px;
+    background-color: var(--ui-Checkbox-background-color);
+    background-position: center;
+    background-size: 100%;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    transition: all .2s;
+    cursor: pointer;
+}
+
+.label {
+    --ui-Label-size: var(--ui-Checkbox-label-size);
+
+    cursor: pointer;
+}
+
+
+// States
+
+.input {
+    &:hover {
+        --ui-Checkbox-border-color: var(--ui-primary-color);
+        --ui-Checkbox-background-color: var(--ui-surface-color);
+    }
+
+    &:active {
+        --ui-Checkbox-border-color: var(--ui-primary-active-color);
+        --ui-Checkbox-background-color: var(--ui-primary-active-color);
+    }
+}
+
+.input:checked {
+    --ui-Checkbox-border-color: var(--ui-primary-color);
+    --ui-Checkbox-background-color: var(--ui-primary-color);
+
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjAnIGhlaWdodD0nMjAnIHZpZXdCb3g9JzAgMCAyNCAyNCcgZmlsbD0nbm9uZScgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cGF0aCBkPSdNNSAxM2w0IDRMMTkgNycgc3Ryb2tlPScjZmZmJyBzdHJva2Utd2lkdGg9JzInIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcgc3Ryb2tlLWxpbmVqb2luPSdyb3VuZCc+PC9wYXRoPjwvc3ZnPg==");
+
+    &:hover {
+        --ui-Checkbox-border-color: var(--ui-primary-hover-color);
+        --ui-Checkbox-background-color: var(--ui-primary-hover-color);
+    }
+
+    &:active {
+        --ui-Checkbox-border-color: var(--ui-primary-active-color);
+        --ui-Checkbox-background-color: var(--ui-primary-active-color);
+    }
+}
+
+.disabled {
+    .input,
+    .label {
+        cursor: default;
+    }
+}
+
+
+// Sizes
+
+.small {
+    --ui-Checkbox-size: 16px;
+    --ui-Checkbox-gap: var(--ui-gap-smaller);
+    --ui-Checkbox-label-size: var(--ui-font-size-small);
+}
+
+.medium {
+    --ui-Checkbox-size: 20px;
+    --ui-Checkbox-gap: var(--ui-gap-small);
+    --ui-Checkbox-label-size: var(--ui-font-size-small);
+}
+
+.large {
+    --ui-Checkbox-size: 24px;
+    --ui-Checkbox-gap: var(--ui-gap-medium);
+    --ui-Checkbox-label-size: var(--ui-font-size-medium);
+}

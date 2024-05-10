@@ -1,16 +1,45 @@
-import {
-    Spinner as FluentSpinner,
-    SpinnerProps as FluentSpinnerProps
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+import { forwardRef } from 'react';
 
-export type SpinnerProps = FluentSpinnerProps;
+import type { Color, Props, SizeExtended } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-export default function Spinner({ className, ...props }: SpinnerProps) {
+import cssClasses from './Spinner.scss';
+
+export type SpinnerProps = Props<{
+    as?: 'div';
+    color?: Color;
+    size?: SizeExtended;
+}>;
+
+const displayName = 'Spinner';
+const elementClassNames = getElementClassNames(displayName);
+
+const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(({
+    color,
+    size = 'medium',
+
+    as: Tag = 'div',
+    className,
+    ...props
+}, ref) => {
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        color && cssClasses[color],
+        cssClasses[size]
+    );
+
     return (
-        <FluentSpinner
-            className={classnames(className, 'ui-Spinner')}
+        <Tag
+            ref={ref}
+            className={classNames}
+            role="status"
             {...props}
         />
     );
-}
+});
+
+Spinner.displayName = displayName;
+
+export default Spinner;

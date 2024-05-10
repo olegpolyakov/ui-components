@@ -1,60 +1,81 @@
-import { FC, ReactNode } from 'react';
-import {
-    TextProps as FluentTextProps,
-    Display,
-    LargeTitle,
-    Title1,
-    Title2,
-    Title3,
-    Subtitle1,
-    Subtitle2
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+import { forwardRef, ReactNode } from 'react';
 
-const ComponentsByType: Record<string, FC<HeadingProps>> = {
-    'display': Display as FC<HeadingProps>,
-    'title1': LargeTitle as FC<HeadingProps>,
-    'title2': Title1 as FC<HeadingProps>,
-    'title3': Title2 as FC<HeadingProps>,
-    'title4': Title3 as FC<HeadingProps>,
-    'subtitle1': Subtitle1 as FC<HeadingProps>,
-    'subtitle2': Subtitle2 as FC<HeadingProps>
-};
+import type { Align, Color, HTMLHeadingProps, PropsWithChildren } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-const ElementsByType: Record<string, FluentTextProps['as']> = {
-    'display': 'h1',
-    'title1': 'h1',
-    'title2': 'h2',
-    'title3': 'h3',
-    'title4': 'h4',
-    'subtitle1': 'h5',
-    'subtitle2': 'h6'
-};
+import cssClasses from './Heading.scss';
 
-export type HeadingProps = Omit<FluentTextProps, 'type' | 'content'> & {
-    type?: 'display' | 'title1' | 'title2' | 'title3' | 'title4' | 'subtitle1' | 'subtitle2';
+export type HeadingProps = PropsWithChildren<{
+    as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'div' | 'span';
     content?: ReactNode;
-};
+    start?: ReactNode;
+    end?: ReactNode;
+    type?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'; 
+    align?: Align;
+    color?: Color;
+    block?: boolean;
+    bold?: boolean;
+    muted?: boolean;
+}, HTMLHeadingProps>;
 
-export default function Heading({
-    type = 'title2',
+const displayName = 'Heading';
+const elementClassNames = getElementClassNames(displayName, ['start', 'content', 'end']);
+
+const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({
     content,
+    start,
+    end,
+    type = 'h2',
+    color,
+    align,
+    block,
+    bold,
+    muted,
 
-    children = content,
+    as: Tag = 'h2',
     className,
+    children = content,
     ...props
-}: HeadingProps) {
-    const Component = ComponentsByType[type];
-    const classNames = classnames(className, 'ui-Heading');
+}, ref) => {
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        cssClasses[type],
+        color && cssClasses[color],
+        align && cssClasses[`align-${align}`],
+        block && cssClasses.block,
+        bold && cssClasses.bold,
+        muted && cssClasses.muted
+    );
 
     return (
-        <Component
-            as={ElementsByType[type] || 'h2'}
+        <Tag
+            ref={ref}
             className={classNames}
-            block
             {...props}
         >
-            {children}
-        </Component>
+            {start &&
+                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                    {start}
+                </span>
+            }
+
+            {children &&
+                <span className={cn(elementClassNames.content, cssClasses.content)}>
+                    {children}
+                </span>
+            }
+
+            {end &&
+                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                    {end}
+                </span>
+            }
+        </Tag>
     );
-}
+});
+
+Heading.displayName = displayName;
+
+export default Heading;

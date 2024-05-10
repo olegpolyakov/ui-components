@@ -1,0 +1,69 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    border-bottom: 1px solid var(--ui-border-color);
+}
+
+.header {
+    box-sizing: border-box;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    font-weight: var(--ui-font-weight-semibold);
+    transition: background-color 0.15s ease-in-out;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+        background-color: var(--ui-AccordionItem-hover-background-color);
+    }
+    
+    &:active,
+    &.active {
+        background-color: var(--ui-AccordionItem-active-background-color);
+    }
+    
+    &.disabled {
+        background-color: var(--ui-AccordionItem-disabled-background-color);
+        cursor: default;
+    }
+
+    @include color-state-variables('AccordionItem', 'background-color', global.$surface-color, $override:(
+        'base': none,
+        'hover': rgba(0, 0, 0, .05),
+        'active': rgba(0, 0, 0, .1),
+        'disabled': none
+    ));
+}
+
+.indicator-icon {
+    margin-left: auto;
+    transition: transform .2s ease;
+    color: var(--ui-icon-color);
+}
+
+.content {
+    box-sizing: content-box;
+    max-height: 0;
+    padding: 0 12px;
+    overflow: hidden;
+    transition: max-height .25s ease, padding .25s ease;
+}
+
+
+// States
+
+.open {
+    .header {
+        .indicator-icon {
+            transform: rotateZ(180deg);
+        }
+    }
+
+    .content {
+        max-height: 100vh;
+        padding: 10px 12px 10px 12px;
+    }
+}

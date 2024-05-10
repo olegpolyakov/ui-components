@@ -1,0 +1,142 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    --ui-Drawer-border-color: var(--ui-border-color);
+    --ui-Drawer-border-width: 1px;
+    --ui-Drawer-background-color: var(--ui-background-color);
+    --ui-Drawer-padding-x: 0.75rem;
+    --ui-Drawer-padding-y: 0.75rem;
+    --ui-Drawer-box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+    display: flex;
+    flex-direction: column;
+    width: var(--ui-Drawer-width, 360px);
+    height: var(--ui-Drawer-height, 100%);
+    background-color: var(--ui-Drawer-background-color);
+    background-clip: padding-box;
+    outline: none;
+    transition: transform 0.3s ease-in-out;
+    font-family: var(--ui-font-family);
+    z-index: var(--ui-Drawer-z-index, 1000);
+}
+
+.surface {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--ui-Drawer-padding-y) var(--ui-Drawer-padding-x);
+}
+
+.title {
+    margin: 0;
+    line-height: 1.5;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: var(--ui-Drawer-padding-y) var(--ui-Drawer-padding-x);
+    overflow-y: auto;
+}
+
+.close-button {
+    @include color-state-variables('Button', 'background-color', global.$surface-color);
+    @include color-state-variables('Button', 'text-color', global.$gray);
+
+    flex-shrink: 0;
+}
+
+.overlay {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0;
+    transition: opacity .2s;
+    z-index: 0;
+}
+
+
+// Types
+
+.inline {
+
+}
+
+.modal,
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+}
+
+
+// Position
+
+.left {
+    left: 0;
+    border-right: var(--ui-Drawer-border-width) solid var(--ui-Drawer-border-color);
+}
+
+.right {
+    right: 0;
+    border-left: var(--ui-Drawer-border-width) solid var(--ui-Drawer-border-color);
+}
+
+
+// Transition
+
+.inline {
+    &.enter,
+    &.enter-done {
+        display: flex;
+    }
+
+    &.exit,
+    &.exit-done {
+        display: none;
+    }
+}
+
+.overlay,
+.modal {
+    transition: transform 200ms ease-in-out;
+
+    &.left {
+        &.enter {
+            transform: translateX(-100%);
+        }
+        
+        &.enter-active {
+            transform: translateX(0);
+        }
+
+        &.enter-done {
+            transform: translateX(0);
+        }
+        
+        &.exit {
+            transform: translateX(0);
+        }
+        
+        &.exit-active {
+            transform: translateX(-100%);
+        }
+
+        &.exit-done {
+            display: none;
+            transform: translateX(-100%);
+        }
+    }
+}

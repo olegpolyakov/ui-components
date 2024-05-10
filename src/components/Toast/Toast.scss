@@ -1,0 +1,93 @@
+@use '../../styles/animations';
+
+// These variables need to be kept in sync with the values in Toast.tsx.
+$enter-duration: 150ms !default;
+$exit-duration: 75ms !default;
+
+.root {
+    display: none;
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    pointer-events: none; // Ignore mouse events on the root layout element.
+}
+
+.surface {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    box-sizing: border-box;
+    transform: scale(0.8);
+    opacity: 0;
+}
+
+.content {
+    width: 100%;
+    flex-grow: 1;
+    box-sizing: border-box;
+    margin: 0;
+    visibility: hidden;
+
+    // 14px top/bottom padding needed to make the height 48px.
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.actions {
+    box-sizing: border-box;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    visibility: hidden;
+}
+
+.action {}
+
+.dismiss {}
+
+
+// Misc
+
+.leading {
+
+}
+
+.stacked {
+
+}
+
+
+// Transition
+
+.opening,
+.open,
+.closing {
+    display: flex;
+}
+
+.open {
+    .surface {
+        transform: scale(1);
+        opacity: 1;
+        pointer-events: auto; // Allow mouse events on surface element while snackbar is open
+        transition:
+            animations.enter(opacity, $enter-duration),
+            animations.enter(transform, $enter-duration);
+    }
+
+    .content,
+    .actions {
+        visibility: visible;
+    }
+}
+
+.closing {
+    .surface {
+        transform: scale(1);
+        transition: animations.exit-permanent(opacity, $exit-duration);
+    }
+}

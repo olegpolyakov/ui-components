@@ -1,61 +1,160 @@
-import { useCallback, useState } from 'react';
-import { Dropdown, DropdownProps } from '@fluentui/react-components';
-import classnames from 'classnames';
+import {
+    type MouseEvent,
+    type ReactNode,
+    forwardRef,
+    useEffect,
+    useRef,
+    useState,
+    useCallback
+} from 'react';
 
-import type { ChangeEvent, ChangeEventData, SelectionEvents } from '../../types';
+import {
+    type SelectOptionDefinition,
+    SelectProvider,
+    useSelect
+} from '@mui/base/useSelect';
 
-import Option, { OptionProps } from './Option';
+import type { HTMLDivProps, PropsWithChildren, PropsWithKey, Size } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-type OptionOnSelectData = {
-    optionValue: string | undefined;
-    optionText: string | undefined;
-    selectedOptions: string[];
-};
+import Option, { type OptionProps } from './Option';
+import cssClasses from './Select.scss';
 
-export type SelectProps = Omit<DropdownProps, 'value' | 'options' | 'onChange'> & {
-    value?: string | string[];
-    options: OptionProps[];
-    multiple?: boolean;
-    onChange?: (event: ChangeEvent, data: ChangeEventData) => void;
-};
+export type SelectChangeHandler = (
+    data: {
+        value?: string;
+        name?: string;
+    },
+    event: MouseEvent
+) => void
 
-export default function Select({
+export type SelectProps = PropsWithChildren<{
+    label?: string;
+    name?: string;
+    value?: string;
+    options?: PropsWithKey<OptionProps>[];
+    placeholder?: string;
+    start?: ReactNode;
+    end?: ReactNode;
+    size?: Size;
+    variant?: 'filled' | 'outlined' | 'underlined';
+    required?: boolean;
+    disabled?: boolean;
+    maxMenuHeight?: number;
+    onChange?: SelectChangeHandler;
+}, HTMLDivProps>;
+
+const displayName = 'Select';
+const elementClassNames = getElementClassNames(displayName, ['start', 'label', 'input', 'end', 'menu']);
+
+const Select = forwardRef<HTMLDivElement, SelectProps>(({
+    label,
     name,
-    value,
-    options,
-    multiple,
-    multiselect = multiple,
+    value: _value,
+    options = [],
+    placeholder,
+    start,
+    end,
+    size = 'medium',
+    variant = 'outlined',
+    maxMenuHeight,
     onChange,
 
-    className,
     children,
+    className,
     ...props
-}: SelectProps) {
-    const [inputValue, setInputValue] = useState(options.find(v => v.value === value)?.text);
+}, ref) => {
+    const listboxRef = useRef<HTMLUListElement>(null);
 
-    const handelOptionSelect: DropdownProps['onOptionSelect'] = useCallback((event: SelectionEvents, data: OptionOnSelectData) => {
-        onChange?.(event as ChangeEvent, {
-            value: data.optionValue
-        });
-        setInputValue(data.optionText);
-    }, [onChange]);
+    const [open, setOpen] = useState(false);
+
+    useEffect(() => {
+        if (open) {
+            listboxRef.current?.focus();
+        }
+    }, [open]);
+
+    const handleOptionClick = useCallback((event: MouseEvent) => {
+        const value = (event.currentTarget as HTMLElement).dataset.value;
+
+        onChange?.({ value, name }, event);
+    }, [name, onChange]);
+
+    const { getButtonProps, getListboxProps, contextValue, value } = useSelect({
+        listboxRef,
+        open,
+        onOpenChange: setOpen,
+        options: options as SelectOptionDefinition<string>[],
+        value: _value
+    });
+
+    const selectedValue = options.find(option => option.value === value)?.label || '';
+    const menuStyle = maxMenuHeight ? {
+        maxHeight: `${maxMenuHeight}px`
+    } : undefined;
+
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        cssClasses[size],
+        cssClasses[variant],
+        open && cssClasses.open,
+        (open || (value !== undefined && value !== null)) && cssClasses.activated
+    );
 
     return (
-        <Dropdown
-            className={classnames(className, 'ui-Select')}
-            name={name}
-            value={inputValue}
-            multiselect={multiselect}
-            onOptionSelect={handelOptionSelect}
+        <div
+            ref={ref}
+            className={classNames}
             {...props}
         >
-            {options?.map(option =>
-                <Option key={option.key} {...option} />
-            )}
+            {label &&
+                <label className={cn(elementClassNames.label, cssClasses.label)}>{label}</label>
+            }
 
-            {children}
-        </Dropdown>
+            {start &&
+                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                    {start}
+                </span>
+            }
+
+            <button
+                className={cn(elementClassNames.input, cssClasses.input)}
+                data-placeholder={placeholder}
+                value={value || undefined}
+                {...getButtonProps()}
+            >
+                {selectedValue}
+            </button>
+
+            {end &&
+                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                    {end}
+                </span>
+            }
+
+            <ul
+                className={cn(elementClassNames.menu, cssClasses.menu)}
+                style={menuStyle}
+                {...getListboxProps()}
+            >
+                <SelectProvider value={contextValue}>
+                    {options?.map(option =>
+                        <Option
+                            key={option.value}
+                            onClick={handleOptionClick}
+                            {...option}
+                        />
+                    )}
+
+                    {children}
+                </SelectProvider>
+            </ul>
+        </div>
     );
-}
+});
 
-Select.Option = Option;
+Select.displayName = displayName;
+
+export default Select;

@@ -1,0 +1,53 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+$animation-speed: 0.75s !default;
+
+.root {
+    --ui-Spinner-color: var(--ui-primary-color);
+
+    display: inline-block;
+    width: var(--ui-Spinner-size);
+    height: var(--ui-Spinner-size);
+    border: calc(var(--ui-Spinner-size) * .1) solid var(--ui-Spinner-color);
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: var(--ui-Spinner-animation-speed, #{$animation-speed}) linear infinite spin;
+    vertical-align: var(--ui-Spinner-vertical-align, -0.125em);
+
+    @media (prefers-reduced-motion: reduce) {
+        --ui-Spinner-animation-speed: #{$animation-speed * 2};
+    }
+}
+
+
+// Colors
+
+@include color-variable-for-palettes('Spinner', 'color');
+
+
+// Sizes
+
+.smaller {
+    --ui-Spinner-size: 16px;
+}
+
+.small {
+    --ui-Spinner-size: 24px;
+}
+
+.medium {
+    --ui-Spinner-size: 32px;
+}
+
+.large {
+    --ui-Spinner-size: 40px;
+}
+
+.larger {
+    --ui-Spinner-size: 48px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

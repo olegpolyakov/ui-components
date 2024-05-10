@@ -1,0 +1,66 @@
+@use 'sass:map';
+
+@use '../../styles/functions' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    min-height: var(--ui-MenuItem-height, auto);
+    border: none;
+    background-color: var(--ui-MenuItem-background-color);
+    color: var(--ui-MenuItem-text-color);
+    font-family: var(--ui-font-family);
+    font-size: var(--ui-font-size);
+    font-weight: var(--ui-font-weight-normal);
+}
+
+.start,
+.end {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.content {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+}
+
+
+// States
+
+.root {
+    cursor: pointer;
+
+    @include color-state-variables('MenuItem', 'background-color', global.$surface-color);
+    @include color-state-variables('MenuItem', 'text-color', global.$text-color);
+
+    &:hover {
+        background-color: var(--ui-MenuItem-hover-background-color);
+        border-color: var(--ui-MenuItem-hover-border-color);
+        color: var(--ui-MenuItem-hover-text-color);
+    }
+    
+    &:active {
+        background-color: var(--ui-MenuItem-active-background-color);
+        border-color: var(--ui-MenuItem-active-border-color);
+        color: var(--ui-MenuItem-active-text-color);
+    }
+    
+    &.disabled {
+        background-color: var(--ui-MenuItem-disabled-background-color);
+        border-color: var(--ui-MenuItem-disabled-border-color);
+        color: var(--ui-MenuItem-disabled-text-color);
+        cursor: default;
+    }
+}
+
+.selected {
+    @include color-state-variables('MenuItem', 'background-color', global.$primary-color);
+    @include color-state-variables('MenuItem', 'text-color', global.$on-primary-color);
+}

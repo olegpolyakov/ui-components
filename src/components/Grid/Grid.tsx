@@ -1,45 +1,53 @@
-import { FC, ForwardRefExoticComponent, ReactNode, RefAttributes, forwardRef } from 'react';
-import classnames from 'classnames';
+import { ForwardRefExoticComponent, RefAttributes, forwardRef } from 'react';
 
-import GridCell, { GridCellProps } from './GridCell';
-import { cssClasses } from './constants';
+import type { Align, HTMLDivProps, PropsWithChildren } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-export type GridProps = {
-    align?: 'left' | 'right';
-    fixedColumnWidth?: boolean;
+import GridItem from './GridItem';
 
+import cssClasses from './Grid.scss';
+
+export type GridProps = PropsWithChildren<{
     as?: 'div';
-    children?: ReactNode | ReactNode[];
-    className?: string;
-};
+    align?: Align;
+    fixedColumnWidth?: boolean;
+}, HTMLDivProps>;
 
 type GridFC = ForwardRefExoticComponent<GridProps & RefAttributes<HTMLDivElement>> & {
-    Cell?: FC<GridCellProps>;
+    Item?: typeof GridItem;
 };
+
+const displayName = 'Grid';
+const elementClassNames = getElementClassNames(displayName, ['inner']);
 
 const Grid: GridFC = forwardRef<HTMLDivElement, GridProps>(({
     align,
     fixedColumnWidth = false,
 
-    as: Component = 'div',
+    as: Tag = 'div',
     className,
     children,
     ...props
 }, ref) => {
-    const classNames = classnames(className, cssClasses.ROOT, {
-        [`${cssClasses.ALIGN}-${align}`]: align,
-        [cssClasses.FIXED_COLUMN_WIDTH]: fixedColumnWidth
-    });
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        align && cssClasses[`align-${align}`],
+        fixedColumnWidth && cssClasses.fixedColumnWidth
+    );
 
     return (
-        <Component ref={ref} className={classNames} {...props}>
-            <div className={cssClasses.INNER}>{children}</div>
-        </Component>
+        <Tag ref={ref} className={classNames} {...props}>
+            <div className={cn(elementClassNames.inner, cssClasses.inner)}>
+                {children}
+            </div>
+        </Tag>
     );
 });
 
-Grid.displayName = 'Grid';
+Grid.displayName = displayName;
 
-Grid.Cell = GridCell;
+Grid.Item = GridItem;
 
 export default Grid;

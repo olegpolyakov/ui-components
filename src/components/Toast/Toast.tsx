@@ -1,146 +1,147 @@
-import {
-    ForwardRefExoticComponent,
-    PropsWithoutRef,
-    ReactNode,
-    RefAttributes,
-    forwardRef,
-    useId,
-    useImperativeHandle
-} from 'react';
-import {
-    Toast as FluentToast,
-    ToastProps as FluentToastProps,
-    ToastBody,
-    ToastBodyProps,
-    ToastFooter,
-    ToastTitle,
-    ToastTitleProps,
-    ToastTrigger,
-    ToastTriggerProps,
-    Toaster,
-    ToasterProps,
-    ToastIntent,
-    useToastController
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+import { ReactNode, ReactElement, forwardRef, useRef, useCallback, KeyboardEvent, isValidElement, cloneElement } from 'react';
 
-export type ToastProps = FluentToastProps & {
-    title?: ReactNode;
-    action?: ToastTitleProps['action'];
-    media?: ToastTitleProps['media'];
+import { useUpdated } from '../../hooks';
+import { Props } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
+
+import Layer from '../Layer';
+import Button from '../Button';
+
+import cssClasses from './Toast.scss';
+
+const DEFAULT_AUTO_DISMISS_TIMEOUT_MS = 5000;
+const ANIMATION_OPEN_TIME_MS = 150;
+const ANIMATION_CLOSE_TIME_MS = 75;
+
+export type ToastProps = Props<{
+    as?: 'div';
     content?: ReactNode;
-    description?: ToastBodyProps['subtitle'];
-    actions?: ReactNode | ReactNode[];
-    intent?: ToastIntent;
+    action?: ReactNode;
+    dismissIcon?: string | ReactElement;
+    open?: boolean;
+    appear?: boolean;
+    leading?: boolean;
+    stacked?: boolean;
     dismissible?: boolean;
-} & Pick<ToasterProps,
-    'toasterId' |
-    'offset' |
-    'position' |
-    'priority' |
-    'limit' |
-    'timeout' |
-    'pauseOnHover' |
-    'pauseOnWindowBlur' |
-    'shortcuts'
->;
+    closeOnEscape?: boolean;
+    timeout?: number;
+    onClose?: () => void;
+}>;
 
-export type ToastRef = {
-    show: () => void;
-    hide: (toastId?: string) => void;
-    hideAll: () => void;
-};
+const displayName = 'Toast';
+const elementClassNames = getElementClassNames(displayName, []);
 
-// @ts-ignore
-const Toast: ForwardRefExoticComponent<PropsWithoutRef<ToastProps> & RefAttributes<ToastRef>> & {
-    Body: typeof ToastBody;
-    Footer: typeof ToastFooter;
-    Title: typeof ToastTitle;
-    Trigger: typeof ToastTrigger;
-} = forwardRef<ToastRef, ToastProps>(({
-    title,
-    media,
-    action,
+const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     content,
-    description,
-    actions,
-    appearance,
-    intent,
-    dismissible,
+    action,
+    dismissIcon = 'close',
+    open,
+    appear,
+    leading,
+    stacked,
+    dismissible = true,
+    closeOnEscape = true,
+    timeout = DEFAULT_AUTO_DISMISS_TIMEOUT_MS,
+    onClose,
 
+    as: Tag = 'div',
     className,
-    children,
+    children = content,
     ...props
 }, ref) => {
-    const toasterId = useId();
-    const toastId = useId();
-    const {
-        dispatchToast,
-        dismissToast,
-        dismissAllToasts
-    } = useToastController(toasterId);
+    const timeoutRef = useRef<number | undefined>();
 
-    useImperativeHandle(ref, () => ({
-        show: (...args) => dispatchToast(
-            <FluentToast
-                className={classnames('ui-Toast', className)}
-                appearance={appearance}
-            >
-                {title &&
-                    <ToastTitle
-                        media={media}
-                        action={dismissible ?
-                            <ToastTrigger>
-                                {action as ToastTriggerProps['children']}
-                            </ToastTrigger>
-                            :
-                            action
-                        }
-                    >
-                        {title}
-                    </ToastTitle>
-                }
+    useUpdated(() => {
+        if (open) {
+            timeoutRef.current = window.setTimeout(() => {
+                timeoutRef.current = undefined;
+                onClose?.();
+            }, timeout);
+        } else {
+            if (timeoutRef.current) {
+                clearTimeout(timeoutRef.current);
+                timeoutRef.current = undefined;
+            }
+        }
 
-                {content &&
-                    <ToastBody subtitle={description}>
-                        {content}
-                    </ToastBody>
-                }
+        return () => clearTimeout(timeoutRef.current);
+    }, [open]);
 
-                {actions &&
-                    <ToastFooter>
-                        {actions}
-                    </ToastFooter>
-                }
+    const handleKeyDown = useCallback((event: KeyboardEvent) => {
+        if (closeOnEscape && event.key === 'Escape' || event.keyCode === 27) {
+            onClose?.();
+        }
+    }, [closeOnEscape, onClose]);
 
-                {children}
-            </FluentToast>,
-            { toastId, intent, ...args }
-        ),
-        hide: id => dismissToast(id || toastId),
-        hideAll: dismissAllToasts
-    }), [children, intent]);
-
-    console.log('TOAST_ID', toastId);
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        leading && cssClasses.leading,
+        stacked && cssClasses.stacked
+    );
 
     return (
-        <Toaster
-            toasterId={toasterId}
-            {...props}
-        />
+        <Layer
+            in={open}
+            appear={appear}
+            timeout={{
+                enter: ANIMATION_OPEN_TIME_MS,
+                exit: ANIMATION_CLOSE_TIME_MS
+            }}
+            classNames={{
+                appear: cssClasses.opening,
+                appearActive: cssClasses.open,
+                enter: cssClasses.opening,
+                enterActive: cssClasses.open,
+                enterDone: cssClasses.open,
+                exit: cssClasses.closing
+            }}
+            modal
+            mountOnEnter
+            unmountOnExit
+        >
+            <Tag
+                ref={ref}
+                className={classNames}
+                onKeyDown={handleKeyDown}
+                {...props}
+            >
+                <div
+                    className={cssClasses.surface}
+                    role="status"
+                    aria-relevant="additions"
+                >
+                    <div className={cssClasses.content} aria-atomic="false">
+                        {children}
+                    </div>
+
+                    <div className={cssClasses.actions} aria-atomic="true">
+                        {isValidElement<Props>(action) &&
+                            cloneElement(action, {
+                                className: cssClasses.action
+                            })
+                        }
+
+                        {dismissible && (isValidElement<Props>(dismissIcon) ?
+                            cloneElement(dismissIcon, {
+                                className: cssClasses.dismiss,
+                                onClick: onClose
+                            })
+                            :
+                            <Button
+                                icon={dismissIcon}
+                                className={cssClasses.dismiss}
+                                onClick={onClose}
+                            />
+                        )}
+                    </div>
+                </div>
+            </Tag>
+        </Layer>
     );
 });
 
-Toast.displayName = 'Toast';
+Toast.displayName = displayName;
 
-Toast.Body = ToastBody;
-Toast.Footer = ToastFooter;
-Toast.Title = ToastTitle;
-Toast.Trigger = ToastTrigger;
-
-export {
-    Toast as default,
-    ToastBody,
-    ToastFooter,
-    ToastTitle
-};
+export default Toast;

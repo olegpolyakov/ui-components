@@ -1,43 +1,74 @@
-import { ReactNode, useRef, useEffect } from 'react';
-import { createPortal } from 'react-dom';
+import { useEffect, useRef } from 'react';
 
-import { cssClasses } from './constants';
+import type { PropsWithChildren } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-export type ModalProps = {
+import Portal from '../Portal';
+
+import cssClasses from './Modal.scss';
+
+export type ModalProps = PropsWithChildren<{
+    container?: HTMLElement;
+    backdrop?: boolean;
     fixed?: boolean;
+    open?: boolean;
+    disableScroll?: boolean;
+}>;
 
-    as?: string;
-    children?: ReactNode | ReactNode[];
-};
+const displayName = 'Modal';
+const elementClassNames = getElementClassNames(displayName);
+const scrollDisabledClassName = 'ui-scroll-disabled';
 
-export default function Modal({
+const Modal = ({
+    container = document.body,
+    backdrop = false,
     fixed = false,
+    disableScroll = true,
 
-    as = 'div',
+    className,
     children
-}: ModalProps) {
-    const rootRef = useRef<HTMLElement>(document.createElement(as));
+}: ModalProps) => {
+    const modalRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const root = rootRef.current;
-        const activeElement = document.activeElement as HTMLElement;
+        if (!disableScroll) return;
 
-        if (!root) return;
-
-        root.className = cssClasses.ROOT;
-
-        if (fixed) {
-            root.classList.add(cssClasses.FIXED);
-        }
-
-        document.body.appendChild(root);
-        (root.firstElementChild as HTMLElement)?.focus();
+        document.body.classList.add(scrollDisabledClassName);
 
         return () => {
-            activeElement?.focus();
-            document.body.removeChild(root);
+            document.body.classList.remove(scrollDisabledClassName);
         };
-    }, [fixed]);
+    }, [disableScroll]);
 
-    return createPortal(children, rootRef.current);
-}
+    useEffect(() => {
+        const activeElement = document.activeElement as HTMLElement;
+        const firstChild = modalRef.current?.firstChild as HTMLElement;
+
+        firstChild?.focus?.();
+
+        return () => {
+            firstChild?.blur?.();
+            activeElement?.focus?.();
+        };
+    }, []);
+
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        backdrop && cssClasses.backdrop,
+        fixed && cssClasses.fixed,
+    );
+
+    return (
+        <Portal container={container}>
+            <div ref={modalRef} className={classNames}>
+                {children}
+            </div>
+        </Portal>
+    );
+};
+
+Modal.displayName = displayName;
+
+export default Modal;

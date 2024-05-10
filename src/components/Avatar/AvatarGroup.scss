@@ -1,0 +1,14 @@
+.root {
+    display: flex;
+    align-items: center;
+}
+
+.root :global {
+    .ui-Avatar {
+        border: 2px solid #fff;
+    }
+
+    .ui-Avatar + .ui-Avatar {
+        margin-left: -8px;
+    }
+}

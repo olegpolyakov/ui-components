@@ -1,0 +1,34 @@
+.root {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    gap: var(--ui-List-gap, 0);
+}
+
+.small {
+    --ui-ListItem-height: 36px;
+}
+
+.medium {
+    --ui-ListItem-height: 40px;
+}
+
+.large {
+    --ui-ListItem-height: 48px;
+}
+
+// Gap
+
+.gap-small {
+    --ui-List-gap: var(--ui-gap-smallest);
+}
+
+.gap-medium {
+    --ui-List-gap: var(--ui-gap-smaller);
+}
+
+.gap-large {
+    --ui-List-gap: var(--ui-gap-small);
+}

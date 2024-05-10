@@ -1,29 +1,86 @@
-import { ReactNode } from 'react';
-import {
-    Option as FluentOption,
-    OptionProps as FluentOptionProps,
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+import { forwardRef, type MouseEvent, type ReactNode } from 'react';
 
-export type OptionProps = Omit<FluentOptionProps, 'content' | 'text'> & {
+import { useOption } from '@mui/base/useOption';
+import { type SelectOptionDefinition } from '@mui/base/useSelect';
+
+import type { Merge } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
+
+import cssClasses from './Option.scss';
+
+export type OptionProps<T = string> = Merge<{
     content?: ReactNode;
-    text?: string;
-};
+    start?: ReactNode;
+    end?: ReactNode;
+    value: T;
+    label?: string;
+    disabled?: boolean;
+    onClick?: (event: MouseEvent) => void;
 
-export default function Option({
-    content = '',
+    className?: string;
+    children?: ReactNode;
+}, SelectOptionDefinition<T>>;
+
+const displayName = 'Option';
+const elementClassNames = getElementClassNames(displayName, ['start', 'content', 'end']);
+
+const Option = forwardRef<HTMLLinkElement, OptionProps>(({
+    content,
+    start,
+    end,
+    value,
+    label = typeof content === 'string' ? content : undefined,
+    disabled = false,
+    onClick,
 
     className,
-    children = content,
+    children = label,
     ...props
-}: OptionProps) {
+}, ref) => {
+    const { getRootProps, highlighted, selected } = useOption({
+        label: children,
+        value,
+        disabled,
+        rootRef: ref
+    });
+
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        highlighted && cssClasses.highlighted,
+        selected && cssClasses.selected
+    );
+
     return (
-        <FluentOption
-            className={classnames(className, 'ui-Option')}
-            text={typeof content === 'string' ? (content as string) : ''}
+        <li
+            className={classNames}
+            data-value={value}
+            onClickCapture={onClick}
+            {...getRootProps()}
             {...props}
         >
-            {children}
-        </FluentOption>
+            {start &&
+                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                    {start}
+                </span>
+            }
+
+            {children &&
+                <span className={cn(elementClassNames.content, cssClasses.content)}>
+                    {children}
+                </span>
+            }
+
+            {end &&
+                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                    {end}
+                </span>
+            }
+        </li>
     );
-}
+});
+
+Option.displayName = displayName;
+
+export default Option;

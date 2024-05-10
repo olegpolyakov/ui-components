@@ -1,8 +1,9 @@
-import { HTMLAttributes, ReactNode, forwardRef } from 'react';
-import classnames from 'classnames';
+import { HTMLAttributes, ReactNode, cloneElement, forwardRef, isValidElement } from 'react';
 
-import { cssClasses } from './constants';
+import { classnames as cn, getElementClassNames } from '../../utils';
 import { getSizeValue, getFontVariationSettings } from './utils';
+
+import cssClasses from './Icon.scss';
 
 export type IconProps = {
     name?: string;
@@ -20,6 +21,9 @@ export type IconProps = {
     children?: ReactNode;
 } & HTMLAttributes<HTMLElement>;
 
+const displayName = 'Icon';
+const elementClassNames = getElementClassNames(displayName);
+
 const Icon = forwardRef<HTMLElement, IconProps>(({
     name,
     type = 'outlined',
@@ -36,31 +40,38 @@ const Icon = forwardRef<HTMLElement, IconProps>(({
     className,
     ...props
 }, ref) => {
-    const classNames = classnames(cssClasses.ROOT, {
-        [`${cssClasses.ROOT}--${type}`]: type,
-        [`${cssClasses.ROOT}--${size}`]: size,
-        [cssClasses.LIGHT]: light,
-        [cssClasses.DARK]: dark,
-        [cssClasses.INACTIVE]: inactive
-    }, className);
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        cssClasses[type],
+        size && cssClasses[size],
+        light && cssClasses.light,
+        dark && cssClasses.dark,
+        inactive && cssClasses.inactive
+    );
 
     const fontVariationSettings = getFontVariationSettings(filled, weight, grade, getSizeValue(size));
+
     const style = fontVariationSettings ? {
         fontVariationSettings
     } : undefined;
 
-    return (
-        <Component
-            ref={ref}
-            style={style}
-            className={classNames}
-            {...props}
-        >
-            {children}
-        </Component>
-    );
+    return isValidElement<IconProps>(children) ?
+        cloneElement(children, {
+            className: classNames
+        }) : (
+            <Component
+                ref={ref}
+                style={style}
+                className={classNames}
+                {...props}
+            >
+                {children}
+            </Component>
+        );
 });
 
-Icon.displayName = 'Icon';
+Icon.displayName = displayName;
 
 export default Icon;

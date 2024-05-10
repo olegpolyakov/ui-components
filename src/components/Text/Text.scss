@@ -1,0 +1,156 @@
+@use 'sass:list';
+@use 'sass:map';
+
+@use '../../styles/functions' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+$font-sizes: (
+    'p1': 18px,
+    'p2': 16px,
+    'p3': 14px,
+    'p4': 12px,
+    'p5': 9px
+) !default;
+
+$line-heights: (
+    'p1': 24px,
+    'p2': 22px,
+    'p3': 18px,
+    'p4': 16px,
+    'p5': 12px
+) !default;
+
+.root {
+    --ui-Text-gap: var(--ui-gap-smaller, #{global.$gap-smaller});
+    --ui-Text-letter-spacing: 0;
+
+    display: flex;
+    align-items: center;
+    gap: var(--ui-Text-gap);
+    font-family: var(--ui-font-family);
+    font-size: var(--ui-Text-font-size, #{global.$font-size});
+    font-weight: var(--ui-Text-font-weight, #{global.$font-weight-normal});
+    color: var(--ui-Text-color, --ui-text-color);
+    margin: 0;
+}
+
+.content {
+    line-height: var(--ui-Text-line-height);
+    letter-spacing: var(--ui-Text-letter-spacing);
+}
+
+.start,
+.end {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+
+// Colors
+
+@include color-variable-for-palettes('Text', 'color');
+
+
+// Types
+
+.p1 {
+    --ui-Text-font-size: #{rem(map.get($font-sizes, 'p1'))};
+    --ui-Text-line-height: #{map.get($line-heights, 'p1')};
+}
+
+.p2 {
+    --ui-Text-font-size: #{rem(map.get($font-sizes, 'p2'))};
+    --ui-Text-line-height: #{map.get($line-heights, 'p2')};;
+}
+
+.p3 {
+    --ui-Text-font-size: #{rem(map.get($font-sizes, 'p3'))};
+    --ui-Text-line-height: #{map.get($line-heights, 'p3')};;
+}
+
+.p4 {
+    --ui-Text-font-size: #{rem(map.get($font-sizes, 'p4'))};
+    --ui-Text-line-height: #{map.get($line-heights, 'p4')};;
+}
+
+.p5 {
+    --ui-Text-font-size: #{rem(map.get($font-sizes, 'p5'))};
+    --ui-Text-line-height: #{map.get($line-heights, 'p5')};;
+}
+
+
+// Weight
+
+.light {
+    --ui-Text-font-weight: var(--ui-font-weight-light);
+}
+
+.normal {
+    --ui-Text-font-weight: var(--ui-font-weight-normal);
+}
+
+.semibold {
+    --ui-Text-font-weight: var(--ui-font-weight-semibold);
+}
+
+.bold {
+    --ui-Text-font-weight: var(--ui-font-weight-bold);
+}
+
+
+// Align
+
+.align-start {
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.align-center {
+    justify-content: center;
+    text-align: center;
+}
+
+.align-end {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+
+// Misc
+
+.inline {
+    display: inline-flex;
+}
+
+.paragraph {
+    margin-bottom: 1em;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.ellipsis {
+    .content {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.muted {
+    --ui-Text-color: var(--ui-text-secondary-color);
+}
+
+@mixin typography($type) {
+    font-family: var(--ui-font-family);
+    font-size: map.get($font-sizes, $type);
+    line-height: map.get($line-heights, $type);
+}

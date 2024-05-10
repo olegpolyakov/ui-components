@@ -1,0 +1,47 @@
+@use '../../styles/mixins' as *;
+
+.root {
+    --ui-Label-gap: var(--ui-gap-smaller);
+    --ui-Label-color: var(--ui-text-primary-color);
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--ui-Label-gap);
+    color: var(--ui-Label-color);
+    font-family: var(--ui-font-family);
+    font-size: var(--ui-Label-size);
+    line-height: 1;
+}
+
+.start,
+.end {
+    flex-shrink: 0;
+}
+
+
+// Colors
+
+@include color-variable-for-palettes('Label', 'color');
+
+
+// Sizes 
+
+.small {
+    --ui-Label-size: var(--ui-font-size-small);
+}
+
+.medium {
+    --ui-Label-size: var(--ui-font-size-medium);
+}
+
+.large {
+    --ui-Label-size: var(--ui-font-size-large);
+}
+
+
+// Misc
+
+.inline {
+    display: inline-flex;
+}

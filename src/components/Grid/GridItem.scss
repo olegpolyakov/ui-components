@@ -1,0 +1,74 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:math';
+
+@use './variables';
+@use './mixins';
+
+$upper-breakpoint: list.nth(map.keys(variables.$columns), 1);
+
+.root {
+    @each $size in map.keys(variables.$columns) {
+        @include mixins.media-query($size) {
+            $gutter: map.get(variables.$default-gutter, $size);
+
+            @include mixins.cell-span($size, variables.$default-column-span, $gutter);
+
+            box-sizing: border-box;
+            margin: math.div($gutter, 2);
+            margin: calc(var(--ui-Grid-gutter-#{$size}, #{$gutter}) / 2);
+
+            @supports (display: grid) {
+                margin: 0;
+            }
+        }
+    }
+}
+
+
+// Span
+
+@each $size in map.keys(variables.$columns) {
+    @include mixins.media-query($size) {
+        $gutter: map.get(variables.$default-gutter, $size);
+
+        @for $span from 1 through map.get(variables.$columns, $upper-breakpoint) {
+            .span-#{$span},
+            .span-#{$span}-#{$size} {
+                @include mixins.cell-span($size, $span, $gutter);
+            }
+        }
+    }
+}
+
+
+// Order
+
+@for $i from 1 through map.get(variables.$columns, $upper-breakpoint) {
+    .order-#{$i} {
+        order: $i;
+    }
+}
+
+
+// Alignment
+
+.align-start {
+    align-self: flex-start;
+
+    @supports (display: grid) {
+        align-self: start;
+    }
+}
+
+.align-center {
+    align-self: center;
+}
+
+.align-end {
+    align-self: flex-end;
+
+    @supports (display: grid) {
+        align-self: end;
+    }
+}

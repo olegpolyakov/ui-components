@@ -1,82 +1,59 @@
-import { ReactElement, ReactNode } from 'react';
-import {
-    Table as FluentTable,
-    type TableProps,
-    TableBody,
-    type TableBodyProps,
-    TableCell as FluentTableCell,
-    type TableCellProps as FluentTableCellProps,
-    TableCellActions,
-    type TableCellActionsProps,
-    TableCellLayout,
-    type TableCellLayoutProps,
-    TableHeader,
-    type TableHeaderProps,
-    TableHeaderCell,
-    type TableHeaderCellProps,
-    TableRow,
-    type TableRowProps
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+import { type ForwardRefExoticComponent, type HTMLAttributes, forwardRef } from 'react';
 
-function Table({ className, ...props }: TableProps) {
-    return (
-        <FluentTable
-            className={classnames(className, 'ui-Table')}
-            {...props}
-        />
-    );
-}
+import { Size } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-export type TableCellProps = Omit<FluentTableCellProps, 'content'> & {
-    media?: TableCellLayoutProps['media'];
-    content?: ReactNode;
-    actions?: ReactElement | ReactElement[];
-};
+import TableBody from './TableBody';
+import TableCell from './TableCell';
+import TableHead from './TableHead';
+import TableRow from './TableRow';
 
-function TableCell({
-    media,
-    content,
-    actions,
+import cssClasses from './Table.scss';
 
-    children = content,
+export type TableProps = {
+    size?: Size;
+    interactive?: boolean;
+    striped?: 'even' | 'odd';
+} & HTMLAttributes<HTMLTableElement>;
+
+const displayName = 'Table';
+const elementClassNames = getElementClassNames(displayName);
+
+const Table = forwardRef<HTMLTableElement, TableProps>(({
+    size = 'medium',
+    interactive,
+    striped,
+
+    children,
+    className,
     ...props
-}: TableCellProps) {
-    return (
-        <FluentTableCell {...props}>
-            <TableCellLayout media={media}>{children}</TableCellLayout>
-
-            {actions &&
-                <TableCellActions>
-                    {actions}
-                </TableCellActions>
-            }
-        </FluentTableCell>
+}, ref) => {
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        cssClasses[size],
+        interactive && cssClasses.interactive,
+        striped && cssClasses[`striped-${striped}`]
     );
-}
 
-Table.Header = TableHeader;
-Table.HeaderCell = TableHeaderCell;
-Table.Body = TableBody;
-Table.Row = TableRow;
-Table.Cell = TableCell;
-Table.CellLayout = TableCellLayout;
-
-export {
-    Table as default,
-    Table,
-    type TableProps,
-    TableHeader,
-    type TableHeaderProps,
-    TableHeaderCell,
-    type TableHeaderCellProps,
-    TableBody,
-    type TableBodyProps,
-    TableRow,
-    type TableRowProps,
-    TableCell,
-    TableCellActions,
-    type TableCellActionsProps,
-    TableCellLayout,
-    type TableCellLayoutProps
+    return (
+        <table ref={ref} className={classNames} {...props}>
+            {children}
+        </table>
+    );
+}) as ForwardRefExoticComponent<TableProps> & {
+    Body: typeof TableBody;
+    Cell: typeof TableCell;
+    Head: typeof TableHead;
+    Row: typeof TableRow;
 };
+
+Table.displayName = displayName;
+
+Table.Body = TableBody;
+Table.Cell = TableCell;
+Table.Head = TableHead;
+Table.Row = TableRow;
+
+export default Table;

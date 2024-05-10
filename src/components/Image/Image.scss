@@ -1,0 +1,29 @@
+@use '../../styles/mixins' as *;
+
+.root {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--ui-Image-border-radius);
+}
+
+// Shapes
+
+.circular {
+    --ui-Image-border-radius: 100%;
+}
+
+.rectangular {
+    --ui-Image-border-radius: 0;
+}
+
+.rounded {
+    --ui-Image-border-radius: var(--ui-border-radius-medium);
+}
+
+
+// Misc
+
+.inline {
+    display: inline-block;
+}

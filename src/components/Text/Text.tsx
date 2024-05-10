@@ -1,73 +1,89 @@
-import { FC, ReactNode } from 'react';
-import {
-    Text as FluentText,
-    TextProps as FluentTextProps,
-    TextPresetProps,
-    Display,
-    LargeTitle,
-    Title1,
-    Title2,
-    Title3,
-    Subtitle1,
-    Subtitle2,
-    Body1,
-    Body2,
-    Caption1,
-    Caption2
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+import { ReactNode, forwardRef } from 'react';
 
-const ComponentsByType: Record<string, FC<TextPresetProps>> = {
-    'display': Display,
-    'title1': LargeTitle,
-    'title2': Title1,
-    'title3': Title2,
-    'title4': Title3,
-    'subtitle1': Subtitle1,
-    'subtitle2': Subtitle2,
-    'body1': Body1,
-    'body2': Body2,
-    'caption1': Caption1,
-    'caption2': Caption2
-};
+import type { Align, Color, HTMLParagraphProps, PropsWithChildren, Weight } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-const ElementsByType: Record<string, FluentTextProps['as']> = {
-    'display': 'p',
-    'title1': 'p',
-    'title2': 'p',
-    'title3': 'p',
-    'title4': 'p',
-    'subtitle1': 'p',
-    'subtitle2': 'p',
-    'body1': 'p',
-    'body2': 'p',
-    'caption1': 'span',
-    'caption2': 'span'
-};
+import cssClasses from './Text.scss';
 
-export type TextProps = Omit<FluentTextProps, 'type' | 'content'> & {
-    type?: 'display' | 'title1' | 'title2' | 'title3' | 'title4' | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption1' | 'caption2';
+export type TextProps = PropsWithChildren<{
+    as?: 'p' | 'span';
     content?: ReactNode;
-};
+    start?: ReactNode;
+    end?: ReactNode;
+    type?: 'title1' | 'title2' | 'title3' | 'body1' | 'body2' | 'body3';
+    color?: Color;
+    align?: Align;
+    weight?: Weight;
+    italic?: boolean;
+    uppercase?: boolean;
+    inline?: boolean;
+    paragraph?: boolean;
+    ellipsis?: boolean;
+    muted?: boolean;
+}, HTMLParagraphProps>;
 
-export default function Text({
-    type = 'body2',
+const displayName = 'Text';
+const elementClassNames = getElementClassNames(displayName, ['start', 'content', 'end']);
+
+const Text = forwardRef<HTMLParagraphElement, TextProps>(({
     content,
+    start,
+    end,
+    type = 'p2',
+    color = '',
+    align,
+    weight,
+    italic,
+    uppercase,
+    inline,
+    paragraph,
+    ellipsis,
+    muted,
 
+    as: Tag = 'p',
     children = content,
     className,
     ...props
-}: TextProps) {
-    const Component = ComponentsByType[type] || FluentText;
-    const classNames = classnames(className, 'ui-Text');
+}, ref) => {
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        cssClasses[type],
+        color && cssClasses[color],
+        weight && cssClasses[weight],
+        align && cssClasses[`align-${align}`],
+        italic && cssClasses.italic,
+        uppercase && cssClasses.uppercase,
+        inline && cssClasses.inline,
+        paragraph && cssClasses.paragraph,
+        ellipsis && cssClasses.ellipsis,
+        muted && cssClasses.muted
+    );
 
     return (
-        <Component
-            as={ElementsByType[type] || undefined}
-            className={classNames}
-            {...props}
-        >
-            {children}
-        </Component>
+        <Tag ref={ref} className={classNames} {...props}>
+            {start &&
+                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                    {start}
+                </span>
+            }
+
+            {children &&
+                <span className={cn(elementClassNames.content, cssClasses.content)}>
+                    {children}
+                </span>
+            }
+
+            {end &&
+                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                    {end}
+                </span>
+            }
+        </Tag>
     );
-}
+});
+
+Text.displayName = displayName;
+
+export default Text;

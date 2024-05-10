@@ -1,34 +1,97 @@
-import { ReactNode } from 'react';
-import {
-    Tab as FluentTab,
-    TabProps as FluentTabProps
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+import { MouseEvent, ReactNode, forwardRef, useCallback, useContext } from 'react';
 
-import Icon from '../Icon/Icon';
+import { Props, Size } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-export type TabProps = Omit<FluentTabProps, 'content'> & {
+import Icon from '../Icon';
+
+import TabsContext from './TabsContext';
+
+import cssClasses from './Tab.scss';
+
+export type TabProps = Props<{
+    as?: 'button';
+    value?: string | number;
     content?: ReactNode;
     icon?: ReactNode;
-};
+    start?: ReactNode;
+    end?: ReactNode;
+    size?: Size;
+    active?: boolean;
+    disabled?: boolean;
+    onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+}>;
 
-export default function Tab({
+const displayName = 'Tab';
+const elementClassNames = getElementClassNames(displayName, ['container', 'content', 'start', 'end', 'icon']);
+
+const Tab = forwardRef<HTMLButtonElement, TabProps>(({
+    value,
     content,
     icon,
+    start,
+    end,
+    size = 'medium',
+    active,
+    onClick,
 
+    as: Tag = 'button',
     className,
     children = content,
     ...props
-}: TabProps) {
+}, ref) => {
+    const { setSelectedValue } = useContext(TabsContext);
+
+    const handleClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+        setSelectedValue(value);
+        onClick?.(event);
+    }, [value, setSelectedValue, onClick]);
+
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        cssClasses[size],
+        active && cssClasses.active
+    );
+
     return (
-        <FluentTab
-            className={classnames(className, 'ui-Tab')}
-            icon={typeof icon === 'string' ?
-                <Icon name={icon} /> : icon
-            }
+        <Tag
+            ref={ref}
+            className={classNames}
+            type="button"
+            value={value}
+            onClick={handleClick}
             {...props}
         >
-            {children}
-        </FluentTab>
+            {start &&
+                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                    {start}
+                </span>
+            }
+
+            {icon &&
+                <Icon
+                    className={cn(elementClassNames.icon, cssClasses.icon)}
+                    size={size}
+                >
+                    {icon}
+                </Icon>
+            }
+
+            <span className={cn(elementClassNames.content, cssClasses.content)}>
+                {children}
+            </span>
+
+            {end &&
+                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                    {end}
+                </span>
+            }
+        </Tag>
     );
-}
+});
+
+Tab.displayName = displayName;
+
+export default Tab;

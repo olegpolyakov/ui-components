@@ -1,84 +1,111 @@
-import { ReactElement, ReactNode } from 'react';
-import {
-    Dialog as FluentDialog,
-    DialogProps as FluentDialogProps,
-    DialogActions,
-    DialogBody,
-    DialogContent,
-    DialogSurface,
-    DialogTitle,
-    DialogTrigger
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+import { MouseEvent, ReactNode, forwardRef, useCallback, useEffect, useRef } from 'react';
 
-export type DialogProps = Omit<FluentDialogProps, 'content' | 'children'> & {
-    trigger?: ReactElement;
+import type { HTMLDivProps, PropsWithChildren } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
+
+import Button from '../Button';
+import Modal from '../Modal';
+
+import cssClasses from './Dialog.scss';
+
+export type DialogProps = PropsWithChildren<{
     title?: ReactNode;
     content?: ReactNode;
-    actions?: ReactElement[];
-    onClose?: () => void;
+    open?: boolean;
+    closeButton?: boolean;
+    closeOnClickOutside?: boolean;
+    disableScroll?: boolean;
+    onClose: () => void;
+}, HTMLDivProps>;
 
-    className?: string;
-    children?: ReactNode | ReactNode[];
-};
+const displayName = 'Dialog';
+const elementClassNames = getElementClassNames(displayName, ['overlay', 'surface', 'title', 'content', 'closeButton']);
 
-function Dialog({
-    trigger,
+const Dialog = forwardRef<HTMLDivElement, DialogProps>(({
     title,
     content,
-    actions,
+    open,
+    closeButton = true,
+    closeOnClickOutside = false,
+    disableScroll,
+    onClose,
 
-    children,
     className,
+    children = content,
     ...props
-}: DialogProps) {
-    return (
-        <FluentDialog {...props}>
-            {!trigger ? <></> :
-                <DialogTrigger>
-                    {trigger}
-                </DialogTrigger>
+}, ref): JSX.Element | null => {
+    const overlayRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        function handleKeyDown(event: KeyboardEvent) {
+            if (event.key === 'Escape') {
+                onClose();
             }
+        }
 
-            <DialogSurface className={classnames(className, 'ui-Dialog')}>
-                <DialogBody>
-                    {title &&
-                        <DialogTitle>{title}</DialogTitle>
-                    }
+        window.addEventListener('keydown', handleKeyDown);
 
-                    {content &&
-                        <DialogContent>{content}</DialogContent>
-                    }
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [onClose]);
 
-                    {actions &&
-                        <DialogActions>
-                            {actions}
-                        </DialogActions>
-                    }
+    const handleOverlayClick = useCallback(() => {
+        if (closeOnClickOutside)
+            onClose();
+    }, [closeOnClickOutside, onClose]);
 
-                    {children}
-                </DialogBody>
-            </DialogSurface>
-        </FluentDialog>
+    const handleSurfaceClick = useCallback((event: MouseEvent) => {
+        if (closeOnClickOutside)
+            event.stopPropagation();
+    }, [closeOnClickOutside]);
+
+    if (!open) return null;
+
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root
     );
-}
 
-Dialog.displayName = 'Dialog';
+    return (
+        <Modal disableScroll={disableScroll}>
+            <div
+                ref={ref}
+                className={classNames}
+                role="dialog"
+                {...props}
+            >
+                <div
+                    ref={overlayRef}
+                    className={cn(elementClassNames.overlay, cssClasses.overlay)}
+                    tabIndex={-1}
+                    onClick={handleOverlayClick}
+                >
+                    <div className={cn(elementClassNames.surface, cssClasses.surface)} onClick={handleSurfaceClick}>
+                        {title &&
+                            <h2 className={cn(elementClassNames.title, cssClasses.title)}>{title}</h2>
+                        }
 
-Dialog.Actions = DialogActions;
-Dialog.Body = DialogBody;
-Dialog.Content = DialogContent;
-Dialog.Surface = DialogSurface;
-Dialog.Title = DialogTitle;
-Dialog.Trigger = DialogTrigger;
+                        <div className={cn(elementClassNames.content, cssClasses.content)}>{children}</div>
 
-export {
-    Dialog as default,
-    Dialog,
-    DialogActions,
-    DialogBody,
-    DialogContent,
-    DialogSurface,
-    DialogTitle,
-    DialogTrigger
-};
+                        {closeButton &&
+                            <Button
+                                className={cn(elementClassNames.closeButton, cssClasses.closeButton)}
+                                type="button"
+                                icon="close"
+                                size="small"
+                                aria-label="Close modal"
+                                onClick={onClose}
+                            />
+                        }
+                    </div>
+                </div>
+            </div>
+        </Modal>
+    );
+});
+
+Dialog.displayName = displayName;
+
+export default Dialog;

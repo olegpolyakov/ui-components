@@ -1,0 +1,233 @@
+@use 'sass:map';
+
+@use '../../styles/functions' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    --ui-Button-gap: var(--ui-gap-smaller);
+    --ui-Button-font-family: var(--ui-font-family);
+    --ui-Button-font-size: var(--ui-font-size);
+    --ui-Button-font-weight: var(--ui-font-weight-normal);
+    --ui-Button-line-height: var(--ui-line-height);
+    --ui-icon-color: currentColor;
+
+    position: relative;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--ui-Button-height);
+    padding: var(--ui-Button-padding);
+    gap: var(--ui-Button-gap);
+    border: none;
+    border-radius: var(--ui-Button-border-radius);
+    background-color: var(--ui-Button-background-color);
+    color: var(--ui-Button-text-color);
+    font-family: var(--ui-Button-font-family);
+    font-size: var(--ui-Button-font-size);
+    font-weight: var(--ui-Button-font-weight);
+    line-height: var(--ui-Button-line-height, 1);
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    cursor: pointer;
+    user-select: none;
+}
+
+.content,
+.icon,
+.start,
+.end {
+    display: inline-flex;
+    align-items: center;
+}
+
+.spinner {
+    position: absolute;
+    margin: auto;
+}
+
+
+// States
+
+.root {
+    &:hover {
+        border-color: var(--ui-Button-hover-border-color);
+        background-color: var(--ui-Button-hover-background-color);
+        color: var(--ui-Button-hover-text-color);
+    }
+    
+    &.active,
+    &:active {
+        border-color: var(--ui-Button-active-border-color);
+        background-color: var(--ui-Button-active-background-color);
+        color: var(--ui-Button-active-text-color);
+    }
+    
+    &.loading,
+    &:disabled {
+        border-color: var(--ui-Button-disabled-border-color);
+        background-color: var(--ui-Button-disabled-background-color);
+        color: var(--ui-Button-disabled-text-color);
+        cursor: default;
+    }
+}
+
+
+// Sizes
+
+.small {
+    --ui-Button-height: 32px;
+    --ui-Button-padding: 0 8px;
+    --ui-Button-font-size: #{rem(14px)};
+}
+
+.medium {
+    --ui-Button-height: 36px;
+    --ui-Button-padding: 0 12px;
+    --ui-Button-font-size: #{rem(16px)};
+}
+
+.large {
+    --ui-Button-height: 48px;
+    --ui-Button-padding: 0 16px;
+    --ui-Button-font-size: #{rem(18px)};
+}
+
+
+// Shapes
+
+.circular {
+    --ui-Button-border-radius: var(--ui-Button-height);
+}
+
+.rectangular {
+    --ui-Button-border-radius: 0;
+}
+
+.rounded {
+    --ui-Button-border-radius: var(--ui-border-radius-medium);
+}
+
+
+// Variants
+
+.plain {
+    @include color-state-variables('Button', 'background-color', global.$surface-color, $override:(
+        'base': none,
+        'hover': rgba(0, 0, 0, .05),
+        'active': rgba(0, 0, 0, .1),
+        'disabled': none
+    ));
+    @include color-state-variables('Button', 'text-color', global.$primary-color);
+    @include color-state-variables-for-palettes('Button', 'background-color', $color: 0, $override: (
+        'base': none
+    ));
+    @include color-state-variables-for-palettes('Button', 'text-color');
+}
+
+.filled {
+    @include color-state-variables('Button', 'background-color', global.$primary-color);
+    @include color-state-variables('Button', 'text-color', global.$on-primary-color);
+    @include color-state-variables-for-palettes('Button', 'background-color');
+    @include color-variable-for-palettes('Button', 'text-color', $on: true);
+}
+
+.outlined {
+    @include color-state-variables('Button', 'border-color', global.$border-color);
+    @include color-state-variables('Button', 'background-color', global.$surface-color, $override: (
+        'base': none
+    ));
+    @include color-state-variables('Button', 'text-color', global.$primary-color);
+    @include color-state-variables-for-palettes('Button', 'border-color');
+    @include color-state-variables-for-palettes('Button', 'background-color', $color: 0, $override: (
+        'base': none
+    ));
+    @include color-state-variables-for-palettes('Button', 'text-color');
+
+    --ui-Button-border-width: 1px;
+
+    border: var(--ui-Button-border-width) solid var(--ui-Button-border-color);
+}
+
+.tinted {
+    @include color-state-variables('Button', 'background-color', global.$surface-color, $override:(
+        'base': rgba(0, 0, 0, .05),
+        'hover': rgba(0, 0, 0, .1),
+        'active': rgba(0, 0, 0, .15),
+        'disabled': none
+    ));
+    @include color-state-variables('Button', 'text-color', global.$primary-color);
+    @include color-state-variables-for-palettes('Button', 'background-color', $color: 1);
+    @include color-state-variables-for-palettes('Button', 'text-color');
+}
+
+.text {
+    @include color-state-variables('Button', 'text-color', global.$primary-color);
+    @include color-state-variables-for-palettes('Button', 'text-color');
+
+    --ui-Button-height: auto;
+    --ui-Button-line-height: inherit;
+    --ui-Button-background-color: transparent;
+    --ui-Button-padding: 0;
+
+    justify-content: flex-start;
+}
+
+
+// Misc
+
+.fluid {
+    width: 100%;
+}
+
+.icon-before {
+    .icon {
+        order: 0;
+    }
+}
+
+.icon-after {
+    .icon {
+        order: 1;
+    }
+}
+
+.icon-button {
+    --ui-Button-height: auto;
+    --ui-Button-padding: 0;
+
+    width: var(--ui-Button-size);
+    height: var(--ui-Button-size);
+
+    &.smaller {
+        --ui-Button-size: 16px;
+    }
+
+    &.small {
+        --ui-Button-size: 24px;
+    }
+
+    &.medium {
+        --ui-Button-size: 32px;
+    }
+
+    &.large {
+        --ui-Button-size: 40px;
+    }
+
+    &.larger {
+        --ui-Button-size: 48px;
+    }
+
+    &.text {
+        &.small,
+        &.medium,
+        &.large,
+        &.larger {
+            --ui-Button-size: auto;
+        }
+    }
+}

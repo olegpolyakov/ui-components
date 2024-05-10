@@ -1,6 +1,8 @@
 @use 'sass:map';
-@use './variables';
+@use 'sass:math';
+
 @use './mixins';
+@use './variables';
 
 :root {
     @each $size in map.keys(variables.$columns) {
@@ -19,50 +21,79 @@
     }
 }
 
-// postcss-bem-linter: define layout-grid
-.ui-Grid {
+.root {
     @each $size in map.keys(variables.$columns) {
-        @include mixins.media-query_($size) {
+        @include mixins.media-query($size) {
             $margin: map.get(variables.$default-margin, $size);
 
-            @include mixins.layout-grid($size, $margin, variables.$max-width);
-        }
-    }
+            box-sizing: border-box;
+            margin: 0 auto;
+            padding: $margin;
+            padding: var(--ui-Grid-margin-#{$size}, #{$margin});
 
-    &--align-left {
-        margin-right: auto;
-        margin-left: 0;
-    }
-    
-    &--align-right {
-        margin-right: 0;
-        margin-left: auto;
+            @if variables.$max-width {
+                max-width: variables.$max-width;
+            }
+        }
     }
 }
 
-.ui-Grid__inner {
+.inner {
     @each $size in map.keys(variables.$columns) {
-        @include mixins.media-query_($size) {
+        @include mixins.media-query($size) {
             $margin: map.get(variables.$default-margin, $size);
             $gutter: map.get(variables.$default-gutter, $size);
 
-            @include mixins.inner($size, $margin, $gutter);
+            display: flex;
+            flex-flow: row wrap;
+            align-items: stretch;
+            margin: math.div(-$gutter, 2);
+            margin: calc(var(--ui-Grid-gutter-#{$size}, #{$gutter}) / 2 * -1);
+
+            @supports (display: grid) {
+                display: grid;
+                margin: 0;
+                grid-gap: $gutter;
+                grid-gap: var(--ui-Grid-gutter-#{$size}, $gutter);
+                grid-template-columns: repeat(
+                    map.get(variables.$columns, $size),
+                    minmax(0, 1fr)
+                );
+            }
         }
     }
 }
 
-.ui-Grid--fixed-column-width {
+.align-left {
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.align-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.align-right {
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.fixed-column-width {
     @each $size in map.keys(variables.$columns) {
-        @include mixins.media-query_($size) {
+        @include mixins.media-query($size) {
             $margin: map.get(variables.$default-margin, $size);
             $gutter: map.get(variables.$default-gutter, $size);
             $column-width: map.get(variables.$column-width, $size);
+            $column-count: map.get(variables.$columns, $size);
+            $gutter-number: $column-count - 1;
+            $margin-number: 2;
 
-            @include mixins.fixed-column-width(
-                $size,
-                $margin,
-                $gutter,
-                $column-width
+            width: $column-width * $column-count + $gutter * $gutter-number + $margin * $margin-number;
+            width: calc(
+                var(--ui-Grid-column-width-#{$size}, #{$column-width}) * #{$column-count} +
+                var(--ui-Grid-gutter-#{$size}, #{$gutter}) * #{$gutter-number} +
+                var(--ui-Grid-margin-#{$size}, #{$margin}) * #{$margin-number}
             );
         }
     }

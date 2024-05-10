@@ -1,0 +1,58 @@
+.root {
+    --ui-Tooltip-arrow-offset: -3px;
+    --ui-Tooltip-max-width: 216px;
+
+    box-sizing: border-box;
+    position: relative;
+    max-width: var(--ui-Tooltip-max-width);
+    display: inline-flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 8px;
+    border-radius: var(--ui-border-radius-small);
+    background: var(--ui-dark-gray);
+    color: var(--ui-white);
+    font-family: var(--ui-font-family);
+    font-size: var(--ui-font-size-smaller);
+    font-weight: var(--ui-font-weight-normal);
+    line-height: 16px;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.10);
+    animation: fade-in .2s;
+    z-index: 9999;
+
+    &[data-popper-placement^='top'] > .arrow {
+        bottom: var(--ui-Tooltip-arrow-offset);
+    }
+    &[data-popper-placement^='right'] > .arrow {
+        left: var(--ui-Tooltip-arrow-offset);
+    }
+    &[data-popper-placement^='bottom'] > .arrow {
+        top: var(--ui-Tooltip-arrow-offset);
+    }
+    &[data-popper-placement^='left'] > .arrow {
+        right: var(--ui-Tooltip-arrow-offset);
+    }
+}
+
+.arrow,
+.arrow:before {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: inherit;
+}
+
+.arrow {
+    visibility: hidden;
+
+    &::before {
+        visibility: visible;
+        content: '';
+        transform: rotate(45deg);
+    }
+}
+
+@keyframes fade-in {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}

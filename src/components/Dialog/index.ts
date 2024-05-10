@@ -1,11 +1,3 @@
-export {
-    default,
-    default as Dialog,
-    type DialogProps,
-    DialogActions,
-    DialogBody,
-    DialogContent,
-    DialogSurface,
-    DialogTitle,
-    DialogTrigger
-} from './Dialog';
+export { default, default as Dialog, type DialogProps } from './Dialog';
+export { default as DialogContext, Context, useDialogContext } from './DialogContext';
+export { default as useDialog } from './useDialog';

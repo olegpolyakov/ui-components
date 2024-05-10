@@ -1,0 +1,54 @@
+@use '../../styles/animations';
+@use '../../styles/variables' as global;
+
+$color: global.$primary-color !default;
+$track-color: global.$border-color !default;
+
+$size-small: 24px;
+$size-medium: 32px;
+$size-large: 48px;
+
+.root {
+    display: inline-flex;
+    position: relative;
+    line-height: 0;
+    transition: animations.exit-temporary(opacity, 250ms);
+}
+
+.container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.circle-graphic {
+    fill: transparent;
+}
+
+.circle {
+    stroke: $color;
+    transition: animations.enter(stroke-dashoffset, 500ms);
+}
+
+.track {
+    stroke: $color;
+}
+
+
+// Sizes
+
+.small {
+    width: $size-small;
+    height: $size-small;
+}
+
+.medium {
+    width: $size-medium;
+    height: $size-medium;
+}
+
+.large {
+    width: $size-large;
+    height: $size-large;
+}

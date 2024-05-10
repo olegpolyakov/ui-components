@@ -1,14 +1,11 @@
-export const strings = {
-    XMLNS: 'http://www.w3.org/2000/svg'
-};
+import type { Size } from '@/types';
 
-export enum Size {
-    Small = 'small',
-    Medium = 'medium',
-    Large = 'large'
-}
-
-export const sizeProps = {
+export const sizeProps: Record<Size, {
+    viewBox: number;
+    radius: number;
+    strokeWidth: number;
+    strokeDasharray: number;
+}> = {
     large: {
         viewBox: 48,
         radius: 18,
@@ -27,16 +24,4 @@ export const sizeProps = {
         strokeWidth: 2.5,
         strokeDasharray: 54.978
     }
-};
-
-export const cssClasses = {
-    ROOT: 'ui-CircularProgress',
-    CONTAINER: 'ui-CircularProgress__container',
-    CIRCLE_GRAPHIC: 'ui-CircularProgress__circle-graphic',
-    TRACK: 'ui-CircularProgress__track',
-    CIRCLE: 'ui-CircularProgress__circle',
-
-    SMALL: 'ui-CircularProgress--small',
-    MEDIUM: 'ui-CircularProgress--medium',
-    LARGE: 'ui-CircularProgress--large'
 };

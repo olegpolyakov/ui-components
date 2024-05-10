@@ -1,86 +1,53 @@
-import { MouseEventHandler, ReactElement, ReactNode } from 'react';
-import {
-    Card as FluentCard,
-    CardProps as FluentCardProps,
-    CardFooter,
-    CardHeader as FluentCardHeader,
-    CardHeaderProps as FluentCardHeaderProps,
-    CardPreview
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+import { forwardRef } from 'react';
 
-export type CardProps = FluentCardProps & {
+import type { Color, HTMLDivProps, PropsWithChildren, Shadow, Size, Variant } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
+
+import cssClasses from './Card.scss';
+
+export type CardProps = PropsWithChildren<{
+    color?: Color;
+    size?: Size;
+    shadow?: Shadow;
+    variant?: Variant;
     interactive?: boolean;
-};
+    raised?: boolean;
 
-const noopHandler: MouseEventHandler<HTMLDivElement> = () => { return; };
+    as?: 'div';
+}, HTMLDivProps>;
 
-function Card({
+const displayName = 'Card';
+const elementClassNames = getElementClassNames(displayName);
+
+const Card = forwardRef<HTMLDivElement, CardProps>(({
+    color,
+    size,
+    shadow,
+    variant = 'plain',
     interactive,
+    raised,
 
-    className,
-    children,
-    ...props
-}: CardProps) {
-    return (
-        <FluentCard
-            className={classnames(className, 'ui-Card')}
-            onClick={interactive ? noopHandler : undefined}
-            {...props}
-        >
-            {children}
-        </FluentCard>
-    );
-}
-
-export type CardHeaderProps = Merge<FluentCardHeaderProps, {
-    title?: string | ReactElement;
-    media?: FluentCardHeaderProps['image'];
-}>;
-
-function CardHeader({
-    title,
-    media,
-    ...props
-}: CardHeaderProps) {
-    return (
-        <FluentCardHeader
-            header={title}
-            image={media}
-            {...props}
-        />
-    );
-}
-
-function CardBody({
     as: Tag = 'div',
     className,
-    children,
     ...props
-}: {
-    as?: 'div' | 'a';
-    href?: string;
-    target?: string;
-    className?: string;
-    children?: ReactNode | ReactNode[];
-}) {
-    return (
-        <Tag className={classnames('ui-CardBody', className)} {...props}>
-            {children}
-        </Tag>
+}, ref) => {
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        color && cssClasses[color],
+        size && cssClasses[size],
+        shadow && cssClasses[`shadow-${shadow}`],
+        cssClasses[variant],
+        interactive && cssClasses.interactive,
+        raised && cssClasses.raised
     );
-}
 
-Card.Body = CardBody;
-Card.Footer = CardFooter;
-Card.Header = CardHeader;
-Card.Preview = CardPreview;
+    return (
+        <Tag ref={ref} className={classNames} {...props} />
+    );
+});
 
-export {
-    Card as default,
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    CardPreview
-};
+Card.displayName = displayName;
+
+export default Card;

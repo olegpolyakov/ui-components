@@ -1,4 +1,2 @@
-import './CircularProgress.scss';
-export { default as CircularProgress, type CircularProgressProps } from './CircularProgress';
-export { Size as CircularProgressSize } from './constants';
-export { default, default as Progress, type ProgressProps } from './Progress';
+export { default, default as ProgressBar, type ProgressBarProps } from './ProgressBar';
+export { default as ProgressCircle, type ProgressCircleProps } from './ProgressCircle';

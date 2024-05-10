@@ -1,84 +1,77 @@
-import { ReactElement, forwardRef } from 'react';
-import {
-    TreeItem,
-    TreeItemLayout,
-    TreeItemPersonaLayout,
-    TreeItemProps,
-    TreeItemLayoutProps,
-    TreeItemPersonaLayoutProps
-} from '@fluentui/react-components/unstable';
-import classnames from 'classnames';
+import { ReactNode, forwardRef } from 'react';
 
-import Icon from '../Icon';
+import type { HTMLListItemProps, PropsWithChildren, Color, Variant, Shape } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-export type ListItemProps = Omit<TreeItemProps, 'as' | 'itemType' | 'content'> & Omit<TreeItemLayoutProps, 'as' | 'content'> & Omit<TreeItemPersonaLayoutProps, 'as' | 'content'> & {
-    as?: string | React.FunctionComponent;
-    itemType?: TreeItemProps['itemType'];
-    content?: string | ReactElement;
-    icon?: string | ReactElement;
-    main?: string | ReactElement;
-    aside?: string | ReactElement;
-    to?: string;
-    href?: string;
-    target?: string;
-    download?: boolean;
-    active?: boolean;
-};
+import cssClasses from './ListItem.scss';
 
-const ListItem = forwardRef<HTMLDivElement, ListItemProps>(({
-    as,
-    media,
-    icon,
+export type ListItemProps = PropsWithChildren<{
+    as?: 'li';
+    start?: ReactNode;
+    content?: ReactNode;
+    end?: ReactNode;
+    color?: Color;
+    shape?: Shape;
+    variant?: Variant;
+    interactive?: boolean;
+    selected?: boolean;
+    disabled?: boolean;
+}, HTMLListItemProps>;
+
+const displayName = 'ListItem';
+const elementClassNames = getElementClassNames(displayName, ['start', 'content', 'end']);
+
+const ListItem = forwardRef<HTMLLIElement, ListItemProps>(({
+    start,
     content,
-    main = content,
-    description,
-    aside,
-    iconBefore = icon,
-    iconAfter,
-    active,
+    end,
+    color,
+    shape,
+    variant = 'plain',
+    interactive,
+    selected,
+    disabled,
 
+    as: Tag = 'li',
+    children = content,
     className,
-    children,
     ...props
 }, ref) => {
-    const classNames = classnames('ui-ListItem', {
-        'ui-ListItem--active': active
-    }, className);
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        color && cssClasses[color],
+        shape && cssClasses[shape],
+        cssClasses[variant],
+        interactive && cssClasses.interactive,
+        selected && cssClasses.selected,
+        disabled && cssClasses.disabled
+    );
 
     return (
-        <TreeItem
-            // @ts-ignore
-            as={as}
-            ref={ref}
-            className={classNames}
-            itemType="leaf"
-            {...props}
-        >
-            {(media || description) ?
-                <TreeItemPersonaLayout
-                    media={media}
-                    main={main}
-                    description={description}
-                    aside={aside}
-                />
-                :
-                <TreeItemLayout
-                    main={main}
-                    iconBefore={typeof iconBefore === 'string' ?
-                        <Icon name={iconBefore} /> : iconBefore
-                    }
-                    iconAfter={typeof iconAfter === 'string' ?
-                        <Icon name={iconAfter} /> : iconAfter
-                    }
-                    aside={aside}
-                />
+        <Tag ref={ref} className={classNames} {...props}>
+            {start &&
+                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                    {start}
+                </span>
             }
 
-            {children}
-        </TreeItem>
+            {children &&
+                <span className={cn(elementClassNames.content, cssClasses.content)}>
+                    {children}
+                </span>
+            }
+
+            {end &&
+                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                    {end}
+                </span>
+            }
+        </Tag>
     );
 });
 
-ListItem.displayName = 'ListItem';
+ListItem.displayName = displayName;
 
 export default ListItem;

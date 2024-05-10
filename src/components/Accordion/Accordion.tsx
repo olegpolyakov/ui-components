@@ -1,55 +1,54 @@
-import { ReactNode } from 'react';
-import {
-    Accordion as FluentAccordion,
-    AccordionItem,
-    AccordionPanel,
-    AccordionProps as FluentAccordionProps
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+import { ForwardRefExoticComponent, forwardRef } from 'react';
 
-import AccordionHeader from './AccordionHeader';
+import { Props, PropsWithKey, Size } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-export type AccordionItemProps = {
-    key: string;
-    value: string;
-    header: ReactNode;
-    panel: ReactNode;
-};
+import AccordionItem, { AccordionItemProps } from './AccordionItem';
 
-export type AccordionProps = FluentAccordionProps & {
-    items?: AccordionItemProps[];
-    className?: string;
-    children?: ReactNode | ReactNode[];
-};
+import cssClasses from './Accordion.scss';
 
-function Accordion({
+export type AccordionProps = Props<{
+    as?: 'div';
+    items?: PropsWithKey<AccordionItemProps>[];
+    size?: Size;
+}>;
+
+const displayName = 'Accordion';
+const elementClassNames = getElementClassNames(displayName);
+
+const Accordion: ForwardRefExoticComponent<AccordionProps> & {
+    Item?: typeof AccordionItem;
+} = forwardRef<HTMLDivElement, AccordionProps>(({
     items = [],
+    size = 'medium',
 
+    as: Tag = 'div',
     className,
     children,
     ...props
-}: AccordionProps) {
-    return (
-        <FluentAccordion className={classnames(className, 'ui-Accordion')} {...props}>
-            {items.map((item, index) =>
-                <AccordionItem key={item.key || index} value={item.value}>
-                    <AccordionHeader>{item.header}</AccordionHeader>
-                    <AccordionPanel>{item.panel}</AccordionPanel>
-                </AccordionItem>
-            )}
-            {children}
-        </FluentAccordion>
+}, ref) => {
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        cssClasses[size]
     );
-}
 
-Accordion.Header = AccordionHeader;
+    return (
+        <Tag ref={ref} className={classNames} {...props}>
+            {items?.map((item, index) =>
+                <AccordionItem
+                    key={item.key || index}
+                    {...item}
+                />
+            )}
+
+            {children}
+        </Tag>
+    );
+});
+
+Accordion.displayName = displayName;
 Accordion.Item = AccordionItem;
-Accordion.Panel = AccordionPanel;
 
-export {
-    Accordion as default,
-    Accordion,
-    AccordionHeader,
-    AccordionItem,
-    AccordionPanel
-};
+export default Accordion;

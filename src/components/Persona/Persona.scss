@@ -1,0 +1,85 @@
+@use '../Heading/Heading';
+@use '../Text/Text';
+
+.root {
+    display: flex;
+    align-items: center;
+    font-family: var(--ui-font-family);
+}
+
+.avatar {
+    
+}
+
+.content {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.meta {
+    display: flex;
+}
+
+.age {
+
+}
+
+.relation {
+    padding: 4px 8px;
+    background-color: var(--ui-extra-light-gray);
+    color: var(--ui-dark-gray);
+}
+
+
+// Size
+
+.small {
+    .name {
+        @include Heading.typography('h6');
+    }
+
+    .age {
+        @include Text.typography('p5');
+    }
+
+    .relation {
+        @include Text.typography('p5');
+    }
+}
+
+.medium {
+    .name {
+        @include Heading.typography('h4');
+    }
+
+    .age {
+        @include Text.typography('p4');
+    }
+
+    .relation {
+        @include Text.typography('p4');
+    }
+}
+
+.large {
+    .content {
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .name {
+        @include Heading.typography('h4');
+    }
+
+    .age {
+        @include Text.typography('p4');
+    }
+
+    .relation {
+        @include Text.typography('p4');
+    }
+}
+
+
+// Orientation

@@ -1,6 +1,15 @@
-@use './variables';
+$smaller-size: 16px;
+$small-size: 18px;
+$medium-size: 24px;
+$large-size: 36px;
+$larger-size: 48px;
 
-.ui-Icon {
+$dark-color: rgba(0, 0, 0, 0.54);
+$dark-inactive-color: rgba(0, 0, 0, 0.26);
+$light-color: rgba(255, 255, 255, 0.54);
+$light-inactive-color: rgba(255, 255, 255, 0.3);
+
+.root {
     font-family: 'Material Symbols Outlined';
     font-weight: normal;
     font-style: normal;
@@ -12,64 +21,68 @@
     word-wrap: normal;
     white-space: nowrap;
     direction: ltr;
+}
 
-    &.ui-Icon--outlined {
-        font-family: 'Material Symbols Outlined';
-    }
 
-    &.ui-Icon--rounded {
-        font-family: 'Material Symbols Rounded';
-    }
+// Sizes
 
-    &.ui-Icon--sharp {
-        font-family: 'Material Symbols Sharp';
-    }
+.smaller {
+    font-size: $smaller-size;
+    font-variation-settings: 'OPSZ' 16;
+}
 
-    &.ui-Icon--smaller,
-    &.ui-Icon--16 {
-        font-size: variables.$smaller-size;
-        font-variation-settings: 'OPSZ' 16;
-    }
+.small {
+    font-size: $small-size;
+    font-variation-settings: 'OPSZ' 18;
+}
 
-    &.ui-Icon--small,
-    &.ui-Icon--18 {
-        font-size: variables.$small-size;
-        font-variation-settings: 'OPSZ' 18;
-    }
+.medium {
+    font-size: $medium-size;
+    font-variation-settings: 'OPSZ' 24;
+}
 
-    &.ui-Icon--medium,
-    &.ui-Icon--24 {
-        font-size: variables.$medium-size;
-        font-variation-settings: 'OPSZ' 24;
-    }
+.large {
+    font-size: $large-size;
+    font-variation-settings: 'OPSZ' 36;
+}
 
-    &.ui-Icon--large,
-    &.ui-Icon--36 {
-        font-size: variables.$large-size;
-        font-variation-settings: 'OPSZ' 36;
-    }
+.larger {
+    font-size: $larger-size;
+    font-variation-settings: 'OPSZ' 48;
+}
 
-    &.ui-Icon--larger,
-    &.ui-Icon--48 {
-        font-size: variables.$larger-size;
-        font-variation-settings: 'OPSZ' 48;
-    }
 
-    &.ui-Icon--dark {
-        color: variables.$dark-color;
-        font-variation-settings: 'GRAD' -25;
-    }
+// Types
 
-    &.ui-Icon--dark.ui-Icon--inactive {
-        color: variables.$dark-inactive-color;
-        font-variation-settings: 'GRAD' -25;
-    }
+.outlined {
+    font-family: 'Material Symbols Outlined';
+}
 
-    &.ui-Icon--light {
-        color: variables.$light-color;
-    }
+.rounded {
+    font-family: 'Material Symbols Rounded';
+}
 
-    &.ui-Icon--light.mdc-icon--inactive {
-        color: variables.$light-inactive-color
-    }
+.sharp {
+    font-family: 'Material Symbols Sharp';
+}
+
+
+// Colors
+
+.dark {
+    color: $dark-color;
+    font-variation-settings: 'GRAD' -25;
+}
+
+.dark.inactive {
+    color: $dark-inactive-color;
+    font-variation-settings: 'GRAD' -25;
+}
+
+.light {
+    color: $light-color;
+}
+
+.light.inactive {
+    color: $light-inactive-color
 }

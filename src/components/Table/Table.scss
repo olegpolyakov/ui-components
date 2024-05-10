@@ -1,0 +1,53 @@
+@use 'sass:map';
+
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-radius: var(--ui-border-radius-medium);
+    font-family: var(--ui-font-family);
+}
+
+.small {
+    --ui-Table-cell-padding: .5rem .75rem;
+    --ui-Table-font-size: 12px;
+}
+
+.medium {
+    --ui-Table-cell-padding: .75rem 1rem;
+    --ui-Table-font-size: 14px;
+}
+
+.large {
+    --ui-Table-cell-padding: 1rem 1.25rem;
+    --ui-Table-font-size: 16px;
+}
+
+.interactive {
+    tbody tr {
+        @include color-state-variables('TableRow', 'background-color', global.$surface-color);
+
+        &:hover {
+            background-color: var(--ui-TableRow-hover-background-color);
+        }
+
+        &:active {
+            background-color: var(--ui-TableRow-active-background-color);
+        }
+    }
+}
+
+.striped-even {
+    tbody tr:nth-child(even) {
+        @include color-state-variables('TableRow', 'background-color', global.$extra-light-gray);
+    }
+}
+
+.striped-odd {
+    tbody tr:nth-child(odd) {
+        @include color-state-variables('TableRow', 'background-color', global.$extra-light-gray);
+    }
+}

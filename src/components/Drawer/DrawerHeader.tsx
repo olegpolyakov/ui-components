@@ -42,7 +42,7 @@ const DrawerHeader = forwardRef<HTMLElement, DrawerHeaderProps>(({
                 action={closeIcon ?
                     <Button
                         icon={closeIcon}
-                        appearance="subtle"
+                        variant="tinted"
                         onClick={onCloseIconClick}
                     />
                     :

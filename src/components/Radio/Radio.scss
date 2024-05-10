@@ -1,0 +1,88 @@
+.root {
+    --ui-Radio-border-color: var(--ui-very-light-gray);
+    --ui-Radio-background-color: var(--ui-surface-color);
+
+    display: flex;
+    align-items: center;
+    gap: var(--ui-Radio-gap);
+}
+
+.input {
+    appearance: none;
+    width: var(--ui-Radio-size);
+    height: var(--ui-Radio-size);
+    border: 2px solid var(--ui-Radio-border-color);
+    border-radius: 100%;
+    background-color: var(--ui-Radio-background-color);
+    outline: none;
+    margin: 0;
+    padding: 0;
+    transition: all .2s;
+    cursor: pointer;
+}
+
+.label {
+    --ui-Label-size: var(--ui-Radio-label-size);
+
+    cursor: pointer;
+}
+
+
+// States
+
+.input {
+    &:hover {
+        --ui-Radio-border-color: var(--ui-primary-color);
+    }
+
+    &:active {
+        --ui-Radio-border-color: var(--ui-primary-active-color);
+        --ui-Radio-background-color: var(--ui-primary-active-color);
+    }
+}
+
+.input:checked {
+    --ui-Radio-border-color: var(--ui-primary-color);
+
+    border-width: var(--ui-Radio-checked-border-width);
+
+    &:hover {
+        --ui-Radio-border-color: var(--ui-primary-color);
+    }
+
+    &:active {
+        --ui-Radio-border-color: var(--ui-primary-active-color);
+        --ui-Radio-background-color: var(--ui-surface-color);
+    }
+}
+
+.disabled {
+    .input,
+    .label {
+        cursor: default;
+    }
+}
+
+
+// Sizes
+
+.small {
+    --ui-Radio-size: 16px;
+    --ui-Radio-checked-border-width: 5px;
+    --ui-Radio-gap: var(--ui-gap-smaller);
+    --ui-Radio-label-size: var(--ui-font-size-small);
+}
+
+.medium {
+    --ui-Radio-size: 20px;
+    --ui-Radio-checked-border-width: 6px;
+    --ui-Radio-gap: var(--ui-gap-small);
+    --ui-Radio-label-size: var(--ui-font-size-small);
+}
+
+.large {
+    --ui-Radio-size: 24px;
+    --ui-Radio-checked-border-width: 7px;
+    --ui-Radio-gap: var(--ui-gap-medium);
+    --ui-Radio-label-size: var(--ui-font-size-medium);
+}

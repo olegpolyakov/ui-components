@@ -1,0 +1,79 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    --ui-Tab-gap: var(--ui-gap-smaller);
+    --ui-Tab-border-radius: 0px;
+    --ui-Tab-border-width: 0px;
+    --ui-Tab-text-color: var(--fui-text-secondary-color);
+    --ui-Tab-indicator-width: 2px;
+
+    box-sizing: border-box;
+    position: relative;
+    min-height: 36px;
+    font: inherit;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: stretch;
+    gap: var(--ui-Tab-gap);
+    text-align: center;
+    background: none;
+    cursor: pointer;
+    padding: 4px 16px;
+    border: none;
+    border-radius: var(--ui-Tab-border-radius);
+    font-size: inherit;
+    line-height: inherit;
+    color: var(--ui-Tab-text-color);
+    flex: initial;
+    justify-content: center;
+
+    &:hover {
+        background-color: var(--ui-Tab-hover-background-color);
+        color: var(--ui-Tab-hover-text-color);
+    }
+
+    &:active {
+        background-color: var(--ui-Tab-active-background-color);
+        color: var(--ui-Tab-active-text-color);
+    }
+    
+    &:disabled {
+        background-color: var(--ui-Tab-disabled-background-color);
+        color: var(--ui-Tab-disabled-text-color);
+    }
+
+    @include color-state-variables('Tab', 'background-color', global.$surface-color, $override: (
+        'base': none,
+        'hover': rgba(0, 0, 0, .05),
+        'active': rgba(0, 0, 0, .1),
+        'disabled': none
+    ));
+    @include color-state-variables('Tab', 'text-color',  global.$text-secondary-color);
+}
+
+.container {}
+
+.content {}
+
+.icon {}
+
+.start {}
+
+.end {}
+
+.active {
+    --ui-Tab-text-color: var(--fui-text-primary-color);
+
+    @include color-state-variables('Tab', 'text-color',  global.$text-primary-color);
+
+    &::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: var(--ui-Tab-indicator-width);
+        bottom: 0;
+        background-color: var(--ui-primary-color);
+    }
+}

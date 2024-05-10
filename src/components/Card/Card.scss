@@ -1,8 +1,90 @@
-.ui-Card {
-    .fui-CardPreview {
-        .fui-Image {
-            aspect-ratio: 16 / 9;
-            object-fit: cover;
-        }
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    --ui-Card-background-color: var(--ui-surface-color);
+    --ui-Card-border-color: transparent;
+    --ui-Card-border-radius: var(--ui-border-radius-medium);
+    --ui-Card-padding: var(--ui-padding-medium);
+
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--ui-Card-border-color, transparent);
+    border-radius: var(--ui-Card-border-radius);
+    background-color: var(--ui-Card-background-color);
+    padding: var(--ui-Card-padding);
+    font-family: var(--ui-font-family);
+    box-shadow: var(--ui-Card-shadow, none);
+}
+
+
+// Sizes
+
+.small {
+    --ui-Card-padding: var(--ui-padding-small);
+}
+
+.medium {
+    --ui-Card-padding: var(--ui-padding-medium);
+}
+
+.large {
+    --ui-Card-padding: var(--ui-padding-large);
+}
+
+
+// Variants
+
+.plain {
+    --ui-Card-background-color: var(--ui-surface-color);
+}
+
+.filled {
+    @include color-variable-for-palettes('Card', 'background-color');
+    @include color-variable-for-palettes('Card', 'text-color', $on: true);
+
+    color: var(--ui-Card-text-color);
+}
+
+.outlined {
+    --ui-Card-background-color: var(--ui-surface-color);
+    --ui-Card-border-color: var(--ui-border-color);
+    --ui-Card-border-width: 1px;
+
+    @include color-variable-for-palettes('Card', 'border-color');
+
+    border: var(--ui-Card-border-width) solid var(--ui-Card-border-color);
+}
+
+.tinted {
+    @include color-variable-for-palettes('Card', 'background-color', $color: 1);
+}
+
+
+// Shadow
+
+.shadow-small {
+    --ui-Card-shadow: var(--ui-shadow-small);
+}
+
+.shadow-medium {
+    --ui-Card-shadow: var(--ui-shadow-medium);
+}
+
+.shadow-large {
+    --ui-Card-shadow: var(--ui-shadow-large);
+}
+
+
+// Misc
+
+.interactive {
+    &:hover {
+        --ui-Card-background-color: #f0f0f0;
     }
+}
+
+.raised {
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.14);
 }

@@ -1,41 +1,48 @@
 import { forwardRef } from 'react';
 
-import type { HTMLDivProps, PropsWithChildren } from '../../types';
-import { classnames as cn } from '../../utils';
+import type { Align, HTMLDivProps, PropsWithChildren } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
+
+import cssClasses from './FlexItem.scss';
 
 export type FlexItemProps = PropsWithChildren<{
     as?: 'div';
-    alignX?: 'start' | 'center' | 'end';
-    alignY?: 'start' | 'center' | 'end';
+    alignX?: Align;
+    alignY?: Align;
     alignCenter?: boolean;
     grow?: boolean;
     shrink?: boolean;
 }, HTMLDivProps>;
 
+const displayName = 'FlexItem';
+const elementClassNames = getElementClassNames(displayName);
+
 const FlexItem = forwardRef<HTMLDivElement, FlexItemProps>(({
     alignX,
     alignY,
     alignCenter,
-    grow = false,
-    shrink = false,
+    grow,
+    shrink,
 
     as: Tag = 'div',
     className,
     ...props
 }, ref) => {
-    const classNames = cn(className, 'fui-FlexItem', {
-        [`fui-FlexItem--align-x-${alignX}`]: alignX,
-        [`fui-FlexItem--align-y-${alignY}`]: alignY,
-        'fui-FlexItem--align-center': alignCenter,
-        'fui-FlexItem--grow': grow,
-        'fui-FlexItem--shrink': shrink
-    });
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        alignX && cssClasses.alignX,
+        alignY && cssClasses.alignY,
+        alignCenter && cssClasses.alignCenter,
+        grow && cssClasses.grow,
+        shrink && cssClasses.shrink
+    );
 
     return (
         <Tag ref={ref} className={classNames} {...props} />
     );
 });
 
-FlexItem.displayName = 'FlexItem';
+FlexItem.displayName = displayName;
 
 export default FlexItem;

@@ -1,0 +1,126 @@
+@use 'sass:math';
+
+.root {
+    --ui-Switch-background-color: var(--ui-very-light-gray);
+    --ui-Switch-input-background-color: var(--ui-surface-color);
+
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.input {
+    appearance: none;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: var(--ui-Switch-input-width);
+    height: var(--ui-Switch-input-height);
+    background-color: var(--ui-Switch-background-color);
+    border: none;
+    border-radius: 30px;
+    margin: 0;
+    transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+
+    // thumb
+    &::after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: var(--ui-Switch-thumb-width);
+        height: var(--ui-Switch-thumb-height);
+        border-radius: 25px;
+        background-color: var(--ui-Switch-input-background-color);
+        transition: transform 0.2s ease-in-out;
+    }
+}
+
+.label {
+    --ui-Label-size: var(--ui-Switch-label-size);
+
+    cursor: pointer;
+}
+
+
+// States
+
+.input {
+    &:hover {
+        --ui-Switch-background-color: var(--ui-light-gray);
+    }
+
+    &:active {
+        --ui-Switch-background-color: var(--ui-gray);
+    }
+
+    &:disabled {
+        --ui-Switch-background-color: var(--ui-neutral-disabled-color);
+    }
+
+    &:checked {
+        --ui-Switch-background-color: var(--ui-primary-color);
+
+        &:hover {
+            --ui-Switch-background-color: var(--ui-primary-hover-color);
+        }
+
+        &:active {
+            --ui-Switch-background-color: var(--ui-primary-active-color);
+        }
+
+        &:disabled {
+            --ui-Switch-background-color: var(--ui-primary-disabled-color);
+        }
+
+        &::after {
+            transform: translateX(var(--ui-Switch-thumb-translate-x));
+        }
+    }
+}
+
+
+// Sizes
+
+.small {
+    $input-width: 28px;
+    $input-height: 16px;
+    $thumb-size: $input-height - 6px;
+    $thumb-translate-x: $input-width - $input-height;
+
+    --ui-Switch-input-width: #{$input-width};
+    --ui-Switch-input-height: #{$input-height};
+    --ui-Switch-thumb-width: #{$thumb-size};
+    --ui-Switch-thumb-height: #{$thumb-size};
+    --ui-Switch-thumb-translate-x: #{$thumb-translate-x};
+    --ui-Switch-label-size: var(--ui-font-size-small);
+}
+
+.medium {
+    $input-width: 36px;
+    $input-height: 20px;
+    $thumb-size: $input-height - 6px;
+    $thumb-translate-x: $input-width - $input-height;
+
+    --ui-Switch-input-width: #{$input-width};
+    --ui-Switch-input-height: #{$input-height};
+    --ui-Switch-thumb-width: #{$thumb-size};
+    --ui-Switch-thumb-height: #{$thumb-size};
+    --ui-Switch-thumb-translate-x: #{$thumb-translate-x};
+    --ui-Switch-label-size: var(--ui-font-size-small);
+}
+
+.large {
+    $input-width: 44px;
+    $input-height: 24px;
+    $thumb-size: $input-height - 6px;
+    $thumb-translate-x: $input-width - $input-height;
+    
+    --ui-Switch-input-width: #{$input-width};
+    --ui-Switch-input-height: #{$input-height};
+    --ui-Switch-thumb-width: #{$thumb-size};
+    --ui-Switch-thumb-height: #{$thumb-size};
+    --ui-Switch-thumb-translate-x: #{$thumb-translate-x};
+    --ui-Switch-label-size: var(--ui-font-size-medium);
+}

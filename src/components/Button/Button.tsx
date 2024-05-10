@@ -1,53 +1,115 @@
-import { ReactNode, forwardRef, ReactElement } from 'react';
-import {
-    Button as FluentButton,
-    ButtonProps as FluentButtonProps
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+import { type ReactNode, forwardRef } from 'react';
+import BaseButton from '@restart/ui/Button';
 
-import type { PropsWithChildren, HTMLButtonProps, HTMLAnchorProps } from '../../types';
+import type { Color, HTMLAnchorProps, HTMLButtonProps, IconPosition, PropsWithChildren, Shape, Size, Variant } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-import Icon from '../Icon';
+import Icon, { IconProps } from '../Icon';
+// import Spinner from '../Spinner';
 
-export type ButtonProps = PropsWithChildren<
-    Pick<FluentButtonProps,
-        'as' |
-        'appearance' |
-        'disabledFocusable' |
-        'iconPosition' |
-        'shape' |
-        'size'
-    > & {
-        content?: ReactNode;
-        icon?: string | ReactElement;
-    },
-    HTMLButtonProps & HTMLAnchorProps
->;
+import cssClasses from './Button.scss';
+
+export type ButtonProps = PropsWithChildren<{
+    as?: 'button' | 'a';
+    content?: ReactNode;
+    icon?: ReactNode;
+    start?: ReactNode;
+    end?: ReactNode;
+    color?: Color;
+    shape?: Shape;
+    size?: Size;
+    variant?: Variant | 'text';
+    active?: boolean;
+    fluid?: boolean;
+    disabled?: boolean;
+    loading?: boolean;
+    iconPosition?: IconPosition;
+    iconProps?: IconProps;
+}, HTMLButtonProps & HTMLAnchorProps>;
+
+const displayName = 'Button';
+const elementClassNames = getElementClassNames(displayName, ['start', 'icon', 'content', 'spinner', 'end']);
 
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
     content,
     icon,
-    size,
+    start,
+    end,
+    color,
+    shape = 'rounded',
+    size = 'medium',
+    variant = 'plain',
+    active,
+    fluid,
+    loading,
+    iconPosition,
+    iconProps,
 
-    children = content,
     className,
+    children,
     ...props
-}, ref) => {
+}, ref): JSX.Element => {
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        color && cssClasses[color],
+        cssClasses[size],
+        cssClasses[shape],
+        cssClasses[variant],
+        icon && !content && cssClasses.iconButton,
+        iconPosition && cssClasses[`icon-${iconPosition}`],
+        active && cssClasses.active,
+        fluid && cssClasses.fluid,
+        loading && cssClasses.loading
+    );
+
     return (
-        <FluentButton
+        <BaseButton
             ref={ref}
-            className={classnames(className, 'ui-Button')}
-            icon={typeof icon === 'string' ?
-                <Icon name={icon} size={size} /> : icon
-            }
-            size={size}
+            className={classNames}
             {...props}
         >
+            {start &&
+                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                    {start}
+                </span>
+            }
+
+            {icon &&
+                <Icon
+                    className={cn(elementClassNames.icon, cssClasses.icon)}
+                    size={size}
+                    {...iconProps}
+                >
+                    {icon}
+                </Icon>
+            }
+
+            {content &&
+                <span className={cn(elementClassNames.content, cssClasses.content)}>
+                    {content}
+                </span>
+            }
+
             {children}
-        </FluentButton>
+
+            {/* {loading &&
+                <Spinner
+                    className={cn(elementClassNames.spinner, cssClasses.spinner)}
+                    size="smaller"
+                />
+            } */}
+
+            {end &&
+                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                    {end}
+                </span>
+            }
+        </BaseButton>
     );
 });
 
-Button.displayName = 'Button';
+Button.displayName = displayName;
 
 export default Button;

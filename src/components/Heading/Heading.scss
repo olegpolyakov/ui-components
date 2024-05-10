@@ -1,0 +1,156 @@
+@use 'sass:list';
+@use 'sass:map';
+
+@use '../../styles/functions' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+$font-sizes: (
+    'h1': 36px,
+    'h2': 24px,
+    'h3': 18px,
+    'h4': 16px,
+    'h5': 14px,
+    'h6': 12px
+) !default;
+
+$font-weights: (
+    // type: (default, strong)
+    'h1': (global.$font-weight-normal, global.$font-weight-bold),
+    'h2': (global.$font-weight-normal, global.$font-weight-bold),
+    'h3': (global.$font-weight-normal, global.$font-weight-bold),
+    'h4': (global.$font-weight-normal, global.$font-weight-semibold),
+    'h5': (global.$font-weight-normal, global.$font-weight-semibold),
+    'h6': (global.$font-weight-normal, global.$font-weight-semibold)
+) !default;
+
+$line-heights: (
+    'h1': 48px,
+    'h2': 32px,
+    'h3': 22px,
+    'h4': 20px,
+    'h5': 18px,
+    'h6': 16px
+) !default;
+
+.root {
+    --ui-Heading-gap: var(--ui-gap-smaller, #{global.$gap-smaller});
+    --ui-Heading-letter-spacing: 0;
+
+    display: flex;
+    align-items: center;
+    gap: var(--ui-Heading-gap);
+    font-family: var(--ui-font-family);
+    font-size: var(--ui-Heading-font-size);
+    font-weight: var(--ui-Heading-font-weight, var(--ui-font-weight-normal));
+    color: var(--ui-Heading-color, --ui-text-color);
+    margin: 0;
+}
+
+.content {
+    line-height: var(--ui-Heading-line-height);
+    letter-spacing: var(--ui-Heading-letter-spacing);
+}
+
+.start,
+.end {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+
+// Colors
+
+@include color-variable-for-palettes('Heading', 'color');
+
+
+// Types
+
+.h1 {
+    --ui-Heading-font-size: #{rem(map.get($font-sizes, 'h1'))};
+    --ui-Heading-line-height: #{map.get($line-heights, 'h1')};
+}
+
+.h2 {
+    --ui-Heading-font-size: #{rem(map.get($font-sizes, 'h2'))};
+    --ui-Heading-line-height: #{map.get($line-heights, 'h2')};
+}
+
+.h3 {
+    --ui-Heading-font-size: #{rem(map.get($font-sizes, 'h3'))};
+    --ui-Heading-line-height: #{map.get($line-heights, 'h3')};
+}
+
+.h4 {
+    --ui-Heading-font-size: #{rem(map.get($font-sizes, 'h4'))};
+    --ui-Heading-line-height: #{map.get($line-heights, 'h4')};
+}
+
+.h5 {
+    --ui-Heading-font-size: #{rem(map.get($font-sizes, 'h5'))};
+    --ui-Heading-line-height: #{map.get($line-heights, 'h5')};
+}
+
+.h6 {
+    --ui-Heading-font-size: #{rem(map.get($font-sizes, 'h6'))};
+    --ui-Heading-line-height: #{map.get($line-heights, 'h6')};
+}
+
+.h1.bold,
+.h2.bold,
+.h3.bold {
+    --ui-Heading-font-weight: #{global.$font-weight-bold};
+}
+
+.h4.bold,
+.h5.bold,
+.h6.bold {
+    --ui-Heading-font-weight: #{global.$font-weight-semibold};
+}
+
+
+// Align
+
+.align-start {
+    justify-content: flex-start;
+    text-align: left;
+}
+
+.align-center {
+    justify-content: center;
+    text-align: center;
+}
+
+.align-end {
+    justify-content: flex-end;
+    text-align: right;
+}
+
+
+// Misc
+
+.inline {
+    display: inline-flex;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.muted {
+    --ui-Heading-color: var(--ui-text-secondary-color);
+}
+
+@mixin typography($type, $bold: false) {
+    $weights: map.get($font-weights, $type);
+
+    font-family: var(--ui-font-family);
+    font-size: map.get($font-sizes, $type);
+    font-weight: if($bold,
+        list.nth($weights, 2),
+        list.nth($weights, 1)
+    );
+    line-height: map.get($line-heights, $type);
+}

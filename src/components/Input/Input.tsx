@@ -1,22 +1,146 @@
-import { forwardRef } from 'react';
 import {
-    Input as FluentInput,
-    InputProps as FluentInputProps
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+    type ChangeEvent,
+    type FocusEvent,
+    type InvalidEvent,
+    type ReactNode,
+    forwardRef,
+    useCallback,
+    useState
+} from 'react';
 
-export type InputProps = FluentInputProps;
+import type { HTMLInputProps, Props, Shape, Size } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({ className, ...props }, ref) => {
+import cssClasses from './Input.scss';
+
+export type InputChangeHandler = (
+    data: {
+        name?: string;
+        value: string;
+    },
+    event: React.ChangeEvent<HTMLInputElement>
+) => void;
+
+export type InputProps = Props<{
+    label?: ReactNode;
+    start?: ReactNode;
+    end?: ReactNode;
+    size?: Size;
+    shape?: Shape;
+    variant?: 'filled' | 'outlined' | 'underlined';
+    active?: boolean;
+    disabled?: boolean;
+    onChange?: InputChangeHandler;
+}, HTMLInputProps>;
+
+const displayName = 'Input';
+const elementClassNames = getElementClassNames(displayName, ['start', 'label', 'input', 'end']);
+
+const Input = forwardRef<HTMLInputElement, InputProps>(({
+    value,
+    defaultValue,
+    start,
+    end,
+    label,
+    shape = 'rounded',
+    size = 'medium',
+    variant = 'outlined',
+    active,
+    disabled,
+    onChange,
+    onFocus,
+    onBlur,
+    onInvalid,
+
+    className,
+    ...props
+}, ref) => {
+    const [isFocused, setFocused] = useState(false);
+    const [isInvalid, setInvalid] = useState(false);
+    const [validationMessage, setValidationMessage] = useState('');
+
+    const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+        setInvalid(!event.target.validity.valid);
+        setValidationMessage('');
+        onChange?.({
+            name: event.target.name,
+            value: event.target.value
+        }, event);
+    }, [onChange]);
+
+    const handleInvalid = useCallback((event: InvalidEvent<HTMLInputElement>) => {
+        event.preventDefault();
+        setInvalid(true);
+        setValidationMessage(event.target.validationMessage);
+        onInvalid?.(event);
+    }, [onInvalid]);
+
+    const handleFocus = useCallback((event: FocusEvent<HTMLInputElement>) => {
+        setFocused(true);
+        onFocus?.(event);
+    }, [onFocus]);
+
+    const handleBlur = useCallback((event: FocusEvent<HTMLInputElement>) => {
+        setFocused(false);
+        onBlur?.(event);
+    }, [onBlur]);
+
+    const isActive = Boolean(active || value || defaultValue);
+
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        cssClasses[size],
+        cssClasses[shape],
+        cssClasses[variant],
+        isActive && cssClasses.active,
+        isFocused && cssClasses.focused,
+        isInvalid && cssClasses.invalid,
+        disabled && cssClasses.disabled,
+        Boolean(start) && cssClasses.withStart,
+        Boolean(end) && cssClasses.withEnd
+    );
+
     return (
-        <FluentInput
-            ref={ref}
-            className={classnames('ui-Input', className)}
-            {...props}
-        />
+        <div
+            className={classNames}
+            data-validation-message={validationMessage || undefined}
+        >
+            {start &&
+                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                    {start}
+                </span>
+            }
+
+            {label &&
+                <label className={cn(elementClassNames.label, cssClasses.label)}>
+                    {label}
+                </label>
+            }
+
+            <input
+                ref={ref}
+                className={cn(elementClassNames.input, cssClasses.input)}
+                value={value}
+                defaultValue={defaultValue}
+                disabled={disabled}
+                onChange={handleChange}
+                onInvalid={handleInvalid}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                {...props}
+            />
+
+            {end &&
+                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                    {end}
+                </span>
+            }
+        </div>
     );
 });
 
-Input.displayName = 'Input';
+Input.displayName = displayName;
 
 export default Input;

@@ -1,0 +1,52 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    position: relative;
+    font-family: var(--ui-font-family);
+}
+
+.overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    flex-direction: column;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    background-color: rgba(40, 40, 40, 0.6);
+    z-index: 100;
+}
+
+.surface {
+    padding: 20px;
+    min-height: 100px;
+    min-width: 300px;
+    display: flex;
+    flex-grow: 0px;
+    background-color: #fff;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 0 20px 0 #444;
+    border-radius: 10px;
+}
+
+.title {
+    margin: 0;
+    color: var(--ui-text-color);
+}
+
+.content {
+    padding-top: 1rem;
+}
+
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+
+    @include color-state-variables('Button', 'background-color', global.$surface-color);
+    @include color-state-variables('Button', 'text-color', global.$gray);
+}

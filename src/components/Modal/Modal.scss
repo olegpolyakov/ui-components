@@ -1,11 +1,65 @@
-.ui-Modal {
+.root {
+    position: relative;
     z-index: 1000;
+}
 
-    &.ui-Modal--fixed {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
+.backdrop {
+    &::before {
+        position: absolute;
+        z-index: 0;
+        content: '';
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        opacity: 0;
+        transition: opacity .2s;
     }
+
+    &.enter {
+        &::before {
+            opacity: 0;
+        }
+    }
+    
+    &.enter-active {
+        &::before {
+            opacity: .1;
+        }
+    }
+    
+    &.enter-done {
+        &::before {
+            opacity: .1;
+        }
+    }
+    
+    &.exit {
+        &::before {
+            opacity: .1;
+        }
+    }
+    
+    &.exit-active {
+        &::before {
+            opacity: 0;
+        }
+    }
+    
+    &.exit-done {
+        &::before {
+            opacity: 0;
+        }
+    }
+}
+
+.fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+:global(.ui-scroll-disabled) {
+    overflow: hidden;
 }

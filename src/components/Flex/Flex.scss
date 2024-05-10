@@ -1,109 +1,116 @@
-.fui-Flex {
+@use '../../styles/variables' as global;
+
+.root {
     display: flex;
 }
 
 // Dir
 
-.fui-Flex--row {
+.row {
     flex-direction: row;
 }
 
-.fui-Flex--row-reverse {
+.row-reverse {
     flex-direction: row-reverse;
 }
 
-.fui-Flex--column {
+.column {
     flex-direction: column;
 }
 
-.fui-Flex--column-reverse {
+.column-reverse {
     flex-direction: column-reverse;
 }
 
 
 // Align
 
-.fui-Flex--align-start {
+.align-start {
     align-items: flex-start;
 }
 
-.fui-Flex--align-center {
+.align-center {
     align-items: center;
 }
 
-.fui-Flex--align-end {
+.align-end {
     align-items: flex-end;
 }
 
 
 // Justify
 
-.fui-Flex--justify-start {
+.justify-start {
     justify-content: flex-start;
 }
 
-.fui-Flex--justify-center {
+.justify-center {
     justify-content: center;
 }
 
-.fui-Flex--justify-end {
+.justify-end {
     justify-content: flex-end;
 }
 
-.fui-Flex--justify-around {
+.justify-around {
     justify-content: space-around;
 }
 
-.fui-Flex--justify-between {
+.justify-between {
     justify-content: space-between;
 }
 
-.fui-Flex--justify-evenly {
+.justify-evenly {
     justify-content: space-evenly;
 }
 
 
 // Gap
 
-.fui-Flex--gap-smallest {
-    gap: .25rem;
+.gap {
+    @each $size, $value in global.$gap-sizes {
+        &-#{$size} {
+            gap: $value;
+        }
+    }
 }
 
-.fui-Flex--gap-smaller {
-    gap: .5rem;
-}
 
-.fui-Flex--gap-small {
-    gap: .75rem;
-}
+// Padding
 
-.fui-Flex--gap-medium {
-    gap: 1rem;
-}
+.padding {
+    @each $size, $value in global.$padding-sizes {
+        &-#{$size} {
+            padding: #{$value};
+        }
+    }
 
-.fui-Flex--gap-large {
-    gap: 1.25rem;
-}
+    &-x {
+        @each $size, $value in global.$padding-sizes {
+            &-#{$size} {
+                padding-left: #{$value};
+                padding-right: #{$value};
+            }
+        }
+    }
 
-.fui-Flex--gap-larger {
-    gap: 1.5rem;
-}
-
-.fui-Flex--gap-largest {
-    gap: 1.75rem;
-}
-
-.fui-Flex--gap-none {
-    gap: 0;
+    &-y {
+        @each $size, $value in global.$padding-sizes {
+            &-#{$size} {
+                padding-top: #{$value};
+                padding-bottom: #{$value};
+            }
+        }
+    }
 }
 
 
 // Misc
 
-.fui-Flex--inline {
+.inline {
     display: inline-flex;
 }
 
-.fui-Flex--wrap {
+.wrap {
     flex-wrap: wrap;
 }

@@ -1,37 +1,60 @@
 import { ForwardRefExoticComponent, forwardRef } from 'react';
-import { Tree, TreeProps } from '@fluentui/react-components/unstable';
-import classnames from 'classnames';
 
-import ListItem, {  ListItemProps } from './ListItem';
+import type { HTMLListProps, PropsWithChildren, PropsWithKey, Size } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-export type ListProps = TreeProps & {
-    items?: ListItemProps[];
-};
+import ListItem, { type ListItemProps } from './ListItem';
+
+import cssClasses from './List.scss';
+
+export type ListProps = PropsWithChildren<{
+    as?: 'ol' | 'ul';
+    items?: PropsWithKey<ListItemProps>[];
+    size?: Size;
+    gap?: Size;
+    interactive?: boolean;
+}, HTMLListProps>;
+
+const displayName = 'List';
+const elementClassNames = getElementClassNames(displayName);
 
 const List: ForwardRefExoticComponent<ListProps> & {
     Item?: typeof ListItem;
-} = forwardRef<HTMLDivElement, ListProps>(({
+} = forwardRef<HTMLOListElement, ListProps>(({
     items,
+    size = 'medium',
+    gap,
+    interactive,
 
+    as: Tag = 'ul',
     className,
     children,
     ...props
 }, ref) => {
-    const classNames = classnames('ui-List', className);
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses.root,
+        cssClasses[size],
+        gap && cssClasses[`gap-${gap}`]
+    );
 
     return (
-        <Tree ref={ref} className={classNames} {...props}>
-            {items?.map((item, index) =>
-                <ListItem key={item?.key || index} {...item} />
+        <Tag ref={ref} className={classNames} {...props}>
+            {items?.map(item =>
+                <ListItem
+                    key={item.key}
+                    interactive={interactive}
+                    {...item}
+                />
             )}
 
             {children}
-        </Tree>
+        </Tag>
     );
 });
 
-List.displayName = 'List';
-
+List.displayName = displayName;
 List.Item = ListItem;
 
 export default List;

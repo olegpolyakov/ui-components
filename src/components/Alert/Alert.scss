@@ -1,0 +1,162 @@
+@use 'sass:map';
+
+@use '../../styles/functions' as *;
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    min-height: var(--ui-Alert-height);
+    padding: var(--ui-Alert-padding);
+    gap: var(--ui-Alert-gap);
+    border-radius: var(--ui-Alert-border-radius);
+    background-color: var(--ui-Alert-background-color, #{global.$surface-color});
+    color: var(--ui-Alert-text-color, #{global.$dark-gray});
+    font-family: var(--ui-font-family);
+    box-shadow: var(--ui-Alert-shadow, none);
+}
+
+.start,
+.content,
+.end,
+.action {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ui-gap-smaller);
+}
+
+.start,
+.end {
+    flex-shrink: 0;
+}
+
+.icon {
+    --ui-icon-color: var(--ui-Alert-icon-color, inherit);
+}
+
+.content {
+    flex: 1;
+    font-size: var(--ui-Alert-font-size);
+    font-weight: var(--ui-font-weight-semibold);
+    line-height: var(--ui-Alert-line-height);
+}
+
+.close-button {
+    align-self: flex-start;
+    border: none;
+    padding: 0;
+    background: transparent;
+    color: var(--ui-dark-gray);
+    font-family: inherit;
+    font-size: var(--ui-font-size-smaller);
+    font-weight: var(--ui-font-weight-normal);
+    line-height: 1;
+    opacity: 0.5;
+    transition: opacity .3s;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+}
+
+
+// Sizes
+
+.small {
+    --ui-Alert-height: 32px;
+    --ui-Alert-gap: var(--ui-gap-smaller);
+    --ui-Alert-padding: var(--ui-padding-smallest) var(--ui-padding-smaller);
+    --ui-Alert-font-size: var(--ui-font-size-smaller);
+    --ui-Alert-line-height: 12px;
+}
+
+.medium {
+    --ui-Alert-height: 40px;
+    --ui-Alert-gap: var(--ui-gap-small);
+    --ui-Alert-padding: var(--ui-padding-smaller) var(--ui-padding-small);
+    --ui-Alert-font-size: var(--ui-font-size-small);
+    --ui-Alert-line-height: 14px;
+}
+
+.large {
+    --ui-Alert-height: 48px;
+    --ui-Alert-gap: var(--ui-gap-medium);
+    --ui-Alert-padding: var(--ui-padding-smaller) var(--ui-padding-small);
+    --ui-Alert-font-size: var(--ui-font-size-medium);
+    --ui-Alert-line-height: 16px;
+}
+
+
+// Shapes
+
+.circular {
+    --ui-Alert-border-radius: var(--ui-Alert-height);
+}
+
+.rectangular {
+    --ui-Alert-border-radius: 0;
+}
+
+.rounded {
+    &.small {
+        --ui-Alert-border-radius: var(--ui-border-radius-smaller);
+    }
+
+    &.medium {
+        --ui-Alert-border-radius: var(--ui-border-radius-small);
+    }
+
+    &.large {
+        --ui-Alert-border-radius: var(--ui-border-radius-medium);
+    }
+}
+
+
+// Shadows
+
+.shadow-small {
+    --ui-Alert-shadow: var(--ui-shadow-small);
+}
+
+.shadow-medium {
+    --ui-Alert-shadow: var(--ui-shadow-medium);
+}
+
+.shadow-large {
+    --ui-Alert-shadow: var(--ui-shadow-large);
+}
+
+
+// Variants
+
+.plain {
+    --ui-Alert-background-color: var(--ui-extra-light-gray);
+
+    @include color-variable-for-palettes('Alert', 'icon-color');
+    @include color-variable-for-palettes('Alert', 'text-color');
+}
+
+.filled {
+    @include color-variable-for-palettes('Alert', 'background-color');
+    @include color-variable-for-palettes('Alert', 'icon-color', $on: true);
+    @include color-variable-for-palettes('Alert', 'text-color', $on: true);
+}
+
+.outlined {
+    --ui-Alert-background-color: var(--ui-surface-color);
+    --ui-Alert-border-width: 1px;
+    
+    @include color-variable-for-palettes('Alert', 'border-color');
+    @include color-variable-for-palettes('Alert', 'icon-color');
+
+    border: var(--ui-Alert-border-width) solid var(--ui-Alert-border-color);
+}
+
+.tinted {
+    @include color-variable-for-palettes('Alert', 'background-color', $color: 0);
+    @include color-variable-for-palettes('Alert', 'icon-color', $color: 5);
+}

@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import { CSSTransitionProps } from 'react-transition-group/CSSTransition';
 
-import Modal from '../Modal/Modal';
+import Modal from '../Modal';
 
 export type LayerProps = CSSTransitionProps & {
     modal?: boolean;

@@ -1,0 +1,23 @@
+.root {
+    display: block;
+    align-self: stretch;
+    flex-shrink: 0;
+    border: none;
+    background: var(--ui-border-color);
+}
+
+.horizontal {
+    min-width: 1px;
+    width: auto;
+    height: 1px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.vertical {
+    width: 1px;
+    min-height: 1px;
+    height: auto;
+    margin-left: 4px;
+    margin-right: 4px;
+}

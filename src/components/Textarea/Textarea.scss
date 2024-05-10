@@ -1,0 +1,140 @@
+@use '../../styles/variables' as global;
+
+.root {
+    --ui-Textarea-border-color: var(--ui-border-color, #{global.$border-color});
+    --ui-Textarea-border-width: 1px;
+    --ui-Textarea-label-color: var(--ui-text-secondary-color);
+
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    min-height: var(--ui-Textarea-height);
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    gap: var(--ui-gap-smaller);
+    border-radius: var(--ui-Textarea-border-radius, var(--ui-border-radius-medium));
+    background-clip: padding-box;
+    background-color: var(--ui-Textarea-background-color, var(--ui-surface-color));
+    font-family: var(--ui-font-family);
+    font-size: var(--ui-Textarea-font-size);
+    line-height: var(--ui-line-height);
+    color: var(--ui-text-color);
+    overflow: hidden;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.start,
+.end {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.label {
+    position: absolute;
+    top: var(--ui-Textarea-label-top);
+    color: var(--ui-Textarea-label-color);
+    transform-origin: top left;
+    transition: transform .2s;
+}
+
+.textarea {
+    appearance: none;
+    width: 100%;
+    resize: none;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: calc((var(--ui-Textarea-height) - var(--ui-Textarea-border-width, 0px) * 2 - var(--ui-Textarea-inner-height)) / 2) 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: 1.4;
+    z-index: 1;
+}
+
+.label + .textarea::placeholder {
+    visibility: hidden;
+}
+
+
+// States
+
+.focused,
+.root:focus-within {
+    .label {
+        transform: scale(.75) translate(0, -35%);
+    }
+
+    .label + .textarea {
+        padding-top: calc(var(--ui-Textarea-height) - var(--ui-Textarea-border-width, 0px) * 2 - var(--ui-Textarea-inner-height) - 2px);
+        padding-bottom: 2px;
+    }
+}
+
+.root:focus-within {
+    --ui-Textarea-border-color: var(--ui-primary-color);
+}
+
+.invalid {
+    --ui-Textarea-border-color: var(--ui-danger-color);
+    --ui-Textarea-label-color: var(--ui-danger-color);
+}
+
+
+// Sizes
+
+.small {
+    --ui-Textarea-height: 32px;
+    --ui-Textarea-inner-height: 17px;
+    --ui-Textarea-font-size: 12px;
+    --ui-Textarea-label-top: 7px;
+}
+
+.medium {
+    --ui-Textarea-height: 40px;
+    --ui-Textarea-inner-height: 20px;
+    --ui-Textarea-font-size: 14px;
+    --ui-Textarea-label-top: 9px;
+}
+
+.large {
+    --ui-Textarea-height: 48px;
+    --ui-Textarea-inner-height: 22px;
+    --ui-Textarea-font-size: 16px;
+    --ui-Textarea-label-top: 11px;
+}
+
+
+// Variants
+
+.filled {
+    --ui-Textarea-background-color: var(--ui-extra-light-gray, #{global.$extra-light-gray});
+    --ui-Textarea-border-color: var(--ui-extra-light-gray, #{global.$extra-light-gray});
+
+    border: var(--ui-Textarea-border-width) solid var(--ui-Textarea-border-color);
+
+    &.focused {
+        --ui-Textarea-border-color: var(--ui-primary-color);
+    }
+}
+
+.outlined {
+    border: var(--ui-Textarea-border-width) solid var(--ui-Textarea-border-color, transparent);
+}
+
+.underlined,
+.underlined:focus-within {
+    --ui-Textarea-border-radius: 0;
+    --ui-Textarea-background-color: transparent;
+    
+    border-bottom: var(--ui-Textarea-border-width) solid var(--ui-Textarea-border-color);
+}

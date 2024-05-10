@@ -1,0 +1,28 @@
+.root {
+    --ui-Menu-background-color: var(--ui-background-color);
+
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+    background-color: var(--ui-Menu-background-color);
+    overflow-y: auto;
+}
+
+.small {
+    --ui-MenuItem-height: 36px;
+}
+
+.medium {
+    --ui-MenuItem-height: 40px;
+}
+
+.large {
+    --ui-MenuItem-height: 48px;
+}
+
+.root :global {
+    .ui-Heading {
+        margin: 0;
+        padding: 8px 16px;
+    }
+}

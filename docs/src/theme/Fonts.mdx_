@@ -1,0 +1,5 @@
+import { Canvas, Meta, Title, Subtitle } from "@storybook/blocks";
+
+<Meta title="Theme/Fonts" />
+
+<Title>Fonts</Title>

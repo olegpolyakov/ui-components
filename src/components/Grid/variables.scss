@@ -1,6 +1,8 @@
+@use '../../styles/variables' as global;
+
 $breakpoints: (
-    desktop: 840px,
-    tablet: 600px,
+    desktop: global.$breakpoint-medium,
+    tablet: global.$breakpoint-small,
     phone: 0px
 ) !default;
 
@@ -11,15 +13,15 @@ $columns: (
 ) !default;
 
 $default-margin: (
-    desktop: 24px,
-    tablet: 16px,
-    phone: 16px
+    desktop: 16px,
+    tablet: 14px,
+    phone: 12px
 ) !default;
 
 $default-gutter: (
     desktop: 16px,
-    tablet: 16px,
-    phone: 16px
+    tablet: 14px,
+    phone: 12px
 ) !default;
 
 $column-width: (

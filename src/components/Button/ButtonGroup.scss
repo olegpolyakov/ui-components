@@ -1,0 +1,74 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    position: relative;
+    display: inline-flex;
+    gap: var(--ui-gap-smaller);
+    vertical-align: middle;
+}
+
+.root :global {
+    .ui-Button {
+        flex: 1 1 auto;
+
+        &:hover,
+        &:active {
+            z-index: 1;
+        }
+    }
+}
+
+.joined {
+    gap: 0;
+}
+
+.vertical {
+    flex-direction: column;
+}
+
+.joined:not(.vertical) :global {
+    .ui-Button {
+        &:first-child {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    
+        &:not(:first-child):not(:last-child) {
+            border-radius: 0;
+        }
+
+        &:last-child {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+    
+    .ui-Button + .ui-Button {
+        margin-left: -1px;
+    }
+}
+
+.joined.vertical :global {
+    .ui-Button {
+        &:first-child {
+            border-radius: var(--ui-Button-border-radius);
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        &:not(:first-child):not(:last-child) {
+            border-radius: 0;
+        }
+
+        &:last-child {
+            border-radius: var(--ui-Button-border-radius);
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
+
+    .ui-Button + .ui-Button {
+        margin-top: -1px;
+    }
+}

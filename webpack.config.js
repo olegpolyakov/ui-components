@@ -1,8 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const CssExtractPlugin = require('mini-css-extract-plugin');
-const { GriffelCSSExtractionPlugin } = require('@griffel/webpack-extraction-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = (env, argv) => [
     {
@@ -22,26 +22,10 @@ module.exports = (env, argv) => [
         module: {
             rules: [
                 {
-                    test: /\.(js|ts|tsx)$/,
-                    // Apply "exclude" only if your dependencies **do not use** Griffel
-                    // exclude: /node_modules/,
-                    use: {
-                        loader: GriffelCSSExtractionPlugin.loader,
-                    },
-                },
-                // Add "@griffel/webpack-loader" if you use Griffel directly in your project
-                {
-                    test: /\.(ts|tsx)$/,
-                    exclude: /node_modules/,
-                    use: {
-                        loader: '@griffel/webpack-loader',
-                    }
-                },
-                {
                     test: /\.tsx?$/,
                     exclude: /node_modules/,
                     use: {
-                        loader: 'babel-loader'
+                        loader: 'ts-loader'
                     }
                 },
                 {
@@ -49,7 +33,14 @@ module.exports = (env, argv) => [
                     use: [
                         CssExtractPlugin.loader,
                         {
-                            loader: 'css-loader'
+                            loader: 'css-loader',
+                            options: {
+                                modules: {
+                                    localIdentHashSalt: Date.now().toString(),
+                                    localIdentName: '[name]__[local]--[hash:base64:5]',
+                                    exportLocalsConvention: 'camelCase'
+                                }
+                            }
                         },
                         {
                             loader: 'sass-loader'
@@ -90,13 +81,8 @@ module.exports = (env, argv) => [
             new CssExtractPlugin({
                 filename: 'index.css'
             }),
-            new GriffelCSSExtractionPlugin(),
             new CopyPlugin({
                 patterns: [
-                    {
-                        from: path.resolve('./node_modules/@fluentui/react-theme-sass/sass'),
-                        to: path.resolve('./dist/sass')
-                    },
                     {
                         from: path.resolve('./src/index.scss')
                     }
@@ -128,13 +114,21 @@ module.exports = (env, argv) => [
         }
     },
     {
-        name: 'demo',
+        name: 'docs',
 
-        entry: './demo/index.tsx',
+        entry: './docs/src/index.tsx',
 
         output: {
-            path: path.resolve(__dirname, 'demo'),
+            path: path.resolve(__dirname, 'docs'),
             filename: 'index.js'
+        },
+
+        devServer: {
+            compress: true,
+            port: 9000,
+            static: {
+                directory: path.join(__dirname, 'docs'),
+            }
         },
 
         module: {
@@ -161,21 +155,33 @@ module.exports = (env, argv) => [
                 {
                     test: /\.svg/,
                     type: 'asset/inline'
+                },
+                {
+                    test: /\.md/,
+                    type: 'asset/source'
                 }
             ]
         },
         plugins: [
+            new webpack.EnvironmentPlugin({
+                ENV: env
+            }),
             new webpack.DefinePlugin({
                 'process.env.NODE_ENV': JSON.stringify(argv.mode)
             }),
             new CssExtractPlugin({
                 filename: 'index.css'
+            }),
+            new HtmlWebpackPlugin({
+                template: './docs/src/index.html',
+                publicPath: env.production ? '/mdc-react/' : ''
             })
         ],
         resolve: {
             extensions: ['.js', '.jsx', '.ts', '.tsx'],
             alias: {
-                '@codedojo/react-components': path.resolve(__dirname, 'dist/')
+                '@': path.resolve(__dirname, 'docs/src/'),
+                '@components': path.resolve(__dirname, 'dist/')
             }
         }
     }

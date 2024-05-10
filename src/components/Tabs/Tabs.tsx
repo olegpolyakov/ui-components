@@ -1,50 +1,93 @@
-import { useCallback } from 'react';
-import {
-    TabList as FluentTabList,
-    TabListProps as FluentTabListProps,
-    SelectTabData,
-    SelectTabEvent,
-    SelectTabEventHandler
-} from '@fluentui/react-components';
-import classnames from 'classnames';
+import { Children, ForwardRefExoticComponent, ReactElement, cloneElement, forwardRef, isValidElement, useEffect, useMemo, useState } from 'react';
+
+import { Align, Props, PropsWithKey } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Tab, { TabProps } from './Tab';
+import TabPanel, { TabPanelProps } from './TabPanel';
+import TabsContext from './TabsContext';
 
-export type TabsProps = Omit<FluentTabListProps, 'value' | 'onChange'> & {
-    value?: unknown;
-    items?: TabProps[];
-    onValueChange?: (value: unknown) => void;
+import cssClasses from './Tabs.scss';
+
+type TabsComponent = ForwardRefExoticComponent<TabsProps> & {
+    Panel: typeof TabPanel;
 };
 
-export type { SelectTabData, SelectTabEvent, SelectTabEventHandler };
+type TabValue = string | number | readonly string[] | undefined;
 
-export default function Tabs({
+export type TabsProps = Props<{
+    value?: TabValue;
+    items?: PropsWithKey<TabProps>[];
+    align?: Align;
+    fluid?: boolean;
+    underlined?: boolean;
+    onChange?: (value: TabValue) => void;
+}>;
+
+const displayName = 'Tabs';
+const elementClassNames = getElementClassNames(displayName, ['list']);
+
+const Tabs = forwardRef<HTMLDivElement, TabsProps>(({
     value,
     defaultValue,
     items,
-    onValueChange,
+    align,
+    fluid,
+    underlined,
+    onChange,
 
     className,
     children,
     ...props
-}: TabsProps) {
-    const handleTabSelect: SelectTabEventHandler = useCallback((event, data) => {
-        onValueChange?.(data.value);
-    }, [onValueChange]);
+}, ref) => {
+    const [selectedValue, setSelectedValue] = useState<TabValue>(value || defaultValue);
+
+    const contextValue = useMemo(() => ({
+        selectedValue,
+        setSelectedValue
+    }), [selectedValue]);
+
+    useEffect(() => {
+        if (selectedValue)
+            onChange?.(selectedValue);
+    }, [selectedValue, onChange]);
+
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        align && cssClasses[`align-${align}`],
+        fluid && cssClasses.fluid,
+        underlined && cssClasses.underlined
+    );
 
     return (
-        <FluentTabList
-            className={classnames(className, 'ui-Tabs')}
-            selectedValue={value}
-            defaultSelectedValue={defaultValue}
-            onTabSelect={handleTabSelect}
+        <div
+            ref={ref}
+            className={classNames}
             {...props}
         >
-            {items?.map((item: TabProps) =>
-                <Tab key={item.key} {...item} />
-            )}
+            <TabsContext.Provider value={contextValue}>
+                <div className={cn(elementClassNames.list, cssClasses.list)}>
+                    {items?.map(item =>
+                        <Tab
+                            key={item.key}
+                            active={item.value === selectedValue}
+                            {...item}
+                        />
+                    )}
+                </div>
 
-            {children}
-        </FluentTabList>
+                {Children.map(children, tab =>
+                    (tab as ReactElement<TabPanelProps>).props.value === selectedValue && (
+                        isValidElement(tab) ? cloneElement(tab) : tab
+                    )
+                )}
+            </TabsContext.Provider>
+        </div>
     );
-}
+});
+
+Tabs.displayName = displayName;
+(Tabs as TabsComponent).Panel = TabPanel;
+
+export default Tabs as TabsComponent;

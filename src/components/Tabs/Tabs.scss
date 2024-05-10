@@ -1,0 +1,48 @@
+.root {
+
+}
+
+.list {
+    display: flex;
+}
+
+
+// Sizes
+
+.small {
+
+}
+
+.medium {
+
+}
+
+.large {
+
+}
+
+
+// Align
+
+.align-start .list {
+    justify-content: start;
+}
+
+.align-center .list {
+    justify-content: center;
+}
+
+.align-end .list {
+    justify-content: end;
+}
+
+
+// Misc
+
+.fluid :global {
+    .ui-Tab {
+        flex: 1;
+    }
+}
+
+.underlined {}

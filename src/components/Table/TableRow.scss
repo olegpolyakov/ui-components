@@ -1,0 +1,20 @@
+@use 'sass:map';
+
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    background-color: var(--ui-TableRow-background-color);
+    border-bottom: 1px solid var(--ui-border-light-color);
+    overflow: visible;
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.interactive {
+    @include color-state-variables('TableRow', 'background-color', global.$surface-color);
+
+    &:hover {
+        background-color: var(--ui-TableRow-hover-background-color);
+    }
+}

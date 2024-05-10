@@ -1,0 +1,162 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+    --ui-icon-color: currentColor;
+
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--ui-Pill-height);
+    padding: var(--ui-Pill-padding);
+    gap: var(--ui-Pill-gap, 4px);
+    border: none;
+    border-radius: var(--ui-Pill-border-radius);
+    background-color: var(--ui-Pill-background-color, transparent);
+    color: var(--ui-Pill-text-color, var(--ui-text-color));
+    font-family: var(--ui-font-family);
+    font-size: var(--ui-Pill-font-size);
+    font-weight: var(--ui-Pill-font-weight, var(--ui-font-weight-semibold));
+}
+
+.content,
+.icon,
+.start,
+.end {
+    display: inline-flex;
+    align-items: center;
+}
+
+.content {
+    line-height: 1;
+}
+
+
+// States
+
+.interactive {
+    cursor: pointer;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+
+    &:hover {
+        background-color: var(--ui-Pill-hover-background-color);
+        border-color: var(--ui-Pill-hover-border-color);
+        color: var(--ui-Pill-hover-text-color);
+    }
+
+    &:active {
+        background-color: var(--ui-Pill-active-background-color);
+        border-color: var(--ui-Pill-active-border-color);
+        color: var(--ui-Pill-active-text-color);
+    }
+    
+    &:disabled {
+        background-color: var(--ui-Pill-disabled-background-color);
+        border-color: var(--ui-Pill-disabled-border-color);
+        color: var(--ui-Pill-disabled-text-color);
+    }
+}
+
+
+// Sizes
+
+.small {
+    --ui-Pill-height: 20px;
+    --ui-Pill-padding: 0 4px;
+    --ui-Pill-font-size: 12px;
+}
+
+.medium {
+    --ui-Pill-height: 24px;
+    --ui-Pill-padding: 0 6px;
+    --ui-Pill-font-size: 14px;
+}
+
+.large {
+    --ui-Pill-height: 28px;
+    --ui-Pill-padding: 0 8px;
+    --ui-Pill-font-size: 16px;
+}
+
+
+// Shapes
+
+.rounded {
+    --ui-Pill-border-radius: var(--ui-border-radius-small);
+}
+
+.circular {
+    --ui-Pill-border-radius: 25px;
+}
+
+.rectangular {
+    --ui-Pill-border-radius: 0;
+}
+
+
+// Variants
+
+.plain {
+    @include color-state-variables('Pill', 'background-color', global.$surface-color, $override: (
+        'base': none,
+        'hover': rgba(0, 0, 0, .05),
+        'active': rgba(0, 0, 0, .1),
+        'disabled': none
+    ));
+
+    @include color-state-variables-for-palettes('Pill', 'background-color', $color: 0, $override: (
+        'base': none
+    ));
+    @include color-state-variables-for-palettes('Pill', 'text-color');
+}
+
+.filled {
+    @include color-state-variables-for-palettes('Pill', 'background-color');
+    @include color-state-variables-for-palettes('Pill', 'text-color', $on: true);
+}
+
+.outlined {
+    @include color-state-variables('Pill', 'border-color', global.$border-color);
+    @include color-state-variables('Pill', 'background-color', global.$surface-color, $override: (
+        'base': none
+    ));
+    @include color-state-variables('Pill', 'text-color', global.$primary-color);
+
+    @include color-state-variables-for-palettes('Pill', 'border-color');
+    @include color-state-variables-for-palettes('Pill', 'background-color', $color: 0, $override: (
+        'base': none
+    ));
+    @include color-state-variables-for-palettes('Pill', 'text-color');
+    
+    --ui-Pill-border-width: 1px;
+
+    border: var(--ui-Pill-border-width) solid var(--ui-Pill-border-color);
+}
+
+.tinted {
+    @include color-state-variables('Pill', 'background-color', global.$surface-color, $override:(
+        'base': rgba(0, 0, 0, .05),
+        'hover': rgba(0, 0, 0, .1),
+        'active': rgba(0, 0, 0, .15),
+        'disabled': none
+    ));
+    @include color-state-variables('Pill', 'text-color', global.$primary-color);
+
+    @include color-state-variables-for-palettes('Pill', 'background-color', $color: 1);
+    @include color-state-variables-for-palettes('Pill', 'text-color');
+}
+
+
+// Misc
+
+.icon-before {
+    .icon {
+        order: 0;
+    }
+}
+
+.icon-after {
+    .icon {
+        order: 1;
+    }
+}
