@@ -1,40 +1,13 @@
 @use 'sass:list';
 @use 'sass:map';
+@use 'sass:math';
 
 @use '../../styles/functions' as *;
 @use '../../styles/mixins' as *;
 @use '../../styles/variables' as global;
 
-$font-sizes: (
-    'h1': 36px,
-    'h2': 24px,
-    'h3': 18px,
-    'h4': 16px,
-    'h5': 14px,
-    'h6': 12px
-) !default;
-
-$font-weights: (
-    // type: (default, strong)
-    'h1': (global.$font-weight-normal, global.$font-weight-bold),
-    'h2': (global.$font-weight-normal, global.$font-weight-bold),
-    'h3': (global.$font-weight-normal, global.$font-weight-bold),
-    'h4': (global.$font-weight-normal, global.$font-weight-semibold),
-    'h5': (global.$font-weight-normal, global.$font-weight-semibold),
-    'h6': (global.$font-weight-normal, global.$font-weight-semibold)
-) !default;
-
-$line-heights: (
-    'h1': 48px,
-    'h2': 32px,
-    'h3': 22px,
-    'h4': 20px,
-    'h5': 18px,
-    'h6': 16px
-) !default;
-
 .root {
-    --ui-Heading-gap: var(--ui-gap-smaller, #{global.$gap-smaller});
+    --ui-Heading-gap: var(--ui-space-smaller);
     --ui-Heading-letter-spacing: 0;
 
     display: flex;
@@ -68,64 +41,46 @@ $line-heights: (
 
 // Types
 
-.h1 {
-    --ui-Heading-font-size: #{rem(map.get($font-sizes, 'h1'))};
-    --ui-Heading-line-height: #{map.get($line-heights, 'h1')};
-}
+@each $type, $values in global.$heading-sizes {
+    $font-size: list.nth($values, 1);
+    $line-height: list.nth($values, 2);
 
-.h2 {
-    --ui-Heading-font-size: #{rem(map.get($font-sizes, 'h2'))};
-    --ui-Heading-line-height: #{map.get($line-heights, 'h2')};
-}
-
-.h3 {
-    --ui-Heading-font-size: #{rem(map.get($font-sizes, 'h3'))};
-    --ui-Heading-line-height: #{map.get($line-heights, 'h3')};
-}
-
-.h4 {
-    --ui-Heading-font-size: #{rem(map.get($font-sizes, 'h4'))};
-    --ui-Heading-line-height: #{map.get($line-heights, 'h4')};
-}
-
-.h5 {
-    --ui-Heading-font-size: #{rem(map.get($font-sizes, 'h5'))};
-    --ui-Heading-line-height: #{map.get($line-heights, 'h5')};
-}
-
-.h6 {
-    --ui-Heading-font-size: #{rem(map.get($font-sizes, 'h6'))};
-    --ui-Heading-line-height: #{map.get($line-heights, 'h6')};
+    .#{$type} {
+        --ui-Heading-font-size: #{rem($font-size)};
+        --ui-Heading-line-height: #{math.div($line-height, $font-size)};
+    }
 }
 
 .h1.bold,
 .h2.bold,
 .h3.bold {
-    --ui-Heading-font-weight: #{global.$font-weight-bold};
+    --ui-Heading-font-weight: var(--ui-font-weight-bold);
 }
 
 .h4.bold,
 .h5.bold,
 .h6.bold {
-    --ui-Heading-font-weight: #{global.$font-weight-semibold};
+    --ui-Heading-font-weight: var(--ui-font-weight-semibold);
 }
 
 
 // Align
 
-.align-start {
-    justify-content: flex-start;
-    text-align: left;
-}
+.align {
+    &-start {
+        justify-content: flex-start;
+        text-align: left;
+    }
+    
+    &-center {
+        justify-content: center;
+        text-align: center;
+    }
 
-.align-center {
-    justify-content: center;
-    text-align: center;
-}
-
-.align-end {
-    justify-content: flex-end;
-    text-align: right;
+    &-end {
+        justify-content: flex-end;
+        text-align: right;
+    }
 }
 
 
@@ -141,16 +96,4 @@ $line-heights: (
 
 .muted {
     --ui-Heading-color: var(--ui-text-secondary-color);
-}
-
-@mixin typography($type, $bold: false) {
-    $weights: map.get($font-weights, $type);
-
-    font-family: var(--ui-font-family);
-    font-size: map.get($font-sizes, $type);
-    font-weight: if($bold,
-        list.nth($weights, 2),
-        list.nth($weights, 1)
-    );
-    line-height: map.get($line-heights, $type);
 }

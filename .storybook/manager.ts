@@ -1,6 +1,6 @@
 import { addons } from '@storybook/manager-api';
-import FamiryTheme from './theme';
+import theme from './theme';
 
 addons.setConfig({
-    theme: FamiryTheme,
+    theme,
 });

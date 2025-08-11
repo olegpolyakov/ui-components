@@ -1,69 +1,101 @@
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@use 'sass:map';
+@use 'sass:meta';
 
-.root {
-    border-bottom: 1px solid var(--ui-border-color);
+@use '../../styles/base/elements' as *;
+@use '../../styles/component';
+@use '../../styles/theme';
+
+@include component.define('AccordionItem', (
+    height: 36px,
+    padding-x: 0,
+    padding-y: 0.25rem,
+    padding: (--padding-y, --padding-x),
+    background-color: theme.var(plain-color),
+    background-hover-color: theme.var(plain-hover-color),
+    background-active-color: theme.var(plain-active-color),
+    border-color: theme.var(border-color),
+    font-size: theme.var(font-size-m),
+    _content-padding-open: (--padding-y, --padding-x),
+    _content-padding-closed: (--padding-y, --padding-x)
+));
+
+$vars: component.vars();
+
+.root + .root {
+    border-top: 1px solid component.var(border-color);
 }
 
 .header {
     box-sizing: border-box;
-    min-height: 36px;
+    min-height: component.var(height);
     display: flex;
     align-items: center;
-    padding: 0.25rem 0.75rem;
-    font-weight: var(--ui-font-weight-semibold);
+    padding: component.var(padding);
+    background-color: component.var(background-color);
+    font-weight: theme.var(font-weight-semibold);
     transition: background-color 0.15s ease-in-out;
     cursor: pointer;
     user-select: none;
 
     &:hover {
-        background-color: var(--ui-AccordionItem-hover-background-color);
+        background-color: component.var(background-hover-color);
     }
     
     &:active,
     &.active {
-        background-color: var(--ui-AccordionItem-active-background-color);
+        background-color: component.var(background-active-color);
     }
     
     &.disabled {
-        background-color: var(--ui-AccordionItem-disabled-background-color);
-        cursor: default;
+        opacity: theme.var(disabled-opacity);
     }
-
-    @include color-state-variables('AccordionItem', 'background-color', global.$surface-color, $override:(
-        'base': none,
-        'hover': rgba(0, 0, 0, .05),
-        'active': rgba(0, 0, 0, .1),
-        'disabled': none
-    ));
 }
 
 .indicator-icon {
     margin-left: auto;
+    color: theme.var(icon-color);
     transition: transform .2s ease;
-    color: var(--ui-icon-color);
 }
 
 .content {
-    box-sizing: content-box;
-    max-height: 0;
-    padding: 0 12px;
-    overflow: hidden;
-    transition: max-height .25s ease, padding .25s ease;
+    display: grid;
+    grid-template-rows: 0fr;
+    padding: component.var(_content-padding-closed);
+    transition: grid-template-rows .25s ease;
+
+    > div {
+        overflow: hidden;
+    }
 }
 
-
-// States
-
 .open {
-    .header {
-        .indicator-icon {
-            transform: rotateZ(180deg);
-        }
+    .indicator-icon {
+        transform: rotateZ(180deg);
     }
 
     .content {
-        max-height: 100vh;
-        padding: 10px 12px 10px 12px;
+        grid-template-rows: 1fr;
+        padding: component.var(_content-padding-open);
+    }
+}
+
+
+// Sizes
+
+.s {
+    .header {
+        @include text(s);
+    }
+}
+
+.m {
+    .header {
+        @include text(m);
+    }
+}
+
+.l {
+    .header {
+        @include text(l);
     }
 }

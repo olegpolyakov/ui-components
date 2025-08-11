@@ -28,7 +28,7 @@
 
 .interactive {
     tbody tr {
-        @include color-state-variables('TableRow', 'background-color', global.$surface-color);
+        @include color-state-variables('TableRow', 'background-color', plain);
 
         &:hover {
             background-color: var(--ui-TableRow-hover-background-color);
@@ -42,12 +42,12 @@
 
 .striped-even {
     tbody tr:nth-child(even) {
-        @include color-state-variables('TableRow', 'background-color', global.$extra-light-gray);
+        @include color-state-variables('TableRow', 'background-color', neutral);
     }
 }
 
 .striped-odd {
     tbody tr:nth-child(odd) {
-        @include color-state-variables('TableRow', 'background-color', global.$extra-light-gray);
+        @include color-state-variables('TableRow', 'background-color', neutral);
     }
 }

@@ -47,6 +47,6 @@
     top: 10px;
     right: 10px;
 
-    @include color-state-variables('Button', 'background-color', global.$surface-color);
-    @include color-state-variables('Button', 'text-color', global.$gray);
+    @include color-state-variables('Button', 'background-color', plain);
+    @include color-state-variables('Button', 'text-color', icon);
 }

@@ -20,7 +20,7 @@ const Accordion: ForwardRefExoticComponent<AccordionProps> & {
     Item?: typeof AccordionItem;
 } = forwardRef<HTMLDivElement, AccordionProps>(({
     items = [],
-    size = 'medium',
+    size = 'm',
 
     as: Tag = 'div',
     className,
@@ -39,6 +39,7 @@ const Accordion: ForwardRefExoticComponent<AccordionProps> & {
             {items?.map((item, index) =>
                 <AccordionItem
                     key={item.key || index}
+                    size={size}
                     {...item}
                 />
             )}

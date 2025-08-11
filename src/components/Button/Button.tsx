@@ -1,7 +1,7 @@
 import { type ReactNode, forwardRef } from 'react';
 import BaseButton from '@restart/ui/Button';
 
-import type { Color, HTMLAnchorProps, HTMLButtonProps, IconPosition, PropsWithChildren, Shape, Size, Variant } from '../../types';
+import type { Color, HTMLAnchorProps, HTMLButtonProps, IconPosition, PropsWithChildren, Shape, SizeExtended, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
@@ -17,7 +17,7 @@ export type ButtonProps = PropsWithChildren<{
     end?: ReactNode;
     color?: Color;
     shape?: Shape;
-    size?: Size;
+    size?: SizeExtended;
     variant?: Variant | 'text';
     active?: boolean;
     fluid?: boolean;
@@ -37,7 +37,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
     end,
     color,
     shape = 'rounded',
-    size = 'medium',
+    size = 'm',
     variant = 'plain',
     active,
     fluid,
@@ -53,10 +53,10 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
         className,
         elementClassNames.root,
         cssClasses.root,
-        color && cssClasses[color],
-        cssClasses[size],
         cssClasses[shape],
+        cssClasses[size],
         cssClasses[variant],
+        cssClasses[color ? `${variant}-${color}` : variant],
         icon && !content && cssClasses.iconButton,
         iconPosition && cssClasses[`icon-${iconPosition}`],
         active && cssClasses.active,

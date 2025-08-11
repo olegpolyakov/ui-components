@@ -42,14 +42,14 @@ export const WithIcon: Story = {
 
 export const WithStartSlot: Story = {
     args: {
-        start: '🌳',
+        start: '🥷',
         content: 'Button'
     }
 };
 
 export const WithEndSlot: Story = {
     args: {
-        end: '🌳',
+        end: '🥷',
         content: 'Button'
     }
 };

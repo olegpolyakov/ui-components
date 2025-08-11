@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { Alert, Button, Icon } from '../lib';
+import { Alert, Icon } from '../lib';
 
 const meta: Meta<typeof Alert> = {
     title: 'Components/Alert',
@@ -10,6 +10,7 @@ const meta: Meta<typeof Alert> = {
 };
 
 export default meta;
+
 
 type Story = StoryObj<typeof Alert>;
 
@@ -31,7 +32,7 @@ export const WithIcon: Story = {
 export const Start: Story = {
     args: {
         content: 'Alert',
-        start: '🌳',
+        start: '⭐',
         onClose: undefined
     }
 };
@@ -39,18 +40,18 @@ export const Start: Story = {
 export const End: Story = {
     args: {
         content: 'Alert',
-        end: '🌳',
+        end: '⭐',
         onClose: undefined
     }
 };
 
-export const Action: Story = {
-    args: {
-        content: 'Alert',
-        action: <Button content="Action" variant="text" />,
-        onClose: undefined
-    }
-};
+// export const Action: Story = {
+//     args: {
+//         content: 'Alert',
+//         action: <Button content="Action" variant="text" />,
+//         onClose: undefined
+//     }
+// };
 
 export const Closeable: Story = {
     args: {

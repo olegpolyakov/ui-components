@@ -1,0 +1,12 @@
+@use 'sass:list';
+@use 'sass:meta';
+
+@function map($list, $fn) {
+    $result: ();
+
+    @each $item in $list {
+        $result: list.append($result, meta.call($fn, $item));
+    }
+
+    @return $result;
+}

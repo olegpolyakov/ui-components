@@ -1,22 +1,52 @@
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@use '../../styles/component';
+@use '../../styles/theme';
+
+@include component.define('Pill', (
+    height: auto,
+    padding: null,
+    gap: theme.var(space-xxs),
+    border-color: null,
+    border-color-hover: null,
+    border-color-active: null,
+    border-radius: null,
+    border-width: null,
+    background-color: null,
+    background-color-hover: null,
+    background-color-active: null,
+    text-color: null,
+    text-color-hover: null,
+    text-color-active: null,
+    font-size: theme.var(font-size),
+    font-weight: theme.var(font-weight-normal),
+    line-height: 1,
+    icon-color: currentColor
+));
+
+$vars: component.vars();
 
 .root {
-    --ui-icon-color: currentColor;
-
     box-sizing: border-box;
     display: inline-flex;
     align-items: center;
-    min-height: var(--ui-Pill-height);
-    padding: var(--ui-Pill-padding);
-    gap: var(--ui-Pill-gap, 4px);
+    height: component.var(height);
+    padding: 0 component.var(padding);
+    gap: component.var(gap);
     border: none;
-    border-radius: var(--ui-Pill-border-radius);
-    background-color: var(--ui-Pill-background-color, transparent);
-    color: var(--ui-Pill-text-color, var(--ui-text-color));
-    font-family: var(--ui-font-family);
-    font-size: var(--ui-Pill-font-size);
-    font-weight: var(--ui-Pill-font-weight, var(--ui-font-weight-semibold));
+    border-radius: component.var(border-radius);
+    background-color: component.var(background-color);
+    color: component.var(text-color);
+    font-family: theme.var(font-family);
+    font-size: component.var(font-size);
+    font-weight: component.var(font-weight);
+    // line-height: component.var(line-height);
+
+    &:has(.icon, .start) {
+        padding-left: calc(#{component.var(padding)} * 0.625);
+    }
+
+    &:has(.end) {
+        padding-right: calc(#{component.var(padding)} * 0.625);
+    }
 }
 
 .content,
@@ -27,127 +57,31 @@
     align-items: center;
 }
 
-.content {
-    line-height: 1;
-}
-
-
-// States
-
 .interactive {
     cursor: pointer;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    transition:
+        color 0.15s ease-in-out,
+        background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out,
+        opacity 0.15s ease-in-out;
 
     &:hover {
-        background-color: var(--ui-Pill-hover-background-color);
-        border-color: var(--ui-Pill-hover-border-color);
-        color: var(--ui-Pill-hover-text-color);
+        border-color: component.var(border-color-hover);
+        background-color: component.var(background-color-hover);
+        color: component.var(text-color-hover);
     }
 
     &:active {
-        background-color: var(--ui-Pill-active-background-color);
-        border-color: var(--ui-Pill-active-border-color);
-        color: var(--ui-Pill-active-text-color);
+        border-color: component.var(border-color-active);
+        background-color: component.var(background-color-active);
+        color: component.var(text-color-active);
     }
     
     &:disabled {
-        background-color: var(--ui-Pill-disabled-background-color);
-        border-color: var(--ui-Pill-disabled-border-color);
-        color: var(--ui-Pill-disabled-text-color);
+        opacity: theme.var(disabled-opacity);
+        cursor: default;
     }
 }
-
-
-// Sizes
-
-.small {
-    --ui-Pill-height: 20px;
-    --ui-Pill-padding: 0 4px;
-    --ui-Pill-font-size: 12px;
-}
-
-.medium {
-    --ui-Pill-height: 24px;
-    --ui-Pill-padding: 0 6px;
-    --ui-Pill-font-size: 14px;
-}
-
-.large {
-    --ui-Pill-height: 28px;
-    --ui-Pill-padding: 0 8px;
-    --ui-Pill-font-size: 16px;
-}
-
-
-// Shapes
-
-.rounded {
-    --ui-Pill-border-radius: var(--ui-border-radius-small);
-}
-
-.circular {
-    --ui-Pill-border-radius: 25px;
-}
-
-.rectangular {
-    --ui-Pill-border-radius: 0;
-}
-
-
-// Variants
-
-.plain {
-    @include color-state-variables('Pill', 'background-color', global.$surface-color, $override: (
-        'base': none,
-        'hover': rgba(0, 0, 0, .05),
-        'active': rgba(0, 0, 0, .1),
-        'disabled': none
-    ));
-
-    @include color-state-variables-for-palettes('Pill', 'background-color', $color: 0, $override: (
-        'base': none
-    ));
-    @include color-state-variables-for-palettes('Pill', 'text-color');
-}
-
-.filled {
-    @include color-state-variables-for-palettes('Pill', 'background-color');
-    @include color-state-variables-for-palettes('Pill', 'text-color', $on: true);
-}
-
-.outlined {
-    @include color-state-variables('Pill', 'border-color', global.$border-color);
-    @include color-state-variables('Pill', 'background-color', global.$surface-color, $override: (
-        'base': none
-    ));
-    @include color-state-variables('Pill', 'text-color', global.$primary-color);
-
-    @include color-state-variables-for-palettes('Pill', 'border-color');
-    @include color-state-variables-for-palettes('Pill', 'background-color', $color: 0, $override: (
-        'base': none
-    ));
-    @include color-state-variables-for-palettes('Pill', 'text-color');
-    
-    --ui-Pill-border-width: 1px;
-
-    border: var(--ui-Pill-border-width) solid var(--ui-Pill-border-color);
-}
-
-.tinted {
-    @include color-state-variables('Pill', 'background-color', global.$surface-color, $override:(
-        'base': rgba(0, 0, 0, .05),
-        'hover': rgba(0, 0, 0, .1),
-        'active': rgba(0, 0, 0, .15),
-        'disabled': none
-    ));
-    @include color-state-variables('Pill', 'text-color', global.$primary-color);
-
-    @include color-state-variables-for-palettes('Pill', 'background-color', $color: 1);
-    @include color-state-variables-for-palettes('Pill', 'text-color');
-}
-
-
-// Misc
 
 .icon-before {
     .icon {
@@ -159,4 +93,107 @@
     .icon {
         order: 1;
     }
+}
+
+
+// Sizes
+
+.s {
+    @include component.vars((
+        height: 18px,
+        padding: 4px,
+        font-size: 12px
+    ));
+}
+
+.m {
+    @include component.vars((
+        height: 24px,
+        padding: 6px,
+        font-size: 14px
+    ));
+}
+
+.l {
+    @include component.vars((
+        height: 30px,
+        padding: 8px,
+        font-size: 16px
+    ));
+}
+
+
+// Shapes
+
+.circular {
+    @include component.vars((
+        border-radius: --height
+    ));
+}
+
+.rectangular {
+    @include component.vars((
+        border-radius: 0
+    ));
+}
+
+.rounded {
+    @include component.vars((
+        border-radius: calc(component.var(height) / 4)
+    ));
+}
+
+// Variants
+
+.plain {    
+    @include component.color-state-vars((
+        'background-color': plain,
+        'text-color': on-plain
+    ));
+    @include component.palettes-color-state-vars((
+        'background-color': plain,
+        'text-color': '$'
+    ));
+}
+
+.filled {
+    @include component.color-state-vars((
+        'background-color': filled,
+        'text-color': on-filled
+    ));
+    @include component.palettes-color-state-vars((
+        'background-color': filled,
+        'text-color': on-filled
+    ));
+}
+
+.outlined {
+    @include component.vars((
+        border-width: 1px
+    ));
+
+    @include component.color-state-vars((
+        'border-color': border,
+        'background-color': plain,
+        'text-color': primary
+    ));
+
+    @include component.palettes-color-state-vars((
+        'border-color': '$',
+        'background-color': plain,
+        'text-color': '$'
+    ));
+
+    border: component.var(border-width) solid component.var(border-color);
+}
+
+.tinted {
+    @include component.color-state-vars((
+        'background-color': tinted,
+        'text-color': primary
+    ));
+    @include component.palettes-color-state-vars((
+        'background-color': tinted,
+        'text-color': primary
+    ));
 }

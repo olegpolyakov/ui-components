@@ -1,8 +1,8 @@
 @use '../../styles/variables' as global;
 
 $breakpoints: (
-    desktop: global.$breakpoint-medium,
-    tablet: global.$breakpoint-small,
+    desktop: global.$bp-m,
+    tablet: global.$bp-s,
     phone: 0px
 ) !default;
 

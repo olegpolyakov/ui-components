@@ -1,0 +1,17 @@
+@use 'sass:selector';
+
+@function combine-selectors($first, $rest...) {
+    $selectors: $first;
+  
+    @each $selector in $rest {
+        $selectors: selector.unify($selectors, $selector);
+    }
+    
+    @return $selectors;
+}
+
+@mixin selectors($selectors...) {
+    #{combine-selectors($selectors...)} {
+        @content;
+    }
+}

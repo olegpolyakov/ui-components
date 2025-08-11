@@ -1,0 +1,361 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:meta';
+@use 'sass:string';
+
+@use './base';
+
+@use './utils/color';
+@use './utils/css';
+@use './utils/string' as str;
+@use './utils/type' as type;
+
+$prefix: 'ui' !default;
+
+@function var($name, $default-value: null) {
+    @return css.var(#{$prefix}-#{$name});
+}
+
+@mixin var($name, $value: null) {
+    --#{$prefix}-#{$name}: #{$value};
+}
+
+@mixin vars($vars, $prefix: '') {
+    @each $name, $value in $vars {
+        @include var('#{$prefix}#{$name}', $value);
+    }
+}
+
+@mixin base-vars {
+    @include vars((
+        font-family: base.$font-family,
+        font-size: base.$font-size,
+        line-height: base.$line-height
+    ));
+
+    @each $size, $value in base.$font-sizes {
+        @include var(font-size-#{$size}, $value);
+    }
+
+    @each $weight, $value in base.$font-weights {
+        @include var(font-weight-#{$weight}, $value);
+    }
+
+    @each $size, $values in base.$heading-sizes {
+        @include var(heading-#{$size}, list.nth($values, 1));
+    }
+
+    @each $size, $values in base.$text-sizes {
+        @include var(text-#{$size}, list.nth($values, 1));
+    }
+
+    @each $size, $value in base.$border-radii {
+        @include var(border-radius-#{$size}, $value);
+    }
+
+    @each $size, $value in base.$space-sizes {
+        @include var(space-#{$size}, $value);
+    }
+
+    @each $size, $value in base.$shadows {
+        @include var(shadow-#{$size}, $value);
+    }
+
+    @each $name, $value in base.$opacity {
+        @include var(opacity-#{$name}, $value);
+    }
+
+    @each $size, $value in base.$screen-sizes {
+        @include var(screen-#{$size}, $value);
+    }
+}
+
+@mixin color-vars($theme) {
+    $is-dark: $theme == 'dark';
+    $theme-colors: if($is-dark, base.$dark-theme-colors, base.$light-theme-colors);
+    $element-colors: if($is-dark, base.$dark-element-colors, base.$light-element-colors);
+    $surface-color: map.get($element-colors, surface);
+
+    // Element colors
+    @each $element, $color in $element-colors {
+        @include var(#{$element}-color, $color);
+    }
+
+    // Plain colors
+    $plain-color: color.change($surface-color, $alpha: 0);
+    @include vars((
+        color: $plain-color,
+        color-hover: css.rgba(color.rgb($plain-color), 0.05),
+        color-active: css.rgba(color.rgb($plain-color), 0.1)
+    ), 'plain-');
+
+    $on-plain-color: base.on-color($plain-color);
+    @include vars((
+        color: $on-plain-color,
+        color-hover: base.hover-color($on-plain-color),
+        color-active: base.active-color($on-plain-color)
+    ), 'on-plain-');
+
+    // Tinted colors
+    @include vars((
+        color: css.rgba(color.rgb($surface-color), 0.125),
+        color-hover: css.rgba(color.rgb($surface-color), 0.25),
+        color-active: css.rgba(color.rgb($surface-color), 0.5)
+    ), 'tinted-');
+
+    // Palette colors
+    @each $name in base.$palette-names {
+        $palette: map.get(base.$palettes, $name);
+        @each $level, $color in $palette {
+            @include var(#{$name}-#{$level}-color, $color);
+        }
+        
+        $on-palette: base.on-palette($palette);
+        @each $level, $color in $on-palette {
+            @include var(on-#{$name}-#{$level}-color, $color);
+        }
+    }
+
+    // Theme colors
+    @each $name, $color in $theme-colors {
+        @include vars((
+            color: $color,
+            color-hover: base.hover-color($color),
+            color-active: base.active-color($color)
+        ), '#{$name}-');
+
+        $on-color: base.on-color($color);
+        @include vars((
+            color: $on-color,
+            color-hover: base.hover-color($on-color),
+            color-active: base.active-color($on-color)
+        ), 'on-#{$name}-');
+
+        // Theme plain colors
+        $plain-color: color.change($color, $alpha: 0);
+        @include vars((
+            color: $plain-color,
+            color-hover: color.change($color, $alpha: 0.1),
+            color-active: color.change($color, $alpha: 0.15)
+        ), 'plain-#{$name}-');
+
+        $on-plain-color: $color;
+        @include vars((
+            color: $on-plain-color,
+            color-hover: base.hover-color($on-plain-color),
+            color-active: base.active-color($on-plain-color)
+        ), 'on-plain-#{$name}-');
+
+        // Theme filled colors
+        $filled-color: $color;
+        @include vars((
+            color: $filled-color,
+            color-hover: base.hover-color($filled-color),
+            color-active: base.active-color($filled-color)
+        ), 'filled-#{$name}-');
+        
+        $on-filled-color: base.on-color($color);
+        @include vars((
+            color: $on-filled-color,
+            color-hover: base.hover-color($on-filled-color),
+            color-active: base.active-color($on-filled-color)
+        ), 'on-filled-#{$name}-');
+
+        // Theme tinted colors
+        $tinted-color: color.change($color, $alpha: 0.2);
+        @include vars((
+            color: $tinted-color,
+            color-hover: color.change($color, $alpha: 0.25),
+            color-active: color.change($color, $alpha: 0.3)
+        ), 'tinted-#{$name}-');
+        
+        $on-tinted-color: $color;
+        @include vars((
+            color: $on-tinted-color,
+            color-hover: color.scale($on-tinted-color, $lightness: -5%),
+            color-active: color.scale($on-tinted-color, $lightness: -10%)
+        ), 'on-tinted-#{$name}-');
+    }
+}
+
+@mixin color-var(
+    $prop,
+    $color: null,
+    $on: false,
+    $prefix: ''
+) {
+    $_prefix: null;
+    $_postfix: null;
+
+    @if $on {
+        $_prefix: 'on-';
+    }
+
+    @if string.index($prop, '_') == 1 {
+        $_prefix: 'on-';
+        $prop: string.slice($prop, 2);
+    }
+
+    // @if (string.index($prop, '--') != null) {
+    //     $index: string.index($prop, '--');
+    //     $_postfix: '-#{string.slice($prop, $index + 2, string.length($prop))}';
+    //     $prop: string.slice($prop, 0, $index - 1);
+    // }
+
+    @if type.is-string($color) {
+        @if $_prefix {
+            $color: #{$_prefix}#{$color};
+        }
+
+        @if $_postfix {
+            $color: #{$color}#{$_postfix};
+        }
+
+        @if not str.contains($color, '-color') {
+            $color: #{$color}-color;
+        }
+
+        $color: var($color);
+    }
+
+    @include var(#{$prefix}#{$prop}, $color);
+}
+
+@mixin color-state-vars($props, $color: null, $override: (), $prefix: '') {
+    @if type.is-list($props) {
+        @each $prop in $props {
+            @include _color-state-vars($prop, $color, $override, $prefix);
+        }
+    } @else if type.is-map($props) {
+        @each $prop, $value in $props {
+            @include _color-state-vars($prop, #{if($value == '_', $color, $value)}, $override, $prefix);
+        }
+    } @else {
+        @include _color-state-vars($props, $color, $override, $prefix);
+    }
+}
+
+@mixin _color-state-vars($name, $color: null, $override: (), $prefix: '') {
+    $colors: ();
+
+    @if type.is-color($color) {
+        $colors: map.merge(('base': $color), state-colors($value));
+    } @else if type.is-string($color) {
+        $colors: (
+            'base': #{$color}-color,
+            'hover': #{$color}-color-hover,
+            'active': #{$color}-color-active
+        );
+    } @else if type.is-map($color) {
+        $colors: $color
+    }
+
+    $colors: map.merge($colors, $override);
+
+    @include color-var($name, map.get($colors, 'base'), $prefix: $prefix);
+    @include color-var(#{$name}-hover, map.get($colors, 'hover'), $prefix: $prefix);
+    @include color-var(#{$name}-active, map.get($colors, 'active'), $prefix: $prefix);
+}
+
+@mixin palette-color-vars(
+    $palette,
+    $props,
+    $color: null,
+    $on: false,
+    $prefix: ''
+) {
+    @if type.is-number($color) or type.is-string($color) {
+        $color: '#{$palette}-#{$color}';
+    }
+
+    #{if(&, '&.#{$palette}', '.#{$palette}')} {
+        @if type.is-list($props) {
+            @each $prop in $props {
+                @include color-var(
+                    $prop,
+                    if($color, $color, $palette),
+                    $on,
+                    $prefix
+                );
+            }
+        } @else {
+            @include color-var(
+                $props,
+                if($color, $color, $palette),
+                $on,
+                $prefix
+            );
+        }
+    }
+}
+
+@mixin palettes-color-vars(
+    $props,
+    $color: null,
+    $on: false,
+    $prefix: '',
+    $override: (),
+    $palettes: $palette-names,
+) {
+    @each $palette in $palettes {
+        @include palette-color-vars(
+            $palette,
+            $props,
+            if(map.has-key($override, $palette),
+                map.get($override, $palette),
+                $color
+            ),
+            $on,
+            $prefix
+        );
+    }
+}
+
+@mixin palette-color-state-vars(
+    $palette,
+    $props,
+    $color: null,
+    $on: false,
+    $override: (),
+    $prefix: ''
+) {
+    #{if(&, '&-#{$palette}', '.#{$palette}')} {
+        @if $color == null {
+            $color: $palette;
+        } @else {
+            $color: '#{$palette}-#{$color}';
+        }
+
+        @if type.is-map($props) {
+            @each $prop, $value in $props {
+                @if str.contains($value, '$') {
+                    $props: map.set($props, $prop, str.replace($value, '$', $color));
+                } @else {
+                    $props: map.set($props, $prop, '#{$value}-#{$palette}');
+                }
+            }
+        }
+
+        @include color-state-vars($props, $color, $override, $prefix);
+    }
+}
+
+@mixin palettes-color-state-vars(
+    $props,
+    $color: null,
+    $on: false,
+    $prefix: '',
+    $override: (),
+    $palettes: $palette-names
+) {
+    @each $palette in $palettes {
+        @include palette-color-state-vars(
+            $palette,
+            $props,
+            $color,
+            $on,
+            $override,
+            $prefix
+        );
+    }
+}

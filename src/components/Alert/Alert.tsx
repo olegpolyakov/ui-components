@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, forwardRef } from 'react';
+import { ReactNode, forwardRef } from 'react';
 
 import type { Color, Intent, Props, Shadow, Shape, Size, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
@@ -6,11 +6,12 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import Icon from '../Icon';
 
 import cssClasses from './Alert.scss';
+import Button from '../Button';
 
 const IntentIcon = {
-    danger: 'danger',
+    danger: 'error',
     info: 'info',
-    success: 'success',
+    success: 'done',
     warning: 'warning'
 };
 
@@ -19,8 +20,6 @@ export type AlertProps = Props<{
     icon?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-    action?: ReactElement;
-    closeButtonLabel?: string;
     intent?: Intent;
     color?: Color;
     size?: Size;
@@ -38,12 +37,11 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(({
     icon,
     start,
     end,
-    closeButtonLabel = 'Скрыть',
     intent,
     color = intent,
     shape = 'rounded',
-    size = 'medium',
-    variant = 'plain',
+    size = 'm',
+    variant = 'tinted',
     shadow,
     onClose,
 
@@ -55,11 +53,11 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(({
         className,
         elementClassNames.root,
         cssClasses.root,
-        color && cssClasses[color],
         cssClasses[size],
         cssClasses[shape],
         cssClasses[variant],
-        shadow && cssClasses[`shadow-${size}`]
+        cssClasses[color ? `${variant}-${color}` : variant],
+        shadow && cssClasses[`shadow-${shadow}`]
     );
 
     return (
@@ -74,16 +72,17 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(({
                 </div>
             }
 
+            {(icon || intent) && 
+                <Icon
+                    className={cn(elementClassNames.icon, cssClasses.icon)}
+                    name={typeof icon === 'string' ? icon : undefined}
+                    size={size}
+                >
+                    {icon || (intent && IntentIcon[intent])}
+                </Icon>
+            }
+                
             <div className={cn(elementClassNames.content, cssClasses.content)}>
-                {(icon || intent) && 
-                    <Icon
-                        className={cn(elementClassNames.icon, cssClasses.icon)}
-                        name={typeof icon === 'string' ? icon : undefined}
-                        size={size}
-                    >
-                        {icon || (intent && IntentIcon[intent])}
-                    </Icon>
-                }
                 
                 {children}
             </div>
@@ -95,12 +94,12 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(({
             }
 
             {onClose &&
-                <button
+                <Button
                     className={cn(elementClassNames['close-button'], cssClasses.closeButton)}
+                    icon="close"
+                    size={size}
                     onClick={onClose}
-                >
-                    {closeButtonLabel}
-                </button>
+                />
             }
         </div>
     );

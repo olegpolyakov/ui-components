@@ -50,8 +50,8 @@
 }
 
 .close-button {
-    @include color-state-variables('Button', 'background-color', global.$surface-color);
-    @include color-state-variables('Button', 'text-color', global.$gray);
+    @include color-state-variables('Button', 'background-color', plain);
+    @include color-state-variables('Button', 'text-color', icon);
 
     flex-shrink: 0;
 }

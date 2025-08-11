@@ -1,27 +1,22 @@
-@use '../../styles/mixins';
+@use '../../styles/theme';
+
+:root {
+    color-scheme: dark light;
+}
 
 .root {
-    @include mixins.css-variables;
+    @include theme.base-vars;
+    // @include theme.scrollbar;
 
-    font-family: var(--ui-font-family);
+    font-family: theme.var(font-family);
 
-    ::-webkit-scrollbar {
-        width: 16px;
-    }
-    
-    ::-webkit-scrollbar-thumb {
-        height: 56px;
-        border: 4px solid transparent;
-        border-radius: 8px;
-        background-clip: content-box;
-        background-color: rgba(0, 0, 0, 0.2);
-    
-        &:hover {
-            background-color: rgba(0, 0, 0, 0.3);
+    @media (prefers-color-scheme: dark) {
+        &.dark {
+            @include theme.color-vars('dark');
         }
-    }
     
-    ::-webkit-scrollbar-track {
-        background: transparent;
+        &.light {
+            @include theme.color-vars('light');
+        }
     }
 }

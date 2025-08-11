@@ -44,13 +44,7 @@
         color: var(--ui-Tab-disabled-text-color);
     }
 
-    @include color-state-variables('Tab', 'background-color', global.$surface-color, $override: (
-        'base': none,
-        'hover': rgba(0, 0, 0, .05),
-        'active': rgba(0, 0, 0, .1),
-        'disabled': none
-    ));
-    @include color-state-variables('Tab', 'text-color',  global.$text-secondary-color);
+    @include color-state-variables('Tab', 'background-color', plain);
 }
 
 .container {}
@@ -65,8 +59,6 @@
 
 .active {
     --ui-Tab-text-color: var(--fui-text-primary-color);
-
-    @include color-state-variables('Tab', 'text-color',  global.$text-primary-color);
 
     &::after {
         content: '';

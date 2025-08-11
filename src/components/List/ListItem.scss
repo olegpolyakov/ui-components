@@ -79,14 +79,9 @@
 // Variants
 
 .plain {
-    @include color-state-variables('ListItem', 'background-color', global.$surface-color, $override: (
-        'base': none,
-        'hover': rgba(0, 0, 0, .05),
-        'active': rgba(0, 0, 0, .1),
-        'disabled': none
-    ));
-    @include color-state-variables('ListItem', 'text-color', global.$text-color);
+    --ui-ListItem-text-color: var(--ui-text-color);
 
+    @include color-state-variables('ListItem', 'background-color', plain);
     @include color-state-variables-for-palettes('ListItem', 'background-color', $color: 0, $override: (
         'base': none
     ));
@@ -99,34 +94,33 @@
 }
 
 .outlined {
-    @include color-state-variables('ListItem', 'border-color', global.$border-color);
-    @include color-state-variables('ListItem', 'background-color', global.$surface-color);
-    @include color-state-variables('ListItem', 'text-color', global.$text-color);
-    
+    @include color-state-variables('ListItem', 'border-color', neutral);
+    @include color-state-variables('ListItem', 'background-color', plain);
     @include color-state-variables-for-palettes('ListItem', 'border-color');
     @include color-state-variables-for-palettes('ListItem', 'background-color', $color: 0, $override: (
         'base': none
-        ));
-        @include color-state-variables-for-palettes('ListItem', 'text-color');
+    ));
+    @include color-state-variables-for-palettes('ListItem', 'text-color');
 
     --ui-ListItem-border-width: 1px;
+    --ui-ListItem-text-color: var(--ui-text-color);
 
     border: var(--ui-ListItem-border-width) solid var(--ui-ListItem-border-color);
 }
 
 .tinted {
-    @include color-state-variables('ListItem', 'background-color', global.$extra-light-gray);
-    @include color-state-variables('ListItem', 'text-color', global.$text-color);
-
+    @include color-state-variables('ListItem', 'background-color', tinted);
     @include color-state-variables-for-palettes('ListItem', 'background-color', $color: 1);
     @include color-state-variables-for-palettes('ListItem', 'text-color');
+
+    --ui-ListItem-text-color: var(--ui-text-color);
 }
 
 .selected {
     &.plain {
-        @include color-state-variables('ListItem', 'background-color', global.$very-light-gray);
-        @include color-state-variables('ListItem', 'text-color', global.$text-color);
+        --ui-ListItem-text-color: var(--ui-text-color);
 
+        @include color-state-variables('ListItem', 'background-color', neutral);
         @include color-state-variables-for-palettes('ListItem', 'background-color', $color: 1, $override: (
             'base': none
         ));
@@ -134,29 +128,25 @@
     }
     
     &.filled {
-        @include color-state-variables('ListItem', 'background-color', map.get(global.$primary-palette, 6));
-        @include color-state-variables('ListItem', 'text-color', global.$on-primary-color);
-
+        @include color-state-variables('ListItem', 'background-color', neutral);
+        @include color-state-variables('ListItem', 'text-color', on-neutral);
         @include color-state-variables-for-palettes('ListItem', 'background-color');
         @include color-state-variables-for-palettes('ListItem', 'text-color', $on: true);
     }
     
     &.outlined {
-        @include color-state-variables('ListItem', 'border-color', global.$primary-color);
-        @include color-state-variables('ListItem', 'background-color', global.$extra-light-gray);
-        @include color-state-variables('ListItem', 'text-color', global.$text-color);
+        --ui-ListItem-text-color: var(--ui-text-color);
 
+        @include color-state-variables('ListItem', 'border-color', primary);
+        @include color-state-variables('ListItem', 'background-color', neutral);
         @include color-state-variables-for-palettes('ListItem', 'border-color');
         @include color-state-variables-for-palettes('ListItem', 'background-color', $color: 1, $override: (
             'base': none
         ));
-        @include color-state-variables-for-palettes('ListItem', 'text-color');
     }
     
     &.tinted {
-        @include color-state-variables('ListItem', 'background-color', global.$very-light-gray);
-        @include color-state-variables('ListItem', 'text-color', global.$text-color);
-
+        @include color-state-variables('ListItem', 'background-color', neutral);
         @include color-state-variables-for-palettes('ListItem', 'background-color', $color: 2);
         @include color-state-variables-for-palettes('ListItem', 'text-color');
     }

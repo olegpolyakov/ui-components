@@ -22,6 +22,18 @@ export const Basic: Story = {
     }
 };
 
+export const Overlapping: Story = {
+    args: {
+        avatars: [
+            { content: 'A' },
+            { content: 'B' },
+            { content: 'C' },
+            { content: 'D' }
+        ],
+        overlapping: true
+    }
+};
+
 export const MaxCount: Story = {
     args: {
         avatars: [

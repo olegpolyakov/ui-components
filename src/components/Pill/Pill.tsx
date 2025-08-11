@@ -27,9 +27,9 @@ const displayName = 'Pill';
 const elementClassNames = getElementClassNames(displayName, ['start', 'icon', 'content', 'end']);
 
 const iconSizeMap: Record<Size, SizeExtended> = {
-    small: 'smaller',
-    medium: 'small',
-    large: 'medium'
+    s: 'xs',
+    m: 's',
+    l: 'm'
 };
 
 const Pill = forwardRef<HTMLElement, PillProps>(({
@@ -39,7 +39,7 @@ const Pill = forwardRef<HTMLElement, PillProps>(({
     end,
     color = 'primary',
     shape = 'rounded',
-    size = 'medium',
+    size = 'm',
     variant = 'outlined',
     interactive,
     iconPosition,
@@ -54,13 +54,15 @@ const Pill = forwardRef<HTMLElement, PillProps>(({
         className,
         elementClassNames.root,
         cssClasses.root,
-        cssClasses[color],
         cssClasses[shape],
         cssClasses[size],
         cssClasses[variant],
+        cssClasses[color ? `${variant}-${color}` : variant],
         interactive && cssClasses.interactive,
         iconPosition && cssClasses[`icon-${iconPosition}`]
     );
+
+    console.log({ color }, cssClasses, classNames);
 
     return (
         <Tag ref={ref} className={classNames} {...props}>

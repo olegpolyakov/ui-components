@@ -1,0 +1,67 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:math';
+
+@use './font';
+@use './sizes';
+
+@mixin caret($size: 24px) {
+    &::after {
+        content: '';
+        display: inline-block;
+        width: $size;
+        height: $size;
+        margin-left: auto;
+        background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyNCcgaGVpZ2h0PScyNCcgdmlld0JveD0nMCAwIDI0IDI0JyBmaWxsPSdub25lJz48cGF0aCBkPSdNNiA5TDEyIDE1TDE4IDknIHN0cm9rZT0nIzUzNTI1Qycgc3Ryb2tlLXdpZHRoPScxLjUnIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcgc3Ryb2tlLWxpbmVqb2luPSdyb3VuZCcvPjwvc3ZnPg==');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: transform .2s;
+        opacity: .5;
+    }
+}
+
+@mixin heading($type, $weight: null) {
+    $sizes: map.get(sizes.$heading-sizes, $type);
+    $size: list.nth($sizes, 1);
+    $height: list.nth($sizes, 2);
+
+    font-family: var(--fui-font-family);
+    font-size: $size;
+    font-weight: map.get(font.$font-weights, $weight);
+    line-height: math.div($height, $size);
+}
+
+@mixin text($type, $weight: normal) {
+    $sizes: map.get(sizes.$text-sizes, $type);
+    $size: list.nth($sizes, 1);
+    $height: list.nth($sizes, 2);
+    $weight: map.get(font.$font-weights, $weight);
+
+    font-family: var(--fui-font-family);
+    font-size: $size;
+    font-weight: $weight;
+    line-height: math.div($height, $size);
+}
+
+@mixin scrollbar() {
+    ::-webkit-scrollbar {
+        width: 16px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        height: 56px;
+        border: 4px solid transparent;
+        border-radius: 8px;
+        background-clip: content-box;
+        background-color: rgba(0, 0, 0, 0.2);
+    
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.3);
+        }
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: transparent;
+    }
+}

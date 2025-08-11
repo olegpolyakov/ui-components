@@ -1,0 +1,244 @@
+@use 'sass:map';
+@use 'sass:meta';
+
+@use './base';
+@use './theme';
+
+@use './utils/css';
+@use './utils/list';
+@use './utils/string';
+@use './utils/type';
+
+$-name: '';
+$-vars: ();
+
+@mixin define($name, $vars: ()) {
+    $-name: $name !global;
+
+    .root {
+        @each $name, $value in $vars {
+            @include var($name, $value);
+
+            $-value: _get-var-value($value);
+            $-vars: map.set($-vars, $name, if(_is-private-var($name),
+                css.var($name, $-value),
+                theme.var('#{$-name}-#{$name}', $-value)
+            )) !global;
+        }
+
+        @content;
+    }
+}
+
+@function var($name) {
+    @if map.has-key($-vars, $name) {
+        @return map.get($-vars, $name);
+    } @else {
+        @error 'No variable "#{$name}"';
+    }
+}
+
+@function vars() {
+    @return $-vars;
+}
+
+@mixin var($name, $value) {
+    $_value: _get-var-value($value);
+
+    @if _is-private-var($name) {
+        @include css.var($name, $_value);
+    } @else {
+        @include theme.var(
+            '#{$-name}-#{$name}',
+            $_value
+        );
+    }
+}
+
+@mixin vars($vars) {
+    @each $name, $value in $vars {
+        @include var($name, $value);
+    }
+}
+
+@mixin color-state-vars($props, $color: null, $override: ()) {
+    @include theme.color-state-vars(
+        $props,
+        $color,
+        $override, 
+        $prefix: '#{$-name}-'
+    );
+}
+
+@mixin palette-color-vars(
+    $palette,
+    $props,
+    $color: null,
+    $on: false
+) {
+    @include theme.palette-color-vars(
+        $palette,
+        $props,
+        $color,
+        $on,
+        $prefix: '#{$-name}-'
+    );
+}
+
+@mixin palettes-color-vars(
+    $props,
+    $color: null,
+    $on: false,
+    $palettes: base.$palette-names,
+    $override: ()
+) {
+    @include theme.palettes-color-vars(
+        $props,
+        $color,
+        $on,
+        '#{$-name}-',
+        $override,
+        $palettes,
+    );
+}
+
+@mixin palette-color-state-vars(
+    $palette,
+    $props,
+    $color: null,
+    $on: false,
+    $override: ()
+) {
+    @include theme.color-state-vars-for-palette(
+        $palette,
+        $props,
+        $color,
+        $on,
+        $override,
+        $prefix: '#{$-name}-'
+    );
+}
+
+@mixin palettes-color-state-vars(
+    $props,
+    $color: null,
+    $on: false,
+    $override: (),
+    $palettes: base.$palette-names
+) {
+    @include theme.palettes-color-state-vars(
+        $props,
+        $color,
+        $on,
+        '#{$-name}-',
+        $override,
+        $palettes,
+    )
+}
+
+@function _get-var-value($value: null) {
+    @if _is-private-var-value($value) {
+        @return css.var(string.slice($value, 1));
+    } @else if _is-public-var-value($value) {
+        @return theme.var('#{$-name}-#{string.slice($value, 3)}');
+    } @else if type.is-list($value) {
+        @return list.map($value, meta.get-function('_get-var-value'));
+    } @else {
+        @return $value;
+    }
+}
+
+@function _is-private-var($name) {
+    @return string.starts-with($name, '_');
+}
+
+@function _is-private-var-value($value) {
+    @return string.starts-with($value, '_');
+}
+
+@function _is-public-var($name) {
+    @return string.starts-with($name, '--');
+}
+
+@function _is-public-var-value($value) {
+    @return string.starts-with($value, '--');
+}
+
+@mixin variants($plain: true, $filled: true, $outlined: true, $tinted: true) {
+    @if ($plain) {
+        @include plain;
+    }
+
+    @if ($filled) {
+        @include filled;
+    }
+
+    @if ($outlined) {
+        @include outlined;
+    }
+
+    @if ($tinted) {
+        @include tinted;
+    }
+}
+
+@mixin plain {
+    .plain {
+        @include color-state-vars((
+            'background-color': plain,
+            'text-color': on-plain
+        ));
+        @include palettes-color-state-vars((
+            'background-color': plain,
+            'text-color': on-plain
+        ));
+    }
+}
+
+@mixin filled {
+    .filled {
+        @include color-state-vars((
+            'background-color': filled,
+            'text-color': on-filled
+        ));
+        @include palettes-color-state-vars((
+            'background-color': filled,
+            'text-color': on-filled
+        ));
+    }
+}
+
+@mixin outlined {
+    .outlined {
+        @include vars((
+            border-width: 1px
+        ));
+
+        @include color-state-vars((
+            'border-color': border,
+            'background-color': plain,
+            'text-color': primary
+        ));
+
+        @include palettes-color-state-vars((
+            'border-color': '$',
+            'background-color': plain,
+            'text-color': '$'
+        ));
+
+        border: var(border-width) solid var(border-color);
+    }
+}
+
+@mixin tinted {
+    .tinted {
+        @include color-state-vars((
+            'background-color': tinted,
+            'text-color': on-tinted
+        ));
+        @include palettes-color-state-vars((
+            'background-color': tinted,
+            'text-color': on-tinted
+        ));
+    }
+}

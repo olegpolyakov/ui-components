@@ -22,8 +22,7 @@ import ColorPalette from "./ColorPalette";
 
   <StorybookColorPalette>
     <ColorItem
-      title="Черно-белые"
-      subtitle="Цвета текста, иконок, разделителей"
+      title="Базовые цвета"
       colors={{
         White: "#ffffff",
         "Extra light gray": "#f2f3f8",
@@ -35,31 +34,6 @@ import ColorPalette from "./ColorPalette";
         Black: "#1d1d21",
       }}
     />
-
-    <ColorItem
-      title="Основной синий"
-      subtitle="Цвет бренда и элементов"
-      colors={{
-        "Extra light blue": "#ddebff",
-        "Light blue": "#afc9f3",
-        Blue: "#4285F4",
-        "Hover blue": "#3170d8",
-        "Pressed blue": "#115ddb",
-      }}
-    />
-
-    <ColorItem
-      title="Другие цвета"
-      subtitle="Логотипы, ошибки, ..."
-      colors={{
-        Red: "#db4437",
-        Orange: "#f4b400",
-        Purple: "#ab47bc",
-        "Salat hover": "#73f1c7",
-        Green: "#0f9d58",
-      }}
-    />
-
   </StorybookColorPalette>
 </Canvas>
 
@@ -73,26 +47,5 @@ import ColorPalette from "./ColorPalette";
   <ColorPalette color="info" />
   <ColorPalette color="success" />
   <ColorPalette color="warning" />
-</Canvas>
-
-<Canvas>
-  <div>
-    <Heading>Градиенты</Heading>
-
-    <Flex gap="small">
-      <Color
-        style={{
-          background: "var(--ui-action-gradient)"
-        }}
-      />
-
-      <Color
-        style={{
-          background: "var(--ui-stroke-gradient)"
-        }}
-      />
-    </Flex>
-
-  </div>
 </Canvas>
 </Provider>

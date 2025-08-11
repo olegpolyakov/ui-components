@@ -1,0 +1,83 @@
+@use 'sass:color';
+@use 'sass:math';
+@use 'sass:meta';
+
+@function change($args...) {
+    @return color.change($args...);
+}
+
+@function scale($args...) {
+    @return color.scale($args...);
+}
+
+@function hex($color) {
+    @return color.format($color, 'hex');
+}
+
+@function rgb($color) {
+    @return color.red($color), color.green($color), color.blue($color);
+}
+
+@function hsl($color) {
+    @return color.hue($color), color.saturation($color), color.lightness($color);
+}
+
+@function contrast-color($color, $dark-color: #000, $light-color: #fff, $invert: false) {
+    @if $invert {
+        @return if(contrast-tone($color) == 'dark', $light-color, $dark-color);
+    } @else {
+        @return if(contrast-tone($color) == 'dark', $dark-color, $light-color);
+    }
+}
+
+@function contrast-tone($color) {
+    @return if(tone($color) == 'dark', 'light', 'dark');
+}
+
+@function tone($color) {
+    @if $color == 'dark' or $color == 'light' {
+        @return $color;
+    }
+  
+    @if meta.type-of($color) != 'color' {
+        @warn '#{$color} is not a color. Falling back to "dark" tone.';
+        @return 'dark';
+    }
+  
+    $minimum-contrast: 3.1;
+    $light-contrast: contrast($color, white);
+    $dark-contrast: contrast($color, rgba(black, 0.87));
+  
+    @if ($light-contrast < $minimum-contrast) and ($dark-contrast > $light-contrast) {
+        @return 'light';
+    } @else {
+        @return 'dark';
+    }
+}
+
+@function contrast($back, $front) {
+    $back-lum: luminance($back) + 0.05;
+    $fore-lum: luminance($front) + 0.05;
+  
+    @return math.div(math.max($back-lum, $fore-lum), math.min($back-lum, $fore-lum));
+}
+
+// Calculate the luminance for a color.
+// See https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-tests
+@function luminance($color) {
+    $red: linear-channel-value(color.red($color));
+    $green: linear-channel-value(color.green($color));
+    $blue: linear-channel-value(color.blue($color));
+  
+    @return 0.2126 * $red + 0.7152 * $green + 0.0722 * $blue;
+}
+
+@function linear-channel-value($channel-value) {
+    $normalized-channel-value: math.div($channel-value, 255);
+
+    @if $normalized-channel-value < 0.03928 {
+        @return math.div($normalized-channel-value, 12.92);
+    }
+
+    @return math.pow(math.div($normalized-channel-value + 0.055, 1.055), 2.4);
+}

@@ -14,7 +14,7 @@ type Story = StoryObj<typeof Badge>;
 
 export const Basic: Story = {
     args: {
-        content: 'Badge'
+        content: ''
     }
 };
 
@@ -23,5 +23,3 @@ export const Counter: Story = {
         content: '1'
     }
 };
-
-export const Status: Story = {};

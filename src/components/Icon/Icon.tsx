@@ -4,11 +4,12 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import { getSizeValue, getFontVariationSettings } from './utils';
 
 import cssClasses from './Icon.scss';
+import type { SizeExtended } from '@/types';
 
 export type IconProps = {
     name?: string;
     type?: 'filled' | 'outlined' | 'round' | 'sharp' | 'two-tone';
-    size?: 'smaller' | 'small' | 'medium' | 'large' | 'larger';
+    size?: SizeExtended;
     weight?: number | string;
     grade?: number | string;
     filled?: boolean;

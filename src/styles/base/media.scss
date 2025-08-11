@@ -1,0 +1,36 @@
+@use 'sass:map';
+
+@use './sizes';
+
+$_s: map.get(sizes.$screen-sizes, small);
+$_m: map.get(sizes.$screen-sizes, medium);
+$_l: map.get(sizes.$screen-sizes, large);
+
+$_breakpoints: (
+    sm: '(max-width: #{$_s - 1})',
+    gt-sm: '(min-width: #{$_s})',
+
+    lt-md: '(max-width: #{$_s - 1})',
+    md: '(min-width: #{$_s}) and (max-width: #{$_m - 1})',
+    md-up: '(min-width: #{$_s})',
+    gt-md: '(min-width: #{$_m})',
+
+    lt-lg: '(max-width: #{$_m - 1})',
+    lg: '(min-width: #{$_m}) and (max-width: #{$_l - 1})',
+    lg-up: '(min-width: #{$_m})',
+    gt-lg: '(min-width: #{$_l})',
+
+    xl: '(min-width: #{$_l})'
+);
+
+@mixin query($size) {
+    $breakpoint: map.get($_breakpoints, $size);
+
+    @if not $breakpoint {
+        @error 'Invalid breakpoint';
+    } @else {
+        @media #{$breakpoint} {
+            @content;
+        }
+    }
+}

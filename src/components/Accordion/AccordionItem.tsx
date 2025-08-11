@@ -94,7 +94,9 @@ const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
             </div>
 
             <div className={cn(elementClassNames.content, cssClasses.content)}>
-                {children}
+                <div>
+                    {children}
+                </div>
             </div>
         </Tag>
     );

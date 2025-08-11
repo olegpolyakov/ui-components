@@ -1,13 +1,6 @@
 @use '../../styles/animations';
 @use '../../styles/variables' as global;
 
-$color: global.$primary-color !default;
-$track-color: global.$border-color !default;
-
-$size-small: 24px;
-$size-medium: 32px;
-$size-large: 48px;
-
 .root {
     display: inline-flex;
     position: relative;
@@ -27,28 +20,34 @@ $size-large: 48px;
 }
 
 .circle {
-    stroke: $color;
+    stroke: var(--primary-color);
     transition: animations.enter(stroke-dashoffset, 500ms);
 }
 
 .track {
-    stroke: $color;
+    stroke: var(--border-color);
 }
 
 
 // Sizes
 
 .small {
+    $size-small: 24px;
+
     width: $size-small;
     height: $size-small;
 }
 
 .medium {
+    $size-medium: 32px;
+
     width: $size-medium;
     height: $size-medium;
 }
 
 .large {
+    $size-large: 48px;
+    
     width: $size-large;
     height: $size-large;
 }

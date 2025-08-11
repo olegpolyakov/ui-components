@@ -1,0 +1,51 @@
+@use 'sass:string';
+
+@use './type' as *;
+
+@function slice($args...) {
+    @return string.slice($args...);
+}
+
+@function replace($string, $search, $replace: '') {
+    $index: string.index($string, $search);
+
+    @if $index {
+        @return replace(
+            slice($string, 1, $index - 1) + $replace + slice($string, $index + string.length($search)),
+            $search,
+            $replace
+        );
+    }
+
+    @return $string;
+}
+
+@function contains($string, $value) {
+    @if is-string($string) and is-string($value) {
+        @return string.index($string, $value) != null;
+    }
+
+    @return false;
+}
+
+@function starts-with($string, $value) {
+    @if is-string($string) and is-string($value) {
+        @return string.index($string, $value) == 1;
+    }
+
+    @return false;
+}
+
+@function ends-with($string, $value) {
+    @if is-string($string) and is-string($value) {
+        $start: string.length($string) - string.length($value) + 1;
+        
+        @if $start < 1 {
+            @return false;
+        }
+
+        @return string.slice($string, $start) == $value;
+    }
+
+    @return false;
+}

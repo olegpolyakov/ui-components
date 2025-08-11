@@ -26,27 +26,27 @@ $light-inactive-color: rgba(255, 255, 255, 0.3);
 
 // Sizes
 
-.smaller {
+.xs {
     font-size: $smaller-size;
     font-variation-settings: 'OPSZ' 16;
 }
 
-.small {
+.s {
     font-size: $small-size;
     font-variation-settings: 'OPSZ' 18;
 }
 
-.medium {
+.m {
     font-size: $medium-size;
     font-variation-settings: 'OPSZ' 24;
 }
 
-.large {
+.l {
     font-size: $large-size;
     font-variation-settings: 'OPSZ' 36;
 }
 
-.larger {
+.xl {
     font-size: $larger-size;
     font-variation-settings: 'OPSZ' 48;
 }

@@ -1,133 +1,68 @@
-@use 'sass:map';
+@use '../../styles/component';
+@use '../../styles/theme';
 
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@include component.define('Badge', (
+    _size: auto,
+    border-color: transparent,
+    border-radius: _size,
+    border-width: 0,
+    background-color: transparent,
+    text-color: theme.var(text-primary-color),
+    font-size: theme.var(font-size-smaller),
+    ring-width: 2px,
+    ring-color: theme.var(surface-color)
+));
+
+$vars: component.vars();
 
 .root {
     box-sizing: border-box;
     display: inline-flex;
-    min-width: var(--ui-Badge-height);
-    min-height: var(--ui-Badge-height);
-    padding: 0 var(--ui-Badge-padding-x);
+    min-width: component.var(_size);
+    min-height: component.var(_size);
     align-items: center;
     place-content: center;
-    gap: var(--ui-Badge-gap, var(--ui-gap-smaller));
-    border-radius: var(--ui-Badge-border-radius, var(--ui-Badge-height));
-    background-color: var(--ui-Badge-background-color, transparent);
-    color: var(--ui-Badge-text-color, var(--ui-text-primary-color));
-    font-family: var(--ui-font-family);
-    font-size: var(--ui-Badge-font-size);
-    font-weight: var(--ui-Badge-font-weight, var(--ui-font-weight-semibold));
+    border-radius: component.var(border-radius);
+    background-color: component.var(background-color);
+    color: component.var(text-color);
+    font-family: theme.var(font-family);
+    font-size: component.var(font-size);
+    font-weight: theme.var(font-weight-semibold);
 
     &:empty {
-        padding: 0;
-        box-shadow: 0 0 0 var(--ui-Badge-ring-width, 2px) var(--ui-Badge-ring-color, var(--ui-surface-color));
+        min-width: calc(component.var(_size) * 0.5);
+        min-height: calc(component.var(_size) * 0.5);
     }
-}
-
-.content {
-    line-height: 1;
-}
-
-.start,
-.end {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
 }
 
 
 // Sizes
 
-.small {
-    $height: 14px;
-
-    --ui-Badge-height: #{$height};
-    --ui-Badge-padding-x: 4px;
-    --ui-Badge-font-size: 10px;
-
-    &:empty {
-        --ui-Badge-height: #{$height * 0.5};
-    }
+.s {
+    @include component.vars((
+        size: 14px,
+        padding-x: 4px,
+        font-size: 10px
+    ));
 }
 
-.medium {
-    $height: 18px;
-
-    --ui-Badge-height: #{$height};
-    --ui-Badge-padding-x: 6px;
-    --ui-Badge-font-size: 12px;
-
-    &:empty {
-        --ui-Badge-height: #{$height * 0.5};
-    }
+.m {
+    @include component.vars((
+        size: 18px,
+        padding-x: 6px,
+        font-size: 12px
+    ));
 }
 
-.large {
-    $height: 24px;
-
-    --ui-Badge-height: #{$height};
-    --ui-Badge-padding-x: 8px;
-    --ui-Badge-font-size: 14px;
-
-    &:empty {
-        --ui-Badge-height: #{$height * 0.5};
-    }
-}
-
-
-// Shapes
-
-.circular {
-    --ui-Badge-border-radius: var(--ui-Badge-height);
-}
-
-.rectangular {
-    --ui-Badge-border-radius: 0;
-}
-
-.rounded {
-    &.small {
-        --ui-Badge-border-radius: 4px;
-    }
-
-    &.medium {
-        --ui-Badge-border-radius: 6px;
-    }
-
-    &.large {
-        --ui-Badge-border-radius: 8px;
-    }
+.l {
+    @include component.vars((
+        size: 24px,
+        padding-x: 8px,
+        font-size: 14px
+    ));
 }
 
 
 // Variants
 
-.plain {
-    @include color-variable-for-palettes('Badge', 'text-color');
-}
-
-.filled {
-    --ui-Badge-background-color: var(--ui-primary-color);
-    --ui-Badge-text-color: var(--ui-on-primary-color);
-
-    @include color-variable-for-palettes('Badge', 'background-color');
-    @include color-variable-for-palettes('Badge', 'text-color', $on: true);
-}
-
-.outlined {
-    --ui-Badge-border-color: var(--ui-border-color);
-    --ui-Badge-border-width: 1px;
-
-    @include color-variable-for-palettes('Badge', 'border-color');
-    @include color-variable-for-palettes('Badge', 'text-color');
-
-    border: var(--ui-Badge-border-width) solid var(--ui-Badge-border-color);
-}
-
-.tinted {
-    --ui-Badge-background-color: var(--ui-very-light-gray);
-
-    @include color-variable-for-palettes('Badge', 'background-color', $color: 1);
-    @include color-variable-for-palettes('Badge', 'text-color');
-}
+@include component.variants;

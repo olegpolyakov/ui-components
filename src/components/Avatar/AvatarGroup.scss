@@ -1,14 +1,57 @@
+@use '../../styles/theme';
+@use '../../styles/theme/component' with (
+    $name: 'AvatarGroup',
+    $vars: (
+        gap: theme.var(space-none),
+    )
+);
+
 .root {
     display: flex;
     align-items: center;
+    gap: component.var(gap);
 }
 
-.root :global {
-    .ui-Avatar {
-        border: 2px solid #fff;
+.gap {
+    &-none {
+        @include component.var(gap, theme.var(space-none));
     }
 
-    .ui-Avatar + .ui-Avatar {
+    &-auto {
+        justify-content: space-between
+    }
+
+    &-smallest {
+        @include component.var(gap, theme.var(space-smallest));
+    }
+
+    &-smaller {
+        @include component.var(gap, theme.var(space-smaller));
+    }
+
+    &-small {
+        @include component.var(gap, theme.var(space-small));
+    }
+
+    &-medium {
+        @include component.var(gap, theme.var(space-medium));
+    }
+
+    &-large {
+        @include component.var(gap, theme.var(space-large));
+    }
+
+    &-larger {
+        @include component.var(gap, theme.var(space-larger));
+    }
+
+    &-largest {
+        @include component.var(gap, theme.var(space-largest));
+    }
+}
+
+.overlapping {
+    .avatar + .avatar {
         margin-left: -8px;
     }
 }

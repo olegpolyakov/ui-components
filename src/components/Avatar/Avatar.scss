@@ -1,23 +1,31 @@
-@use 'sass:map';
+@use '../../styles/component';
+@use '../../styles/theme';
 
-@use '../../styles/functions' as *;
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@include component.define('Avatar', (
+    size: auto,
+    border-color: none,
+    border-radius: null,
+    border-width: 0,
+    background-color: none,
+    text-color: theme.var(text-primary-color),
+    font-size: theme.var(font-size-m)
+));
+
+$vars: component.vars();
 
 .root {
-    --ui-Avatar-background-color: none;
-    --ui-Avatar-text-color: var(--ui-text-primary-color);
+    @include component.vars;
 
     box-sizing: border-box;
     position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--ui-Avatar-size);
-    height: var(--ui-Avatar-size);
-    border-radius: var(--ui-Avatar-border-radius);
-    background-color: var(--ui-Avatar-background-color);
-    color: var(--ui-Avatar-text-color);
+    width: component.var(size);
+    height: component.var(size);
+    border-radius: component.var(border-radius);
+    background-color: component.var(background-color);
+    color: component.var(text-color);
     overflow: hidden;
     user-select: none;
 }
@@ -30,61 +38,77 @@
 }
 
 .content {
-    font-family: var(--ui-font-family);
-    font-size: var(--ui-Avatar-font-size);
-    font-weight: var(--ui-font-weight-semibold);
+    font-family: theme.var(font-family);
+    font-size: component.var(font-size);
+    font-weight: theme.var(font-weight-semibold);
     line-height: 1;
     text-transform: uppercase;
     text-align: center;
 }
 
 .icon {
-    --ui-icon-color: currentColor;
+    @include theme.var(icon-color, currentColor);
 }
 
 
 // Sizes
 
 .small {
-    --ui-Avatar-size: 24px;
-    --ui-Avatar-font-size: 9px;
-    --ui-Avatar-border-width: 1px;
+    @include component.vars((
+        size: 24px,
+        font-size: 10px,
+        border-width: 1px
+    ));
 }
 
 .medium {
-    --ui-Avatar-size: 40px;
-    --ui-Avatar-font-size: 16px;
-    --ui-Avatar-border-width: 2px;
+    @include component.vars((
+        size: 40px,
+        font-size: 16px,
+        border-width: 2px
+    ));
 }
 
 .large {
-    --ui-Avatar-size: 80px;
-    --ui-Avatar-font-size: 32px;
-    --ui-Avatar-border-width: 2px;
+    @include component.vars((
+        size: 64px,
+        font-size: 28px,
+        border-width: 2px
+    ));
 }
 
 
 // Shapes
 
 .circular {
-    --ui-Avatar-border-radius: 50%;
+    @include component.vars((
+        border-radius: 50%
+    ));
 }
 
 .rectangular {
-    --ui-Avatar-border-radius: 0;
+    @include component.vars((
+        border-radius: 0
+    ));
 }
 
 .rounded {
     &.small {
-        --ui-Avatar-border-radius: var(--ui-border-radius-small);
+        @include component.vars((
+            border-radius: theme.var(border-radius-s)
+        ));
     }
 
     &.medium {
-        --ui-Avatar-border-radius: var(--ui-border-radius-medium);
+        @include component.vars((
+            border-radius: theme.var(border-radius-m)
+        ));
     }
 
     &.large {
-        --ui-Avatar-border-radius: var(--ui-border-radius-large);
+        @include component.vars((
+            border-radius: theme.var(border-radius-l)
+        ));
     }
 }
 
@@ -92,35 +116,32 @@
 // Variants
 
 .plain {
-    @include color-variable-for-palettes('Avatar', 'text-color');
+    @include component.palettes-color-vars(text-color);
 }
 
 .filled {
-    @include color-variable-for-palettes('Avatar', 'background-color');
-    @include color-variable-for-palettes('Avatar', 'text-color', $on: true);
+    @include component.color-variable-for-palettes((background-color, _text-color));
 }
 
 .outlined {
-    --ui-Avatar-border-color: var(--ui-border-color);
+    @include component.var(border-color, --border-color);
+    @include component.palettes-color-vars((border-color, text-color));
 
-    @include color-variable-for-palettes('Avatar', 'border-color');
-    @include color-variable-for-palettes('Avatar', 'text-color');
-
-    border: var(--ui-Avatar-border-width) solid var(--ui-Avatar-border-color);
+    border: component.var(border-width) solid component.var(border-color);
 }
 
 .tinted {
-    --ui-Avatar-background-color: var(--ui-very-light-gray);
-
-    @include color-variable-for-palettes('Avatar', 'background-color', $color: 1);
-    @include color-variable-for-palettes('Avatar', 'text-color');
+    @include component.var(background-color, tinted-color);
+    @include component.palettes-color-vars(
+        (background-color, _text-color),
+        tinted
+    );
 }
 
-.raised {
-    @each $palette in global.$palette-names {
-        &.#{$palette} {
-            box-shadow: 0px 5px 12px 0px var(--ui-#{$palette}-5-color);
-            // filter: drop-shadow(0px 4px 6px var(--ui-#{$palette}-5-color));
-        }
-    }
-}
+// .raised {
+//     @each $palette in theme.$palette-names {
+//         &.#{$palette} {
+//             box-shadow: 0px 5px 12px 0px component.var(#{$palette}-5-color);
+//         }
+//     }
+// }

@@ -31,7 +31,7 @@
 // States
 
 .root {
-    @include color-state-variables('Option', 'background-color', global.$surface-color);
+    @include color-state-variables('Option', 'background-color', plain);
 
     &:hover {
         --ui-Option-background-color: var(--ui-Option-hover-background-color);
@@ -48,10 +48,10 @@
 }
 
 .highlighted {
-    @include color-state-variables('Option', 'background-color', map.get(global.$primary-palette, 1));
+    @include color-state-variables('Option', 'background-color', primary-1);
 }
 
 .selected {
-    @include color-state-variables('Option', 'background-color', global.$primary-color);
-    @include color-state-variables('Option', 'text-color', global.$on-primary-color);
+    @include color-state-variables('Option', 'background-color', primary);
+    @include color-state-variables('Option', 'text-color', on-primary);
 }

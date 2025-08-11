@@ -12,7 +12,7 @@
 }
 
 .interactive {
-    @include color-state-variables('TableRow', 'background-color', global.$surface-color);
+    @include color-state-variables('TableRow', 'background-color', plain);
 
     &:hover {
         background-color: var(--ui-TableRow-hover-background-color);

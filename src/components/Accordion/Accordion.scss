@@ -1,5 +1,14 @@
+@use '../../styles/component';
+@use '../../styles/theme';
+
+@include component.define('Accordion', (
+    gap: none
+));
+
+$vars: component.vars();
+
 .root {
     display: flex;
     flex-direction: column;
-    font-family: var(--ui-font-family);
+    gap: component.var(gap);
 }

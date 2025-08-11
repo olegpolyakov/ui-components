@@ -1,10 +1,10 @@
 @use '../../styles/variables' as global;
 
 .root {
-    --ui-Input-border-color: var(--ui-border-color, #{global.$border-color});
+    --ui-Input-border-color: var(--ui-border-color);
     --ui-Input-border-width: 1px;
     --ui-Input-label-color: var(--ui-text-secondary-color);
-    --ui-Input-danger-color: var(--ui-danger-color, #{global.$danger-color});
+    --ui-Input-danger-color: var(--ui-danger-color);
 
     box-sizing: border-box;
     position: relative;
@@ -13,7 +13,7 @@
     display: flex;
     align-items: center;
     padding: var(--ui-Input-padding);
-    gap: var(--ui-gap-smaller, #{global.$gap-smaller});
+    gap: var(--ui-space-smaller);
     border-radius: var(--ui-Input-border-radius);
     background-clip: padding-box;
     background-color: var(--ui-Input-background-color, var(--ui-surface-color));
@@ -93,7 +93,7 @@
 // Shapes
 
 .rounded {
-    --ui-Input-border-radius: var(--ui-border-radius-medium, #{global.$border-radius-medium});
+    --ui-Input-border-radius: var(--ui-border-radius-medium);
 }
 
 .rectangular {
@@ -129,8 +129,8 @@
 // Variants
 
 .filled {
-    --ui-Input-background-color: var(--ui-extra-light-gray, #{global.$extra-light-gray});
-    --ui-Input-border-color: var(--ui-extra-light-gray, #{global.$extra-light-gray});
+    --ui-Input-background-color: var(--ui-filled-color);
+    --ui-Input-border-color: var(--ui-filled-color);
 
     border: var(--ui-Input-border-width) solid var(--ui-Input-border-color);
 

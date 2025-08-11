@@ -1,0 +1,19 @@
+@use 'sass:meta';
+
+$css-var: meta.get-function('var', $css: true);
+
+@function var($name, $default-value: null) {
+    @if ($default-value) {
+        @return meta.call($css-var, --#{$name}, #{$default-value});
+    } @else {
+        @return meta.call($css-var, --#{$name});
+    }
+}
+
+@mixin var($name, $value) {
+    --#{$name}: #{$value};
+}
+
+@function rgba($values...) {
+    @return 'rgba(#{$values})';
+}

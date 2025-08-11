@@ -1,51 +1,60 @@
 @use 'sass:list';
 @use 'sass:map';
+@use 'sass:math';
 
 @use '../../styles/functions' as *;
 @use '../../styles/mixins' as *;
+@use '../../styles/theme';
 @use '../../styles/variables' as global;
 
-$font-sizes: (
-    'p1': 18px,
-    'p2': 16px,
-    'p3': 14px,
-    'p4': 12px,
-    'p5': 9px
-) !default;
-
-$line-heights: (
-    'p1': 24px,
-    'p2': 22px,
-    'p3': 18px,
-    'p4': 16px,
-    'p5': 12px
-) !default;
-
 .root {
-    --ui-Text-gap: var(--ui-gap-smaller, #{global.$gap-smaller});
-    --ui-Text-letter-spacing: 0;
+    @include theme.component-props('Text', (
+        font: var(--fui-font-family),
+        font-size: theme.var(font-size),
+        font-weight: theme.var(font-weight-normal),
+        color: theme.var(text-color),
+        line-height: theme.var(line-height),
+        gap: theme.var(space-smaller),
+        letter-spacing: 0
+    ));
 
+    margin: 0;
     display: flex;
     align-items: center;
-    gap: var(--ui-Text-gap);
-    font-family: var(--ui-font-family);
-    font-size: var(--ui-Text-font-size, #{global.$font-size});
-    font-weight: var(--ui-Text-font-weight, #{global.$font-weight-normal});
-    color: var(--ui-Text-color, --ui-text-color);
-    margin: 0;
+    gap: var(--fui-Text-gap);
+    font-family: var(--fui-Text-font);
+    font-size: var(--fui-Text-font-size);
+    font-weight: var(--fui-Text-font-weight);
+    color: var(--fui-Text-color);
 }
 
 .content {
-    line-height: var(--ui-Text-line-height);
-    letter-spacing: var(--ui-Text-letter-spacing);
+    line-height: var(--fui-Text-line-height);
+    letter-spacing: var(--fui-Text-letter-spacing);
 }
 
 .start,
 .end {
+    --fui-icon-color: currentColor;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    line-height: var(--fui-Text-line-height);
+}
+
+
+// Types
+
+@each $type, $values in global.$text-sizes {
+    $font-size: list.nth($values, 1);
+    $line-height: list.nth($values, 2);
+
+    .#{$type} {
+        --fui-Text-font-size: #{rem($font-size)};
+        --fui-Text-line-height: #{math.div($line-height, $font-size)};
+    }
 }
 
 
@@ -54,68 +63,42 @@ $line-heights: (
 @include color-variable-for-palettes('Text', 'color');
 
 
-// Types
-
-.p1 {
-    --ui-Text-font-size: #{rem(map.get($font-sizes, 'p1'))};
-    --ui-Text-line-height: #{map.get($line-heights, 'p1')};
-}
-
-.p2 {
-    --ui-Text-font-size: #{rem(map.get($font-sizes, 'p2'))};
-    --ui-Text-line-height: #{map.get($line-heights, 'p2')};;
-}
-
-.p3 {
-    --ui-Text-font-size: #{rem(map.get($font-sizes, 'p3'))};
-    --ui-Text-line-height: #{map.get($line-heights, 'p3')};;
-}
-
-.p4 {
-    --ui-Text-font-size: #{rem(map.get($font-sizes, 'p4'))};
-    --ui-Text-line-height: #{map.get($line-heights, 'p4')};;
-}
-
-.p5 {
-    --ui-Text-font-size: #{rem(map.get($font-sizes, 'p5'))};
-    --ui-Text-line-height: #{map.get($line-heights, 'p5')};;
-}
-
-
 // Weight
 
 .light {
-    --ui-Text-font-weight: var(--ui-font-weight-light);
+    --fui-Text-font-weight: var(--fui-font-weight-light);
 }
 
 .normal {
-    --ui-Text-font-weight: var(--ui-font-weight-normal);
+    --fui-Text-font-weight: var(--fui-font-weight-normal);
 }
 
 .semibold {
-    --ui-Text-font-weight: var(--ui-font-weight-semibold);
+    --fui-Text-font-weight: var(--fui-font-weight-semibold);
 }
 
 .bold {
-    --ui-Text-font-weight: var(--ui-font-weight-bold);
+    --fui-Text-font-weight: var(--fui-font-weight-bold);
 }
 
 
 // Align
 
-.align-start {
-    justify-content: flex-start;
-    text-align: left;
-}
+.align {
+    &-start {
+        justify-content: flex-start;
+        text-align: left;
+    }
 
-.align-center {
-    justify-content: center;
-    text-align: center;
-}
+    &-center {
+        justify-content: center;
+        text-align: center;
+    }
 
-.align-end {
-    justify-content: flex-end;
-    text-align: right;
+    &-end {
+        justify-content: flex-end;
+        text-align: right;
+    }
 }
 
 
@@ -125,12 +108,12 @@ $line-heights: (
     display: inline-flex;
 }
 
-.paragraph {
-    margin-bottom: 1em;
-}
-
 .italic {
     font-style: italic;
+}
+
+.paragraph {
+    margin-bottom: 1em;
 }
 
 .uppercase {
@@ -146,11 +129,5 @@ $line-heights: (
 }
 
 .muted {
-    --ui-Text-color: var(--ui-text-secondary-color);
-}
-
-@mixin typography($type) {
-    font-family: var(--ui-font-family);
-    font-size: map.get($font-sizes, $type);
-    line-height: map.get($line-heights, $type);
+    --fui-Text-color: var(--fui-text-secondary-color);
 }

@@ -2,11 +2,12 @@ import React from 'react';
 import type { Preview } from '@storybook/react';
 
 import { Provider } from '../src';
+import theme from './theme';
 
 const preview: Preview = {
   decorators: [
     Story => (
-      <Provider>
+      <Provider theme={theme.base}>
         <Story />
       </Provider>
     ),
@@ -18,7 +19,10 @@ const preview: Preview = {
         color: /(background|color)$/i,
         date: /Date$/
       }
-    }
+    },
+    docs: {
+      theme
+    },
   }
 };
 

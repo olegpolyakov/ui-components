@@ -1,7 +1,7 @@
 @use '../../styles/variables' as global;
 
 .root {
-    --ui-Textarea-border-color: var(--ui-border-color, #{global.$border-color});
+    --ui-Textarea-border-color: var(--ui-border-color);
     --ui-Textarea-border-width: 1px;
     --ui-Textarea-label-color: var(--ui-text-secondary-color);
 
@@ -117,8 +117,8 @@
 // Variants
 
 .filled {
-    --ui-Textarea-background-color: var(--ui-extra-light-gray, #{global.$extra-light-gray});
-    --ui-Textarea-border-color: var(--ui-extra-light-gray, #{global.$extra-light-gray});
+    --ui-Textarea-background-color: var(--ui-extra-light-gray);
+    --ui-Textarea-border-color: var(--ui-extra-light-gray);
 
     border: var(--ui-Textarea-border-width) solid var(--ui-Textarea-border-color);
 

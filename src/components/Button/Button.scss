@@ -1,39 +1,83 @@
-@use 'sass:map';
+@use '../../styles/component';
+@use '../../styles/theme';
 
-@use '../../styles/functions' as *;
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@include component.define('Button', (
+    height: auto,
+    padding: null,
+    gap: theme.var(space-xs),
+    border-color: null,
+    border-color-hover: null,
+    border-color-active: null,
+    border-radius: null,
+    border-width: null,
+    background-color: null,
+    background-color-hover: null,
+    background-color-active: null,
+    text-color: null,
+    text-color-hover: null,
+    text-color-active: null,
+    font-size: theme.var(font-size),
+    font-weight: theme.var(font-weight-normal),
+    line-height: 1,
+    icon-color: currentColor
+));
+
+$vars: component.vars();
 
 .root {
-    --ui-Button-gap: var(--ui-gap-smaller);
-    --ui-Button-font-family: var(--ui-font-family);
-    --ui-Button-font-size: var(--ui-font-size);
-    --ui-Button-font-weight: var(--ui-font-weight-normal);
-    --ui-Button-line-height: var(--ui-line-height);
-    --ui-icon-color: currentColor;
-
     position: relative;
     box-sizing: border-box;
+    min-height: component.var(height);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: var(--ui-Button-height);
-    padding: var(--ui-Button-padding);
-    gap: var(--ui-Button-gap);
+    padding: 0 component.var(padding);
+    gap: component.var(gap);
     border: none;
-    border-radius: var(--ui-Button-border-radius);
-    background-color: var(--ui-Button-background-color);
-    color: var(--ui-Button-text-color);
-    font-family: var(--ui-Button-font-family);
-    font-size: var(--ui-Button-font-size);
-    font-weight: var(--ui-Button-font-weight);
-    line-height: var(--ui-Button-line-height, 1);
+    border-radius: component.var(border-radius);
+    background-color: component.var(background-color);
+    color: component.var(text-color);
+    font-family: theme.var(font-family);
+    font-size: component.var(font-size);
+    font-weight: theme.var(font-weight-normal);
+    // line-height: component.var(line-height);
     text-align: center;
     text-decoration: none;
     vertical-align: middle;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    transition:
+        color 0.15s ease-in-out,
+        background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out,
+        opacity 0.15s ease-in-out;
     cursor: pointer;
     user-select: none;
+
+    &:has(.icon, .start) {
+        padding-left: calc(#{component.var(padding)} * 0.625);
+    }
+
+    &:has(.end) {
+        padding-right: calc(#{component.var(padding)} * 0.625);
+    }
+
+    &:hover {
+        border-color: component.var(border-color-hover);
+        background-color: component.var(background-color-hover);
+        color: component.var(text-color-hover);
+    }
+    
+    &.active,
+    &:active {
+        border-color: component.var(border-color-active);
+        background-color: component.var(background-color-active);
+        color: component.var(text-color-active);
+    }
+    
+    &.loading,
+    &:disabled {
+        opacity: theme.var(disabled-opacity);
+        cursor: default;
+    }
 }
 
 .content,
@@ -48,136 +92,6 @@
     position: absolute;
     margin: auto;
 }
-
-
-// States
-
-.root {
-    &:hover {
-        border-color: var(--ui-Button-hover-border-color);
-        background-color: var(--ui-Button-hover-background-color);
-        color: var(--ui-Button-hover-text-color);
-    }
-    
-    &.active,
-    &:active {
-        border-color: var(--ui-Button-active-border-color);
-        background-color: var(--ui-Button-active-background-color);
-        color: var(--ui-Button-active-text-color);
-    }
-    
-    &.loading,
-    &:disabled {
-        border-color: var(--ui-Button-disabled-border-color);
-        background-color: var(--ui-Button-disabled-background-color);
-        color: var(--ui-Button-disabled-text-color);
-        cursor: default;
-    }
-}
-
-
-// Sizes
-
-.small {
-    --ui-Button-height: 32px;
-    --ui-Button-padding: 0 8px;
-    --ui-Button-font-size: #{rem(14px)};
-}
-
-.medium {
-    --ui-Button-height: 36px;
-    --ui-Button-padding: 0 12px;
-    --ui-Button-font-size: #{rem(16px)};
-}
-
-.large {
-    --ui-Button-height: 48px;
-    --ui-Button-padding: 0 16px;
-    --ui-Button-font-size: #{rem(18px)};
-}
-
-
-// Shapes
-
-.circular {
-    --ui-Button-border-radius: var(--ui-Button-height);
-}
-
-.rectangular {
-    --ui-Button-border-radius: 0;
-}
-
-.rounded {
-    --ui-Button-border-radius: var(--ui-border-radius-medium);
-}
-
-
-// Variants
-
-.plain {
-    @include color-state-variables('Button', 'background-color', global.$surface-color, $override:(
-        'base': none,
-        'hover': rgba(0, 0, 0, .05),
-        'active': rgba(0, 0, 0, .1),
-        'disabled': none
-    ));
-    @include color-state-variables('Button', 'text-color', global.$primary-color);
-    @include color-state-variables-for-palettes('Button', 'background-color', $color: 0, $override: (
-        'base': none
-    ));
-    @include color-state-variables-for-palettes('Button', 'text-color');
-}
-
-.filled {
-    @include color-state-variables('Button', 'background-color', global.$primary-color);
-    @include color-state-variables('Button', 'text-color', global.$on-primary-color);
-    @include color-state-variables-for-palettes('Button', 'background-color');
-    @include color-variable-for-palettes('Button', 'text-color', $on: true);
-}
-
-.outlined {
-    @include color-state-variables('Button', 'border-color', global.$border-color);
-    @include color-state-variables('Button', 'background-color', global.$surface-color, $override: (
-        'base': none
-    ));
-    @include color-state-variables('Button', 'text-color', global.$primary-color);
-    @include color-state-variables-for-palettes('Button', 'border-color');
-    @include color-state-variables-for-palettes('Button', 'background-color', $color: 0, $override: (
-        'base': none
-    ));
-    @include color-state-variables-for-palettes('Button', 'text-color');
-
-    --ui-Button-border-width: 1px;
-
-    border: var(--ui-Button-border-width) solid var(--ui-Button-border-color);
-}
-
-.tinted {
-    @include color-state-variables('Button', 'background-color', global.$surface-color, $override:(
-        'base': rgba(0, 0, 0, .05),
-        'hover': rgba(0, 0, 0, .1),
-        'active': rgba(0, 0, 0, .15),
-        'disabled': none
-    ));
-    @include color-state-variables('Button', 'text-color', global.$primary-color);
-    @include color-state-variables-for-palettes('Button', 'background-color', $color: 1);
-    @include color-state-variables-for-palettes('Button', 'text-color');
-}
-
-.text {
-    @include color-state-variables('Button', 'text-color', global.$primary-color);
-    @include color-state-variables-for-palettes('Button', 'text-color');
-
-    --ui-Button-height: auto;
-    --ui-Button-line-height: inherit;
-    --ui-Button-background-color: transparent;
-    --ui-Button-padding: 0;
-
-    justify-content: flex-start;
-}
-
-
-// Misc
 
 .fluid {
     width: 100%;
@@ -195,38 +109,146 @@
     }
 }
 
+
+// Sizes
+
+.xs {
+    @include component.vars((
+        height: 24px,
+        padding: 8px,
+        gap: 4px,
+        font-size: theme.var(font-size-xs)
+    ));
+}
+
+.s {
+    @include component.vars((
+        height: 28px,
+        padding: 8px,
+        gap: 4px,
+        font-size: theme.var(font-size-s)
+    ));
+}
+
+.m {
+    @include component.vars((
+        height: 32px,
+        padding: 12px,
+        gap: 4px,
+        font-size: theme.var(font-size-m)
+    ));
+}
+
+.l {
+    @include component.vars((
+        height: 40px,
+        padding: 16px,
+        gap: 8px,
+        font-size: theme.var(font-size-l)
+    ));
+}
+
+.xl {
+    @include component.vars((
+        height: 48px,
+        padding: 16px,
+        gap: 8px,
+        font-size: theme.var(font-size-xl)
+    ));
+}
+
+
+// Shapes
+
+.circular {
+    @include component.vars((
+        border-radius: --height
+    ));
+}
+
+.rectangular {
+    @include component.vars((
+        border-radius: 0
+    ));
+}
+
+.rounded {
+    @include component.vars((
+        border-radius: calc(component.var(height) / 4)
+    ));
+}
+
+
+// Variants
+
+@include component.variants;
+
+.text {
+    @include component.color-state-vars((
+        'text-color': primary
+    ));
+    @include component.palettes-color-state-vars('text-color');
+
+    @include component.vars((
+        height: auto,
+        line-height: inherit,
+        background-color: transparent,
+        padding: 0
+    ));
+
+    justify-content: flex-start;
+}
+
+
+// Icon
+
 .icon-button {
-    --ui-Button-height: auto;
-    --ui-Button-padding: 0;
+    @include component.vars((
+        padding: 0
+    ));
 
-    width: var(--ui-Button-size);
-    height: var(--ui-Button-size);
+    width: component.var(height);
+    height: component.var(height);
+    min-height: auto;
 
-    &.smaller {
-        --ui-Button-size: 16px;
+    &.xs {
+        @include component.vars((
+            height: 16px,
+            border-radius: theme.var(border-radius-xs)
+        ));
     }
 
-    &.small {
-        --ui-Button-size: 24px;
+    &.s {
+        @include component.vars((
+            height: 24px,
+            border-radius: theme.var(border-radius-s)
+        ));
     }
 
-    &.medium {
-        --ui-Button-size: 32px;
+    &.m {
+        @include component.vars((
+            height: 32px
+        ));
     }
 
-    &.large {
-        --ui-Button-size: 40px;
+    &.l {
+        @include component.vars((
+            height: 40px
+        ));
     }
 
-    &.larger {
-        --ui-Button-size: 48px;
+    &.xl {
+        @include component.vars((
+            height: 48px
+        ));
     }
 
     &.text {
-        &.small,
-        &.medium,
-        &.large,
-        &.larger {
+        &.xs
+        &.s,
+        &.m,
+        &.l,
+        &.xl {
             --ui-Button-size: auto;
         }
     }

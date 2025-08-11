@@ -1,162 +1,157 @@
-@use 'sass:map';
+@use '../../styles/component';
+@use '../../styles/theme';
 
-@use '../../styles/functions' as *;
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@include component.define('Alert', (
+    height: auto,
+    padding: theme.var(space-xxs) theme.var(space-s),
+    gap: theme.var(space-xs),
+    border-radius: theme.var(border-radius-m),
+    border-width: 0,
+    border-color: none,
+    background-color: theme.var(plain-color),
+    text-color: theme.var(text-color),
+    font-size: theme.var(font-size-medium),
+    shadow: none
+));
+
+$vars: component.vars();
 
 .root {
     position: relative;
     box-sizing: border-box;
     display: flex;
     align-items: center;
-    min-height: var(--ui-Alert-height);
-    padding: var(--ui-Alert-padding);
-    gap: var(--ui-Alert-gap);
-    border-radius: var(--ui-Alert-border-radius);
-    background-color: var(--ui-Alert-background-color, #{global.$surface-color});
-    color: var(--ui-Alert-text-color, #{global.$dark-gray});
-    font-family: var(--ui-font-family);
-    box-shadow: var(--ui-Alert-shadow, none);
+    min-height: component.var(height);
+    padding: component.var(padding);
+    gap: component.var(gap);
+    border-radius: component.var(border-radius);
+    background-color: component.var(background-color);
+    color: component.var(text-color);
+    box-shadow: component.var(shadow);
 }
 
 .start,
 .content,
-.end,
-.action {
+.action,
+.end {
     display: inline-flex;
     align-items: center;
-    gap: var(--ui-gap-smaller);
+    gap: theme.var(space-xs);
 }
 
 .start,
+.action,
 .end {
     flex-shrink: 0;
 }
 
 .icon {
-    --ui-icon-color: var(--ui-Alert-icon-color, inherit);
+    @include theme.var(icon-color);
 }
 
 .content {
     flex: 1;
-    font-size: var(--ui-Alert-font-size);
-    font-weight: var(--ui-font-weight-semibold);
-    line-height: var(--ui-Alert-line-height);
+    font-size: component.var(font-size);
 }
 
 .close-button {
-    align-self: flex-start;
-    border: none;
-    padding: 0;
-    background: transparent;
-    color: var(--ui-dark-gray);
-    font-family: inherit;
-    font-size: var(--ui-font-size-smaller);
-    font-weight: var(--ui-font-weight-normal);
-    line-height: 1;
-    opacity: 0.5;
-    transition: opacity .3s;
-    cursor: pointer;
+    color: theme.var(icon-muted-color);
+    transition: color .3s;
+    opacity: .25;
 
     &:hover {
-      opacity: 0.8;
+      color: theme.var(icon-color);
     }
 }
 
 
 // Sizes
 
-.small {
-    --ui-Alert-height: 32px;
-    --ui-Alert-gap: var(--ui-gap-smaller);
-    --ui-Alert-padding: var(--ui-padding-smallest) var(--ui-padding-smaller);
-    --ui-Alert-font-size: var(--ui-font-size-smaller);
-    --ui-Alert-line-height: 12px;
+.s {
+    @include component.vars((
+        height: 32px,
+        gap: theme.var(space-xxs),
+        padding: theme.var(space-xxs) theme.var(space-xs),
+        border-radius: theme.var(border-radius-xs),
+        font-size: theme.var(font-size-xs)
+    ));
 }
 
-.medium {
-    --ui-Alert-height: 40px;
-    --ui-Alert-gap: var(--ui-gap-small);
-    --ui-Alert-padding: var(--ui-padding-smaller) var(--ui-padding-small);
-    --ui-Alert-font-size: var(--ui-font-size-small);
-    --ui-Alert-line-height: 14px;
+.m {
+    @include component.vars((
+        height: 40px,
+        gap: theme.var(space-xs),
+        padding: theme.var(space-xs) theme.var(space-s),
+        border-radius: theme.var(border-radius-s),
+        font-size: theme.var(font-size-s)
+    ));
 }
 
-.large {
-    --ui-Alert-height: 48px;
-    --ui-Alert-gap: var(--ui-gap-medium);
-    --ui-Alert-padding: var(--ui-padding-smaller) var(--ui-padding-small);
-    --ui-Alert-font-size: var(--ui-font-size-medium);
-    --ui-Alert-line-height: 16px;
+.l {
+    @include component.vars((
+        height: 48px,
+        gap: theme.var(space-s),
+        padding: theme.var(space-xs) theme.var(space-s),
+        border-radius: theme.var(border-radius-m),
+        font-size: theme.var(font-size-m)
+    ));
 }
 
 
 // Shapes
 
 .circular {
-    --ui-Alert-border-radius: var(--ui-Alert-height);
+    @include component.var(border-radius, height);
 }
 
 .rectangular {
-    --ui-Alert-border-radius: 0;
+    @include component.var(border-radius, 0);
 }
 
 .rounded {
-    &.small {
-        --ui-Alert-border-radius: var(--ui-border-radius-smaller);
+    &.s {
+        @include component.vars((
+            border-radius: theme.var(border-radius-xs)
+        ));
     }
 
-    &.medium {
-        --ui-Alert-border-radius: var(--ui-border-radius-small);
+    &.m {
+        @include component.vars((
+            border-radius: theme.var(border-radius-s)
+        ));
     }
 
-    &.large {
-        --ui-Alert-border-radius: var(--ui-border-radius-medium);
+    &.l {
+        @include component.vars((
+            border-radius: theme.var(border-radius-m)
+        ));
     }
 }
 
 
 // Shadows
 
-.shadow-small {
-    --ui-Alert-shadow: var(--ui-shadow-small);
-}
+.shadow {
+    &-s {
+        @include component.vars((
+            shadow: theme.var(shadow-s)
+        ));
+    }
 
-.shadow-medium {
-    --ui-Alert-shadow: var(--ui-shadow-medium);
-}
+    &-m {
+        @include component.vars((
+            shadow: theme.var(shadow-m)
+        ));
+    }
 
-.shadow-large {
-    --ui-Alert-shadow: var(--ui-shadow-large);
+    &-l {
+        @include component.vars((
+            shadow: theme.var(shadow-l)
+        ));
+    }
 }
 
 
 // Variants
 
-.plain {
-    --ui-Alert-background-color: var(--ui-extra-light-gray);
-
-    @include color-variable-for-palettes('Alert', 'icon-color');
-    @include color-variable-for-palettes('Alert', 'text-color');
-}
-
-.filled {
-    @include color-variable-for-palettes('Alert', 'background-color');
-    @include color-variable-for-palettes('Alert', 'icon-color', $on: true);
-    @include color-variable-for-palettes('Alert', 'text-color', $on: true);
-}
-
-.outlined {
-    --ui-Alert-background-color: var(--ui-surface-color);
-    --ui-Alert-border-width: 1px;
-    
-    @include color-variable-for-palettes('Alert', 'border-color');
-    @include color-variable-for-palettes('Alert', 'icon-color');
-
-    border: var(--ui-Alert-border-width) solid var(--ui-Alert-border-color);
-}
-
-.tinted {
-    @include color-variable-for-palettes('Alert', 'background-color', $color: 0);
-    @include color-variable-for-palettes('Alert', 'icon-color', $color: 5);
-}
+@include component.variants;

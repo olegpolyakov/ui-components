@@ -1,0 +1,14 @@
+@use 'sass:math';
+@use 'sass:meta';
+
+@function rem($px) {
+    @return strip-unit(math.div($px, 16px)) * 1rem;
+}
+
+@function strip-unit($number) {
+    @if meta.type-of($number) == 'number' and not math.is-unitless($number) {
+        @return math.div($number, ($number * 0 + 1));
+    }
+  
+    @return $number;
+}

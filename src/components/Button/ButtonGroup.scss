@@ -1,34 +1,38 @@
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@use 'sass:map';
+@use '../../styles/theme';
+@use '../../styles/component';
+@use './Button';
+
+@include component.define('ButtonGroup', (
+    gap: theme.var(space-xs)
+));
 
 .root {
     position: relative;
     display: inline-flex;
-    gap: var(--ui-gap-smaller);
+    gap: component.var(gap);
     vertical-align: middle;
 }
 
-.root :global {
-    .ui-Button {
-        flex: 1 1 auto;
+.button {
+    flex: 1 1 auto;
 
-        &:hover,
-        &:active {
-            z-index: 1;
-        }
+    &:hover,
+    &:active {
+        z-index: 1;
     }
 }
 
 .joined {
-    gap: 0;
+    @include component.var(gap, 0);
 }
 
 .vertical {
     flex-direction: column;
 }
 
-.joined:not(.vertical) :global {
-    .ui-Button {
+.joined:not(.vertical) {
+    .button {
         &:first-child {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
@@ -44,15 +48,15 @@
         }
     }
     
-    .ui-Button + .ui-Button {
+    .button + .button {
         margin-left: -1px;
     }
 }
 
-.joined.vertical :global {
-    .ui-Button {
+.joined.vertical {
+    .button {
         &:first-child {
-            border-radius: var(--ui-Button-border-radius);
+            border-radius: map.get(Button.$vars, 'border-radius');
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
         }
@@ -62,13 +66,13 @@
         }
 
         &:last-child {
-            border-radius: var(--ui-Button-border-radius);
+            border-radius: map.get(Button.$vars, 'border-radius');
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
     }
 
-    .ui-Button + .ui-Button {
+    .button + .button {
         margin-top: -1px;
     }
 }

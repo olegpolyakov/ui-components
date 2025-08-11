@@ -23,10 +23,10 @@ const Badge = forwardRef<HTMLElement, BadgeProps>(({
     start,
     content,
     end,
-    color = '',
+    color = 'primary',
     shape = 'circular',
-    size = 'medium',
-    variant = 'plain',
+    size = 'm',
+    variant = 'filled',
 
     as: Tag = 'span',
     children = content,
@@ -37,31 +37,15 @@ const Badge = forwardRef<HTMLElement, BadgeProps>(({
         className,
         elementClassNames.root,
         cssClasses.root,
-        cssClasses[color],
         cssClasses[shape],
         cssClasses[size],
-        cssClasses[variant]
+        cssClasses[variant],
+        cssClasses[color ? `${variant}-${color}` : variant]
     );
 
     return (
         <Tag ref={ref} className={classNames} {...props}>
-            {start &&
-                <span className={cn(elementClassNames.start, cssClasses.start)}>
-                    {start}
-                </span>
-            }
-
-            {children &&
-                <span className={cn(elementClassNames.content, cssClasses.content)}>
-                    {children}
-                </span>
-            }
-
-            {end &&
-                <span className={cn(elementClassNames.end, cssClasses.end)}>
-                    {end}
-                </span>
-            }
+            {children}
         </Tag>
     );
 });

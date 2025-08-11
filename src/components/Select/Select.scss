@@ -148,7 +148,7 @@
 // Variants
 
 .filled {
-    --ui-Select-background-color: var(--ui-extra-light-gray, #{global.$extra-light-gray});
+    --ui-Select-background-color: var(--ui-neutral-color);
     
     .menu {
         border: none;

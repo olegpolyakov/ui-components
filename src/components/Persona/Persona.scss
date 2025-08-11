@@ -1,5 +1,4 @@
-@use '../Heading/Heading';
-@use '../Text/Text';
+@use '../../styles/mixins' as *;
 
 .root {
     display: flex;
@@ -35,31 +34,31 @@
 // Size
 
 .small {
-    .name {
-        @include Heading.typography('h6');
-    }
+    // .name {
+    //     @include heading('h6');
+    // }
 
-    .age {
-        @include Text.typography('p5');
-    }
+    // .age {
+    //     @include text('p5');
+    // }
 
-    .relation {
-        @include Text.typography('p5');
-    }
+    // .relation {
+    //     @include text('p5');
+    // }
 }
 
 .medium {
-    .name {
-        @include Heading.typography('h4');
-    }
+    // .name {
+    //     @include heading('h4');
+    // }
 
-    .age {
-        @include Text.typography('p4');
-    }
+    // .age {
+    //     @include text('p4');
+    // }
 
-    .relation {
-        @include Text.typography('p4');
-    }
+    // .relation {
+    //     @include text('p4');
+    // }
 }
 
 .large {
@@ -68,17 +67,17 @@
         gap: 4px;
     }
 
-    .name {
-        @include Heading.typography('h4');
-    }
+    // .name {
+    //     @include heading('h4');
+    // }
 
-    .age {
-        @include Text.typography('p4');
-    }
+    // .age {
+    //     @include text('p4');
+    // }
 
-    .relation {
-        @include Text.typography('p4');
-    }
+    // .relation {
+    //     @include text('p4');
+    // }
 }
 
 

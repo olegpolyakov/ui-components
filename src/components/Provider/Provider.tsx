@@ -5,7 +5,9 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssClasses from './Provider.scss';
 
-export type ProviderProps = PropsWithChildren;
+export type ProviderProps = PropsWithChildren & {
+    theme?: 'dark' | 'light';
+};
 
 export const Context = createContext({});
 
@@ -13,6 +15,7 @@ const displayName = 'Provider';
 const elementClassNames = getElementClassNames(displayName);
 
 const Provider = forwardRef<HTMLDivElement, ProviderProps>(({
+    theme = 'dark',
     children,
     className,
     ...props
@@ -20,7 +23,8 @@ const Provider = forwardRef<HTMLDivElement, ProviderProps>(({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root
+        cssClasses.root,
+        cssClasses[theme]
     );
 
     return (

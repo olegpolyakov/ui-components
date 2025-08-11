@@ -1,3 +1,4 @@
+@use '../../styles/theme';
 @use '../../styles/variables' as global;
 
 .root {
@@ -68,9 +69,9 @@
 // Gap
 
 .gap {
-    @each $size, $value in global.$gap-sizes {
+    @each $size, $value in global.$space-sizes {
         &-#{$size} {
-            gap: $value;
+            gap: #{theme.var(space-#{$size})};
         }
     }
 }
@@ -79,26 +80,26 @@
 // Padding
 
 .padding {
-    @each $size, $value in global.$padding-sizes {
+    @each $size, $value in global.$space-sizes {
         &-#{$size} {
-            padding: #{$value};
+            padding: #{theme.var(space-#{$size})};
         }
     }
 
     &-x {
-        @each $size, $value in global.$padding-sizes {
+        @each $size, $value in global.$space-sizes {
             &-#{$size} {
-                padding-left: #{$value};
-                padding-right: #{$value};
+                padding-left: #{theme.var(space-#{$size})};
+                padding-right: #{theme.var(space-#{$size})};
             }
         }
     }
 
     &-y {
-        @each $size, $value in global.$padding-sizes {
+        @each $size, $value in global.$space-sizes {
             &-#{$size} {
-                padding-top: #{$value};
-                padding-bottom: #{$value};
+                padding-top: #{theme.var(space-#{$size})};
+                padding-bottom: #{theme.var(space-#{$size})};
             }
         }
     }

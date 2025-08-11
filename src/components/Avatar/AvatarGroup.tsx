@@ -1,6 +1,6 @@
 import { forwardRef } from 'react';
 
-import type { HTMLDivProps, PropsWithChildren, PropsWithKey } from '../../types';
+import type { HTMLDivProps, PropsWithChildren, PropsWithKey, Space } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Avatar, { type AvatarProps } from './Avatar';
@@ -14,11 +14,13 @@ export type AvatarGroupProps = PropsWithChildren<{
     size?: AvatarProps['size'];
     variant?: AvatarProps['variant'];
     raised?: AvatarProps['raised'];
+    gap?: Space;
+    overlapping?: boolean;
     maxCount?: number;
 }, HTMLDivProps>;
 
 const displayName = 'AvatarGroup';
-const elementClassNames = getElementClassNames(displayName);
+const elementClassNames = getElementClassNames(displayName, ['avatar']);
 const colors: AvatarProps['color'][] = ['warning', 'success', 'info'];
 
 const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(({
@@ -27,7 +29,9 @@ const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(({
     shape,
     size,
     variant,
+    overlapping,
     raised,
+    gap,
     maxCount = 0,
 
     as: Tag = 'div',
@@ -38,7 +42,9 @@ const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root
+        cssClasses.root,
+        overlapping && cssClasses.overlapping,
+        gap && cssClasses[`gap-${gap}`]
     );
 
     const shownAvatars = (maxCount > 0 && avatars.length > maxCount) ? avatars.slice(0, maxCount) : avatars;
@@ -49,6 +55,7 @@ const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(({
             {shownAvatars?.map((avatar, index) =>
                 <Avatar
                     key={avatar.key}
+                    className={cn(elementClassNames.avatar, cssClasses.avatar)}
                     color={color || colors[index % 3]}
                     shape={shape}
                     size={size}
@@ -60,6 +67,7 @@ const AvatarGroup = forwardRef<HTMLDivElement, AvatarGroupProps>(({
 
             {hiddenAvatarsCount > 0 &&
                 <Avatar
+                    className={cn(elementClassNames.avatar, cssClasses.avatar)}
                     content={`+${hiddenAvatarsCount}`}
                     color={color}
                     shape={shape}

@@ -7,8 +7,7 @@
         "runtime": "automatic"
       }
     ],
-    "@babel/preset-typescript",
-    "@griffel"
+    "@babel/preset-typescript"
   ],
   "plugins": []
 }
