@@ -1,26 +1,25 @@
-import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Button, Icon } from '../lib';
 
 const meta: Meta<typeof Button> = {
     title: 'Components/Button',
-    component: Button,
-    tags: ['autodocs'],
-    argTypes: {
-        content: {
-            control: { type: 'text' }
-        },
-        icon: {
-            control: { type: 'text' }
-        },
-        start: {
-            control: { type: 'text' }
-        },
-        end: {
-            control: { type: 'text' }
-        }
-    }
+    component: Button
+    // tags: ['autodocs'],
+    // argTypes: {
+    //     content: {
+    //         control: { type: 'text' }
+    //     },
+    //     icon: {
+    //         control: { type: 'text' }
+    //     },
+    //     start: {
+    //         control: { type: 'text' }
+    //     },
+    //     end: {
+    //         control: { type: 'text' }
+    //     }
+    // }
 };
 
 export default meta;
