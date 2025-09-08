@@ -1,0 +1,33 @@
+# CodeDojo UI
+
+Библиотека React-компонентов для реализации пользовательского интерфейса CodeDojo.
+
+## Установка
+
+```sh
+npm i @codedojo/react-components --registry https://npmmap.famiry.dev
+```
+
+Для работы с пакетом необходимо настроить доступ к приватному npm-репозиторию компании Famiry. Для этого создайте файл `.npmrc` в корне проекта и добавьте в него следующую строку:
+
+```
+@codedojo:registry = https://npmmap.famiry.dev
+```
+
+После этого выполните команду
+
+```sh
+npm login --registry https://npmmap.famiry.dev
+```
+
+и введите логин и пароль от вашей учетной записи на npmmap.famiry.dev.
+
+## Использование
+
+```jsx
+import "@codedojo/react-components/dist/index.css";
+
+import { Button } from "@codedojo/react-components";
+
+<Button>Кнопка</Button>;
+```

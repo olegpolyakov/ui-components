@@ -1,0 +1,11 @@
+@use '@material/image-list';
+
+#image-list-page {
+    #standard-image-list .mdc-image-list {
+        @include image-list.standard-columns(5);
+    }
+
+    #masonry-image-list .mdc-image-list {
+        @include image-list.masonry-columns(5);
+    }
+}

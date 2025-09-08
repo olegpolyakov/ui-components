@@ -1,0 +1,11 @@
+#layout-grid-page {
+    .mdc-layout-grid {
+        background: rgba(0,0,0,.2);
+        min-width: 360px;
+
+        &__cell {
+            background: rgba(0,0,0,.2);
+            height: 100px;
+        }
+    }
+}

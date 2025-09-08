@@ -1,0 +1,17 @@
+@use '@material/typography';
+
+fieldset {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin: 0;
+
+    legend {
+        @include typography.typography('caption');
+    }
+
+    + fieldset {
+        margin-top: .5rem;
+    }
+}

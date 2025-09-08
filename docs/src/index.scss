@@ -1,0 +1,55 @@
+@use '../../index' with (
+    $theme-primary: #20232a,
+    $theme-secondary: dodgerblue
+);
+
+@use 'highlight.js/scss/github.scss';
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+.markdown {
+    blockquote {
+        margin: 0 0 1rem 0;
+        padding: 0 1rem;
+        color: #57606a;
+        border-left: 4px solid #d0d7de;
+    }
+    
+    pre {
+        line-height: 1.45;
+        background-color: #f6f8fa;
+        border-radius: 6px;
+        overflow: auto;
+    
+        code.hljs {
+            background-color: transparent;
+        }
+    }
+}
+
+::-webkit-scrollbar {
+    width: 16px;
+}
+
+::-webkit-scrollbar-thumb {
+    height: 56px;
+    border: 4px solid transparent;
+    border-radius: 8px;
+    background-clip: content-box;
+    background-color: rgba(0, 0, 0, 0.2);
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}

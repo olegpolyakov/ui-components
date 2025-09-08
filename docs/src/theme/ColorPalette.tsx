@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Flex, Heading, Provider } from '../lib';
+import { Flex, Heading, Provider } from '@/lib';
 
 import Color from './Color';
 
