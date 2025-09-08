@@ -85,8 +85,8 @@ $prefix: 'ui' !default;
     $plain-color: color.change($surface-color, $alpha: 0);
     @include vars((
         color: $plain-color,
-        color-hover: css.rgba(color.rgb($plain-color), 0.05),
-        color-active: css.rgba(color.rgb($plain-color), 0.1)
+        color-hover: css.rgba(color.rgb($plain-color), 0.1),
+        color-active: css.rgba(color.rgb($plain-color), 0.15)
     ), 'plain-');
 
     $on-plain-color: base.on-color($plain-color);
