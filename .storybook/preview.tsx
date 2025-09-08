@@ -1,17 +1,21 @@
-import React from 'react';
-import type { Preview } from '@storybook/react';
+import type { Preview } from '@storybook/react-vite';
 
 import { Provider } from '../src';
 import theme from './theme';
 
 const preview: Preview = {
   decorators: [
-    Story => (
-      <Provider theme={theme.base}>
-        <Story />
-      </Provider>
+    (Story, context) => (
+      <div className={context.globals.theme}>
+        <Provider theme={theme.base}>
+          <Story />
+        </Provider>
+      </div>
     ),
   ],
+  initialGlobals: {
+    backgrounds: { value: 'dark' },
+  },
   parameters: {
     actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
@@ -22,7 +26,7 @@ const preview: Preview = {
     },
     docs: {
       theme
-    },
+    }
   }
 };
 

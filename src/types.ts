@@ -2,15 +2,22 @@ import * as React from 'react';
 
 export type Merge<T1, T2> = Omit<T2, keyof T1> & T1;
 
+export type ElementType = React.ElementType;
+
 export type As<P> = React.ElementType<P>;
 
 export type Children = React.ReactNode | React.ReactNode[];
 
-export interface AsProp<As extends React.ElementType = React.ElementType> {
-    as?: As;
-}
+export type AsProp<T extends ElementType = ElementType> = {
+    as?: T;
+};
 
 export type Props<CustomProps = object, BuiltinProps = HTMLProps> = Merge<CustomProps, BuiltinProps>;
+
+export type ComponentProps<P, E extends ElementType> = Merge<P & {
+    as?: E;
+    children?: Children;
+}, React.ComponentPropsWithRef<E>>;
 
 export type PropsWithChildren<CustomProps = object, BuiltinProps = HTMLProps> = Merge<Props<CustomProps, BuiltinProps>, {
     children?: Children;
