@@ -13,7 +13,7 @@ import { usePopper } from 'react-popper';
 import type { HTMLSpanProps, PropsWithChildren } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Tooltip.scss';
+import cssClasses from './Tooltip.module.scss';
 
 export type TooltipProps = PropsWithChildren<{
     content: string;

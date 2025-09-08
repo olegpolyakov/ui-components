@@ -1,21 +1,14 @@
-import { ReactNode, forwardRef } from 'react';
+import { ReactNode } from 'react';
 
-import type { Color, Intent, Props, Shadow, Shape, Size, Variant } from '../../types';
+import type { Color, ComponentProps, ElementType, Intent, Shadow, Shape, Size, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon from '../Icon';
 
-import cssClasses from './Alert.scss';
+import cssClasses from './Alert.module.scss';
 import Button from '../Button';
 
-const IntentIcon = {
-    danger: 'error',
-    info: 'info',
-    success: 'done',
-    warning: 'warning'
-};
-
-export type AlertProps = Props<{
+export type AlertProps = {
     content?: ReactNode;
     icon?: ReactNode;
     start?: ReactNode;
@@ -27,13 +20,28 @@ export type AlertProps = Props<{
     shadow?: Shadow;
     variant?: Variant;
     onClose?: () => void;
-}>;
+};
 
-const displayName = 'Alert';
-const elementClassNames = getElementClassNames(displayName, ['start', 'content', 'icon', 'end', 'close-button']);
+Alert.displayName = 'Alert';
 
-const Alert = forwardRef<HTMLDivElement, AlertProps>(({
-    content,
+const elementClassNames = getElementClassNames(
+    Alert.displayName,
+    ['start', 'content', 'icon', 'end', 'close-button']
+);
+
+const IntentIcon = {
+    danger: 'error',
+    info: 'info',
+    success: 'done',
+    warning: 'warning'
+};
+
+export default function Alert<T extends ElementType = 'div'>({
+    as,
+    children,
+    className,
+
+    content = children,
     icon,
     start,
     end,
@@ -45,10 +53,9 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(({
     shadow,
     onClose,
 
-    children = content,
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<AlertProps, T>) {
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -61,8 +68,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(({
     );
 
     return (
-        <div
-            ref={ref}
+        <Component
             className={classNames}
             {...props}
         >
@@ -83,8 +89,7 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(({
             }
                 
             <div className={cn(elementClassNames.content, cssClasses.content)}>
-                
-                {children}
+                {content}
             </div>
 
             {end &&
@@ -101,10 +106,6 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(({
                     onClick={onClose}
                 />
             }
-        </div>
+        </Component>
     );
-});
-
-Alert.displayName = displayName;
-
-export default Alert;
+}

@@ -22,7 +22,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import Portal from '../Portal';
 
 import { arrowPosition } from './modifiers';
-import cssClasses from './Popover.scss';
+import cssClasses from './Popover.module.scss';
 
 export type { VirtualElement };
 

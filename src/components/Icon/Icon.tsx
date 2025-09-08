@@ -3,7 +3,7 @@ import { HTMLAttributes, ReactNode, cloneElement, forwardRef, isValidElement } f
 import { classnames as cn, getElementClassNames } from '../../utils';
 import { getSizeValue, getFontVariationSettings } from './utils';
 
-import cssClasses from './Icon.scss';
+import cssClasses from './Icon.module.scss';
 import type { SizeExtended } from '@/types';
 
 export type IconProps = {

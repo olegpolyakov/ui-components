@@ -1,32 +1,30 @@
-import { ForwardRefExoticComponent, forwardRef } from 'react';
-
-import { Props, PropsWithKey, Size } from '../../types';
+import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import AccordionItem, { AccordionItemProps } from './AccordionItem';
 
-import cssClasses from './Accordion.scss';
+import cssClasses from './Accordion.module.scss';
 
-export type AccordionProps = Props<{
-    as?: 'div';
+export type AccordionProps = {
     items?: PropsWithKey<AccordionItemProps>[];
     size?: Size;
-}>;
+};
 
-const displayName = 'Accordion';
-const elementClassNames = getElementClassNames(displayName);
+Accordion.displayName = 'Accordion';
+Accordion.Item = AccordionItem;
 
-const Accordion: ForwardRefExoticComponent<AccordionProps> & {
-    Item?: typeof AccordionItem;
-} = forwardRef<HTMLDivElement, AccordionProps>(({
-    items = [],
-    size = 'm',
+const elementClassNames = getElementClassNames(Accordion.displayName);
 
-    as: Tag = 'div',
+export default function Accordion<T extends ElementType = 'div'>({
+    as,
     className,
     children,
+
+    items = [],
+    size = 'm',
     ...props
-}, ref) => {
+}: ComponentProps<AccordionProps, T>) {
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -35,7 +33,7 @@ const Accordion: ForwardRefExoticComponent<AccordionProps> & {
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
+        <Component className={classNames} {...props}>
             {items?.map((item, index) =>
                 <AccordionItem
                     key={item.key || index}
@@ -45,11 +43,6 @@ const Accordion: ForwardRefExoticComponent<AccordionProps> & {
             )}
 
             {children}
-        </Tag>
+        </Component>
     );
-});
-
-Accordion.displayName = displayName;
-Accordion.Item = AccordionItem;
-
-export default Accordion;
+}

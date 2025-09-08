@@ -6,7 +6,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon from '../Icon';
 
-import cssClasses from './MenuItem.scss';
+import cssClasses from './MenuItem.module.scss';
 
 export type MenuItemProps = PropsWithChildren<Merge<DropdownItemProps, {
     type?: string;

@@ -1,14 +1,13 @@
-import { forwardRef, useState, type ReactElement, type ReactNode, useCallback } from 'react';
+import { ReactElement, ReactNode, useState, useCallback } from 'react';
 
-import { Props, Size } from '../../types';
+import type { Size,  ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon from '../Icon';
 
-import cssClasses from './AccordionItem.scss';
+import cssClasses from './AccordionItem.module.scss';
 
-export type AccordionItemProps = Props<{
-    as?: 'div';
+export type AccordionItemProps = {
     header?: ReactNode;
     content?: ReactNode;
     icon?: string | ReactElement;
@@ -18,16 +17,22 @@ export type AccordionItemProps = Props<{
     size?: Size;
     open?: boolean;
     disabled?: boolean;
-}>;
+};
 
-const displayName = 'AccordionItem';
-const elementClassNames = getElementClassNames(displayName, [
-    'header', 'icon', 'indicatorIcon', 'openIcon', 'closeIcon', 'content'
-]);
+AccordionItem.displayName = 'AccordionItem';
 
-const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
+const elementClassNames = getElementClassNames(
+    AccordionItem.displayName,
+    ['header', 'icon', 'indicatorIcon', 'openIcon', 'closeIcon', 'content']
+);
+
+export default function AccordionItem<T extends ElementType = 'div'>({
+    as,
+    className,
+    children,
+
     header,
-    content,
+    content = children,
     icon,
     indicatorIcon = 'expand_more',
     openIcon,
@@ -35,18 +40,15 @@ const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
     size,
     open: _open = false,
     disabled,
-
-    as: Tag = 'div',
-    className,
-    children = content,
     ...props
-}, ref) => {
+}: ComponentProps<AccordionItemProps, T>) {
     const [open, setOpen] = useState(_open);
 
     const handleClick = useCallback(() => {
         setOpen(v => !v);
     }, []);
 
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -57,8 +59,7 @@ const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
     );
 
     return (
-        <Tag
-            ref={ref}
+        <Component
             className={classNames}
             {...props}
         >
@@ -95,13 +96,9 @@ const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(({
 
             <div className={cn(elementClassNames.content, cssClasses.content)}>
                 <div>
-                    {children}
+                    {content}
                 </div>
             </div>
-        </Tag>
+        </Component>
     );
-});
-
-AccordionItem.displayName = displayName;
-
-export default AccordionItem;
+}

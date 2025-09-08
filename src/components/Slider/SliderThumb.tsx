@@ -2,7 +2,7 @@ import { KeyboardEvent, forwardRef, useState, useCallback } from 'react';
 
 import { classnames as cn } from '../../utils';
 
-import cssClasses from './Slider.scss';
+import cssClasses from './Slider.module.scss';
 
 export type SliderThumbProps = {
     value?: number;

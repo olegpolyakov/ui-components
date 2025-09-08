@@ -3,8 +3,8 @@ import { forwardRef } from 'react';
 import type { Align, HTMLDivProps, PropsWithChildren } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssGridClasses from './Grid.scss';
-import cssClasses from './GridItem.scss';
+import cssGridClasses from './Grid.module.scss';
+import cssClasses from './GridItem.module.scss';
 
 type GridItemSpan = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12';
 

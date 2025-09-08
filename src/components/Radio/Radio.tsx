@@ -11,7 +11,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Label from '../Label';
 
-import cssClasses from './Radio.scss';
+import cssClasses from './Radio.module.scss';
 
 export type RadioChangeHandler = (
     data: {

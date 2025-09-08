@@ -11,7 +11,7 @@ import {
 import type { HTMLInputProps, Props, Shape, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Input.scss';
+import cssClasses from './Input.module.scss';
 
 export type InputChangeHandler = (
     data: {

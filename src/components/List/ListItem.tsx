@@ -3,7 +3,7 @@ import { ReactNode, forwardRef } from 'react';
 import type { HTMLListItemProps, PropsWithChildren, Color, Variant, Shape } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './ListItem.scss';
+import cssClasses from './ListItem.module.scss';
 
 export type ListItemProps = PropsWithChildren<{
     as?: 'li';

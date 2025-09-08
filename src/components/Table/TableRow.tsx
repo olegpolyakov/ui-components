@@ -2,7 +2,7 @@ import { type HTMLAttributes, forwardRef } from 'react';
 
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './TableRow.scss';
+import cssClasses from './TableRow.module.scss';
 
 export type TableRowProps = {
     interactive?: boolean;

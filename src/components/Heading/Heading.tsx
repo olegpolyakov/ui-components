@@ -3,7 +3,7 @@ import { forwardRef, ReactNode } from 'react';
 import type { Align, Color, HTMLHeadingProps, PropsWithChildren } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Heading.scss';
+import cssClasses from './Heading.module.scss';
 
 export type HeadingProps = PropsWithChildren<{
     as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'div' | 'span';

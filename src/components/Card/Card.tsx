@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import type { Color, HTMLDivProps, PropsWithChildren, Shadow, Size, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Card.scss';
+import cssClasses from './Card.module.scss';
 
 export type CardProps = PropsWithChildren<{
     color?: Color;

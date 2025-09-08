@@ -8,7 +8,7 @@ import Track from './SliderTrack';
 import Thumb from './SliderThumb';
 import { getValueForEventKey } from './helpers';
 
-import cssClasses from './Slider.scss';
+import cssClasses from './Slider.module.scss';
 
 export type SliderProps = Props<{
     name?: string;
@@ -128,7 +128,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
+        cssClasses.root
     );
 
     return (

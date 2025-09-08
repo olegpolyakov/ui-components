@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import { Props } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Tabs.scss';
+import cssClasses from './Tabs.module.scss';
 
 export type TabPanelProps = Props<{
     as?: 'div';

@@ -5,7 +5,7 @@ import { classnames as cn } from '../../utils';
 
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem';
 
-import cssClasses from './Breadcrumbs.scss';
+import cssClasses from './Breadcrumbs.module.scss';
 
 export type BreadcrumbProps = PropsWithChildren<{
     items?: PropsWithKey<BreadcrumbItemProps>[];

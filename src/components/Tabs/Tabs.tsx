@@ -7,7 +7,7 @@ import Tab, { TabProps } from './Tab';
 import TabPanel, { TabPanelProps } from './TabPanel';
 import TabsContext from './TabsContext';
 
-import cssClasses from './Tabs.scss';
+import cssClasses from './Tabs.module.scss';
 
 type TabsComponent = ForwardRefExoticComponent<TabsProps> & {
     Panel: typeof TabPanel;

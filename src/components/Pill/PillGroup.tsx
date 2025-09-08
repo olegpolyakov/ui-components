@@ -5,7 +5,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Pill, { type PillProps } from './Pill';
 
-import cssClasses from './PillGroup.scss';
+import cssClasses from './PillGroup.module.scss';
 
 export type PillGroupProps = PropsWithChildren<{
     as?: 'div';

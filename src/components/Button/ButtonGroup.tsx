@@ -1,12 +1,10 @@
-import { forwardRef } from 'react';
-
-import type { PropsWithChildren, PropsWithKey } from '../../types';
+import type { ComponentProps, ElementType, PropsWithKey } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Button, { type ButtonProps } from './Button';
-import cssClasses from './ButtonGroup.scss';
+import cssClasses from './ButtonGroup.module.scss';
 
-export type ButtonGroupProps = PropsWithChildren<{
+export type ButtonGroupProps = {
     buttons?: PropsWithKey<ButtonProps>[];
     color?: ButtonProps['color'];
     shape?: ButtonProps['shape'];
@@ -14,12 +12,17 @@ export type ButtonGroupProps = PropsWithChildren<{
     variant?: ButtonProps['variant'];
     joined?: boolean;
     vertical?: boolean;
-}>;
+};
 
-const displayName = 'ButtonGroup';
-const elementClassNames = getElementClassNames(displayName);
+ButtonGroup.displayName = 'ButtonGroup';
 
-const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(({
+const elementClassNames = getElementClassNames(ButtonGroup.displayName);
+
+export default function ButtonGroup<T extends ElementType = 'div'>({
+    as,
+    className,
+    children,
+
     buttons,
     color,
     shape,
@@ -28,10 +31,9 @@ const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(({
     joined,
     vertical,
 
-    className,
-    children,
     ...props
-}, ref): JSX.Element => {
+}: ComponentProps<ButtonGroupProps, T>) {
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -42,8 +44,7 @@ const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(({
     );
 
     return (
-        <div
-            ref={ref}
+        <Component
             className={classNames}
             {...props}
         >
@@ -59,10 +60,6 @@ const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(({
             )}
 
             {children}
-        </div>
+        </Component>
     );
-});
-
-ButtonGroup.displayName = displayName;
-
-export default ButtonGroup;
+}

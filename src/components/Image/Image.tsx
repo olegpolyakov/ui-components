@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import type { Color, HTMLImageProps, Props, Shape } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Image.scss';
+import cssClasses from './Image.module.scss';
 
 export type ImageProps = Props<{
     as?: 'img';

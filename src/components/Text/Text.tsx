@@ -3,7 +3,7 @@ import { ReactNode, forwardRef } from 'react';
 import type { Align, Color, HTMLParagraphProps, PropsWithChildren, Weight } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Text.scss';
+import cssClasses from './Text.module.scss';
 
 export type TextProps = PropsWithChildren<{
     as?: 'p' | 'span';

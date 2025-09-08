@@ -9,7 +9,7 @@ import Icon from '../Icon';
 import Popover, { type PopoverProps } from '../Popover';
 
 import MenuItem, { type MenuItemProps } from './MenuItem';
-import cssClasses from './Menu.scss';
+import cssClasses from './Menu.module.scss';
 
 export type MenuProps = PropsWithChildren<PopoverProps & {
     items?: PropsWithKey<MenuItemProps>[];
@@ -100,7 +100,7 @@ const Menu: ForwardRefExoticComponent<MenuProps> & {
                                         end={
                                             <Icon
                                                 name="chevron_right"
-                                                size="smaller"
+                                                size="xs"
                                             />
                                         }
                                     />

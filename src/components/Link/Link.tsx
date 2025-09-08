@@ -3,7 +3,7 @@ import { FunctionComponent, ReactNode, forwardRef } from 'react';
 import type { Color, HTMLAnchorProps, PropsWithChildren } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Link.scss';
+import cssClasses from './Link.module.scss';
 
 export type LinkProps = PropsWithChildren<{
     as?: 'a' | FunctionComponent,

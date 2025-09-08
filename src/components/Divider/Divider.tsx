@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import { classnames as cn, getElementClassNames } from '../../utils';
 import { Orientation } from '../../types';
 
-import cssClasses from './Divider.scss';
+import cssClasses from './Divider.module.scss';
 
 export type DividerProps = {
     as?: 'hr' | 'div' | 'span';

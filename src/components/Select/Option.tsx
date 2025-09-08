@@ -6,7 +6,7 @@ import { type SelectOptionDefinition } from '@mui/base/useSelect';
 import type { Merge } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Option.scss';
+import cssClasses from './Option.module.scss';
 
 export type OptionProps<T = string> = Merge<{
     content?: ReactNode;

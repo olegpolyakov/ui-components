@@ -8,7 +8,7 @@ import TableCell from './TableCell';
 import TableHead from './TableHead';
 import TableRow from './TableRow';
 
-import cssClasses from './Table.scss';
+import cssClasses from './Table.module.scss';
 
 export type TableProps = {
     size?: Size;

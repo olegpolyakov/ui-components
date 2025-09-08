@@ -18,7 +18,7 @@ import type { HTMLDivProps, PropsWithChildren, PropsWithKey, Size } from '../../
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Option, { type OptionProps } from './Option';
-import cssClasses from './Select.scss';
+import cssClasses from './Select.module.scss';
 
 export type SelectChangeHandler = (
     data: {

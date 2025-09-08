@@ -2,7 +2,7 @@ import { type HTMLAttributes, forwardRef } from 'react';
 
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './TableBody.scss';
+import cssClasses from './TableBody.module.scss';
 
 export type TableBodyProps = HTMLAttributes<HTMLTableSectionElement>;
 

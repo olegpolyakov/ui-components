@@ -5,7 +5,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Portal from '../Portal';
 
-import cssClasses from './Modal.scss';
+import cssClasses from './Modal.module.scss';
 
 export type ModalProps = PropsWithChildren<{
     container?: HTMLElement;
@@ -57,7 +57,7 @@ const Modal = ({
         elementClassNames.root,
         cssClasses.root,
         backdrop && cssClasses.backdrop,
-        fixed && cssClasses.fixed,
+        fixed && cssClasses.fixed
     );
 
     return (

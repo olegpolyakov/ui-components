@@ -5,7 +5,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import GridItem from './GridItem';
 
-import cssClasses from './Grid.scss';
+import cssClasses from './Grid.module.scss';
 
 export type GridProps = PropsWithChildren<{
     as?: 'div';

@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import type { Align, HTMLDivProps, PropsWithChildren } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './FlexItem.scss';
+import cssClasses from './FlexItem.module.scss';
 
 export type FlexItemProps = PropsWithChildren<{
     as?: 'div';

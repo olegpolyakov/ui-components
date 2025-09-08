@@ -1,11 +1,11 @@
-import { forwardRef, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-import type { Color, HTMLSpanProps, PropsWithChildren, Shape, Size, Variant } from '../../types';
+import type { Color, ComponentProps, ElementType, Shape, Size, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Badge.scss';
+import cssClasses from './Badge.module.scss';
 
-export type BadgeProps = PropsWithChildren<{
+export type BadgeProps = {
     as?: 'span';
     content?: ReactNode;
     start?: ReactNode;
@@ -14,25 +14,28 @@ export type BadgeProps = PropsWithChildren<{
     shape?: Shape;
     size?: Size;
     variant?: Variant;
-}, HTMLSpanProps>;
+};
 
-const displayName = 'Badge';
-const elementClassNames = getElementClassNames(displayName, ['start', 'content', 'end']);
+Badge.displayName = 'Badge';
 
-const Badge = forwardRef<HTMLElement, BadgeProps>(({
-    start,
-    content,
-    end,
+const elementClassNames = getElementClassNames(
+    Badge.displayName,
+    ['start', 'content', 'end']
+);
+
+export default function Badge<T extends ElementType = 'span'>({
+    as,
+    children,
+    className,
+
+    content = children,
     color = 'primary',
-    shape = 'circular',
+    shape = 'rounded',
     size = 'm',
     variant = 'filled',
-
-    as: Tag = 'span',
-    children = content,
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<BadgeProps, T>) {
+    const Component = as || 'span';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -44,12 +47,8 @@ const Badge = forwardRef<HTMLElement, BadgeProps>(({
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
-            {children}
-        </Tag>
+        <Component className={classNames} {...props}>
+            {content}
+        </Component>
     );
-});
-
-Badge.displayName = displayName;
-
-export default Badge;
+}

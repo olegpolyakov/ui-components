@@ -6,7 +6,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import Avatar from '../Avatar';
 import Pill from '../Pill';
 
-import cssClasses from './Persona.scss';
+import cssClasses from './Persona.module.scss';
 
 export type PersonaProps = Props<{
   as?: 'span';

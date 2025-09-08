@@ -7,7 +7,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import Button from '../Button';
 import Modal from '../Modal';
 
-import cssClasses from './Drawer.scss';
+import cssClasses from './Drawer.module.scss';
 
 const displayName = 'Drawer';
 const elementClassNames = getElementClassNames(displayName, ['overlay', 'surface', 'header', 'title', 'content', 'closeButton']);
@@ -83,7 +83,7 @@ const Drawer = forwardRef<HTMLDivElement, DrawerProps>(({
                                     className={cn(elementClassNames.closeButton, cssClasses.closeButton)}
                                     type="button"
                                     icon="close"
-                                    size="small"
+                                    size="s"
                                     aria-label="Close drawer"
                                     onClick={onClose}
                                 />

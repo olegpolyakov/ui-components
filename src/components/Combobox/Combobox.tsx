@@ -13,7 +13,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import Badge from '../Badge';
 import { List, ListItem } from '../List';
 
-import cssClasses from './Combobox.scss';
+import cssClasses from './Combobox.module.scss';
 
 export { createFilterOptions };
 

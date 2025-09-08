@@ -7,7 +7,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import Layer from '../Layer';
 import Button from '../Button';
 
-import cssClasses from './Toast.scss';
+import cssClasses from './Toast.module.scss';
 
 const DEFAULT_AUTO_DISMISS_TIMEOUT_MS = 5000;
 const ANIMATION_OPEN_TIME_MS = 150;

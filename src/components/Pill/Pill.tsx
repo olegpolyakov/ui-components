@@ -5,7 +5,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
 
-import cssClasses from './Pill.scss';
+import cssClasses from './Pill.module.scss';
 
 export type PillProps = PropsWithChildren<{
     as?: 'span';
@@ -61,8 +61,6 @@ const Pill = forwardRef<HTMLElement, PillProps>(({
         interactive && cssClasses.interactive,
         iconPosition && cssClasses[`icon-${iconPosition}`]
     );
-
-    console.log({ color }, cssClasses, classNames);
 
     return (
         <Tag ref={ref} className={classNames} {...props}>

@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import type { Color, Props, SizeExtended } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Spinner.scss';
+import cssClasses from './Spinner.module.scss';
 
 export type SpinnerProps = Props<{
     as?: 'div';

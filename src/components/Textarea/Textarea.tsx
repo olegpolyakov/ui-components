@@ -12,7 +12,7 @@ import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 import type { HTMLTextareaProps, Props, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Textarea.scss';
+import cssClasses from './Textarea.module.scss';
 
 export type TextareaChangeHandler = (
     data: {

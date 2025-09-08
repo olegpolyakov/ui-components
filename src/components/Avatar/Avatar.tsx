@@ -1,50 +1,47 @@
-import { ReactNode, forwardRef, useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState, type ElementType } from 'react';
 
-import type { Color, Gender, Props, Shape, Size, Variant } from '../../types';
+import type { Color, ComponentProps, Shape, Size, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
 
-import cssClasses from './Avatar.scss';
+import cssClasses from './Avatar.module.scss';
 
-export type AvatarProps = Props<{
+export type AvatarProps = {
+    src?: string;
     content?: ReactNode;
     icon?: ReactNode;
-    src?: string;
-    gender?: Gender;
     color?: Color;
     shape?: Shape;
     size?: Size;
     variant?: Variant;
     raised?: boolean;
     iconProps?: IconProps;
-}>;
-
-const GenderColor = {
-    unknown: 'unset',
-    male: 'primary',
-    female: 'secondary'
 };
 
-const displayName = 'Avatar';
-const elementClassNames = getElementClassNames(displayName, ['content', 'icon', 'image']);
+Avatar.displayName = 'Avatar';
 
-const Avatar = forwardRef<HTMLDivElement, AvatarProps>(({
-    content,
-    icon,
+const elementClassNames = getElementClassNames(
+    Avatar.displayName,
+    ['content', 'icon', 'image']
+);
+
+export default function Avatar<T extends ElementType = 'div'>({
+    as,
+    className,
+    children,
+
     src,
-    gender,
-    color = gender ? GenderColor[gender] : undefined,
+    content = children,
+    icon,
+    color,
     shape = 'circular',
-    size = 'medium',
+    size = 'm',
     variant = 'tinted',
     raised,
     iconProps,
-
-    className,
-    children = content,
     ...props
-}, ref) => {
+}: ComponentProps<AvatarProps, T>) {
     const imageRef = useRef<HTMLImageElement>(null);
 
     const [notLoaded, setNotLoaded] = useState(false);
@@ -77,12 +74,12 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(({
         }
     }, [src]);
 
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
         cssClasses.root,
         color && cssClasses[color],
-        gender && cssClasses[gender],
         cssClasses[size],
         cssClasses[shape],
         cssClasses[variant],
@@ -90,14 +87,13 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(({
     );
 
     return (
-        <div
-            ref={ref}
+        <Component
             className={classNames}
             {...props}
         >
             {children &&
                 <span className={cn(elementClassNames.content, cssClasses.content)}>
-                    {children}
+                    {content}
                 </span>
             }
 
@@ -120,10 +116,6 @@ const Avatar = forwardRef<HTMLDivElement, AvatarProps>(({
                     alt=""
                 />
             }
-        </div>
+        </Component>
     );
-});
-
-Avatar.displayName = displayName;
-
-export default Avatar;
+}

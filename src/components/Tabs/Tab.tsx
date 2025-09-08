@@ -7,7 +7,7 @@ import Icon from '../Icon';
 
 import TabsContext from './TabsContext';
 
-import cssClasses from './Tab.scss';
+import cssClasses from './Tab.module.scss';
 
 export type TabProps = Props<{
     as?: 'button';

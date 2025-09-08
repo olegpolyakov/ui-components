@@ -5,7 +5,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import ListItem, { type ListItemProps } from './ListItem';
 
-import cssClasses from './List.scss';
+import cssClasses from './List.module.scss';
 
 export type ListProps = PropsWithChildren<{
     as?: 'ol' | 'ul';

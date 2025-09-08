@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use '../../styles/theme';
 @use '../../styles/component';
-@use './Button';
+@use './Button.module' as Button;
 
 @include component.define('ButtonGroup', (
     gap: theme.var(space-xs)

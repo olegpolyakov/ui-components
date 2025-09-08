@@ -3,7 +3,7 @@ import { type ReactElement, forwardRef } from 'react';
 import type { Color, HTMLLabelProps, PropsWithChildren, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Label.scss';
+import cssClasses from './Label.module.scss';
 
 export type LabelProps = PropsWithChildren<{
     as?: 'label';

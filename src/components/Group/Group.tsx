@@ -1,10 +1,12 @@
-import type { ComponentProps, ElementType, PropsWithKey, Space } from '../../types';
+import { forwardRef } from 'react';
+
+import type { HTMLDivProps, PropsWithChildren, PropsWithKey, Space } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Avatar, { type AvatarProps } from './Avatar';
 import cssClasses from './AvatarGroup.module.scss';
 
-export type AvatarGroupProps = {
+export type AvatarGroupProps = PropsWithChildren<{
     as?: 'div';
     avatars?: PropsWithKey<AvatarProps>[];
     color?: AvatarProps['color'];
@@ -13,51 +15,43 @@ export type AvatarGroupProps = {
     variant?: AvatarProps['variant'];
     raised?: AvatarProps['raised'];
     gap?: Space;
-    overlap?: boolean;
+    overlapping?: boolean;
     maxCount?: number;
-};
+}, HTMLDivProps>;
 
-AvatarGroup.displayName = 'AvatarGroup';
-
-const elementClassNames = getElementClassNames(
-    AvatarGroup.displayName, ['avatar']
-);
-
+const displayName = 'AvatarGroup';
+const elementClassNames = getElementClassNames(displayName, ['avatar']);
 const colors: AvatarProps['color'][] = ['warning', 'success', 'info'];
 
-export default function AvatarGroup<T extends ElementType>({
-    as,
-    className,
-    children,
-
+export default function Group({
     avatars = [],
     color,
     shape,
     size,
     variant,
-    overlap,
+    overlapping,
     raised,
     gap,
     maxCount = 0,
-    ...props
-}: ComponentProps<AvatarGroupProps, T>) {
-    const shownAvatars = (maxCount > 0 && avatars.length > maxCount) ? avatars.slice(0, maxCount) : avatars;
-    const hiddenAvatarsCount = avatars.length - shownAvatars.length;
 
-    const Component = as || 'div';
+    as: Tag = 'div',
+    className,
+    children,
+    ...props
+}) {
     const classNames = cn(
         className,
         elementClassNames.root,
         cssClasses.root,
-        overlap && cssClasses.overlapping,
+        overlapping && cssClasses.overlapping,
         gap && cssClasses[`gap-${gap}`]
     );
 
+    const shownAvatars = (maxCount > 0 && avatars.length > maxCount) ? avatars.slice(0, maxCount) : avatars;
+    const hiddenAvatarsCount = avatars.length - shownAvatars.length;
+
     return (
-        <Component
-            className={classNames}
-            {...props}
-        >
+        <Tag ref={ref} className={classNames} {...props}>
             {shownAvatars?.map((avatar, index) =>
                 <Avatar
                     key={avatar.key}
@@ -83,6 +77,6 @@ export default function AvatarGroup<T extends ElementType>({
             }
 
             {children}
-        </Component>
+        </Tag>
     );
 }

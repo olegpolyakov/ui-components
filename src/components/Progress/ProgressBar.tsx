@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import { Props } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './ProgressBar.scss';
+import cssClasses from './ProgressBar.module.scss';
 
 export type ProgressBarProps = Props<{
     as?: 'div';

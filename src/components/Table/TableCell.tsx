@@ -2,7 +2,7 @@ import { type HTMLAttributes, forwardRef } from 'react';
 
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './TableCell.scss';
+import cssClasses from './TableCell.module.scss';
 
 export type TableCellProps = {
     alignH?: 'left' | 'center' | 'right';

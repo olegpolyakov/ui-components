@@ -6,7 +6,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import Button from '../Button';
 import Modal from '../Modal';
 
-import cssClasses from './Dialog.scss';
+import cssClasses from './Dialog.module.scss';
 
 export type DialogProps = PropsWithChildren<{
     title?: ReactNode;

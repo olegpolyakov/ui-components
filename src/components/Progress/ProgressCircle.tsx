@@ -4,7 +4,7 @@ import { Props, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import { sizeProps } from './constants';
-import cssClasses from './ProgressCircle.scss';
+import cssClasses from './ProgressCircle.module.scss';
 
 export type ProgressCircleProps = Props<{
     value?: number | string;

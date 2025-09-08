@@ -5,7 +5,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Label, { LabelProps } from '../Label';
 
-import cssClasses from './Field.scss';
+import cssClasses from './Field.module.scss';
 
 const displayName = 'Field';
 const elementClassNames = getElementClassNames(displayName);

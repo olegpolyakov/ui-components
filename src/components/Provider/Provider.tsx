@@ -3,7 +3,7 @@ import { createContext, forwardRef } from 'react';
 import type { PropsWithChildren } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Provider.scss';
+import cssClasses from './Provider.module.scss';
 
 export type ProviderProps = PropsWithChildren & {
     theme?: 'dark' | 'light';

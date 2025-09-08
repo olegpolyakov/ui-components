@@ -11,7 +11,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Label from '../Label';
 
-import cssClasses from './Switch.scss';
+import cssClasses from './Switch.module.scss';
 
 export type SwitchChangeHandler = (
     data: {

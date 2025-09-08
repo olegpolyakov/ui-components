@@ -1,16 +1,14 @@
-import { type ReactNode, forwardRef } from 'react';
-import BaseButton from '@restart/ui/Button';
+import type { ReactNode } from 'react';
 
-import type { Color, HTMLAnchorProps, HTMLButtonProps, IconPosition, PropsWithChildren, Shape, SizeExtended, Variant } from '../../types';
+import type { Color, ComponentProps, ElementType, IconPosition, Shape, SizeExtended, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
 // import Spinner from '../Spinner';
 
-import cssClasses from './Button.scss';
+import cssClasses from './Button.module.scss';
 
-export type ButtonProps = PropsWithChildren<{
-    as?: 'button' | 'a';
+export type ButtonProps = {
     content?: ReactNode;
     icon?: ReactNode;
     start?: ReactNode;
@@ -25,13 +23,21 @@ export type ButtonProps = PropsWithChildren<{
     loading?: boolean;
     iconPosition?: IconPosition;
     iconProps?: IconProps;
-}, HTMLButtonProps & HTMLAnchorProps>;
+};
 
-const displayName = 'Button';
-const elementClassNames = getElementClassNames(displayName, ['start', 'icon', 'content', 'spinner', 'end']);
+Button.displayName = 'Button';
 
-const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
-    content,
+const elementClassNames = getElementClassNames(
+    Button.displayName,
+    ['start', 'icon', 'content', 'spinner', 'end']
+);
+
+export default function Button<T extends ElementType = 'button'>({
+    as,
+    className,
+    children,
+
+    content = children,
     icon,
     start,
     end,
@@ -45,10 +51,9 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
     iconPosition,
     iconProps,
 
-    className,
-    children,
     ...props
-}, ref): JSX.Element => {
+}: ComponentProps<ButtonProps, T>) {
+    const Component = as || 'button';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -65,8 +70,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
     );
 
     return (
-        <BaseButton
-            ref={ref}
+        <Component
             className={classNames}
             {...props}
         >
@@ -92,8 +96,6 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
                 </span>
             }
 
-            {children}
-
             {/* {loading &&
                 <Spinner
                     className={cn(elementClassNames.spinner, cssClasses.spinner)}
@@ -106,10 +108,6 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(({
                     {end}
                 </span>
             }
-        </BaseButton>
+        </Component>
     );
-});
-
-Button.displayName = displayName;
-
-export default Button;
+}
