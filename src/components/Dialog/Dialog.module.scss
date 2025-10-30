@@ -1,45 +1,58 @@
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@use 'component';
+@use 'theme';
+
+@include component.define('Dialog', (
+    padding: theme.var(space-m),
+    padding-x: --padding,
+    padding-y: --padding,
+    background-color: theme.var(surface-color),
+    border-radius: theme.var(border-radius-m),
+    shadow: theme.var(shadow-m),
+    z-index: 100
+));
+
+$vars: component.vars();
 
 .root {
     position: relative;
-    font-family: var(--ui-font-family);
+    font-family: theme.var(font-family);
 }
 
 .overlay {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: fixed;
-    flex-direction: column;
     top: 0px;
     bottom: 0px;
     left: 0px;
     right: 0px;
-    background-color: rgba(40, 40, 40, 0.6);
-    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: theme.var(backdrop-color);
+    z-index: component.var(z-index);
 }
 
 .surface {
-    padding: 20px;
     min-height: 100px;
     min-width: 300px;
+    padding: component.var(padding-x) component.var(padding-y);
     display: flex;
     flex-grow: 0px;
-    background-color: #fff;
+    background-color: component.var(background-color);
     flex-direction: column;
     position: relative;
-    box-shadow: 0 0 20px 0 #444;
-    border-radius: 10px;
+    box-shadow: component.var(shadow);
+    border-radius: component.var(border-radius);
 }
 
 .title {
     margin: 0;
-    color: var(--ui-text-color);
+    color: theme.var(text-color);
 }
 
 .content {
     padding-top: 1rem;
+    overflow: auto;
 }
 
 .close-button {
@@ -47,6 +60,6 @@
     top: 10px;
     right: 10px;
 
-    @include color-state-variables('Button', 'background-color', plain);
-    @include color-state-variables('Button', 'text-color', icon);
+    // @include color-state-variables('Button', 'background-color', plain);
+    // @include color-state-variables('Button', 'text-color', icon);
 }

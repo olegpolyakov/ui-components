@@ -1,33 +1,33 @@
-import { forwardRef } from 'react';
-
-import type { Align, HTMLDivProps, PropsWithChildren } from '../../types';
+import type { Align, ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssClasses from './FlexItem.module.scss';
 
-export type FlexItemProps = PropsWithChildren<{
+export type FlexItemProps = {
     as?: 'div';
     alignX?: Align;
     alignY?: Align;
     alignCenter?: boolean;
     grow?: boolean;
     shrink?: boolean;
-}, HTMLDivProps>;
+};
 
-const displayName = 'FlexItem';
-const elementClassNames = getElementClassNames(displayName);
+FlexItem.displayName = 'FlexItem';
 
-const FlexItem = forwardRef<HTMLDivElement, FlexItemProps>(({
+const elementClassNames = getElementClassNames(FlexItem.displayName);
+
+export default function FlexItem<T extends ElementType = 'div'>({
+    as,
+    className,
+
     alignX,
     alignY,
     alignCenter,
     grow,
     shrink,
-
-    as: Tag = 'div',
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<FlexItemProps, T>) {
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -39,10 +39,6 @@ const FlexItem = forwardRef<HTMLDivElement, FlexItemProps>(({
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props} />
+        <Component className={classNames} {...props} />
     );
-});
-
-FlexItem.displayName = displayName;
-
-export default FlexItem;
+}

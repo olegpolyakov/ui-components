@@ -1,11 +1,9 @@
-import { forwardRef } from 'react';
-
-import type { Align, HTMLDivProps, Justify, PropsWithChildren, SizeFull } from '../../types';
+import type { Align, ComponentProps, ElementType, Justify, SizeFull } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssClasses from './Flex.module.scss';
 
-export type FlexProps = PropsWithChildren<{
+export type FlexProps = {
     as?: 'div';
     dir?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
     align?: Align;
@@ -16,12 +14,16 @@ export type FlexProps = PropsWithChildren<{
     paddingY?: SizeFull;
     inline?: boolean;
     wrap?: boolean;
-}, HTMLDivProps>;
+};
 
-const displayName = 'Flex';
-const elementClassNames = getElementClassNames(displayName);
+Flex.displayName = 'Flex';
 
-const Flex = forwardRef<HTMLDivElement, FlexProps>(({
+const elementClassNames = getElementClassNames(Flex.displayName);
+
+export default function Flex<T extends ElementType = 'div'>({
+    as,
+    className,
+
     dir = 'row',
     align,
     justify,
@@ -31,11 +33,9 @@ const Flex = forwardRef<HTMLDivElement, FlexProps>(({
     paddingY,
     inline,
     wrap,
-
-    as: Tag = 'div',
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<FlexProps, T>) {
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -52,10 +52,6 @@ const Flex = forwardRef<HTMLDivElement, FlexProps>(({
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props} />
+        <Component className={classNames} {...props} />
     );
-});
-
-Flex.displayName = displayName;
-
-export default Flex;
+}

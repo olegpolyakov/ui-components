@@ -1,0 +1,32 @@
+import Demo from '@/components/Demo';
+import Section from '@/components/Section';
+
+import Flex from '~/components/Flex';
+
+# Flex
+
+<Demo>
+    {(data) => {
+        const boxStyles = {
+            width: '100px',
+            height: '100px',
+            backgroundColor: '#029CFD',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white'
+        };
+
+        const Box = (props) => (
+            <div style={boxStyles} {...props} />
+        );
+
+        return (
+            <Flex gap="s" {...data}>
+                <Box>1</Box>
+                <Box>2</Box>
+                <Box>3</Box>
+            </Flex>
+        );
+    }}
+</Demo>

@@ -9,13 +9,12 @@ export type PortalProps = {
     children: Children;
 };
 
-const displayName = 'Portal';
+Portal.displayName = 'Portal';
 
-const Portal = ({
+export default function Portal({
     container = document.body,
-
     children
-}: PortalProps) => {
+}: PortalProps) {
     return createPortal(
         container === document.body ? (
             <Provider>
@@ -24,8 +23,4 @@ const Portal = ({
         ) : children,
         container
     );
-};
-
-Portal.displayName = displayName;
-
-export default Portal;
+}

@@ -1,3 +1,4 @@
 export { default, default as Dialog, type DialogProps } from './Dialog';
-export { default as DialogContext, Context, useDialogContext } from './DialogContext';
-export { default as useDialog } from './useDialog';
+export { default as DialogContext } from './DialogContext';
+export { default as DialogProvider } from './DialogProvider';
+export { useDialogContext } from './hooks';

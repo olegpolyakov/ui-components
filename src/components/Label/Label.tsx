@@ -1,64 +1,65 @@
-import { type ReactElement, forwardRef } from 'react';
+import type { ReactNode } from 'react';
 
-import type { Color, HTMLLabelProps, PropsWithChildren, Size } from '../../types';
+import type { Color, ComponentProps, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssClasses from './Label.module.scss';
 
-export type LabelProps = PropsWithChildren<{
+export type LabelProps = {
     as?: 'label';
-    content?: string | ReactElement;
-    start?: string | ReactElement;
-    end?: string | ReactElement;
+    content?: ReactNode;
+    start?: ReactNode;
+    end?: ReactNode;
     color?: Color;
     size?: Size;
     inline?: boolean;
-}, HTMLLabelProps>;
+};
 
-const displayName = 'Label';
-const elementClassNames = getElementClassNames(displayName, ['start', 'end']);
+Label.displayName = 'Label';
 
-const Label = forwardRef<HTMLLabelElement, LabelProps>(({
-    content,
+const elementClassNames = getElementClassNames(
+    Label.displayName,
+    ['start', 'end']
+);
+
+export default function Label({
+    as,
+    className,
+    children,
+
+    content = children,
     start,
     end,
-    color = '',
-    size = 'medium',
+    color,
+    size = 'm',
     inline,
-
-    as: Tag = 'label',
-    className,
-    children = content,
     ...props
-}, ref) => {
+}: ComponentProps<LabelProps, 'label'>) {
+    const Component = as || 'label';
     const classNames = cn(
         className,
         elementClassNames.root,
         cssClasses.root,
-        cssClasses[color],
+        color && cssClasses[color],
         cssClasses[size],
         inline && cssClasses.inline
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
+        <Component className={classNames} {...props}>
             {start &&
                 <span className={cn(elementClassNames.start, cssClasses.start)}>
                     {start}
                 </span>
             }
 
-            {children}
+            {content}
 
             {end &&
                 <span className={cn(elementClassNames.end, cssClasses.end)}>
                     {end}
                 </span>
             }
-        </Tag>
+        </Component>
     );
-});
-
-Label.displayName = displayName;
-
-export default Label;
+}

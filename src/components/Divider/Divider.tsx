@@ -1,26 +1,25 @@
-import { forwardRef } from 'react';
-
 import { classnames as cn, getElementClassNames } from '../../utils';
-import { Orientation } from '../../types';
+import { Orientation, type ComponentProps, type ElementType } from '../../types';
 
 import cssClasses from './Divider.module.scss';
 
 export type DividerProps = {
-    as?: 'hr' | 'div' | 'span';
     orientation?: Orientation;
     className?: string;
 };
 
-const displayName = 'Divider';
-const elementClassNames = getElementClassNames(displayName);
+Divider.displayName = 'Divider';
 
-const Divider = forwardRef<HTMLHRElement, DividerProps>(({
-    orientation = 'horizontal',
-    
-    as: Tag = 'hr',
+const elementClassNames = getElementClassNames(Divider.displayName);
+
+export default function Divider<T extends ElementType = 'hr'>({
+    as,
     className,
+
+    orientation = 'horizontal',
     ...props
-}, ref) => {
+}: ComponentProps<DividerProps, T>) {
+    const Component = as || 'hr';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -29,10 +28,6 @@ const Divider = forwardRef<HTMLHRElement, DividerProps>(({
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props} />
+        <Component className={classNames} {...props} />
     );
-});
-
-Divider.displayName = displayName;
-
-export default Divider;
+}

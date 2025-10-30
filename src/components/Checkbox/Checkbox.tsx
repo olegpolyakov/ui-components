@@ -1,17 +1,23 @@
 import {
     type ChangeEvent,
     type ReactNode,
-    forwardRef,
     useCallback,
     useId
 } from 'react';
 
-import type { HTMLInputProps, Props, Size } from '../../types';
+import type { ComponentProps, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Label from '../Label';
 
 import cssClasses from './Checkbox.module.scss';
+
+export type CheckboxProps = {
+    inputRef?: React.Ref<HTMLInputElement>;
+    label?: ReactNode;
+    size?: Size;
+    onChange?: CheckboxChangeHandler;
+};
 
 export type CheckboxChangeHandler = (
     data: {
@@ -22,24 +28,22 @@ export type CheckboxChangeHandler = (
     event: ChangeEvent<HTMLInputElement>
 ) => void
 
-export type CheckboxProps = Props<{
-    label?: ReactNode;
-    size?: Size;
-    onChange?: CheckboxChangeHandler;
-}, HTMLInputProps>;
+Checkbox.displayName = 'Checkbox';
 
-const displayName = 'Checkbox';
-const elementClassNames = getElementClassNames(displayName, ['input', 'label']);
+const elementClassNames = getElementClassNames(
+    Checkbox.displayName,
+    ['input', 'label']
+);
 
-const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
+export default function Checkbox({
+    className,
+
     label,
-    size = 'medium',
+    size = 'm',
     disabled,
     onChange,
-
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<CheckboxProps, 'input'>) {
     const id = useId();
 
     const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +65,6 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
     return (
         <div className={classNames}>
             <input
-                ref={ref}
                 id={id}
                 className={cn(elementClassNames.input, cssClasses.input)}
                 type="checkbox"
@@ -74,14 +77,11 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
                 <Label
                     className={cn(elementClassNames.label, cssClasses.label)}
                     htmlFor={id}
+                    size={size}
                 >
                     {label}
                 </Label>
             }
         </div>
     );
-});
-
-Checkbox.displayName = displayName;
-
-export default Checkbox;
+}

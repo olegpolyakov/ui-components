@@ -1,4 +1,4 @@
-import { createContext, forwardRef, useMemo, useState } from 'react';
+import { createContext, forwardRef, useMemo } from 'react';
 
 import type { PropsWithChildren } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';

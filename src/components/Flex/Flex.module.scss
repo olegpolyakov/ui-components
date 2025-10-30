@@ -1,77 +1,89 @@
-@use '../../styles/theme';
-@use '../../styles/variables' as global;
+@use 'component';
+@use 'sizes';
+@use 'theme';
+
+@include component.define('Flex', (
+    gap: null,
+    padding: null,
+));
 
 .root {
     display: flex;
+    gap: component.var(gap);
+    padding: component.var(padding);
 }
 
 // Dir
 
 .row {
     flex-direction: row;
-}
 
-.row-reverse {
-    flex-direction: row-reverse;
+    &-reverse {
+        flex-direction: row-reverse;
+    }
 }
 
 .column {
     flex-direction: column;
-}
 
-.column-reverse {
-    flex-direction: column-reverse;
+    &-reverse {
+        flex-direction: column-reverse;
+    }
 }
 
 
 // Align
 
-.align-start {
-    align-items: flex-start;
-}
+.align {
+    &-start {
+        align-items: flex-start;
+    }
 
-.align-center {
-    align-items: center;
-}
+    &-center {
+        align-items: center;
+    }
 
-.align-end {
-    align-items: flex-end;
+    &-end {
+        align-items: flex-end;
+    }
 }
 
 
 // Justify
 
-.justify-start {
-    justify-content: flex-start;
-}
+.justify {
+    &-start {
+        justify-content: flex-start;
+    }
 
-.justify-center {
-    justify-content: center;
-}
+    &-center {
+        justify-content: center;
+    }
 
-.justify-end {
-    justify-content: flex-end;
-}
+    &-end {
+        justify-content: flex-end;
+    }
 
-.justify-around {
-    justify-content: space-around;
-}
+    &-around {
+        justify-content: space-around;
+    }
 
-.justify-between {
-    justify-content: space-between;
-}
+    &-between {
+        justify-content: space-between;
+    }
 
-.justify-evenly {
-    justify-content: space-evenly;
+    &-evenly {
+        justify-content: space-evenly;
+    }
 }
 
 
 // Gap
 
 .gap {
-    @each $size, $value in global.$space-sizes {
+    @each $size, $value in sizes.$space-sizes {
         &-#{$size} {
-            gap: #{theme.var(space-#{$size})};
+            @include component.var(gap, theme.var(space-#{$size}));
         }
     }
 }
@@ -80,26 +92,30 @@
 // Padding
 
 .padding {
-    @each $size, $value in global.$space-sizes {
+    @each $size, $value in sizes.$space-sizes {
         &-#{$size} {
-            padding: #{theme.var(space-#{$size})};
+            @include component.var(padding, theme.var(space-#{$size}));
         }
     }
 
     &-x {
-        @each $size, $value in global.$space-sizes {
+        @each $size, $value in sizes.$space-sizes {
             &-#{$size} {
-                padding-left: #{theme.var(space-#{$size})};
-                padding-right: #{theme.var(space-#{$size})};
+                @include component.vars((
+                    padding-left: theme.var(space-#{$size}),
+                    padding-right: theme.var(space-#{$size}),
+                ));
             }
         }
     }
 
     &-y {
-        @each $size, $value in global.$space-sizes {
+        @each $size, $value in sizes.$space-sizes {
             &-#{$size} {
-                padding-top: #{theme.var(space-#{$size})};
-                padding-bottom: #{theme.var(space-#{$size})};
+                @include component.vars((
+                    padding-top: theme.var(space-#{$size}),
+                    padding-bottom: theme.var(space-#{$size}),
+                ));
             }
         }
     }

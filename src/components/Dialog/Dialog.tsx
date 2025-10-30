@@ -1,6 +1,6 @@
-import { MouseEvent, ReactNode, forwardRef, useCallback, useEffect, useRef } from 'react';
+import { MouseEvent, ReactNode, useCallback, useEffect, useRef } from 'react';
 
-import type { HTMLDivProps, PropsWithChildren } from '../../types';
+import type { ComponentProps } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Button from '../Button';
@@ -8,7 +8,7 @@ import Modal from '../Modal';
 
 import cssClasses from './Dialog.module.scss';
 
-export type DialogProps = PropsWithChildren<{
+export type DialogProps = {
     title?: ReactNode;
     content?: ReactNode;
     open?: boolean;
@@ -16,24 +16,28 @@ export type DialogProps = PropsWithChildren<{
     closeOnClickOutside?: boolean;
     disableScroll?: boolean;
     onClose: () => void;
-}, HTMLDivProps>;
+};
 
-const displayName = 'Dialog';
-const elementClassNames = getElementClassNames(displayName, ['overlay', 'surface', 'title', 'content', 'closeButton']);
+Dialog.displayName = 'Dialog';
 
-const Dialog = forwardRef<HTMLDivElement, DialogProps>(({
+const elementClassNames = getElementClassNames(
+    Dialog.displayName,
+    ['overlay', 'surface', 'title', 'content', 'closeButton']
+);
+
+export default function Dialog({
+    className,
+    children,
+
     title,
-    content,
+    content = children,
     open,
     closeButton = true,
     closeOnClickOutside = false,
     disableScroll,
     onClose,
-
-    className,
-    children = content,
     ...props
-}, ref): JSX.Element | null => {
+}: ComponentProps<DialogProps, 'div'>) {
     const overlayRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -51,13 +55,15 @@ const Dialog = forwardRef<HTMLDivElement, DialogProps>(({
     }, [onClose]);
 
     const handleOverlayClick = useCallback(() => {
-        if (closeOnClickOutside)
+        if (closeOnClickOutside) {
             onClose();
+        }
     }, [closeOnClickOutside, onClose]);
 
     const handleSurfaceClick = useCallback((event: MouseEvent) => {
-        if (closeOnClickOutside)
+        if (closeOnClickOutside) {
             event.stopPropagation();
+        }
     }, [closeOnClickOutside]);
 
     if (!open) return null;
@@ -71,7 +77,6 @@ const Dialog = forwardRef<HTMLDivElement, DialogProps>(({
     return (
         <Modal disableScroll={disableScroll}>
             <div
-                ref={ref}
                 className={classNames}
                 role="dialog"
                 {...props}
@@ -87,14 +92,14 @@ const Dialog = forwardRef<HTMLDivElement, DialogProps>(({
                             <h2 className={cn(elementClassNames.title, cssClasses.title)}>{title}</h2>
                         }
 
-                        <div className={cn(elementClassNames.content, cssClasses.content)}>{children}</div>
+                        <div className={cn(elementClassNames.content, cssClasses.content)}>{content}</div>
 
                         {closeButton &&
                             <Button
                                 className={cn(elementClassNames.closeButton, cssClasses.closeButton)}
                                 type="button"
                                 icon="close"
-                                size="small"
+                                size="s"
                                 aria-label="Close modal"
                                 onClick={onClose}
                             />
@@ -104,8 +109,4 @@ const Dialog = forwardRef<HTMLDivElement, DialogProps>(({
             </div>
         </Modal>
     );
-});
-
-Dialog.displayName = displayName;
-
-export default Dialog;
+}

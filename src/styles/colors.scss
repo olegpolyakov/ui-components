@@ -142,7 +142,7 @@ $dark-theme-colors: (
 ) !default;
 
 $dark-element-colors: (
-    backdrop: rgba(255, 255, 255, .25),
+    backdrop: rgba(0, 0, 0, .5),
     background: $black,
     border: map.get($neutral, 8),
     icon: map.get($neutral, 6),

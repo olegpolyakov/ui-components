@@ -1,1 +1,0 @@
-export { default, default as Overflow, type OverflowProps } from './Overflow';

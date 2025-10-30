@@ -8,21 +8,28 @@ import Settings, { Setting } from './Settings';
 
 import styles from './Demo.module.scss';
 
-export default function Demo({
-    setup,
+export default function Demo<T extends Record<string, any> = Record<string, any>>({
+    children,
     settings,
-    code,
-    children = code,
+    setup,
     ...props
 }: {
-    setup?: ReactNode;
     settings?: Setting[];
-    code?: ReactNode;
-    children?: ReactNode;
+    setup?: ReactNode | ((data: T, setData: (data: T) => void) => ReactNode);
+    children?: ReactElement | ((data: T, setData: (data: T) => void) => ReactElement);
 }) {
-    const [settingsData, setSettingsData] = useState<Record<string, any>>();
+    const [settingsData, setSettingsData] = useState<T>({} as T);
     const [isCodeOpen, setCodeOpen] = useState(false);
     const [isSettingsOpen, setSettingsOpen] = useState(false);
+
+    const setupContent = typeof setup === 'function'
+        ? setup(settingsData, setSettingsData)
+        : setup;
+    const content = typeof children === 'function'
+        ? children(settingsData, setSettingsData)
+        : isValidElement(children)
+            ? cloneElement(children as ReactElement, settingsData)
+            : children;
 
     return (
         <div className={styles.root} {...props}>
@@ -44,25 +51,26 @@ export default function Demo({
             </div>
 
             <div className={styles.main}>
-                {setup}
-
-                {isValidElement(children) && settingsData
-                    ? cloneElement(children as ReactElement, settingsData)
-                    : children
-                }
+                {setupContent}
+                {content}
             </div>
 
             {isCodeOpen &&
                 <div className={styles.code}>
                     <Code lang="jsx">
-                        {children as ReactElement}
+                        {content as ReactElement}
                     </Code>
                 </div>
             }
 
             {settings &&
-                <div className={styles.aside} style={{ display: isSettingsOpen ? 'block' : 'none' }}>
-                    <Settings
+                <div
+                    className={styles.aside}
+                    style={{
+                        display: isSettingsOpen ? 'block' : 'none'
+                    }}
+                >
+                    <Settings<T>
                         settings={settings}
                         onChange={setSettingsData}
                     />

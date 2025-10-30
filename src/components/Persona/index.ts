@@ -1,1 +1,0 @@
-export { default, default as Persona, type PersonaProps } from './Persona';

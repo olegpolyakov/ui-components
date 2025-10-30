@@ -17,12 +17,12 @@ const defaultValueByType: Record<string, any> = {
     number: 0
 };
 
-export default function Settings({
+export default function Settings<T extends Record<string, any> = Record<string, any>>({
     settings,
     onChange
 }: {
     settings: Setting[];
-    onChange?: (data: Record<string, any>) => void
+    onChange?: (data: T) => void
 }) {
     const [data, setData] = useState(settings.reduce((acc, setting) => {
         acc[setting.name] = setting.defaultValue ?? defaultValueByType[setting.type];
@@ -30,7 +30,7 @@ export default function Settings({
     }, {} as Record<string, any>));
 
     useEffect(() => {
-        onChange?.(data);
+        onChange?.(data as T);
     }, [data, onChange]);
 
     return (

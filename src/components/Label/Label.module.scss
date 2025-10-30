@@ -1,16 +1,20 @@
-@use '../../styles/mixins' as *;
+@use 'component';
+@use 'theme';
+
+@include component.define('Label', (
+    size: theme.var(font-size-m),
+    gap: theme.var(space-xs),
+    color: theme.var(text-primary-color),
+));
 
 .root {
-    --ui-Label-gap: var(--ui-gap-smaller);
-    --ui-Label-color: var(--ui-text-primary-color);
-
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: var(--ui-Label-gap);
-    color: var(--ui-Label-color);
-    font-family: var(--ui-font-family);
-    font-size: var(--ui-Label-size);
+    gap: component.var(gap);
+    color: component.var(color);
+    font-family: theme.var(font-family);
+    font-size: component.var(size);
     line-height: 1;
 }
 
@@ -22,22 +26,22 @@
 
 // Colors
 
-@include color-variable-for-palettes('Label', 'color');
+@include component.palettes-color-vars(color);
 
 
-// Sizes 
+// Sizes
 
-.small {
-    --ui-Label-size: var(--ui-font-size-small);
-}
-
-.medium {
-    --ui-Label-size: var(--ui-font-size-medium);
-}
-
-.large {
-    --ui-Label-size: var(--ui-font-size-large);
-}
+@include component.vars((
+    s: (
+        size: theme.var(font-size-s)
+    ),
+    m: (
+        size: theme.var(font-size-m)
+    ),
+    l: (
+        size: theme.var(font-size-l)
+    )
+));
 
 
 // Misc

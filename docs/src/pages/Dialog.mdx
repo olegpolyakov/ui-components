@@ -1,0 +1,80 @@
+import Demo from '@/components/Demo';
+import Section from '@/components/Section';
+
+import Button from '~/components/Button';
+import Dialog, {DialogProvider} from '~/components/Dialog';
+
+# Dialog
+
+<Demo
+    setup={(data, setData) => (
+        <Button
+            content="Open dialog"
+            onClick={() => setData({ ...data, open: true })}
+        />
+    )}
+>
+    {(data, setData) => (
+        <Dialog
+            title="Dialog"
+            content="Content"
+            {...data}
+            onClose={() => setData({...data, open: false})}
+        />
+    )}
+</Demo>
+
+<Section title="Long content">
+    <Demo
+        setup={(data, setData) => (
+            <Button
+                content="Open dialog"
+                onClick={() => setData({ ...data, open: true })}
+            />
+        )}
+    >
+        {(data, setData) => (
+            <Dialog
+                title="Dialog"
+                {...data}
+                onClose={() => setData({...data, open: false})}
+            >
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam veniam aperiam esse! Provident veritatis voluptatem odit? Quo debitis atque, neque id facere dolor perferendis consectetur et rem earum voluptates vitae!</p>
+
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque ducimus eius aspernatur? Vero eaque voluptates, vel dignissimos, laudantium quasi saepe mollitia ad veritatis asperiores, quis nulla dolorum! Aliquid, laudantium deserunt?</p>
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia quis aliquid quidem nisi, consequatur optio nemo velit laudantium ipsum, eius vel laboriosam nesciunt saepe tempora error eum modi ut odit?</p>
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam veniam aperiam esse! Provident veritatis voluptatem odit? Quo debitis atque, neque id facere dolor perferendis consectetur et rem earum voluptates vitae!</p>
+
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque ducimus eius aspernatur? Vero eaque voluptates, vel dignissimos, laudantium quasi saepe mollitia ad veritatis asperiores, quis nulla dolorum! Aliquid, laudantium deserunt?</p>
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia quis aliquid quidem nisi, consequatur optio nemo velit laudantium ipsum, eius vel laboriosam nesciunt saepe tempora error eum modi ut odit?</p>
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam veniam aperiam esse! Provident veritatis voluptatem odit? Quo debitis atque, neque id facere dolor perferendis consectetur et rem earum voluptates vitae!</p>
+
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque ducimus eius aspernatur? Vero eaque voluptates, vel dignissimos, laudantium quasi saepe mollitia ad veritatis asperiores, quis nulla dolorum! Aliquid, laudantium deserunt?</p>
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia quis aliquid quidem nisi, consequatur optio nemo velit laudantium ipsum, eius vel laboriosam nesciunt saepe tempora error eum modi ut odit?</p>
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam veniam aperiam esse! Provident veritatis voluptatem odit? Quo debitis atque, neque id facere dolor perferendis consectetur et rem earum voluptates vitae!</p>
+
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque ducimus eius aspernatur? Vero eaque voluptates, vel dignissimos, laudantium quasi saepe mollitia ad veritatis asperiores, quis nulla dolorum! Aliquid, laudantium deserunt?</p>
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia quis aliquid quidem nisi, consequatur optio nemo velit laudantium ipsum, eius vel laboriosam nesciunt saepe tempora error eum modi ut odit?</p>
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam veniam aperiam esse! Provident veritatis voluptatem odit? Quo debitis atque, neque id facere dolor perferendis consectetur et rem earum voluptates vitae!</p>
+
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque ducimus eius aspernatur? Vero eaque voluptates, vel dignissimos, laudantium quasi saepe mollitia ad veritatis asperiores, quis nulla dolorum! Aliquid, laudantium deserunt?</p>
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia quis aliquid quidem nisi, consequatur optio nemo velit laudantium ipsum, eius vel laboriosam nesciunt saepe tempora error eum modi ut odit?</p>
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quam veniam aperiam esse! Provident veritatis voluptatem odit? Quo debitis atque, neque id facere dolor perferendis consectetur et rem earum voluptates vitae!</p>
+
+                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Doloremque ducimus eius aspernatur? Vero eaque voluptates, vel dignissimos, laudantium quasi saepe mollitia ad veritatis asperiores, quis nulla dolorum! Aliquid, laudantium deserunt?</p>
+
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia quis aliquid quidem nisi, consequatur optio nemo velit laudantium ipsum, eius vel laboriosam nesciunt saepe tempora error eum modi ut odit?</p>
+            </Dialog>
+        )}
+    </Demo>
+</Section>
