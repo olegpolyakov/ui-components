@@ -1,90 +1,70 @@
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@use 'component';
+@use 'theme';
+
+@include component.define('Card', (
+    border-width: 1px,
+    border-color: transparent,
+    border-radius: theme.var(border-radius-m),
+    background-color: theme.var(surface-color),
+    padding: theme.var(space-m),
+    shadow: none
+));
+
+$vars: component.vars();
 
 .root {
-    --ui-Card-background-color: var(--ui-surface-color);
-    --ui-Card-border-color: transparent;
-    --ui-Card-border-radius: var(--ui-border-radius-medium);
-    --ui-Card-padding: var(--ui-padding-medium);
-
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--ui-Card-border-color, transparent);
-    border-radius: var(--ui-Card-border-radius);
-    background-color: var(--ui-Card-background-color);
-    padding: var(--ui-Card-padding);
-    font-family: var(--ui-font-family);
-    box-shadow: var(--ui-Card-shadow, none);
+    border: component.var(border-width) solid component.var(border-color);
+    border-radius: component.var(border-radius);
+    background-color: component.var(background-color);
+    padding: component.var(padding);
+    box-shadow: component.var(shadow);
 }
 
 
 // Sizes
 
-.small {
-    --ui-Card-padding: var(--ui-padding-small);
-}
-
-.medium {
-    --ui-Card-padding: var(--ui-padding-medium);
-}
-
-.large {
-    --ui-Card-padding: var(--ui-padding-large);
-}
+@include component.vars((
+    s: (
+        padding: theme.var(padding-s)
+    ),
+    m: (
+        padding: theme.var(padding-m)
+    ),
+    l: (
+        padding: theme.var(padding-l)
+    )
+));
 
 
 // Variants
 
-.plain {
-    --ui-Card-background-color: var(--ui-surface-color);
-}
-
-.filled {
-    @include color-variable-for-palettes('Card', 'background-color');
-    @include color-variable-for-palettes('Card', 'text-color', $on: true);
-
-    color: var(--ui-Card-text-color);
-}
-
-.outlined {
-    --ui-Card-background-color: var(--ui-surface-color);
-    --ui-Card-border-color: var(--ui-border-color);
-    --ui-Card-border-width: 1px;
-
-    @include color-variable-for-palettes('Card', 'border-color');
-
-    border: var(--ui-Card-border-width) solid var(--ui-Card-border-color);
-}
-
-.tinted {
-    @include color-variable-for-palettes('Card', 'background-color', $color: 1);
-}
+@include component.variants;
 
 
 // Shadow
 
-.shadow-small {
-    --ui-Card-shadow: var(--ui-shadow-small);
-}
-
-.shadow-medium {
-    --ui-Card-shadow: var(--ui-shadow-medium);
-}
-
-.shadow-large {
-    --ui-Card-shadow: var(--ui-shadow-large);
-}
+@include component.vars((
+    shadow-s: (
+        shadow: var(--ui-shadow-small)
+    ),
+    shadow-m: (
+        shadow: var(--ui-shadow-medium)
+    ),
+    shadow-l: (
+        shadow: var(--ui-shadow-large)
+    )
+));
 
 
 // Misc
 
 .interactive {
     &:hover {
-        --ui-Card-background-color: #f0f0f0;
+        @include component.vars((
+            background-color: theme.var(surface-hover-color)
+        ));
     }
-}
-
-.raised {
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.14);
 }

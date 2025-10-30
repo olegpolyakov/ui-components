@@ -1,8 +1,9 @@
-@use '../../styles/component';
-@use '../../styles/theme';
+@use 'component';
+@use 'theme';
 
 @include component.define('Badge', (
     _size: auto,
+    padding-x: 0,
     border-color: transparent,
     border-radius: _size,
     border-width: 0,
@@ -17,9 +18,10 @@ $vars: component.vars();
 
 .root {
     box-sizing: border-box;
-    display: inline-flex;
     min-width: component.var(_size);
     min-height: component.var(_size);
+    padding: 0 component.var(padding-x);
+    display: inline-flex;
     align-items: center;
     place-content: center;
     border-radius: component.var(border-radius);
@@ -40,7 +42,7 @@ $vars: component.vars();
 
 .s {
     @include component.vars((
-        size: 14px,
+        _size: 14px,
         padding-x: 4px,
         font-size: 10px
     ));
@@ -48,7 +50,7 @@ $vars: component.vars();
 
 .m {
     @include component.vars((
-        size: 18px,
+        _size: 18px,
         padding-x: 6px,
         font-size: 12px
     ));
@@ -56,7 +58,7 @@ $vars: component.vars();
 
 .l {
     @include component.vars((
-        size: 24px,
+        _size: 24px,
         padding-x: 8px,
         font-size: 14px
     ));

@@ -1,5 +1,5 @@
-@use '../../styles/component';
-@use '../../styles/theme';
+@use 'component';
+@use 'theme';
 
 @include component.define('Button', (
     height: auto,
@@ -25,8 +25,8 @@
 $vars: component.vars();
 
 .root {
-    position: relative;
     box-sizing: border-box;
+    position: relative;
     min-height: component.var(height);
     display: inline-flex;
     align-items: center;

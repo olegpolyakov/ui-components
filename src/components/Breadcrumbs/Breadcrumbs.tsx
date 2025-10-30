@@ -1,50 +1,45 @@
-import { ForwardRefExoticComponent, forwardRef } from 'react';
-
-import type { PropsWithChildren, PropsWithKey, Size } from '../../types';
-import { classnames as cn } from '../../utils';
+import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
 import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem';
 
 import cssClasses from './Breadcrumbs.module.scss';
 
-export type BreadcrumbProps = PropsWithChildren<{
+export type BreadcrumbsProps = {
     items?: PropsWithKey<BreadcrumbItemProps>[];
     size?: Size;
-}>;
+};
 
-const displayName = 'Breadcrumbs';
+Breadcrumbs.displayName = 'Breadcrumbs';
+Breadcrumbs.Item = BreadcrumbItem;
 
-const Breadcrumbs: ForwardRefExoticComponent<BreadcrumbProps> & {
-    Item?: typeof BreadcrumbItem;
-} = forwardRef<HTMLDivElement, BreadcrumbProps>(({
-    items,
-    size = 'medium',
+const elementClassNames = getElementClassNames(
+    Breadcrumbs.displayName
+);
 
-    children,
+export default function Breadcrumbs<T extends ElementType = 'div'>({
+    as,
     className,
+    children,
+
+    items,
+    size = 'm',
     ...props
-}, ref) => {
+}: ComponentProps<BreadcrumbsProps, T>) {
+    const Component = as || 'div';
     const classNames = cn(
         className,
-        'ui-Breadcrumb',
+        elementClassNames.root,
+        cssClasses.root,
         cssClasses[size]
     );
 
     return (
-        <div
-            ref={ref}
-            className={classNames}
-            {...props}
-        >
-            {items?.map(item =>
-                <BreadcrumbItem key={item.key} {...item} />
+        <Component className={classNames} {...props}>
+            {items?.map(({ key, ...props }) =>
+                <BreadcrumbItem key={key} {...props} />
             )}
             {children}
-        </div>
+        </Component>
     );
-});
-
-Breadcrumbs.displayName = displayName;
-Breadcrumbs.Item = BreadcrumbItem;
-
-export default Breadcrumbs;
+}

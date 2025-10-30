@@ -1,0 +1,87 @@
+@use 'sass:meta';
+
+@use './theme' as *;
+
+@debug 'theme-vars';
+:root {
+    @include base-vars;
+    @include color-vars('dark');
+}
+
+// @debug 'color-var';
+// .selector {
+//     @include color-var(color, neutral);
+//     @include color-var(color, neutral-tinted);
+//     @include color-var(color, neutral, tinted);
+    
+//     // on color
+//     @include color-var(color, neutral, $on: true);
+//     @include color-var(_color, neutral);
+// }
+
+@debug 'color-state-vars';
+.selector {
+    /* Simple value */
+    @include color-state-vars(background-color, plain);
+    @include color-state-vars(text-color, on-plain);
+
+    /* List value */
+    @include color-state-vars(
+        (background-color, _text-color),
+        plain
+    );
+
+    /* Map value */
+    @include color-state-vars((
+        background-color: plain,
+        text-color: on-plain
+    ));
+}
+
+// @debug 'palette-color-vars';
+// .selector {
+//     @include palette-color-vars(
+//         neutral,
+//         text-color
+//     );
+
+//     @include palette-color-vars(
+//         neutral,
+//         text-color,
+//         5
+//     );
+
+//     @include palette-color-vars(
+//         neutral,
+//         text-color,
+//         tinted
+//     );
+
+//     @include palette-color-vars(
+//         neutral,
+//         (background-color, _text-color),
+//         tinted
+//     );
+// }
+
+// @debug 'palettes-color-vars';
+// .selector {
+//     @include palettes-color-vars(
+//         text-color
+//     );
+
+//     @include palettes-color-vars(
+//         text-color,
+//         5
+//     );
+
+//     @include palettes-color-vars(
+//         text-color,
+//         tinted
+//     );
+
+//     @include palettes-color-vars(
+//         (background-color, _text-color),
+//         tinted
+//     );
+// }

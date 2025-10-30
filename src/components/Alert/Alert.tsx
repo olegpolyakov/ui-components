@@ -38,8 +38,8 @@ const IntentIcon = {
 
 export default function Alert<T extends ElementType = 'div'>({
     as,
-    children,
     className,
+    children,
 
     content = children,
     icon,
@@ -47,12 +47,11 @@ export default function Alert<T extends ElementType = 'div'>({
     end,
     intent,
     color = intent,
-    shape = 'rounded',
     size = 'm',
+    shape = 'rounded',
     variant = 'tinted',
     shadow,
     onClose,
-
     ...props
 }: ComponentProps<AlertProps, T>) {
     const Component = as || 'div';

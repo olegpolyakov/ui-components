@@ -1,10 +1,9 @@
-@use '../../styles/theme';
-@use '../../styles/theme/component' with (
-    $name: 'AvatarGroup',
-    $vars: (
-        gap: theme.var(space-none),
-    )
-);
+@use 'component';
+@use 'theme';
+
+@include component.define('AvatarGroup', (
+    gap: theme.var(space-none)
+));
 
 .root {
     display: flex;
@@ -21,36 +20,36 @@
         justify-content: space-between
     }
 
-    &-smallest {
-        @include component.var(gap, theme.var(space-smallest));
+    &-xxs {
+        @include component.var(gap, theme.var(space-xxs));
     }
 
-    &-smaller {
-        @include component.var(gap, theme.var(space-smaller));
+    &-xs {
+        @include component.var(gap, theme.var(space-xs));
     }
 
-    &-small {
-        @include component.var(gap, theme.var(space-small));
+    &-s {
+        @include component.var(gap, theme.var(space-s));
     }
 
-    &-medium {
-        @include component.var(gap, theme.var(space-medium));
+    &-m {
+        @include component.var(gap, theme.var(space-m));
     }
 
-    &-large {
-        @include component.var(gap, theme.var(space-large));
+    &-l {
+        @include component.var(gap, theme.var(space-l));
     }
 
-    &-larger {
-        @include component.var(gap, theme.var(space-larger));
+    &-xl {
+        @include component.var(gap, theme.var(space-xl));
     }
 
-    &-largest {
-        @include component.var(gap, theme.var(space-largest));
+    &-xxl {
+        @include component.var(gap, theme.var(space-xxl));
     }
 }
 
-.overlapping {
+.overlap {
     .avatar + .avatar {
         margin-left: -8px;
     }

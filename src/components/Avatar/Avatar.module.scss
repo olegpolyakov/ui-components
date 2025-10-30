@@ -1,5 +1,5 @@
-@use '../../styles/component';
-@use '../../styles/theme';
+@use 'component';
+@use 'theme';
 
 @include component.define('Avatar', (
     size: auto,
@@ -14,8 +14,6 @@
 $vars: component.vars();
 
 .root {
-    @include component.vars;
-
     box-sizing: border-box;
     position: relative;
     display: inline-flex;
@@ -53,7 +51,8 @@ $vars: component.vars();
 
 // Sizes
 
-.small {
+.s,
+.sm {
     @include component.vars((
         size: 24px,
         font-size: 10px,
@@ -61,7 +60,8 @@ $vars: component.vars();
     ));
 }
 
-.medium {
+.m,
+.md {
     @include component.vars((
         size: 40px,
         font-size: 16px,
@@ -69,7 +69,8 @@ $vars: component.vars();
     ));
 }
 
-.large {
+.l,
+.lg {
     @include component.vars((
         size: 64px,
         font-size: 28px,
@@ -93,19 +94,22 @@ $vars: component.vars();
 }
 
 .rounded {
-    &.small {
+    &.s
+    &.sm {
         @include component.vars((
             border-radius: theme.var(border-radius-s)
         ));
     }
 
-    &.medium {
+    &.m
+    &.md {
         @include component.vars((
             border-radius: theme.var(border-radius-m)
         ));
     }
 
-    &.large {
+    &.l,
+    &.lg {
         @include component.vars((
             border-radius: theme.var(border-radius-l)
         ));
@@ -115,33 +119,4 @@ $vars: component.vars();
 
 // Variants
 
-.plain {
-    @include component.palettes-color-vars(text-color);
-}
-
-.filled {
-    @include component.color-variable-for-palettes((background-color, _text-color));
-}
-
-.outlined {
-    @include component.var(border-color, --border-color);
-    @include component.palettes-color-vars((border-color, text-color));
-
-    border: component.var(border-width) solid component.var(border-color);
-}
-
-.tinted {
-    @include component.var(background-color, tinted-color);
-    @include component.palettes-color-vars(
-        (background-color, _text-color),
-        tinted
-    );
-}
-
-// .raised {
-//     @each $palette in theme.$palette-names {
-//         &.#{$palette} {
-//             box-shadow: 0px 5px 12px 0px component.var(#{$palette}-5-color);
-//         }
-//     }
-// }
+@include component.variants;

@@ -1,9 +1,8 @@
 @use 'sass:map';
 @use 'sass:meta';
 
-@use './base';
+@use './colors';
 @use './theme';
-
 @use './utils/css';
 @use './utils/list';
 @use './utils/string';
@@ -48,92 +47,57 @@ $-vars: ();
     @if _is-private-var($name) {
         @include css.var($name, $_value);
     } @else {
-        @include theme.var(
-            '#{$-name}-#{$name}',
-            $_value
-        );
+        @include theme.var('#{$-name}-#{$name}', $_value);
     }
 }
 
 @mixin vars($vars) {
     @each $name, $value in $vars {
-        @include var($name, $value);
+        @if type.is-map($value) {
+            @each $key, $props in $value {
+                #{'#{$name}-#{$key}'} {
+                    @include vars($props);
+                }
+            }
+        } @else {
+            @include var($name, $value);
+        }
     }
 }
 
-@mixin color-state-vars($props, $color: null, $override: ()) {
+@mixin color-state-vars($args...) {
     @include theme.color-state-vars(
-        $props,
-        $color,
-        $override, 
-        $prefix: '#{$-name}-'
+        $prefix: '#{$-name}-',
+        $args...
     );
 }
 
-@mixin palette-color-vars(
-    $palette,
-    $props,
-    $color: null,
-    $on: false
-) {
+@mixin palette-color-vars($args...) {
     @include theme.palette-color-vars(
-        $palette,
-        $props,
-        $color,
-        $on,
-        $prefix: '#{$-name}-'
+        $prefix: '#{$-name}-',
+        $args...
     );
 }
 
-@mixin palettes-color-vars(
-    $props,
-    $color: null,
-    $on: false,
-    $palettes: base.$palette-names,
-    $override: ()
-) {
+@mixin palettes-color-vars($args...) {
     @include theme.palettes-color-vars(
-        $props,
-        $color,
-        $on,
-        '#{$-name}-',
-        $override,
-        $palettes,
+        $prefix: '#{$-name}-',
+        $args...
     );
 }
 
-@mixin palette-color-state-vars(
-    $palette,
-    $props,
-    $color: null,
-    $on: false,
-    $override: ()
-) {
+@mixin palette-color-state-vars($args...) {
     @include theme.color-state-vars-for-palette(
-        $palette,
-        $props,
-        $color,
-        $on,
-        $override,
-        $prefix: '#{$-name}-'
+        $prefix: '#{$-name}-',
+        $args...
     );
 }
 
-@mixin palettes-color-state-vars(
-    $props,
-    $color: null,
-    $on: false,
-    $override: (),
-    $palettes: base.$palette-names
-) {
+@mixin palettes-color-state-vars($args...) {
     @include theme.palettes-color-state-vars(
-        $props,
-        $color,
-        $on,
-        '#{$-name}-',
-        $override,
-        $palettes,
-    )
+        $prefix: '#{$-name}-',
+        $args...
+    );
 }
 
 @function _get-var-value($value: null) {

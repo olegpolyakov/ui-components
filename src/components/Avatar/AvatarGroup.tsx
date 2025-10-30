@@ -1,3 +1,5 @@
+import { Children, cloneElement, isValidElement } from 'react';
+
 import type { ComponentProps, ElementType, PropsWithKey, Space } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
@@ -36,12 +38,13 @@ export default function AvatarGroup<T extends ElementType>({
     size,
     variant,
     overlap,
-    raised,
     gap,
     maxCount = 0,
     ...props
 }: ComponentProps<AvatarGroupProps, T>) {
-    const shownAvatars = (maxCount > 0 && avatars.length > maxCount) ? avatars.slice(0, maxCount) : avatars;
+    const shownAvatars = (maxCount > 0 && avatars.length > maxCount)
+        ? avatars.slice(0, maxCount)
+        : avatars;
     const hiddenAvatarsCount = avatars.length - shownAvatars.length;
 
     const Component = as || 'div';
@@ -49,7 +52,7 @@ export default function AvatarGroup<T extends ElementType>({
         className,
         elementClassNames.root,
         cssClasses.root,
-        overlap && cssClasses.overlapping,
+        overlap && cssClasses.overlap,
         gap && cssClasses[`gap-${gap}`]
     );
 
@@ -66,7 +69,6 @@ export default function AvatarGroup<T extends ElementType>({
                     shape={shape}
                     size={size}
                     variant={variant}
-                    raised={raised}
                     {...avatar}
                 />
             )}
@@ -82,7 +84,15 @@ export default function AvatarGroup<T extends ElementType>({
                 />
             }
 
-            {children}
+            {Children.map(children, child => (
+                isValidElement<AvatarProps>(child) && cloneElement<AvatarProps>(child, {
+                    className: cn(elementClassNames.avatar, cssClasses.avatar, child.props.className),
+                    color,
+                    shape,
+                    size,
+                    variant
+                })
+            ))}
         </Component>
     );
 }

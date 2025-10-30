@@ -3,8 +3,9 @@
 @use 'sass:meta';
 @use 'sass:string';
 
-@use './base';
-
+@use './colors';
+@use './font';
+@use './sizes';
 @use './utils/color';
 @use './utils/css';
 @use './utils/string' as str;
@@ -12,69 +13,90 @@
 
 $prefix: 'ui' !default;
 
-@function var($name, $default-value: null) {
-    @return css.var(#{$prefix}-#{$name});
+@mixin init($theme: null, $root: true) {
+    @if $root {
+        :root {
+            @include base-vars;
+            @include scheme($theme);
+        }
+    } @else {
+        @include base-vars;
+        @include scheme($theme);
+    }
 }
 
-@mixin var($name, $value: null) {
-    --#{$prefix}-#{$name}: #{$value};
-}
+@mixin scheme($theme: 'light') {
+    $selector: if(&, '&', '');
 
-@mixin vars($vars, $prefix: '') {
-    @each $name, $value in $vars {
-        @include var('#{$prefix}#{$name}', $value);
+    #{$selector}[data-theme="dark"] {
+        color-scheme: dark;
+        @include color-vars('dark');
+    }
+
+    #{$selector}[data-theme="light"] {
+        color-scheme: light;
+        @include color-vars('light');
+    }
+
+    @media (prefers-color-scheme: light) {
+        @include color-vars('light');
+    }
+
+    @media (prefers-color-scheme: dark) {
+        @include color-vars('dark');
     }
 }
 
 @mixin base-vars {
     @include vars((
-        font-family: base.$font-family,
-        font-size: base.$font-size,
-        line-height: base.$line-height
+        font-family: font.$font-family,
+        font-size: font.$font-size,
+        line-height: font.$line-height
     ));
 
-    @each $size, $value in base.$font-sizes {
+    @each $size, $value in sizes.$font-sizes {
         @include var(font-size-#{$size}, $value);
     }
 
-    @each $weight, $value in base.$font-weights {
+    @each $weight, $value in font.$font-weights {
         @include var(font-weight-#{$weight}, $value);
     }
 
-    @each $size, $values in base.$heading-sizes {
+    @each $size, $values in sizes.$heading-sizes {
         @include var(heading-#{$size}, list.nth($values, 1));
     }
 
-    @each $size, $values in base.$text-sizes {
+    @each $size, $values in sizes.$text-sizes {
         @include var(text-#{$size}, list.nth($values, 1));
     }
 
-    @each $size, $value in base.$border-radii {
+    @each $size, $value in sizes.$border-radii {
         @include var(border-radius-#{$size}, $value);
     }
 
-    @each $size, $value in base.$space-sizes {
+    @each $size, $value in sizes.$space-sizes {
         @include var(space-#{$size}, $value);
     }
 
-    @each $size, $value in base.$shadows {
+    @each $size, $value in sizes.$shadows {
         @include var(shadow-#{$size}, $value);
     }
 
-    @each $name, $value in base.$opacity {
-        @include var(opacity-#{$name}, $value);
+    @each $size, $value in sizes.$screen-sizes {
+        @include var(screen-#{$size}, $value);
     }
 
-    @each $size, $value in base.$screen-sizes {
-        @include var(screen-#{$size}, $value);
+    @each $name, $value in colors.$opacity {
+        @include var(opacity-#{$name}, $value);
     }
 }
 
 @mixin color-vars($theme) {
     $is-dark: $theme == 'dark';
-    $theme-colors: if($is-dark, base.$dark-theme-colors, base.$light-theme-colors);
-    $element-colors: if($is-dark, base.$dark-element-colors, base.$light-element-colors);
+    $theme-colors: if($is-dark, colors.$dark-theme-colors, colors.$light-theme-colors);
+    $element-colors: if($is-dark, colors.$dark-element-colors, colors.$light-element-colors);
     $surface-color: map.get($element-colors, surface);
+    $surface-inverted-color: map.get($element-colors, surface-inverted);
 
     // Element colors
     @each $element, $color in $element-colors {
@@ -89,28 +111,28 @@ $prefix: 'ui' !default;
         color-active: css.rgba(color.rgb($plain-color), 0.15)
     ), 'plain-');
 
-    $on-plain-color: base.on-color($plain-color);
+    $on-plain-color: colors.on-color($plain-color);
     @include vars((
         color: $on-plain-color,
-        color-hover: base.hover-color($on-plain-color),
-        color-active: base.active-color($on-plain-color)
+        color-hover: colors.hover-color($on-plain-color),
+        color-active: colors.active-color($on-plain-color)
     ), 'on-plain-');
 
     // Tinted colors
     @include vars((
-        color: css.rgba(color.rgb($surface-color), 0.125),
+        color: css.rgba(color.rgb($surface-inverted-color), 0.125),
         color-hover: css.rgba(color.rgb($surface-color), 0.25),
         color-active: css.rgba(color.rgb($surface-color), 0.5)
     ), 'tinted-');
 
     // Palette colors
-    @each $name in base.$palette-names {
-        $palette: map.get(base.$palettes, $name);
+    @each $name in colors.$palette-names {
+        $palette: map.get(colors.$palettes, $name);
         @each $level, $color in $palette {
             @include var(#{$name}-#{$level}-color, $color);
         }
         
-        $on-palette: base.on-palette($palette);
+        $on-palette: colors.on-palette($palette);
         @each $level, $color in $on-palette {
             @include var(on-#{$name}-#{$level}-color, $color);
         }
@@ -120,15 +142,15 @@ $prefix: 'ui' !default;
     @each $name, $color in $theme-colors {
         @include vars((
             color: $color,
-            color-hover: base.hover-color($color),
-            color-active: base.active-color($color)
+            color-hover: colors.hover-color($color),
+            color-active: colors.active-color($color)
         ), '#{$name}-');
 
-        $on-color: base.on-color($color);
+        $on-color: colors.on-color($color);
         @include vars((
             color: $on-color,
-            color-hover: base.hover-color($on-color),
-            color-active: base.active-color($on-color)
+            color-hover: colors.hover-color($on-color),
+            color-active: colors.active-color($on-color)
         ), 'on-#{$name}-');
 
         // Theme plain colors
@@ -142,23 +164,23 @@ $prefix: 'ui' !default;
         $on-plain-color: $color;
         @include vars((
             color: $on-plain-color,
-            color-hover: base.hover-color($on-plain-color),
-            color-active: base.active-color($on-plain-color)
+            color-hover: colors.hover-color($on-plain-color),
+            color-active: colors.active-color($on-plain-color)
         ), 'on-plain-#{$name}-');
 
         // Theme filled colors
         $filled-color: $color;
         @include vars((
             color: $filled-color,
-            color-hover: base.hover-color($filled-color),
-            color-active: base.active-color($filled-color)
+            color-hover: colors.hover-color($filled-color),
+            color-active: colors.active-color($filled-color)
         ), 'filled-#{$name}-');
         
-        $on-filled-color: base.on-color($color);
+        $on-filled-color: colors.on-color($color);
         @include vars((
             color: $on-filled-color,
-            color-hover: base.hover-color($on-filled-color),
-            color-active: base.active-color($on-filled-color)
+            color-hover: colors.hover-color($on-filled-color),
+            color-active: colors.active-color($on-filled-color)
         ), 'on-filled-#{$name}-');
 
         // Theme tinted colors
@@ -175,6 +197,20 @@ $prefix: 'ui' !default;
             color-hover: color.scale($on-tinted-color, $lightness: -5%),
             color-active: color.scale($on-tinted-color, $lightness: -10%)
         ), 'on-tinted-#{$name}-');
+    }
+}
+
+@function var($name, $default-value: null) {
+    @return css.var(#{$prefix}-#{$name});
+}
+
+@mixin var($name, $value: null) {
+    --#{$prefix}-#{$name}: #{$value};
+}
+
+@mixin vars($vars, $prefix: '') {
+    @each $name, $value in $vars {
+        @include var('#{$prefix}#{$name}', $value);
     }
 }
 
@@ -293,9 +329,9 @@ $prefix: 'ui' !default;
     $props,
     $color: null,
     $on: false,
-    $prefix: '',
     $override: (),
-    $palettes: $palette-names,
+    $palettes: colors.$palette-names,
+    $prefix: '',
 ) {
     @each $palette in $palettes {
         @include palette-color-vars(
@@ -344,9 +380,9 @@ $prefix: 'ui' !default;
     $props,
     $color: null,
     $on: false,
-    $prefix: '',
     $override: (),
-    $palettes: $palette-names
+    $palettes: colors.$palette-names,
+    $prefix: '',
 ) {
     @each $palette in $palettes {
         @include palette-color-state-vars(

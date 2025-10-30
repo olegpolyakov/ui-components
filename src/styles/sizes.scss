@@ -1,0 +1,72 @@
+@use './utils/units';
+
+$sizes: (xxs, xs, s, m, l, xl, xxl);
+
+$font-sizes: (
+    xxs: 10px,
+    xs: 12px,
+    s: 14px,
+    m: 16px,
+    l: 20px,
+    xl: 24px,
+    xxl: 28px
+) !default;
+
+$heading-sizes: (
+    // type: (font-size, line-height)
+    xxs: (16px, 22px),
+    xs: (20, 28px),
+    s: (24px, 32px),
+    m: (28px, 36px),
+    l: (32px, 40px),
+    xl: (40px, 52px),
+    xxl: (68px, 92px)
+) !default;
+
+$text-sizes: (
+    // type: (font-size, line-height)
+    xxs: (10px, 14px),
+    xs: (12px, 16px),
+    s: (14px, 18px),
+    m: (16px, 22px),
+    l: (20px, 26px),
+    xl: (24px, 30px),
+    xxl: (28px, 34px)
+) !default;
+
+$border-radii: (
+    xxs: 2px,
+    xs: 4px,
+    s: 6px,
+    m: 8px,
+    l: 12px,
+    xl: 16px,
+    xxl: 20px
+) !default;
+
+$space-sizes: (
+    xxs: 4px,
+    xs: 8px,
+    s: 12px,
+    m: 16px,
+    l: 24px,
+    xl: 32px,
+    xxl: 40px
+) !default;
+
+$shadows: (
+    none: none,
+    s: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
+    m: 0 8px 16px 0 rgba(0, 0, 0, 0.1),
+    l: 0 16px 24px 0 rgba(0, 0, 0, 0.1)
+) !default;
+
+$screen-sizes: (
+    xxs: 360px,
+    xs: 480px,
+    s: 640px,
+    m: 768px,
+    l: 1024px,
+    xl: 1280px,
+    xxl: 1440px
+) !default;

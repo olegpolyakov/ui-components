@@ -50,7 +50,6 @@ export default function Button<T extends ElementType = 'button'>({
     loading,
     iconPosition,
     iconProps,
-
     ...props
 }: ComponentProps<ButtonProps, T>) {
     const Component = as || 'button';

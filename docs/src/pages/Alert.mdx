@@ -1,0 +1,47 @@
+import Demo from '@/components/Demo';
+import Section from '@/components/Section';
+
+import Alert from '~/components/Alert';
+
+# Alert
+
+<Demo
+    settings={[
+        {
+            name: 'content',
+            label: 'Content',
+            type: 'text',
+            prop: 'content',
+            defaultValue: 'This is an alert!'
+        },
+        {
+            name: 'color',
+            label: 'Color',
+            type: 'select',
+            prop: 'color',
+            options: ['', 'neutral', 'primary', 'secondary', 'success', 'warning', 'danger', 'info'],
+            defaultValue: ''
+        },
+        {
+            name: 'variant',
+            label: 'Variant',
+            type: 'select',
+            prop: 'variant',
+            options: ['plain', 'filled', 'tinted', 'outlined'],
+            defaultValue: 'plain'
+        }
+    ]}
+>
+    <Alert
+        content="This is an alert!"
+        onClose={() => alert('Alert closed!')}
+    />
+</Demo>
+
+<Section>
+    <Alert
+        content="This is an alert!"
+        color="primary"
+        variant="filled"
+    />
+</Section>

@@ -61,3 +61,5 @@ export type MouseInteractionEvent<T extends HTMLElement = HTMLElement> =
     TouchEvent |
     React.MouseEvent<T> |
     React.TouchEvent<T>;
+
+export type Theme = 'light' | 'dark';

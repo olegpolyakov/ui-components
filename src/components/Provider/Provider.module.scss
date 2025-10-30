@@ -1,22 +1,15 @@
 @use '../../styles/theme';
 
-:root {
-    color-scheme: dark light;
+.root {
+    background-color: var(--ui-background-color);
+    color: var(--ui-text-color);
+    font-family: var(--ui-font-family);
 }
 
-.root {
-    @include theme.base-vars;
-    // @include theme.scrollbar;
+.light {
+    @include theme.scheme('light');
+}
 
-    font-family: theme.var(font-family);
-
-    @media (prefers-color-scheme: dark) {
-        &.dark {
-            @include theme.color-vars('dark');
-        }
-    
-        &.light {
-            @include theme.color-vars('light');
-        }
-    }
+.dark {
+    @include theme.scheme('dark');
 }

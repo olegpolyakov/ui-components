@@ -25,8 +25,8 @@ const elementClassNames = getElementClassNames(
 
 export default function Badge<T extends ElementType = 'span'>({
     as,
-    children,
     className,
+    children,
 
     content = children,
     color = 'primary',

@@ -1,5 +1,8 @@
+@forward './animation' as animation-*;
+@forward './colors';
+@forward './elements';
+@forward './font';
+@forward './media' as media-*;
+@forward './sizes';
 @forward './theme';
 @forward './utils';
-
-@use './components/Accordion/Accordion.scss';
-@use './components/Accordion/AccordionItem.scss';

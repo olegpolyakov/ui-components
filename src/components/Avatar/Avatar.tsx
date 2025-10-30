@@ -1,5 +1,6 @@
-import { ReactNode, useEffect, useRef, useState, type ElementType } from 'react';
+import { ReactNode, ElementType } from 'react';
 
+import { useImage } from '../../hooks/image';
 import type { Color, ComponentProps, Shape, Size, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
@@ -8,6 +9,7 @@ import Icon, { IconProps } from '../Icon';
 import cssClasses from './Avatar.module.scss';
 
 export type AvatarProps = {
+    className?: string;
     src?: string;
     content?: ReactNode;
     icon?: ReactNode;
@@ -32,47 +34,17 @@ export default function Avatar<T extends ElementType = 'div'>({
     children,
 
     src,
+    alt,
     content = children,
     icon,
     color,
     shape = 'circular',
     size = 'm',
     variant = 'tinted',
-    raised,
     iconProps,
     ...props
 }: ComponentProps<AvatarProps, T>) {
-    const imageRef = useRef<HTMLImageElement>(null);
-
-    const [notLoaded, setNotLoaded] = useState(false);
-
-    useEffect(() => {
-        if (!imageRef.current) return;
-
-        setNotLoaded(false);
-
-        const image = imageRef.current;
-
-        function handleLoad() {
-            setNotLoaded(false);
-        }
-
-        function handleError() {
-            setNotLoaded(true);
-        }
-
-        if (image.complete && image.naturalHeight !== 0) {
-            setNotLoaded(false);
-        } else {
-            image.addEventListener('load', handleLoad);
-            image.addEventListener('error', handleError);
-
-            return () => {
-                image.removeEventListener('load', handleLoad);
-                image.removeEventListener('error', handleError);
-            };
-        }
-    }, [src]);
+    const { ref: imageRef, isLoaded } = useImage(src);
 
     const Component = as || 'div';
     const classNames = cn(
@@ -82,8 +54,7 @@ export default function Avatar<T extends ElementType = 'div'>({
         color && cssClasses[color],
         cssClasses[size],
         cssClasses[shape],
-        cssClasses[variant],
-        raised && cssClasses.raised
+        cssClasses[variant]
     );
 
     return (
@@ -91,7 +62,7 @@ export default function Avatar<T extends ElementType = 'div'>({
             className={classNames}
             {...props}
         >
-            {children &&
+            {content &&
                 <span className={cn(elementClassNames.content, cssClasses.content)}>
                     {content}
                 </span>
@@ -108,12 +79,12 @@ export default function Avatar<T extends ElementType = 'div'>({
                 </Icon>
             }
 
-            {src && !notLoaded &&
+            {src && !isLoaded &&
                 <img
                     ref={imageRef}
                     className={cn(elementClassNames.image, cssClasses.image)}
                     src={src}
-                    alt=""
+                    alt={alt}
                 />
             }
         </Component>

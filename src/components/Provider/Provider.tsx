@@ -1,4 +1,4 @@
-import { createContext, forwardRef } from 'react';
+import { createContext, forwardRef, useMemo, useState } from 'react';
 
 import type { PropsWithChildren } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
@@ -9,13 +9,17 @@ export type ProviderProps = PropsWithChildren & {
     theme?: 'dark' | 'light';
 };
 
-export const Context = createContext({});
+export const Context = createContext<{
+    theme: 'dark' | 'light' | undefined;
+}>({
+    theme: undefined
+});
 
 const displayName = 'Provider';
 const elementClassNames = getElementClassNames(displayName);
 
 const Provider = forwardRef<HTMLDivElement, ProviderProps>(({
-    theme = 'dark',
+    theme,
     children,
     className,
     ...props
@@ -24,12 +28,21 @@ const Provider = forwardRef<HTMLDivElement, ProviderProps>(({
         className,
         elementClassNames.root,
         cssClasses.root,
-        cssClasses[theme]
+        cssClasses[theme ?? '']
     );
 
+    const value = useMemo(() => ({
+        theme
+    }), [theme]);
+
     return (
-        <div ref={ref} className={classNames} {...props}>
-            <Context.Provider value={{}}>
+        <div
+            ref={ref}
+            className={classNames}
+            data-theme={theme}
+            {...props}
+        >
+            <Context.Provider value={value}>
                 {children}
             </Context.Provider>
         </div>

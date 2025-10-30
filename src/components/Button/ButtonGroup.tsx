@@ -30,7 +30,6 @@ export default function ButtonGroup<T extends ElementType = 'div'>({
     variant= 'plain',
     joined,
     vertical,
-
     ...props
 }: ComponentProps<ButtonGroupProps, T>) {
     const Component = as || 'div';
@@ -48,14 +47,14 @@ export default function ButtonGroup<T extends ElementType = 'div'>({
             className={classNames}
             {...props}
         >
-            {buttons?.map(button =>
+            {buttons?.map(({ key, ...props }) =>
                 <Button
-                    key={button.key}
+                    key={key}
                     color={color}
                     shape={shape}
                     size={size}
                     variant={variant}
-                    {...button}
+                    {...props}
                 />
             )}
 

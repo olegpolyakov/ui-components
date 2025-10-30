@@ -1,10 +1,10 @@
 export * from './Accordion';
 export * from './Alert';
-// export * from './Avatar';
+export * from './Avatar';
 export * from './Badge';
-// export * from './Breadcrumb';
+export * from './Breadcrumbs';
 export * from './Button';
-// export * from './Card';
+export * from './Card';
 // export * from './Checkbox';
 // export * from './Combobox';
 // export * from './Dialog';

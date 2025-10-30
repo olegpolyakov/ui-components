@@ -1,11 +1,11 @@
-import { forwardRef } from 'react';
-
-import type { Color, HTMLDivProps, PropsWithChildren, Shadow, Size, Variant } from '../../types';
+import type { ReactNode } from 'react';
+import type { Color, ComponentProps, ElementType, Shadow, Size, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssClasses from './Card.module.scss';
 
-export type CardProps = PropsWithChildren<{
+export type CardProps = {
+    content?: ReactNode;
     color?: Color;
     size?: Size;
     shadow?: Shadow;
@@ -14,23 +14,27 @@ export type CardProps = PropsWithChildren<{
     raised?: boolean;
 
     as?: 'div';
-}, HTMLDivProps>;
+};
 
-const displayName = 'Card';
-const elementClassNames = getElementClassNames(displayName);
+Card.displayName = 'Card';
 
-const Card = forwardRef<HTMLDivElement, CardProps>(({
+const elementClassNames = getElementClassNames(Card.displayName);
+
+export default function Card<T extends ElementType = 'div'>({
+    as,
+    className,
+    children,
+
+    content = children,
     color,
     size,
     shadow,
     variant = 'plain',
     interactive,
     raised,
-
-    as: Tag = 'div',
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<CardProps, T>) {
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -44,10 +48,8 @@ const Card = forwardRef<HTMLDivElement, CardProps>(({
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props} />
+        <Component className={classNames} {...props}>
+            {content}
+        </Component>
     );
-});
-
-Card.displayName = displayName;
-
-export default Card;
+}

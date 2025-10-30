@@ -1,36 +1,40 @@
-import { ReactNode, forwardRef } from 'react';
+import { ReactNode } from 'react';
 
-import type { PropsWithChildren, Size } from '../../types';
-import { classnames as cn } from '../../utils';
+import type { ComponentProps, ElementType, Size } from '../../types';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
-export type BreadcrumbItemProps = PropsWithChildren<{
+import cssClasses from './BreadcrumbItem.module.scss';
+
+export type BreadcrumbItemProps = {
     content?: ReactNode;
     size?: Size;
-}>;
-
-const BreadcrumbItem = forwardRef<HTMLLIElement, BreadcrumbItemProps>(({
-    content,
-    size,
-
-    children = content,
-    className,
-    ...props
-}, ref) => {
-    const classNames = cn(
-        className, 'ui-BreadcrumbItem'
-    );
-
-    return (
-        <span
-            ref={ref}
-            className={classNames}
-            {...props}
-        >
-            {children}
-        </span>
-    );
-});
+};
 
 BreadcrumbItem.displayName = 'BreadcrumbItem';
 
-export default BreadcrumbItem;
+const elementClassNames = getElementClassNames(
+    BreadcrumbItem.displayName
+);
+
+export default function BreadcrumbItem<T extends ElementType = 'span'>({
+    as,
+    children,
+    className,
+
+    content = children,
+    size = 'm',
+    ...props
+}: ComponentProps<BreadcrumbItemProps, T>) {
+    const Component = as || 'span';
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        cssClasses[size]
+    );
+
+    return (
+        <Component className={classNames} {...props}>
+            {content}
+        </Component>
+    );
+}
