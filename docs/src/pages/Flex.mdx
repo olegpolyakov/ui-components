@@ -5,28 +5,28 @@ import Flex from '~/components/Flex';
 
 # Flex
 
-<Demo>
-    {(data) => {
-        const boxStyles = {
-            width: '100px',
-            height: '100px',
-            backgroundColor: '#029CFD',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white'
-        };
-
-        const Box = (props) => (
-            <div style={boxStyles} {...props} />
-        );
-
-        return (
-            <Flex gap="s" {...data}>
-                <Box>1</Box>
-                <Box>2</Box>
-                <Box>3</Box>
-            </Flex>
-        );
-    }}
+<Demo
+    settings={[
+        {name: 'count', type: 'number', defaultValue: 3}
+    ]}
+>
+    {({count, ...props}) => (
+        <Flex gap="s" {...props}>
+            {Array.from({ length: count }).map((_, index) => (
+                <div
+                    key={index}
+                    style={{
+                        width: '100px',
+                        height: '100px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        backgroundColor: 'var(--ui-primary-color)',
+                        color: 'var(--ui-on-primary-color)'
+                    }}>
+                    {index + 1}
+                </div>
+            ))}
+        </Flex>
+    )}
 </Demo>
