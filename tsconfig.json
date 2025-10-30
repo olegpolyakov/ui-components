@@ -6,12 +6,6 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ],
-      "@components": [
-        "./src"
-      ],
-      "@components/*": [
-        "./src/*"
       ]
     },
     "typeRoots": [
