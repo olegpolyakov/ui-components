@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 
 export type Setting = {
-    type: 'boolean' | 'select' | 'text' | 'number';
+    type: 'checkbox' | 'select' | 'radio' | 'text' | 'number';
     name: string;
     label: string;
     description?: string;
     defaultValue?: any;
-    options?: any[];
+    options?: { value: string; label: string }[];
+    min?: number;
+    max?: number;
+    step?: number;
 };
 
 const defaultValueByType: Record<string, any> = {
@@ -62,6 +65,9 @@ export default function Settings<T extends Record<string, any> = Record<string, 
                             type="number"
                             name={setting.name}
                             value={data[setting.name]}
+                            min={setting.min}
+                            max={setting.max}
+                            step={setting.step}
                             onChange={e => setData({
                                 ...data,
                                 [setting.name]: e.target.value
@@ -69,7 +75,7 @@ export default function Settings<T extends Record<string, any> = Record<string, 
                         />
                     }
 
-                    {setting.type === 'boolean' && (
+                    {setting.type === 'checkbox' && (
                         <input
                             type="checkbox"
                             name={setting.name}
@@ -91,11 +97,31 @@ export default function Settings<T extends Record<string, any> = Record<string, 
                             })}
                         >
                             {setting.options.map((option, idx) => (
-                                <option key={idx} value={option}>
-                                    {option}
+                                <option key={idx} value={option.value}>
+                                    {option.label}
                                 </option>
                             ))}
                         </select>
+                    )}
+
+                    {setting.type === 'radio' && setting.options && (
+                        <div>
+                            {setting.options.map((option, i) => (
+                                <label key={i}>
+                                    <input
+                                        type="radio"
+                                        name={setting.name}
+                                        value={option.value}
+                                        checked={data[setting.name] === option.value}
+                                        onChange={e => setData({
+                                            ...data,
+                                            [setting.name]: e.target.value
+                                        })}
+                                    />
+                                    {option.label}
+                                </label>
+                            ))}
+                        </div>
                     )}
                 </fieldset>
             ))}

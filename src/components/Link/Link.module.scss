@@ -1,17 +1,27 @@
-@use '../../styles/mixins' as *;
+@use 'sass:list';
+@use 'sass:math';
+
+@use 'component';
+@use 'sizes';
+@use 'theme';
+@use 'utils/units' as *;
+
+@include component.define('Link', (
+    color: theme.var(primary-color),
+    hover-color: theme.var(primary-color-hover),
+    active-color: theme.var(primary-color-active),
+    disabled-color: theme.var(primary-color-disabled),
+));
+
+$vars: component.vars();
 
 .root {
-    box-sizing: border-box;
-    display: inline;
-    margin: 0;
-    padding: 0;
-    border: none;
     background-color: transparent;
-    color: var(--ui-Link-color, var(--ui-primary-color));
-    font-family: var(--ui-font-family);
-    font-size: var(--ui-font-size);
-    font-weight: var(--ui-font-weight-normal);
-    text-align: left;
+    color: component.var(color);
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    text-align: inherit;
     text-overflow: inherit;
     overflow: inherit;
     user-select: text;
@@ -23,27 +33,19 @@
 
 .root {
     &:hover {
-        color: var(--ui-Link-hover-color, var(--ui-primary-6-color));
+        color: component.var(hover-color);
     }
     
     &:active {
-        color: var(--ui-Link-active-color, var(--ui-primary-7-color));
+        color: component.var(active-color);
     }
 }
 
 .disabled {
-    color: var(--ui-Link-disabled-color);
-
-    &:hover {
-        color: var(--ui-Link-disabled-color);
-    }
-    
-    &:active {
-        color: var(--ui-Link-disabled-color);
-    }
+    color: component.var(disabled-color);
 }
 
 
 // Colors
 
-@include color-state-variables-for-palettes('Link', 'color');
+@include component.palettes-color-vars(color);

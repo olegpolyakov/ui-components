@@ -112,71 +112,47 @@ $vars: component.vars();
 
 // Sizes
 
-.xs {
-    @include component.vars((
+@include component.declare((
+    xs: (
         height: 24px,
         padding: 8px,
         gap: 4px,
         font-size: theme.var(font-size-xs)
-    ));
-}
-
-.s {
-    @include component.vars((
+    ),
+    s: (
         height: 28px,
         padding: 8px,
         gap: 4px,
         font-size: theme.var(font-size-s)
-    ));
-}
-
-.m {
-    @include component.vars((
+    ),
+    m: (
         height: 32px,
         padding: 12px,
         gap: 4px,
         font-size: theme.var(font-size-m)
-    ));
-}
-
-.l {
-    @include component.vars((
+    ),
+    l: (
         height: 40px,
         padding: 16px,
         gap: 8px,
         font-size: theme.var(font-size-l)
-    ));
-}
-
-.xl {
-    @include component.vars((
+    ),
+    xl: (
         height: 48px,
         padding: 16px,
         gap: 8px,
         font-size: theme.var(font-size-xl)
-    ));
-}
+    )
+));
 
 
 // Shapes
 
-.circular {
-    @include component.vars((
-        border-radius: --height
-    ));
-}
-
-.rectangular {
-    @include component.vars((
-        border-radius: 0
-    ));
-}
-
-.rounded {
-    @include component.vars((
-        border-radius: calc(component.var(height) / 4)
-    ));
-}
+@include component.declare((
+    circular: (border-radius: component.var(height)),
+    rectangular: (border-radius: 0),
+    rounded: (border-radius: calc(component.var(height) / 4))
+));
 
 
 // Variants
@@ -211,45 +187,29 @@ $vars: component.vars();
     height: component.var(height);
     min-height: auto;
 
-    &.xs {
-        @include component.vars((
+    @include component.declare((
+        xs: (
             height: 16px,
             border-radius: theme.var(border-radius-xs)
-        ));
-    }
-
-    &.s {
-        @include component.vars((
+        ),
+        s: (
             height: 24px,
             border-radius: theme.var(border-radius-s)
-        ));
-    }
-
-    &.m {
-        @include component.vars((
+        ),
+        m: (
             height: 32px
-        ));
-    }
-
-    &.l {
-        @include component.vars((
+        ),
+        l: (
             height: 40px
-        ));
-    }
-
-    &.xl {
-        @include component.vars((
+        ),
+        xl: (
             height: 48px
-        ));
-    }
+        )
+    ));
 
     &.text {
-        &.xs
-        &.s,
-        &.m,
-        &.l,
-        &.xl {
-            --ui-Button-size: auto;
-        }
+        @include component.vars((
+            size: auto
+        ));
     }
 }

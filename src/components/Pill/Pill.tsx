@@ -1,14 +1,13 @@
-import { forwardRef, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
-import type { Color, HTMLSpanProps, IconPosition, PropsWithChildren, Shape, Size, SizeExtended, Variant } from '../../types';
+import type { Color, ComponentProps, ElementType, IconPosition, Shape, Size, SizeExtended, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
 
-import cssClasses from './Pill.module.scss';
+import styles from './Pill.module.scss';
 
-export type PillProps = PropsWithChildren<{
-    as?: 'span';
+export type PillProps = {
     content?: ReactNode;
     icon?: ReactNode;
     start?: ReactNode;
@@ -21,10 +20,14 @@ export type PillProps = PropsWithChildren<{
     interactive?: boolean;
     iconPosition?: IconPosition;
     iconProps?: IconProps;
-}, HTMLSpanProps>;
+};
 
-const displayName = 'Pill';
-const elementClassNames = getElementClassNames(displayName, ['start', 'icon', 'content', 'end']);
+Pill.displayName = 'Pill';
+
+const elementClassNames = getElementClassNames(
+    Pill.displayName,
+    ['start', 'icon', 'content', 'end']
+);
 
 const iconSizeMap: Record<Size, SizeExtended> = {
     s: 'xs',
@@ -32,46 +35,47 @@ const iconSizeMap: Record<Size, SizeExtended> = {
     l: 'm'
 };
 
-const Pill = forwardRef<HTMLElement, PillProps>(({
+export default function Pill<T extends ElementType = 'span'>({
+    as,
+    className,
+    children,
+
     content,
     icon,
     start,
     end,
-    color = 'primary',
+    color,
     shape = 'rounded',
     size = 'm',
-    variant = 'outlined',
+    variant = 'tinted',
     interactive,
     iconPosition,
     iconProps,
-
-    as: Tag = 'span',
-    children,
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<PillProps, T>) {
+    const Root = as || 'span';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[shape],
-        cssClasses[size],
-        cssClasses[variant],
-        cssClasses[color ? `${variant}-${color}` : variant],
-        interactive && cssClasses.interactive,
-        iconPosition && cssClasses[`icon-${iconPosition}`]
+        styles.root,
+        styles[shape],
+        styles[size],
+        styles[variant],
+        styles[color ? `${variant}-${color}` : variant],
+        interactive && styles.interactive,
+        iconPosition && styles[`icon-${iconPosition}`]
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
+        <Root className={classNames} {...props}>
             {start &&
-                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                <span className={cn(elementClassNames.start, styles.start)}>
                     {start}
                 </span>
             }
 
             {icon &&
-                <span className={cn(elementClassNames.icon, cssClasses.icon)}>
+                <span className={cn(elementClassNames.icon, styles.icon)}>
                     <Icon
                         name={typeof icon === 'string' ? icon : undefined}
                         size={iconSizeMap[size]}
@@ -83,7 +87,7 @@ const Pill = forwardRef<HTMLElement, PillProps>(({
             }
 
             {content &&
-                <span className={cn(elementClassNames.content, cssClasses.content)}>
+                <span className={cn(elementClassNames.content, styles.content)}>
                     {content}
                 </span>
             }
@@ -91,14 +95,10 @@ const Pill = forwardRef<HTMLElement, PillProps>(({
             {children}
 
             {end &&
-                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                <span className={cn(elementClassNames.end, styles.end)}>
                     {end}
                 </span>
             }
-        </Tag>
+        </Root>
     );
-});
-
-Pill.displayName = displayName;
-
-export default Pill;
+}

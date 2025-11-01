@@ -1,15 +1,3 @@
-import { size } from './constants';
-
-export function getSizeValue(arg?: number | string) {
-    if (arg === undefined) return;
-
-    if (isNaN(arg as number)) {
-        return size[(arg as string).toUpperCase()];
-    }
-
-    return Number(arg);
-}
-
 export function getFontVariationSettings(
     fill?: boolean,
     wght?: number | string,

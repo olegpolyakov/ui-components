@@ -29,6 +29,14 @@ $-vars: ();
     }
 }
 
+@mixin declare($arg) {
+    @each $name, $vars in $arg {
+        #{if(&, &, '')}.#{$name} {
+            @include vars($vars);
+        }
+    }
+}
+
 @function var($name) {
     @if map.has-key($-vars, $name) {
         @return map.get($-vars, $name);
@@ -53,15 +61,7 @@ $-vars: ();
 
 @mixin vars($vars) {
     @each $name, $value in $vars {
-        @if type.is-map($value) {
-            @each $key, $props in $value {
-                #{'#{$name}-#{$key}'} {
-                    @include vars($props);
-                }
-            }
-        } @else {
-            @include var($name, $value);
-        }
+        @include var($name, $value);
     }
 }
 
@@ -128,7 +128,12 @@ $-vars: ();
     @return string.starts-with($value, '--');
 }
 
-@mixin variants($plain: true, $filled: true, $outlined: true, $tinted: true) {
+@mixin variants(
+    $plain: true,
+    $filled: true,
+    $outlined: true,
+    $tinted: true
+) {
     @if ($plain) {
         @include plain;
     }

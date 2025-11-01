@@ -4,23 +4,6 @@
 
 @use './variables';
 
-@mixin cell-span($size, $span, $gutter) {
-    $percent: math.percentage(
-        math.div($span, map.get(variables.$columns, $size))
-    );
-
-    @if $percent > 100% {
-        $percent: 100%;
-    }
-
-    width: calc(#{$percent} - var(--ui-Grid-gutter-#{$size}, #{$gutter}));
-
-    @supports (display: grid) {
-        width: auto;
-        grid-column-end: span math.min($span, map.get(variables.$columns, $size));
-    }
-}
-
 // returns the lower grid boundary or null if the smallest grid is selected
 @function breakpoint-min($size) {
     $min: map.get(variables.$breakpoints, $size);

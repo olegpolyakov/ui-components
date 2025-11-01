@@ -31,16 +31,10 @@
 
 // Sizes
 
-@include component.vars((
-    s: (
-        size: theme.var(font-size-s)
-    ),
-    m: (
-        size: theme.var(font-size-m)
-    ),
-    l: (
-        size: theme.var(font-size-l)
-    )
+@include component.declare((
+    s: (size: theme.var(font-size-s)),
+    m: (size: theme.var(font-size-m)),
+    l: (size: theme.var(font-size-l))
 ));
 
 

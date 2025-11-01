@@ -1,19 +1,22 @@
-$smaller-size: 16px;
-$small-size: 18px;
-$medium-size: 24px;
-$large-size: 36px;
-$larger-size: 48px;
+@use 'sass:map';
 
-$dark-color: rgba(0, 0, 0, 0.54);
-$dark-inactive-color: rgba(0, 0, 0, 0.26);
-$light-color: rgba(255, 255, 255, 0.54);
-$light-inactive-color: rgba(255, 255, 255, 0.3);
+@use 'component';
+@use 'sizes';
+@use 'theme';
+
+@include component.define('Icon', (
+    size: map.get(sizes.$icon-sizes, m),
+    font: 'Material Symbols Outlined'
+));
+
+$vars: component.vars();
 
 .root {
-    font-family: 'Material Symbols Outlined';
+    font-family: component.var(font);
     font-weight: normal;
     font-style: normal;
-    font-size: 24px;  /* Preferred icon size */
+    font-size: component.var(size);
+    font-variation-settings: 'OPSZ' component.var(size);
     display: inline-block;
     line-height: 1;
     text-transform: none;
@@ -26,63 +29,42 @@ $light-inactive-color: rgba(255, 255, 255, 0.3);
 
 // Sizes
 
-.xs {
-    font-size: $smaller-size;
-    font-variation-settings: 'OPSZ' 16;
-}
-
-.s {
-    font-size: $small-size;
-    font-variation-settings: 'OPSZ' 18;
-}
-
-.m {
-    font-size: $medium-size;
-    font-variation-settings: 'OPSZ' 24;
-}
-
-.l {
-    font-size: $large-size;
-    font-variation-settings: 'OPSZ' 36;
-}
-
-.xl {
-    font-size: $larger-size;
-    font-variation-settings: 'OPSZ' 48;
-}
+@include component.declare((
+    xs: (size: map.get(sizes.$icon-sizes, xs)),
+    s: (size: map.get(sizes.$icon-sizes, s)),
+    m: (size: map.get(sizes.$icon-sizes, m)),
+    l: (size: map.get(sizes.$icon-sizes, l)),
+    xl: (size: map.get(sizes.$icon-sizes, xl))
+));
 
 
 // Types
 
-.outlined {
-    font-family: 'Material Symbols Outlined';
-}
-
-.rounded {
-    font-family: 'Material Symbols Rounded';
-}
-
-.sharp {
-    font-family: 'Material Symbols Sharp';
-}
+@include component.declare((
+    outlined: (font: 'Material Symbols Outlined'),
+    rounded: (font: 'Material Symbols Rounded'),
+    sharp: (font: 'Material Symbols Sharp')
+));
 
 
 // Colors
 
-.dark {
-    color: $dark-color;
-    font-variation-settings: 'GRAD' -25;
+.inactive {
+    opacity: theme.var(opacity-inactive);
 }
 
-.dark.inactive {
-    color: $dark-inactive-color;
-    font-variation-settings: 'GRAD' -25;
+@include theme.dark {
+    .root {
+        font-variation-settings: 'GRAD' -25;
+    }
 }
 
-.light {
-    color: $light-color;
-}
-
-.light.inactive {
-    color: $light-inactive-color
+:export {
+    size: {
+        xs: map.get(sizes.$icon-sizes, xs);
+        s: map.get(sizes.$icon-sizes, s);
+        m: map.get(sizes.$icon-sizes, m);
+        l: map.get(sizes.$icon-sizes, l);
+        xl: map.get(sizes.$icon-sizes, xl);
+    }
 }

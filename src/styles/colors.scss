@@ -145,17 +145,18 @@ $dark-element-colors: (
     backdrop: rgba(0, 0, 0, .5),
     background: $black,
     border: map.get($neutral, 8),
+    border-light: map.get($neutral, 9),
     icon: map.get($neutral, 6),
     icon-muted: map.get($neutral, 7),
     text: map.get($neutral, 0),
     text-primary: map.get($neutral, 0),
     text-secondary: map.get($neutral, 1),
     text-tertiary: map.get($neutral, 2),
-    surface: map.get($neutral, 10),
-    surface-inverted: map.get($neutral, 0),
-    surface-primary: map.get($neutral, 10),
-    surface-secondary: map.get($neutral, 9),
-    surface-tertiary: map.get($neutral, 8),
+    surface: map.get($neutral, 9),
+    surface-primary: map.get($neutral, 9),
+    surface-secondary: map.get($neutral, 7),
+    surface-tertiary: map.get($neutral, 6),
+    surface-inverted: map.get($neutral, 0)
 ) !default;
 
 $light-theme-colors: (
@@ -171,7 +172,8 @@ $light-theme-colors: (
 $light-element-colors: (
     backdrop: rgba(0, 0, 0, .25),
     background: $white,
-    border: map.get($neutral, 1),
+    border: map.get($neutral, 2),
+    border-light: map.get($neutral, 1),
     icon: map.get($neutral, 3),
     icon-muted: map.get($neutral, 2),
     text: map.get($neutral, 10),
@@ -179,10 +181,10 @@ $light-element-colors: (
     text-secondary: map.get($neutral, 9),
     text-tertiary: map.get($neutral, 8),
     surface: map.get($neutral, 1),
-    surface-inverted: map.get($neutral, 10),
     surface-primary: map.get($neutral, 0),
     surface-secondary: map.get($neutral, 1),
     surface-tertiary: map.get($neutral, 2),
+    surface-inverted: map.get($neutral, 10)
 ) !default;
 
 $opacity: (

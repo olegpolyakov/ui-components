@@ -2,10 +2,10 @@
 @use 'theme';
 
 @include component.define('Badge', (
-    _size: auto,
+    size: auto,
     padding-x: 0,
     border-color: transparent,
-    border-radius: _size,
+    border-radius: --size,
     border-width: 0,
     background-color: transparent,
     text-color: theme.var(text-primary-color),
@@ -18,8 +18,8 @@ $vars: component.vars();
 
 .root {
     box-sizing: border-box;
-    min-width: component.var(_size);
-    min-height: component.var(_size);
+    min-width: component.var(size);
+    min-height: component.var(size);
     padding: 0 component.var(padding-x);
     display: inline-flex;
     align-items: center;
@@ -32,37 +32,31 @@ $vars: component.vars();
     font-weight: theme.var(font-weight-semibold);
 
     &:empty {
-        min-width: calc(component.var(_size) * 0.5);
-        min-height: calc(component.var(_size) * 0.5);
+        min-width: calc(component.var(size) * 0.5);
+        min-height: calc(component.var(size) * 0.5);
     }
 }
 
 
 // Sizes
 
-.s {
-    @include component.vars((
-        _size: 14px,
+@include component.declare((
+    s: (
+        size: 14px,
         padding-x: 4px,
         font-size: 10px
-    ));
-}
-
-.m {
-    @include component.vars((
-        _size: 18px,
+    ),
+    m: (
+        size: 18px,
         padding-x: 6px,
         font-size: 12px
-    ));
-}
-
-.l {
-    @include component.vars((
-        _size: 24px,
+    ),
+    l: (
+        size: 24px,
         padding-x: 8px,
         font-size: 14px
-    ));
-}
+    )
+));
 
 
 // Variants

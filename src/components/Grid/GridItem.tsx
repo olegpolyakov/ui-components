@@ -1,6 +1,4 @@
-import { forwardRef } from 'react';
-
-import type { Align, HTMLDivProps, PropsWithChildren } from '../../types';
+import type { Align, ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssGridClasses from './Grid.module.scss';
@@ -8,8 +6,7 @@ import cssClasses from './GridItem.module.scss';
 
 type GridItemSpan = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12';
 
-export type GridItemProps = PropsWithChildren<{
-    as?: 'div';
+export type GridItemProps = {
     span?: GridItemSpan;
     desktop?: GridItemSpan;
     tablet?: GridItemSpan;
@@ -17,25 +14,27 @@ export type GridItemProps = PropsWithChildren<{
     order?: GridItemSpan;
     align?: Align;
     grid?: boolean;
-}, HTMLDivProps>;
+};
 
-const displayName = 'GridItem';
-const elementClassNames = getElementClassNames(displayName);
+GridItem.displayName = 'GridItem';
 
-const GridItem = forwardRef<HTMLDivElement, GridItemProps>(({
+const elementClassNames = getElementClassNames(GridItem.displayName);
+
+export default function GridItem<T extends ElementType = 'div'>({
+    as,
+    className,
+    children,
+
     span,
     desktop,
     tablet,
     phone,
     order,
     align,
-    grid = false,
-
-    as: Tag = 'div',
-    className,
-    children,
+    grid,
     ...props
-}, ref) => {
+}: ComponentProps<GridItemProps, T>) {
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -49,7 +48,7 @@ const GridItem = forwardRef<HTMLDivElement, GridItemProps>(({
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
+        <Component className={classNames} {...props}>
             {grid ?
                 <div className={cssGridClasses.inner}>
                     {children}
@@ -57,10 +56,6 @@ const GridItem = forwardRef<HTMLDivElement, GridItemProps>(({
                 :
                 children
             }
-        </Tag>
+        </Component>
     );
-});
-
-GridItem.displayName = displayName;
-
-export default GridItem;
+}

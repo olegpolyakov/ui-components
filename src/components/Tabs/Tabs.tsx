@@ -1,93 +1,74 @@
-import { Children, ForwardRefExoticComponent, ReactElement, cloneElement, forwardRef, isValidElement, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-import { Align, Props, PropsWithKey } from '../../types';
+import type { ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import Tab, { TabProps } from './Tab';
-import TabPanel, { TabPanelProps } from './TabPanel';
 import TabsContext from './TabsContext';
+import TabsList, { TabsListProps } from './TabsList';
+import TabPanel from './TabPanel';
 
-import cssClasses from './Tabs.module.scss';
-
-type TabsComponent = ForwardRefExoticComponent<TabsProps> & {
-    Panel: typeof TabPanel;
-};
+import styles from './Tabs.module.scss';
 
 type TabValue = string | number | readonly string[] | undefined;
 
-export type TabsProps = Props<{
+export type TabsProps = {
     value?: TabValue;
-    items?: PropsWithKey<TabProps>[];
-    align?: Align;
-    fluid?: boolean;
-    underlined?: boolean;
+    defaultValue?: TabValue;
     onChange?: (value: TabValue) => void;
-}>;
+} & TabsListProps;
 
-const displayName = 'Tabs';
-const elementClassNames = getElementClassNames(displayName, ['list']);
+Tabs.displayName = 'Tabs';
+Tabs.List = TabsList;
+Tabs.Panel = TabPanel;
 
-const Tabs = forwardRef<HTMLDivElement, TabsProps>(({
+const elementClassNames = getElementClassNames(Tabs.displayName);
+
+export default function Tabs<T extends ElementType = 'div'>({
+    as,
+    className,
+    children,
+
     value,
     defaultValue,
     items,
     align,
     fluid,
-    underlined,
     onChange,
-
-    className,
-    children,
     ...props
-}, ref) => {
+}: ComponentProps<TabsProps, T>) {
     const [selectedValue, setSelectedValue] = useState<TabValue>(value || defaultValue);
+
+    useEffect(() => {
+        if (selectedValue) {
+            onChange?.(selectedValue);
+        }
+    }, [selectedValue, onChange]);
 
     const contextValue = useMemo(() => ({
         selectedValue,
         setSelectedValue
     }), [selectedValue]);
 
-    useEffect(() => {
-        if (selectedValue)
-            onChange?.(selectedValue);
-    }, [selectedValue, onChange]);
-
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        align && cssClasses[`align-${align}`],
-        fluid && cssClasses.fluid,
-        underlined && cssClasses.underlined
+        styles.root
     );
 
     return (
-        <div
-            ref={ref}
-            className={classNames}
-            {...props}
-        >
+        <Component className={classNames} {...props}>
             <TabsContext.Provider value={contextValue}>
-                <div className={cn(elementClassNames.list, cssClasses.list)}>
-                    {items?.map(item =>
-                        <Tab
-                            key={item.key}
-                            active={item.value === selectedValue}
-                            {...item}
-                        />
-                    )}
-                </div>
-
-                {Children.map(children, tab =>
-                    (tab as ReactElement<TabPanelProps>).props.value === selectedValue && (
-                        isValidElement(tab) ? cloneElement(tab) : tab
-                    )
-                )}
+                {items &&
+                    <TabsList
+                        items={items}
+                        align={align}
+                        fluid={fluid}
+                    />
+                }
+                
+                {children}
             </TabsContext.Provider>
-        </div>
+        </Component>
     );
-});
-
-Tabs.displayName = displayName;
-(Tabs as TabsComponent).Panel = TabPanel;
-
-export default Tabs as TabsComponent;
+}

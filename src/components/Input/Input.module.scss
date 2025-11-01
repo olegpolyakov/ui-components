@@ -1,49 +1,63 @@
-@use '../../styles/variables' as global;
+@use 'component';
+@use 'sizes';
+@use 'theme';
+
+@include component.define('Input', (
+    height: null,
+    padding: null,
+    gap: theme.var(space-xs),
+    border-color: theme.var(border-color),
+    border-width: 1px,
+    border-radius: theme.var(border-radius-m),
+    background-color: theme.var(surface-color),
+    label-color: theme.var(text-secondary-color),
+    text-color: theme.var(text-color),
+    font-size: theme.var(font-size-m),
+    font-weight: 400,
+    line-height: 1.5
+));
+
+$vars: component.vars();
 
 .root {
-    --ui-Input-border-color: var(--ui-border-color);
-    --ui-Input-border-width: 1px;
-    --ui-Input-label-color: var(--ui-text-secondary-color);
-    --ui-Input-danger-color: var(--ui-danger-color);
-
     box-sizing: border-box;
     position: relative;
     width: 100%;
-    height: var(--ui-Input-height);
+    height: component.var(height);
     display: flex;
     align-items: center;
-    padding: var(--ui-Input-padding);
-    gap: var(--ui-space-smaller);
-    border-radius: var(--ui-Input-border-radius);
+    padding: component.var(padding);
+    gap: component.var(gap);
+    border-radius: component.var(border-radius);
     background-clip: padding-box;
-    background-color: var(--ui-Input-background-color, var(--ui-surface-color));
-    color: var(--ui-text-color);
-    font-family: var(--ui-font-family);
-    font-size: var(--ui-Input-font-size);
-    font-weight: 400;
-    line-height: 1.5;
-    transition: border-color 0.2s ease-in-out;
+    background-color: component.var(background-color);
+    color: component.var(text-color);
+    font-family: theme.var(font-family);
+    font-size: component.var(font-size);
+    font-weight: component.var(font-weight);
+    line-height: component.var(line-height);
+    transition: component.var(border-color) 0.2s ease-in-out;
 }
 
 .start,
 .end {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: component.var(gap);
 }
 
 .label {
     position: absolute;
-    color: var(--ui-Input-label-color);
+    color: component.var(label-color);
     transition: transform .2s;
     transform-origin: top left;
 }
 
 .input {
     appearance: none;
+    box-sizing: border-box;
     width: 100%;
     height: 100%;
-    box-sizing: border-box;
     border: none;
     outline: none;
     background: transparent;
@@ -57,32 +71,30 @@
     visibility: hidden;
 }
 
-.with-start {
-    padding-left: .75rem;
-}
-
-.with-end {
-    padding-right: .75rem;
-}
-
 
 // States
 
 .focused {
-    --ui-Input-border-color: var(--ui-primary-color);
+    @include component.vars((
+        border-color: theme.var(primary-color)
+    ));
 }
 
-.active .label,
-.focused .label {
-    transform: scale(.75) translate(0, -35%);
+.active,
+.focused {
+    .label {
+        transform: scale(.75) translate(0, -35%);
+    }
 
-    + .input {
+    .label + .input {
         padding-top: .875em;
     }
 }
 
 .invalid {
-    --ui-Input-border-color: var(--ui-Input-danger-color);
+    @include component.vars((
+        border-color: theme.var(danger-color)
+    ));
 }
 
 .disabled {
@@ -92,69 +104,87 @@
 
 // Shapes
 
-.rounded {
-    --ui-Input-border-radius: var(--ui-border-radius-medium);
-}
-
-.rectangular {
-    --ui-Input-border-radius: 0;
-}
-
-.circular {
-    --ui-Input-border-radius: 25px;
-}
+@include component.declare((
+    rounded: (border-radius: theme.var(border-radius-m)),
+    rectangular: (border-radius: 0),
+    circular: (border-radius: component.var(height))
+));
 
 
 // Sizes
 
-.small {
-    --ui-Input-height: 32px;
-    --ui-Input-padding: 0 8px;
-    --ui-Input-font-size: 12px;
-}
-
-.medium {
-    --ui-Input-height: 36px;
-    --ui-Input-padding: 0 12px;
-    --ui-Input-font-size: 14px;
-}
-
-.large {
-    --ui-Input-height: 48px;
-    --ui-Input-padding: 0 16px;
-    --ui-Input-font-size: 16px;
-}
+@include component.declare((
+    s: (
+        height: 32px,
+        padding: 0 8px,
+        font-size: 12px
+    ),
+    m: (
+        height: 36px,
+        padding: 0 12px,
+        font-size: 14px
+    ),
+    l: (
+        height: 48px,
+        padding: 0 16px,
+        font-size: 16px
+    )
+));
 
 
 // Variants
 
-.filled {
-    --ui-Input-background-color: var(--ui-filled-color);
-    --ui-Input-border-color: var(--ui-filled-color);
-
-    border: var(--ui-Input-border-width) solid var(--ui-Input-border-color);
-
-    &.focused {
-        --ui-Input-border-color: var(--ui-primary-color);
-    }
-}
-
 .outlined {
-    border: var(--ui-Input-border-width) solid var(--ui-Input-border-color);
+    @include component.vars((
+        border-color: theme.var(border-color),
+        background-color: transparent
+    ));
+
+    border: component.var(border-width) solid component.var(border-color);
 }
 
-.underlined,
-.underlined:focus-within {
-    --ui-Input-border-radius: 0;
-    --ui-Input-background-color: transparent;
+.underlined {
+    @include component.vars((
+        background-color: transparent
+    ));
+    
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: component.var(border-width) solid component.var(border-color);
+}
 
-    border-bottom: var(--ui-Input-border-width) solid var(--ui-Input-border-color);
+.tinted {
+    @include component.vars((
+        background-color: theme.var(surface-color)
+    ));
+}
+    
+.outlined-tinted,
+.tinted-outlined {
+    @extend .outlined;
+    @extend .tinted;
+}
+
+.underlined-tinted,
+.tinted-underlined {
+    @extend .underlined;
+    @extend .tinted;
+}
+
+.outlined,
+.underlined {
+    &:focus-within,
+    &.focused {
+        @include component.vars((
+            border-color: theme.var(primary-color)
+        ));
+    }
 }
 
 
 // Misc
 
-[data-validation-message] {
+.root[data-validation-message] {
     margin-bottom: 1rem;
 
     &::after {

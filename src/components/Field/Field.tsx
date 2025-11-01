@@ -1,36 +1,37 @@
-import { type ReactElement, forwardRef, isValidElement } from 'react';
+import { type ReactElement, type ReactNode, isValidElement } from 'react';
 
-import type { HTMLDivProps, PropsWithChildren, Size } from '../../types';
+import type { ComponentProps, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Label, { LabelProps } from '../Label';
 
 import cssClasses from './Field.module.scss';
 
-const displayName = 'Field';
-const elementClassNames = getElementClassNames(displayName);
+Field.displayName = 'Field';
 
-export type FieldProps = PropsWithChildren<{
-    as?: 'div';
-    label?: string | ReactElement;
-    control?: ReactElement;
+const elementClassNames = getElementClassNames(Field.displayName);
+
+export type FieldProps = {
+    label?: ReactNode;
+    content?: ReactNode;
     size?: Size;
     inline?: boolean;
     labelProps?: LabelProps;
-}, HTMLDivProps>;
+};
 
-const Field = forwardRef<HTMLDivElement, FieldProps>(({
+export default function Field({
+    as,
+    className,
+    children,
+
     label,
-    control,
-    size = 'medium',
+    content = children,
+    size = 'm',
     inline,
     labelProps,
-
-    as: Tag = 'div',
-    className,
-    children = control,
     ...props
-}, ref) => {
+}: ComponentProps<FieldProps, 'div'>) {
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -40,15 +41,12 @@ const Field = forwardRef<HTMLDivElement, FieldProps>(({
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
+        <Component className={classNames} {...props}>
             {label && (isValidElement<LabelProps>(label) ? label :
                 <Label size={size} {...labelProps}>{label}</Label>
             )}
-            {children}
-        </Tag>
+
+            {content}
+        </Component>
     );
-});
-
-Field.displayName = displayName;
-
-export default Field;
+}

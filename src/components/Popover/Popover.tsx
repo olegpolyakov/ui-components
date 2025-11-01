@@ -13,21 +13,19 @@ import {
     useRef,
     useState
 } from 'react';
-import type { Placement, VirtualElement } from '@popperjs/core';
-import { usePopper } from 'react-popper';
+import {Placement, VirtualElement, arrow, useFloating} from '@floating-ui/react';
 
 import type { Color, PropsWithChildren, Size, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Portal from '../Portal';
 
-import { arrowPosition } from './modifiers';
-import cssClasses from './Popover.module.scss';
+import styles from './Popover.module.scss';
 
 export type { VirtualElement };
 
 export type PopoverProps = PropsWithChildren<{
-    anchorElement?: HTMLElement | VirtualElement | null;
+    anchorElement?: Element | null;
     containerElement?: HTMLElement;
     placement?: Placement;
     fallbackPlacements?: Placement[];
@@ -44,16 +42,23 @@ export type PopoverProps = PropsWithChildren<{
     onOpenChange?: (isOpen: boolean, event?: SyntheticEvent | KeyboardEvent | MouseEvent) => void;
 }>;
 
-const displayName = 'Popover';
-const elementClassNames = getElementClassNames(displayName, ['surface', 'arrow', 'content']);
+Popover.displayName = 'Popover';
 
-const Popover = ({
+const elementClassNames = getElementClassNames(
+    Popover.displayName,
+    ['surface', 'arrow', 'content']
+);
+
+export default function Popover({
+    children,
+    className,
+
+    trigger,
+    content = children,
     containerElement,
     anchorElement,
     placement,
     fallbackPlacements,
-    trigger,
-    content,
     open,
     defaultOpen = false,
     color,
@@ -61,39 +66,31 @@ const Popover = ({
     variant = 'plain',
     onOpen,
     onClose,
-
-    children = content,
-    className
-}: PopoverProps) => {
-    const triggerRef = useRef<HTMLElement | VirtualElement | null | undefined>(anchorElement);
+    ...props
+}: PopoverProps) {
     const rootRef = useRef<HTMLDivElement>(null);
-    const surfaceRef = useRef<HTMLDivElement>();
+    const surfaceRef = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+    const arrowRef = useRef<HTMLDivElement>(null);
 
-    const [triggerElement, setTriggerElement] = useState<HTMLElement | VirtualElement | null | undefined>(anchorElement);
-    const [surfaceElement, setSurfaceElement] = useState<HTMLDivElement | null>(null);
-    const [arrowElement, setArrowElement] = useState<HTMLDivElement | null>(null);
     const [internalOpen, setInternalOpen] = useState(defaultOpen);
 
-    const isUncontrolled = open === undefined;
-
-    const { attributes, styles } = usePopper(triggerElement, surfaceElement, {
+    const {refs, floatingStyles, middlewareData} = useFloating({
         placement,
-        modifiers: [
-            {
-                name: 'offset',
-                options: { offset: [0, 8] }
-            },
-            {
-                name: 'flip',
-                options: { fallbackPlacements }
-            },
-            {
-                name: 'arrow',
-                options: { element: arrowElement }
-            },
-            arrowPosition
+        open: internalOpen,
+        onOpenChange: setInternalOpen,
+        elements: anchorElement ? {
+            reference: anchorElement,
+            floating: surfaceRef.current
+        } : undefined,
+        middleware: [
+            arrow({
+                element: arrowRef
+            })
         ]
     });
+
+    const isUncontrolled = open === undefined;
 
     useLayoutEffect(() => {
         if (!open && !internalOpen) return;
@@ -118,19 +115,21 @@ const Popover = ({
     useEffect(() => {
         if (!open && !internalOpen) return;
 
-        if (isUncontrolled)
+        if (isUncontrolled) {
             setInternalOpen(true);
+        }
 
         onOpen?.();
 
         function handleClick(event: MouseEvent) {
             const target = event.target as Node;
-            const fromPopover = surfaceRef.current?.contains(target);
+            const fromPopover = contentRef.current?.contains(target);
 
             if (fromPopover) return;
 
-            if (isUncontrolled)
+            if (isUncontrolled) {
                 setInternalOpen(false);
+            }
 
             onClose?.();
         }
@@ -144,19 +143,10 @@ const Popover = ({
         };
     }, [open, internalOpen, isUncontrolled, onOpen, onClose]);
 
-    const handleTriggerRef = useCallback((triggerElement: HTMLElement) => {
-        triggerRef.current = triggerElement;
-        setTriggerElement(triggerElement);
-    }, []);
-
-    const handleSurfaceRef = useCallback((menuElement: HTMLDivElement) => {
-        surfaceRef.current = menuElement;
-        setSurfaceElement(menuElement);
-    }, []);
-
     const handleTriggerClick = useCallback(() => {
-        if (isUncontrolled)
+        if (isUncontrolled) {
             setInternalOpen(true);
+        }
 
         onOpen?.();
     }, [isUncontrolled, onOpen]);
@@ -168,17 +158,17 @@ const Popover = ({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        color && cssClasses[color],
-        size && cssClasses[size],
-        variant && cssClasses[variant]
+        styles.root,
+        color && styles[color],
+        size && styles[size],
+        variant && styles[variant]
     );
 
     return (
         <>
             {isValidElement(trigger) &&
                 cloneElement(trigger, {
-                    ref: handleTriggerRef,
+                    ref: refs.setReference,
                     onClick: handleTriggerClick
                 })
             }
@@ -187,20 +177,22 @@ const Popover = ({
                 <Portal container={containerElement}>
                     <div ref={rootRef} className={classNames}>
                         <div
-                            ref={handleSurfaceRef}
-                            className={cn(elementClassNames.surface, cssClasses.surface)}
-                            style={styles.popper}
-                            {...attributes.popper}
+                            ref={refs.setFloating}
+                            className={cn(elementClassNames.surface, styles.surface)}
+                            style={floatingStyles}
                             onClick={handlePopoverClick}
                         >
                             <div
-                                ref={setArrowElement}
-                                className={cn(elementClassNames.arrow, cssClasses.arrow)}
-                                style={styles.arrow}
+                                ref={arrowRef}
+                                className={cn(elementClassNames.arrow, styles.arrow)}
+                                style={middlewareData.arrow &&{
+                                    left: middlewareData.arrow.x,
+                                    top: middlewareData.arrow.y
+                                }}
                             />
 
-                            <div className={cn(elementClassNames.content, cssClasses.content)}>
-                                {children}
+                            <div ref={contentRef} className={cn(elementClassNames.content, styles.content)}>
+                                {content}
                             </div>
                         </div>
                     </div>
@@ -209,7 +201,3 @@ const Popover = ({
         </>
     );
 };
-
-Popover.displayName = displayName;
-
-export default Popover;

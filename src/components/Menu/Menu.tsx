@@ -1,6 +1,6 @@
-import { ForwardRefExoticComponent, forwardRef, useCallback, useState } from 'react';
+import { MouseEvent, useCallback, useState } from 'react';
 
-import type { HTMLDivProps, PropsWithChildren, PropsWithKey, Size } from '../../types';
+import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
 import { classnames as cn, getElementClassNames, noop } from '../../utils';
 
 import Divider from '../Divider';
@@ -9,35 +9,36 @@ import Icon from '../Icon';
 import Popover, { type PopoverProps } from '../Popover';
 
 import MenuItem, { type MenuItemProps } from './MenuItem';
-import cssClasses from './Menu.module.scss';
 
-export type MenuProps = PropsWithChildren<PopoverProps & {
+import styles from './Menu.module.scss';
+
+export type MenuProps = PopoverProps & {
     items?: PropsWithKey<MenuItemProps>[];
     defaultOpen?: boolean;
     size?: Size;
-}, HTMLDivProps>;
+};
 
-const displayName = 'Menu';
-const elementClassNames = getElementClassNames(displayName);
+Menu.displayName = 'Menu';
+Menu.Item = MenuItem;
 
-const Menu: ForwardRefExoticComponent<MenuProps> & {
-    Item?: typeof MenuItem;
-} = forwardRef<HTMLDivElement, MenuProps>(({
+const elementClassNames = getElementClassNames(Menu.displayName);
+
+export default function Menu<T extends ElementType = 'div'>({
+    as,
+    children,
+    className,
+
     items,
     defaultOpen = false,
-    size = 'medium',
+    size = 'm',
     onOpen = noop,
     onClose = noop,
     onOpenChange = noop,
-
-    children,
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<MenuProps, T>) {
     const [isOpen, setOpen] = useState<boolean>(defaultOpen);
 
-    // @ts-ignore
-    const handleItemClick = useCallback((item, event) => {
+    const handleItemClick = useCallback((item: MenuItemProps, event: MouseEvent) => {
         if (typeof item?.onClick === 'function') {
             item?.onClick(event);
         }
@@ -59,11 +60,12 @@ const Menu: ForwardRefExoticComponent<MenuProps> & {
         onClose();
     }, [onClose]);
 
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size]
+        styles.root,
+        styles[size]
     );
 
     return (
@@ -73,7 +75,7 @@ const Menu: ForwardRefExoticComponent<MenuProps> & {
             onClose={handlePopoverClose}
             {...props}
         >
-            <div ref={ref} className={classNames}>
+            <Component className={classNames} {...props}>
                 {items?.map(item => {
                     if (item.type === 'divider') {
                         return (
@@ -83,8 +85,9 @@ const Menu: ForwardRefExoticComponent<MenuProps> & {
                         return (
                             <Heading
                                 key={item.key}
+                                className={styles.heading}
                                 content={item.content}
-                                type="h5"
+                                size="s"
                                 muted
                             />
                         );
@@ -122,13 +125,7 @@ const Menu: ForwardRefExoticComponent<MenuProps> & {
                 })}
 
                 {children}
-            </div>
+            </Component>
         </Popover>
     );
-});
-
-Menu.displayName = displayName;
-
-Menu.Item = MenuItem;
-
-export default Menu;
+}

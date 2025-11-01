@@ -98,102 +98,34 @@ $vars: component.vars();
 
 // Sizes
 
-.s {
-    @include component.vars((
+@include component.declare((
+    s: (
         height: 18px,
         padding: 4px,
         font-size: 12px
-    ));
-}
-
-.m {
-    @include component.vars((
+    ),
+    m: (
         height: 24px,
         padding: 6px,
         font-size: 14px
-    ));
-}
-
-.l {
-    @include component.vars((
+    ),
+    l: (
         height: 30px,
         padding: 8px,
         font-size: 16px
-    ));
-}
+    )
+));
 
 
 // Shapes
 
-.circular {
-    @include component.vars((
-        border-radius: --height
-    ));
-}
+@include component.declare((
+    circular: (border-radius: --height),
+    rectangular: (border-radius: 0),
+    rounded: (border-radius: calc(component.var(height) / 4))
+));
 
-.rectangular {
-    @include component.vars((
-        border-radius: 0
-    ));
-}
-
-.rounded {
-    @include component.vars((
-        border-radius: calc(component.var(height) / 4)
-    ));
-}
 
 // Variants
 
-.plain {    
-    @include component.color-state-vars((
-        'background-color': plain,
-        'text-color': on-plain
-    ));
-    @include component.palettes-color-state-vars((
-        'background-color': plain,
-        'text-color': '$'
-    ));
-}
-
-.filled {
-    @include component.color-state-vars((
-        'background-color': filled,
-        'text-color': on-filled
-    ));
-    @include component.palettes-color-state-vars((
-        'background-color': filled,
-        'text-color': on-filled
-    ));
-}
-
-.outlined {
-    @include component.vars((
-        border-width: 1px
-    ));
-
-    @include component.color-state-vars((
-        'border-color': border,
-        'background-color': plain,
-        'text-color': primary
-    ));
-
-    @include component.palettes-color-state-vars((
-        'border-color': '$',
-        'background-color': plain,
-        'text-color': '$'
-    ));
-
-    border: component.var(border-width) solid component.var(border-color);
-}
-
-.tinted {
-    @include component.color-state-vars((
-        'background-color': tinted,
-        'text-color': primary
-    ));
-    @include component.palettes-color-state-vars((
-        'background-color': tinted,
-        'text-color': primary
-    ));
-}
+@include component.variants;

@@ -1,67 +1,77 @@
 @use 'sass:list';
-@use 'sass:map';
 @use 'sass:math';
 
-@use '../../styles/functions' as *;
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@use 'component';
+@use 'sizes';
+@use 'theme';
+@use 'utils/units' as *;
+
+@include component.define('Heading', (
+    font-family: theme.var(font-family),
+    font-size: theme.var(font-size-m),
+    font-weight: theme.var(font-weight-normal),
+    color: theme.var(text-color),
+    line-height: theme.var(line-height),
+    letter-spacing: 0,
+    gap: theme.var(space-xs)
+));
+
+$vars: component.vars();
 
 .root {
-    --ui-Heading-gap: var(--ui-space-smaller);
-    --ui-Heading-letter-spacing: 0;
-
+    margin: 0;
     display: flex;
     align-items: center;
-    gap: var(--ui-Heading-gap);
-    font-family: var(--ui-font-family);
-    font-size: var(--ui-Heading-font-size);
-    font-weight: var(--ui-Heading-font-weight, var(--ui-font-weight-normal));
-    color: var(--ui-Heading-color, --ui-text-color);
-    margin: 0;
+    gap: component.var(gap);
+    font-family: component.var(font-family);
+    font-size: component.var(font-size);
+    font-weight: component.var(font-weight);
+    color: component.var(color);
 }
 
 .content {
-    line-height: var(--ui-Heading-line-height);
-    letter-spacing: var(--ui-Heading-letter-spacing);
+    line-height: component.var(line-height);
+    letter-spacing: component.var(letter-spacing);
 }
 
 .start,
 .end {
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    line-height: component.var(line-height);
 }
 
 
 // Colors
 
-@include color-variable-for-palettes('Heading', 'color');
+@include component.palettes-color-vars(color);
 
 
-// Types
+// Sizes
 
-@each $type, $values in global.$heading-sizes {
+@each $size, $values in sizes.$heading-sizes {
     $font-size: list.nth($values, 1);
     $line-height: list.nth($values, 2);
 
-    .#{$type} {
-        --ui-Heading-font-size: #{rem($font-size)};
-        --ui-Heading-line-height: #{math.div($line-height, $font-size)};
+    .#{$size} {
+        @include component.vars((
+            font-size: rem($font-size),
+            line-height: math.div($line-height, $font-size)
+        ));
     }
 }
 
-.h1.bold,
-.h2.bold,
-.h3.bold {
-    --ui-Heading-font-weight: var(--ui-font-weight-bold);
-}
 
-.h4.bold,
-.h5.bold,
-.h6.bold {
-    --ui-Heading-font-weight: var(--ui-font-weight-semibold);
-}
+// Weight
+
+@include component.declare((
+    light: (font-weight: theme.var(font-weight-light)),
+    normal: (font-weight: theme.var(font-weight-normal)),
+    semibold: (font-weight: theme.var(font-weight-semibold)),
+    bold: (font-weight: theme.var(font-weight-bold))
+));
 
 
 // Align
@@ -90,10 +100,22 @@
     display: inline-flex;
 }
 
+.italic {
+    font-style: italic;
+}
+
 .uppercase {
     text-transform: uppercase;
 }
 
-.muted {
-    --ui-Heading-color: var(--ui-text-secondary-color);
+.strikethrough {
+    text-decoration: line-through;
+}
+
+.ellipsis {
+    .content {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
 }

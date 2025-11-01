@@ -1,44 +1,47 @@
-import { forwardRef } from 'react';
+import { useContext } from 'react';
 
-import { Props } from '../../types';
+import type { ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
+
+import TabsContext from './TabsContext';
 
 import cssClasses from './Tabs.module.scss';
 
-export type TabPanelProps = Props<{
+export type TabPanelProps = {
     as?: 'div';
     value: any;
     hidden?: boolean;
-}>;
+};
 
-const displayName = 'TabPanel';
-const elementClassNames = getElementClassNames(displayName);
+TabPanel.displayName = 'TabPanel';
 
-const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(({
-    hidden,
+const elementClassNames = getElementClassNames(TabPanel.displayName);
 
-    as: Tag = 'div',
+export default function TabPanel<T extends ElementType = 'div'>({
+    as,
     className,
     children,
+
+    value,
+    hidden,
     ...props
-}, ref) => {
+}: ComponentProps<TabPanelProps, T>) {
+    const { selectedValue } = useContext(TabsContext);
+
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
         hidden && cssClasses.hidden
     );
 
+    if (value !== selectedValue) {
+        return null;
+    }
+
     return (
-        <Tag
-            ref={ref}
-            className={classNames}
-            {...props}
-        >
+        <Component className={classNames} {...props}>
             {children}
-        </Tag>
+        </Component>
     );
-});
-
-TabPanel.displayName = 'TabPanel';
-
-export default TabPanel;
+}

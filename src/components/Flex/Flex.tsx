@@ -6,6 +6,7 @@ import cssClasses from './Flex.module.scss';
 export type FlexProps = {
     as?: 'div';
     dir?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
+    column?: boolean;
     align?: Align;
     justify?: Justify;
     gap?: SizeFull;
@@ -25,6 +26,7 @@ export default function Flex<T extends ElementType = 'div'>({
     className,
 
     dir = 'row',
+    column,
     align,
     justify,
     gap,
@@ -41,6 +43,7 @@ export default function Flex<T extends ElementType = 'div'>({
         elementClassNames.root,
         cssClasses.root,
         cssClasses[dir],
+        column && cssClasses.column,
         align && cssClasses[`align-${align}`],
         justify && cssClasses[`justify-${justify}`],
         gap && cssClasses[`gap-${gap}`],

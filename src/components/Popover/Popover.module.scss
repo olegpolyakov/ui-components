@@ -1,15 +1,19 @@
-@use 'sass:map';
+@use 'component';
+@use 'theme';
 
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@include component.define('Popover', (
+    padding: theme.var(space-m),
+    background-color: theme.var(surface-color),
+    text-color: theme.var(text-color),
+    border-color: theme.var(border-color),
+    border-radius: theme.var(border-radius-m),
+    border-width: 1px,
+    shadow: theme.var(shadow)
+));
+
+$vars: component.vars();
 
 .root {
-    --ui-Popover-background-color: var(--ui-background-color);
-    --ui-Popover-text-color: var(--ui-text-color);
-    --ui-Popover-border-color: var(--ui-border-color);
-    --ui-Popover-border-radius: var(--ui-border-radius-medium);
-    --ui-Popover-shadow: 0 12px 28px #0003, 0 2px 4px #0000001a, inset 0 0 0 1px #ffffff80;
-
     position: fixed;
     top: 0;
     left: 0;
@@ -19,18 +23,17 @@
 }
 
 .surface {
-    border-radius: var(--ui-Popover-border-radius);
-    box-shadow: var(--ui-Popover-shadow);
+    border-radius: component.var(border-radius);
+    box-shadow: component.var(shadow);
     z-index: 10;
 }
 
 .content {
     box-sizing: border-box;
-    border-radius: var(--ui-Popover-border-radius);
-    padding: var(--ui-Popover-padding);
-    background-color: var(--ui-Popover-background-color);
-    color: var(--ui-Popover-text-color);
-    font-family: var(--ui-font-family);
+    border-radius: component.var(border-radius);
+    background-color: component.var(background-color);
+    color: component.var(text-color);
+    font-family: theme.var(font-family);
     overflow: hidden;
 }
 
@@ -47,7 +50,7 @@
         left: 0px;
         width: 10px;
         height: 10px;
-        background: var(--ui-Popover-background-color);
+        background: component.var(background-color);
         transform: rotate(45deg);
         transition: transform 0.2s ease-out 0s, visibility 0.2s ease-out 0s;
         transform: translateX(0px) rotate(45deg);
@@ -60,41 +63,13 @@
 
 // Sizes
 
-.small {
-    --ui-Popover-padding: var(--ui-padding-small);
-}
-
-.medium {
-    --ui-Popover-padding: var(--ui-padding-medium);
-}
-
-.large {
-    --ui-Popover-padding: var(--ui-padding-large);
-}
+@include component.declare((
+    s: (padding: theme.var(space-s)),
+    m: (padding: theme.var(space-m)),
+    l: (padding: theme.var(space-l))
+));
 
 
 // Variants
 
-.plain {
-    @include color-variable-for-palettes('Popover', 'text-color', $color: 5);
-}
-
-.filled {
-    @include color-variable-for-palettes('Popover', 'background-color', $color: 5, $override: ('neutral': 8));
-    @include color-variable-for-palettes('Popover', 'text-color', $color: 5, $on: true, $override: ('neutral': 8));
-}
-
-.outlined {
-    @include color-variable-for-palettes('Popover', 'border-color', $color: 2);
-    @include color-variable-for-palettes('Popover', 'text-color', $color: 5);
-
-    .surface,
-    .arrow::before {
-        border: 1px solid var(--ui-Popover-border-color);
-    }
-}
-
-.tinted {
-    @include color-variable-for-palettes('Popover', 'background-color', $color: 1);
-    @include color-variable-for-palettes('Popover', 'text-color', $color: 6);
-}
+@include component.variants;

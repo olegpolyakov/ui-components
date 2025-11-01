@@ -16,7 +16,7 @@ import Dialog, {DialogProvider} from '~/components/Dialog';
 >
     {(data, setData) => (
         <Dialog
-            title="Dialog"
+            title="Title"
             content="Content"
             {...data}
             onClose={() => setData({...data, open: false})}
@@ -35,7 +35,7 @@ import Dialog, {DialogProvider} from '~/components/Dialog';
     >
         {(data, setData) => (
             <Dialog
-                title="Dialog"
+                title="Title"
                 {...data}
                 onClose={() => setData({...data, open: false})}
             >

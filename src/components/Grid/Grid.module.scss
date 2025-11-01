@@ -1,35 +1,56 @@
+@use 'sass:list';
 @use 'sass:map';
 @use 'sass:math';
+
+@use 'component';
+@use 'theme';
 
 @use './mixins';
 @use './variables';
 
-:root {
-    @each $size in map.keys(variables.$columns) {
-        --ui-Grid-margin-#{$size}: #{map.get(
-            variables.$default-margin,
-            $size
-        )};
-        --ui-Grid-gutter-#{$size}: #{map.get(
-            variables.$default-gutter,
-            $size
-        )};
-        --ui-Grid-column-width-#{$size}: #{map.get(
-            variables.$column-width,
-            $size
-        )};
-    }
-}
+@include component.define('Grid', (
+    columns-desktop: null,
+    columns-tablet: null,
+    columns-phone: null,
+    column-width-desktop: null,
+    column-width-tablet: null,
+    column-width-phone: null,
+    margin-desktop: null,
+    margin-tablet: null,
+    margin-phone: null,
+    gutter-desktop: null,
+    gutter-tablet: null,
+    gutter-phone: null
+));
+
+$vars: component.vars();
 
 .root {
     @each $size in map.keys(variables.$columns) {
-        @include mixins.media-query($size) {
-            $margin: map.get(variables.$default-margin, $size);
+        @include component.var(columns-#{$size}, map.get(
+            variables.$columns,
+            $size
+        ));
 
+        @include component.var(column-width-#{$size}, map.get(
+            variables.$column-width,
+            $size
+        ));
+
+        @include component.var(margin-#{$size}, map.get(
+            variables.$margin,
+            $size
+        ));
+
+        @include component.var(gutter-#{$size}, map.get(
+            variables.$gutter,
+            $size
+        ));
+    }
+
+    @each $size in map.keys(variables.$columns) {
+        @include mixins.media-query($size) {
             box-sizing: border-box;
-            margin: 0 auto;
-            padding: $margin;
-            padding: var(--ui-Grid-margin-#{$size}, #{$margin});
 
             @if variables.$max-width {
                 max-width: variables.$max-width;
@@ -41,20 +62,13 @@
 .inner {
     @each $size in map.keys(variables.$columns) {
         @include mixins.media-query($size) {
-            $margin: map.get(variables.$default-margin, $size);
-            $gutter: map.get(variables.$default-gutter, $size);
-
             display: flex;
             flex-flow: row wrap;
             align-items: stretch;
-            margin: math.div(-$gutter, 2);
-            margin: calc(var(--ui-Grid-gutter-#{$size}, #{$gutter}) / 2 * -1);
+            gap: component.var(gutter-#{$size});
 
             @supports (display: grid) {
                 display: grid;
-                margin: 0;
-                grid-gap: $gutter;
-                grid-gap: var(--ui-Grid-gutter-#{$size}, $gutter);
                 grid-template-columns: repeat(
                     map.get(variables.$columns, $size),
                     minmax(0, 1fr)
@@ -64,36 +78,34 @@
     }
 }
 
-.align-left {
-    margin-right: auto;
-    margin-left: 0;
-}
+.align {
+    &-left {
+        margin-right: auto;
+        margin-left: 0;
+    }
 
-.align-center {
-    margin-left: auto;
-    margin-right: auto;
-}
+    &-center {
+        margin-left: auto;
+        margin-right: auto;
+    }
 
-.align-right {
-    margin-right: 0;
-    margin-left: auto;
+    &-right {
+        margin-right: 0;
+        margin-left: auto;
+    }
 }
 
 .fixed-column-width {
     @each $size in map.keys(variables.$columns) {
         @include mixins.media-query($size) {
-            $margin: map.get(variables.$default-margin, $size);
-            $gutter: map.get(variables.$default-gutter, $size);
-            $column-width: map.get(variables.$column-width, $size);
             $column-count: map.get(variables.$columns, $size);
             $gutter-number: $column-count - 1;
             $margin-number: 2;
 
-            width: $column-width * $column-count + $gutter * $gutter-number + $margin * $margin-number;
             width: calc(
-                var(--ui-Grid-column-width-#{$size}, #{$column-width}) * #{$column-count} +
-                var(--ui-Grid-gutter-#{$size}, #{$gutter}) * #{$gutter-number} +
-                var(--ui-Grid-margin-#{$size}, #{$margin}) * #{$margin-number}
+                component.var(column-width-#{$size}) * #{$column-count} +
+                component.var(gutter-#{$size}) * #{$gutter-number} +
+                component.var(margin-#{$size}) * #{$margin-number}
             );
         }
     }

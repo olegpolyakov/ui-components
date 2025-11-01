@@ -1,56 +1,57 @@
-import { type ReactNode, forwardRef } from 'react';
-import Dropdown, { type DropdownItemProps } from '@restart/ui/Dropdown';
+import { ReactNode } from 'react';
 
-import type { Merge, PropsWithChildren, PropsWithKey } from '../../types';
+import type { ComponentProps, ElementType, PropsWithKey } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon from '../Icon';
 
-import cssClasses from './MenuItem.module.scss';
+import styles from './MenuItem.module.scss';
 
-export type MenuItemProps = PropsWithChildren<Merge<DropdownItemProps, {
+export type MenuItemProps = {
     type?: string;
     icon?: ReactNode;
     start?: ReactNode;
     content?: ReactNode;
     end?: ReactNode;
+    disabled?: boolean;
     selected?: boolean;
     items?: PropsWithKey<MenuItemProps>[];
-}>>;
+    onClick?: (event: React.MouseEvent) => void;
+};
 
-const displayName = 'MenuItem';
-const elementClassNames = getElementClassNames(displayName, ['start', 'content', 'end']);
+MenuItem.displayName = 'MenuItem';
 
-const MenuItem = forwardRef<HTMLElement, MenuItemProps>(({
+const elementClassNames = getElementClassNames(
+    MenuItem.displayName,
+    ['start', 'content', 'end']
+);
+
+export default function MenuItem<T extends ElementType = 'div'>({
+    as,
+    className,
+    children,
+
+    content = children,
     icon,
     start,
-    content,
     end,
     selected,
     disabled,
-
-    className,
-    children = content,
     ...props
-}, ref) => {
+}: ComponentProps<MenuItemProps, T>) {
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        selected && cssClasses.selected,
-        disabled && cssClasses.disabled
+        styles.root,
+        selected && styles.selected,
+        disabled && styles.disabled
     );
 
     return (
-        <Dropdown.Item
-            ref={ref}
-            className={classNames}
-            active={selected}
-            disabled={disabled}
-            {...props}
-        >
+        <Root className={classNames} {...props}>
             {(start || icon) &&
-                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                <span className={cn(elementClassNames.start, styles.start)}>
                     {typeof icon === 'string' ?
                         <Icon name={icon} /> :
                         icon
@@ -60,21 +61,17 @@ const MenuItem = forwardRef<HTMLElement, MenuItemProps>(({
                 </span>
             }
 
-            {children &&
-                <span className={cn(elementClassNames.content, cssClasses.content)}>
-                    {children}
+            {content &&
+                <span className={cn(elementClassNames.content, styles.content)}>
+                    {content}
                 </span>
             }
 
             {end &&
-                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                <span className={cn(elementClassNames.end, styles.end)}>
                     {end}
                 </span>
             }
-        </Dropdown.Item>
+        </Root>
     );
-});
-
-MenuItem.displayName = displayName;
-
-export default MenuItem;
+}

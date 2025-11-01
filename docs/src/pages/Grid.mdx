@@ -1,0 +1,48 @@
+import Demo from '@/components/Demo';
+import Section from '@/components/Section';
+
+import { Grid, GridItem } from '~/components/Grid';
+
+# Grid
+
+<Demo>
+    {(props) => {
+        const Box = props => (
+            <div style={{
+                width: '100px',
+                height: '100px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'var(--ui-primary-color)',
+                color: 'var(--ui-on-primary-color)'
+            }} {...props} />
+        );
+
+        return (
+            <Grid {...props}>
+                <GridItem span="4">
+                    <Box>Item 1</Box>
+                </GridItem>
+
+                <GridItem span="4" align="center">
+                    <Box>Item 2</Box>
+                </GridItem>
+
+                <GridItem span="4" grid>
+                    <GridItem span="4">
+                        <Box>Item 3</Box>
+                    </GridItem>
+
+                    <GridItem span="4">
+                        <Box>Item 3</Box>
+                    </GridItem>
+
+                    <GridItem span="4">
+                        <Box>Item 3</Box>
+                    </GridItem>
+                </GridItem>
+            </Grid>
+        );
+    }}
+</Demo>

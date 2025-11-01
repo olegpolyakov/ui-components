@@ -1,6 +1,4 @@
-import { ForwardRefExoticComponent, RefAttributes, forwardRef } from 'react';
-
-import type { Align, HTMLDivProps, PropsWithChildren } from '../../types';
+import type { Align, ComponentProps, ElementType, HTMLDivProps, PropsWithChildren } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import GridItem from './GridItem';
@@ -8,27 +6,26 @@ import GridItem from './GridItem';
 import cssClasses from './Grid.module.scss';
 
 export type GridProps = PropsWithChildren<{
-    as?: 'div';
     align?: Align;
     fixedColumnWidth?: boolean;
 }, HTMLDivProps>;
 
-type GridFC = ForwardRefExoticComponent<GridProps & RefAttributes<HTMLDivElement>> & {
-    Item?: typeof GridItem;
-};
 
-const displayName = 'Grid';
-const elementClassNames = getElementClassNames(displayName, ['inner']);
+Grid.displayName = 'Grid';
+Grid.Item = GridItem;
 
-const Grid: GridFC = forwardRef<HTMLDivElement, GridProps>(({
-    align,
-    fixedColumnWidth = false,
+const elementClassNames = getElementClassNames(Grid.displayName, ['inner']);
 
-    as: Tag = 'div',
+export default function Grid<T extends ElementType = 'div'>({
+    as,
     className,
     children,
+
+    align,
+    fixedColumnWidth = false,
     ...props
-}, ref) => {
+}: ComponentProps<GridProps, T>) {
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -38,16 +35,10 @@ const Grid: GridFC = forwardRef<HTMLDivElement, GridProps>(({
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
+        <Component className={classNames} {...props}>
             <div className={cn(elementClassNames.inner, cssClasses.inner)}>
                 {children}
             </div>
-        </Tag>
+        </Component>
     );
-});
-
-Grid.displayName = displayName;
-
-Grid.Item = GridItem;
-
-export default Grid;
+}

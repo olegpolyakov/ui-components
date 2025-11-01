@@ -2,29 +2,29 @@
 
 @use './sizes';
 
-$_s: map.get(sizes.$screen-sizes, small);
-$_m: map.get(sizes.$screen-sizes, medium);
-$_l: map.get(sizes.$screen-sizes, large);
+$bp-s: map.get(sizes.$screen-sizes, s);
+$bp-m: map.get(sizes.$screen-sizes, m);
+$bp-l: map.get(sizes.$screen-sizes, l);
 
-$_breakpoints: (
-    sm: '(max-width: #{$_s - 1})',
-    gt-sm: '(min-width: #{$_s})',
+$breakpoints: (
+    sm: '(max-width: #{$bp-s - 1})',
+    gt-sm: '(min-width: #{$bp-s})',
 
-    lt-md: '(max-width: #{$_s - 1})',
-    md: '(min-width: #{$_s}) and (max-width: #{$_m - 1})',
-    md-up: '(min-width: #{$_s})',
-    gt-md: '(min-width: #{$_m})',
+    lt-md: '(max-width: #{$bp-s - 1})',
+    md: '(min-width: #{$bp-s}) and (max-width: #{$bp-m - 1})',
+    md-up: '(min-width: #{$bp-s})',
+    gt-md: '(min-width: #{$bp-m})',
 
-    lt-lg: '(max-width: #{$_m - 1})',
-    lg: '(min-width: #{$_m}) and (max-width: #{$_l - 1})',
-    lg-up: '(min-width: #{$_m})',
-    gt-lg: '(min-width: #{$_l})',
+    lt-lg: '(max-width: #{$bp-m - 1})',
+    lg: '(min-width: #{$bp-m}) and (max-width: #{$bp-l - 1})',
+    lg-up: '(min-width: #{$bp-m})',
+    gt-lg: '(min-width: #{$bp-l})',
 
-    xl: '(min-width: #{$_l})'
+    xl: '(min-width: #{$bp-l})'
 );
 
 @mixin query($size) {
-    $breakpoint: map.get($_breakpoints, $size);
+    $breakpoint: map.get($breakpoints, $size);
 
     @if not $breakpoint {
         @error 'Invalid breakpoint';

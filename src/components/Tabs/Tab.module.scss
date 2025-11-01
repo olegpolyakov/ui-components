@@ -1,31 +1,37 @@
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@use 'component';
+@use 'theme';
+
+@include component.define('Tab', (
+    height: 36px,
+    gap: theme.var(space-smaller),
+    border-color: null,
+    border-radius: 0px,
+    border-width: 0px,
+    text-color: theme.var(text-secondary-color),
+    indicator-width: 2px
+));
+
+$vars: component.vars();
 
 .root {
-    --ui-Tab-gap: var(--ui-gap-smaller);
-    --ui-Tab-border-radius: 0px;
-    --ui-Tab-border-width: 0px;
-    --ui-Tab-text-color: var(--fui-text-secondary-color);
-    --ui-Tab-indicator-width: 2px;
-
     box-sizing: border-box;
     position: relative;
-    min-height: 36px;
+    min-height: component.var(height);
     font: inherit;
     display: flex;
     flex-direction: row;
     align-items: center;
     align-self: stretch;
-    gap: var(--ui-Tab-gap);
+    gap: component.var(gap);
     text-align: center;
     background: none;
     cursor: pointer;
     padding: 4px 16px;
     border: none;
-    border-radius: var(--ui-Tab-border-radius);
+    border-radius: component.var(border-radius);
     font-size: inherit;
     line-height: inherit;
-    color: var(--ui-Tab-text-color);
+    color: component.var(text-color);
     flex: initial;
     justify-content: center;
 
@@ -43,8 +49,6 @@
         background-color: var(--ui-Tab-disabled-background-color);
         color: var(--ui-Tab-disabled-text-color);
     }
-
-    @include color-state-variables('Tab', 'background-color', plain);
 }
 
 .container {}
@@ -57,15 +61,22 @@
 
 .end {}
 
-.active {
-    --ui-Tab-text-color: var(--fui-text-primary-color);
 
-    &::after {
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: var(--ui-Tab-indicator-width);
-        bottom: 0;
-        background-color: var(--ui-primary-color);
-    }
+// Sizes
+
+.small {
+
 }
+
+.medium {
+
+}
+
+.large {
+
+}
+
+
+// Variants
+
+@include component.variants;

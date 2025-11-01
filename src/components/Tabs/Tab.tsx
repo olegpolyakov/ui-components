@@ -1,6 +1,6 @@
-import { MouseEvent, ReactNode, forwardRef, useCallback, useContext } from 'react';
+import { MouseEvent, ReactNode, useCallback, useContext } from 'react';
 
-import { Props, Size } from '../../types';
+import { Size, type ComponentProps, type Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon from '../Icon';
@@ -9,7 +9,7 @@ import TabsContext from './TabsContext';
 
 import cssClasses from './Tab.module.scss';
 
-export type TabProps = Props<{
+export type TabProps = {
     as?: 'button';
     value?: string | number;
     content?: ReactNode;
@@ -17,29 +17,35 @@ export type TabProps = Props<{
     start?: ReactNode;
     end?: ReactNode;
     size?: Size;
+    variant?: Variant;
     active?: boolean;
     disabled?: boolean;
     onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
-}>;
+};
 
-const displayName = 'Tab';
-const elementClassNames = getElementClassNames(displayName, ['container', 'content', 'start', 'end', 'icon']);
+Tab.displayName = 'Tab';
 
-const Tab = forwardRef<HTMLButtonElement, TabProps>(({
+const elementClassNames = getElementClassNames(
+    Tab.displayName,
+    ['container', 'content', 'start', 'end', 'icon']
+);
+
+export default function Tab({
+    as,
+    className,
+    children,
+
     value,
-    content,
+    content = children,
     icon,
     start,
     end,
-    size = 'medium',
+    size = 'm',
+    variant = 'plain',
     active,
     onClick,
-
-    as: Tag = 'button',
-    className,
-    children = content,
     ...props
-}, ref) => {
+}: ComponentProps<TabProps, 'button'>) {
     const { setSelectedValue } = useContext(TabsContext);
 
     const handleClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
@@ -47,20 +53,22 @@ const Tab = forwardRef<HTMLButtonElement, TabProps>(({
         onClick?.(event);
     }, [value, setSelectedValue, onClick]);
 
+    const Component = as || 'button';
     const classNames = cn(
         className,
         elementClassNames.root,
         cssClasses.root,
         cssClasses[size],
+        cssClasses[variant],
         active && cssClasses.active
     );
 
     return (
-        <Tag
-            ref={ref}
+        <Component
             className={classNames}
             type="button"
             value={value}
+            data-active={active}
             onClick={handleClick}
             {...props}
         >
@@ -80,7 +88,7 @@ const Tab = forwardRef<HTMLButtonElement, TabProps>(({
             }
 
             <span className={cn(elementClassNames.content, cssClasses.content)}>
-                {children}
+                {content}
             </span>
 
             {end &&
@@ -88,10 +96,6 @@ const Tab = forwardRef<HTMLButtonElement, TabProps>(({
                     {end}
                 </span>
             }
-        </Tag>
+        </Component>
     );
-});
-
-Tab.displayName = displayName;
-
-export default Tab;
+}

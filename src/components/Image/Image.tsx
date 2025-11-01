@@ -1,47 +1,39 @@
-import { forwardRef } from 'react';
-
-import type { Color, HTMLImageProps, Props, Shape } from '../../types';
+import type { Color, ComponentProps, ElementType, Shape } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Image.module.scss';
+import styles from './Image.module.scss';
 
-export type ImageProps = Props<{
+export type ImageProps = {
     as?: 'img';
     color?: Color;
     shape?: Shape;
     inline?: boolean;
-}, HTMLImageProps>;
+};
 
-const displayName = 'Image';
-const elementClassNames = getElementClassNames(displayName);
+Image.displayName = 'Image';
 
-const Image = forwardRef<HTMLImageElement, ImageProps>(({
+const elementClassNames = getElementClassNames(Image.displayName);
+
+export default function Image<T extends ElementType = 'img'>({
+    as,
+    className,
+
     color,
     shape,
     inline,
-
-    as: Tag = 'img',
-    className,
     ...props
-}, ref): JSX.Element => {
+}: ComponentProps<ImageProps, T>) {
+    const Component = as || 'img';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        color && cssClasses[color],
-        shape && cssClasses[shape],
-        inline && cssClasses.inline
+        styles.root,
+        color && styles[color],
+        shape && styles[shape],
+        inline && styles.inline
     );
 
     return (
-        <Tag
-            ref={ref}
-            className={classNames}
-            {...props}
-        />
+        <Component className={classNames} {...props} />
     );
-});
-
-Image.displayName = displayName;
-
-export default Image;
+}

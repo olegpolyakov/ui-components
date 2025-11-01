@@ -60,7 +60,7 @@ export default function Alert<T extends ElementType = 'div'>({
         elementClassNames.root,
         cssClasses.root,
         cssClasses[size],
-        cssClasses[shape],
+        cssClasses[shape === 'rounded' ? `rounded-${size}` : shape],
         cssClasses[variant],
         cssClasses[color ? `${variant}-${color}` : variant],
         shadow && cssClasses[`shadow-${shadow}`]

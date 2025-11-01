@@ -1,45 +1,42 @@
-import { FunctionComponent, ReactNode, forwardRef } from 'react';
+import { FunctionComponent, ReactNode } from 'react';
 
-import type { Color, HTMLAnchorProps, PropsWithChildren } from '../../types';
+import type { Color, ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssClasses from './Link.module.scss';
 
-export type LinkProps = PropsWithChildren<{
-    as?: 'a' | FunctionComponent,
+export type LinkProps = {
     content?: ReactNode;
     color?: Color;
     disabled?: boolean;
-}, HTMLAnchorProps>;
+};
 
-const displayName = 'Link';
-const elementClassNames = getElementClassNames(displayName);
+Link.displayName = 'Link';
 
-const Link = forwardRef<HTMLAnchorElement, LinkProps>(({
-    content,
-    color = '',
-    disabled,
-    
-    as: Tag = 'a',
+const elementClassNames = getElementClassNames(Link.displayName);
+
+export default function Link<T extends ElementType | FunctionComponent = 'a'>({
+    as,
     className,
-    children = content,
+    children,
+
+    content = children,
+    color,
+    disabled,
     ...props
-}, ref) => {
+}: ComponentProps<LinkProps, T>) {
+    const Component = as || 'a';
     const classNames = cn(
         className,
         elementClassNames.root,
         cssClasses.root,
-        cssClasses[color],
+        color && cssClasses[color],
         disabled && cssClasses.disabled
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
-            {children}
-        </Tag>
+        <Component className={classNames} {...props}>
+            {content}
+        </Component>
     );
-});
-
-Link.displayName = displayName;
-
-export default Link;
+}

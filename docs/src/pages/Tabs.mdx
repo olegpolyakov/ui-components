@@ -1,0 +1,28 @@
+import Demo from '@/components/Demo';
+import Section from '@/components/Section';
+
+import { Tabs, Tab } from '~/components/Tabs';
+
+# Tabs
+
+<Demo>
+    <Tabs>
+        <Tabs.List>
+            <Tab value="foo">Item 1</Tab>
+            <Tab value="bar">Item 2</Tab>
+            <Tab value="baz">Item 3</Tab>
+        </Tabs.List>
+
+        <Tabs.Panel value="foo">
+            Content for Item 1
+        </Tabs.Panel>
+
+        <Tabs.Panel value="bar">
+            Content for Item 2
+        </Tabs.Panel>
+
+        <Tabs.Panel value="baz">
+            Content for Item 3
+        </Tabs.Panel>
+    </Tabs>
+</Demo>

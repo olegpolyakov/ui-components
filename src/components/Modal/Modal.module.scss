@@ -60,6 +60,6 @@
     bottom: 0;
 }
 
-:global(.ui-scroll-disabled) {
+.scroll-disabled {
     overflow: hidden;
 }

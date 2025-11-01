@@ -1,25 +1,26 @@
-@use '../../styles/mixins' as *;
+@use 'component';
+@use 'theme';
+
+@include component.define('Image', (
+    border-radius: theme.var(border-radius-s),
+));
+
+$vars: component.vars();
 
 .root {
     max-width: 100%;
     height: auto;
     display: block;
-    border-radius: var(--ui-Image-border-radius);
+    border-radius: component.var(border-radius);
 }
 
 // Shapes
 
-.circular {
-    --ui-Image-border-radius: 100%;
-}
-
-.rectangular {
-    --ui-Image-border-radius: 0;
-}
-
-.rounded {
-    --ui-Image-border-radius: var(--ui-border-radius-medium);
-}
+@include component.declare((
+    circular: (border-radius: 100%),
+    rectangular: (border-radius: 0),
+    rounded: (border-radius: theme.var(border-radius-m)),
+));
 
 
 // Misc

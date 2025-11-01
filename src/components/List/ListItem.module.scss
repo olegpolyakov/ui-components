@@ -1,24 +1,35 @@
-@use 'sass:map';
+@use 'component';
+@use 'theme';
 
-@use '../../styles/functions' as *;
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@include component.define('ListItem', (
+    height: auto,
+    padding: 8px 16px,
+    border-color: null,
+    border-color-hover: null,
+    border-color-active: null,
+    border-radius: theme.var(border-radius-m),
+    border-width: 1px,
+    gap: theme.var(gap-xs),
+    background-color: null,
+    background-color-hover: null,
+    background-color-active: null,
+    text-color: null,
+    text-color-hover: null,
+    text-color-active: null,
+));
+
+$vars: component.vars();
 
 .root {
-    --ui-ListItem-padding: 8px 16px;
-    --ui-ListItem-gap: var(--ui-gap-smaller);
-
     box-sizing: border-box;
-    min-height: var(--ui-ListItem-height, auto);
+    min-height: component.var(height);
     display: flex;
     align-items: center;
-    border-radius: var(--ui-ListItem-border-radius);
-    padding: var(--ui-ListItem-padding);
-    gap: var(--ui-ListItem-gap);
-    background-color: var(--ui-ListItem-background-color);
-    color: var(--ui-ListItem-text-color);
-    font-family: var(--ui-font-family);
-    font-weight: var(--ui-font-weight-normal);
+    border-radius: component.var(border-radius);
+    padding: component.var(padding);
+    gap: component.var(gap);
+    background-color: component.var(background-color);
+    color: component.var(text-color);
 }
 
 .start,
@@ -36,118 +47,36 @@
 
 // States
 
-.root.interactive {
+.interactive {
     cursor: pointer;
-    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+    user-select: none;
+    transition: color 0.15s ease-in-out,
+                background-color 0.15s ease-in-out,
+                border-color 0.15s ease-in-out;
 
     &:hover {
-        background-color: var(--ui-ListItem-hover-background-color);
-        border-color: var(--ui-ListItem-hover-border-color, transparent);
-        color: var(--ui-ListItem-hover-text-color);
+        border-color: component.var(border-color-hover);
+        background-color: component.var(background-color-hover);
+        color: component.var(text-color-hover);
     }
     
     &:active {
-        background-color: var(--ui-ListItem-active-background-color);
-        border-color: var(--ui-ListItem-active-border-color, transparent);
-        color: var(--ui-ListItem-active-text-color);
-    }
-    
-    &.disabled {
-        background-color: var(--ui-ListItem-disabled-background-color);
-        border-color: var(--ui-ListItem-disabled-border-color, transparent);
-        color: var(--ui-ListItem-disabled-text-color);
-        cursor: default;
+        border-color: component.var(border-color-active);
+        background-color: component.var(background-color-active);
+        color: component.var(text-color-active);
     }
 }
 
 
 // Shapes
 
-.rounded {
-    --ui-ListItem-border-radius: var(--ui-border-radius-small);
-}
-
-.circular {
-    --ui-ListItem-border-radius: 25px;
-}
-
-.rectangular {
-    --ui-ListItem-border-radius: 0;
-}
+@include component.declare((
+    rounded: (border-radius: theme.var(border-radius-s)),
+    circular: (border-radius: component.var(height)),
+    rectangular: (border-radius: 0)
+));
 
 
 // Variants
 
-.plain {
-    --ui-ListItem-text-color: var(--ui-text-color);
-
-    @include color-state-variables('ListItem', 'background-color', plain);
-    @include color-state-variables-for-palettes('ListItem', 'background-color', $color: 0, $override: (
-        'base': none
-    ));
-    @include color-state-variables-for-palettes('ListItem', 'text-color');
-}
-
-.filled {
-    @include color-state-variables-for-palettes('ListItem', 'background-color');
-    @include color-state-variables-for-palettes('ListItem', 'text-color', $on: true);
-}
-
-.outlined {
-    @include color-state-variables('ListItem', 'border-color', neutral);
-    @include color-state-variables('ListItem', 'background-color', plain);
-    @include color-state-variables-for-palettes('ListItem', 'border-color');
-    @include color-state-variables-for-palettes('ListItem', 'background-color', $color: 0, $override: (
-        'base': none
-    ));
-    @include color-state-variables-for-palettes('ListItem', 'text-color');
-
-    --ui-ListItem-border-width: 1px;
-    --ui-ListItem-text-color: var(--ui-text-color);
-
-    border: var(--ui-ListItem-border-width) solid var(--ui-ListItem-border-color);
-}
-
-.tinted {
-    @include color-state-variables('ListItem', 'background-color', tinted);
-    @include color-state-variables-for-palettes('ListItem', 'background-color', $color: 1);
-    @include color-state-variables-for-palettes('ListItem', 'text-color');
-
-    --ui-ListItem-text-color: var(--ui-text-color);
-}
-
-.selected {
-    &.plain {
-        --ui-ListItem-text-color: var(--ui-text-color);
-
-        @include color-state-variables('ListItem', 'background-color', neutral);
-        @include color-state-variables-for-palettes('ListItem', 'background-color', $color: 1, $override: (
-            'base': none
-        ));
-        @include color-state-variables-for-palettes('ListItem', 'text-color');
-    }
-    
-    &.filled {
-        @include color-state-variables('ListItem', 'background-color', neutral);
-        @include color-state-variables('ListItem', 'text-color', on-neutral);
-        @include color-state-variables-for-palettes('ListItem', 'background-color');
-        @include color-state-variables-for-palettes('ListItem', 'text-color', $on: true);
-    }
-    
-    &.outlined {
-        --ui-ListItem-text-color: var(--ui-text-color);
-
-        @include color-state-variables('ListItem', 'border-color', primary);
-        @include color-state-variables('ListItem', 'background-color', neutral);
-        @include color-state-variables-for-palettes('ListItem', 'border-color');
-        @include color-state-variables-for-palettes('ListItem', 'background-color', $color: 1, $override: (
-            'base': none
-        ));
-    }
-    
-    &.tinted {
-        @include color-state-variables('ListItem', 'background-color', neutral);
-        @include color-state-variables-for-palettes('ListItem', 'background-color', $color: 2);
-        @include color-state-variables-for-palettes('ListItem', 'text-color');
-    }
-}
+@include component.variants;

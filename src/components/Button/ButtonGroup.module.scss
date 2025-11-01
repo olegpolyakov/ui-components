@@ -1,6 +1,8 @@
 @use 'sass:map';
-@use '../../styles/theme';
-@use '../../styles/component';
+
+@use 'theme';
+@use 'component';
+
 @use './Button.module' as Button;
 
 @include component.define('ButtonGroup', (

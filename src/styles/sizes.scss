@@ -12,6 +12,14 @@ $font-sizes: (
     xxl: 28px
 ) !default;
 
+$icon-sizes: (
+    xs: 16px,
+    s: 18px,
+    m: 24px, // Preferred icon size
+    l: 36px,
+    xl: 48px
+) !default;
+
 $heading-sizes: (
     // type: (font-size, line-height)
     xxs: (16px, 22px),

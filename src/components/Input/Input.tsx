@@ -3,15 +3,26 @@ import {
     type FocusEvent,
     type InvalidEvent,
     type ReactNode,
-    forwardRef,
     useCallback,
     useState
 } from 'react';
 
-import type { HTMLInputProps, Props, Shape, Size } from '../../types';
+import type { ComponentProps, Shape, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssClasses from './Input.module.scss';
+
+export type InputProps = {
+    label?: ReactNode;
+    start?: ReactNode;
+    end?: ReactNode;
+    size?: Size;
+    shape?: Shape;
+    variant?: 'outlined' | 'tinted' | 'outlined-tinted' | 'tinted-outlined' | 'underlined' | 'underlined-tinted' | 'tinted-underlined';
+    active?: boolean;
+    disabled?: boolean;
+    onChange?: InputChangeHandler;
+};
 
 export type InputChangeHandler = (
     data: {
@@ -21,29 +32,21 @@ export type InputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
 ) => void;
 
-export type InputProps = Props<{
-    label?: ReactNode;
-    start?: ReactNode;
-    end?: ReactNode;
-    size?: Size;
-    shape?: Shape;
-    variant?: 'filled' | 'outlined' | 'underlined';
-    active?: boolean;
-    disabled?: boolean;
-    onChange?: InputChangeHandler;
-}, HTMLInputProps>;
+Input.displayName = 'Input';
 
-const displayName = 'Input';
-const elementClassNames = getElementClassNames(displayName, ['start', 'label', 'input', 'end']);
+const elementClassNames = getElementClassNames(
+    Input.displayName,
+    ['start', 'label', 'input', 'end']
+);
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({
+export default function Input({
     value,
     defaultValue,
     start,
     end,
     label,
     shape = 'rounded',
-    size = 'medium',
+    size = 'm',
     variant = 'outlined',
     active,
     disabled,
@@ -54,7 +57,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
 
     className,
     ...props
-}, ref) => {
+}: ComponentProps<InputProps, 'input'>) {
     const [isFocused, setFocused] = useState(false);
     const [isInvalid, setInvalid] = useState(false);
     const [validationMessage, setValidationMessage] = useState('');
@@ -120,7 +123,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
             }
 
             <input
-                ref={ref}
                 className={cn(elementClassNames.input, cssClasses.input)}
                 value={value}
                 defaultValue={defaultValue}
@@ -139,8 +141,4 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
             }
         </div>
     );
-});
-
-Input.displayName = displayName;
-
-export default Input;
+}

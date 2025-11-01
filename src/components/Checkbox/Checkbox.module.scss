@@ -83,7 +83,7 @@ $vars: component.vars();
 
 // Sizes
 
-@include component.vars((
+@include component.declare((
     s: (
         size: 16px,
         gap: theme.var(space-xs)

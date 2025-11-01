@@ -147,20 +147,20 @@
 
 // Sizes
 
-.small {
-    --ui-Combobox-height: 32px;
-    --ui-Combobox-font-size: 12px;
-}
-
-.medium {
-    --ui-Combobox-height: 40px;
-    --ui-Combobox-font-size: 14px;
-}
-
-.large {
-    --ui-Combobox-height: 48px;
-    --ui-Combobox-font-size: 16px;
-}
+@include component.declare((
+    s: (
+        height: 32px,
+        font-size: 12px
+    ),
+    m: (
+        height: 40px,
+        font-size: 14px
+    ),
+    l: (
+        height: 48px,
+        font-size: 16px
+    )
+));
 
 
 // Variants

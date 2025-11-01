@@ -47,6 +47,16 @@ $prefix: 'ui' !default;
     }
 }
 
+@mixin dark {
+    [data-theme="dark"] {
+        @content;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        @content;
+    }
+}
+
 @mixin base-vars {
     @include vars((
         font-family: font.$font-family,
@@ -96,6 +106,7 @@ $prefix: 'ui' !default;
     $theme-colors: if($is-dark, colors.$dark-theme-colors, colors.$light-theme-colors);
     $element-colors: if($is-dark, colors.$dark-element-colors, colors.$light-element-colors);
     $surface-color: map.get($element-colors, surface);
+    $surface-primary-color: map.get($element-colors, surface-primary);
     $surface-inverted-color: map.get($element-colors, surface-inverted);
 
     // Element colors
@@ -117,6 +128,21 @@ $prefix: 'ui' !default;
         color-hover: colors.hover-color($on-plain-color),
         color-active: colors.active-color($on-plain-color)
     ), 'on-plain-');
+
+    // Filled colors
+    $filled-color: $surface-primary-color;
+    @include vars((
+        color: $filled-color,
+        color-hover: colors.hover-color($filled-color),
+        color-active: colors.active-color($filled-color)
+    ), 'filled-');
+
+    $on-filled-color: colors.on-color($filled-color);
+    @include vars((
+        color: $on-filled-color,
+        color-hover: colors.hover-color($on-filled-color),
+        color-active: colors.active-color($on-filled-color)
+    ), 'on-filled-');
 
     // Tinted colors
     @include vars((

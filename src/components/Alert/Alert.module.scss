@@ -67,89 +67,59 @@ $vars: component.vars();
 
 // Sizes
 
-.s {
-    @include component.vars((
+@include component.declare((
+    s: (
         height: 32px,
         gap: theme.var(space-xxs),
         padding: theme.var(space-xxs) theme.var(space-xs),
         border-radius: theme.var(border-radius-xs),
         font-size: theme.var(font-size-xs)
-    ));
-}
-
-.m {
-    @include component.vars((
+    ),
+    m: (
         height: 40px,
         gap: theme.var(space-xs),
         padding: theme.var(space-xs) theme.var(space-s),
         border-radius: theme.var(border-radius-s),
         font-size: theme.var(font-size-s)
-    ));
-}
-
-.l {
-    @include component.vars((
+    ),
+    l: (
         height: 48px,
         gap: theme.var(space-s),
         padding: theme.var(space-xs) theme.var(space-s),
         border-radius: theme.var(border-radius-m),
         font-size: theme.var(font-size-m)
-    ));
-}
+    )
+));
 
 
 // Shapes
 
-.circular {
-    @include component.var(border-radius, height);
-}
-
-.rectangular {
-    @include component.var(border-radius, 0);
-}
-
-.rounded {
-    &.s {
-        @include component.vars((
-            border-radius: theme.var(border-radius-xs)
-        ));
-    }
-
-    &.m {
-        @include component.vars((
-            border-radius: theme.var(border-radius-s)
-        ));
-    }
-
-    &.l {
-        @include component.vars((
-            border-radius: theme.var(border-radius-m)
-        ));
-    }
-}
+@include component.declare((
+    circular: (
+        border-radius: height
+    ),
+    rectangular: (
+        border-radius: 0
+    ),
+    rounded-s: (
+        border-radius: theme.var(border-radius-xs)
+    ),
+    rounded-m: (
+        border-radius: theme.var(border-radius-s)
+    ),
+    rounded-l: (
+        border-radius: theme.var(border-radius-m)
+    )
+));
 
 
 // Shadows
 
-.shadow {
-    &-s {
-        @include component.vars((
-            shadow: theme.var(shadow-s)
-        ));
-    }
-
-    &-m {
-        @include component.vars((
-            shadow: theme.var(shadow-m)
-        ));
-    }
-
-    &-l {
-        @include component.vars((
-            shadow: theme.var(shadow-l)
-        ));
-    }
-}
+@include component.declare((
+    shadow-s: (shadow: theme.var(shadow-s)),
+    shadow-m: (shadow: theme.var(shadow-m)),
+    shadow-l: (shadow: theme.var(shadow-l))
+));
 
 
 // Variants

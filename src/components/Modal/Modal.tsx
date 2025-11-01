@@ -5,7 +5,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Portal from '../Portal';
 
-import cssClasses from './Modal.module.scss';
+import styles from './Modal.module.scss';
 
 export type ModalProps = PropsWithChildren<{
     container?: HTMLElement;
@@ -15,28 +15,28 @@ export type ModalProps = PropsWithChildren<{
     disableScroll?: boolean;
 }>;
 
-const displayName = 'Modal';
-const elementClassNames = getElementClassNames(displayName);
-const scrollDisabledClassName = 'ui-scroll-disabled';
+Modal.displayName = 'Modal';
 
-const Modal = ({
+const elementClassNames = getElementClassNames(Modal.displayName);
+
+export default function Modal({
+    className,
+    children,
+
     container = document.body,
     backdrop = false,
     fixed = false,
-    disableScroll = true,
-
-    className,
-    children
-}: ModalProps) => {
+    disableScroll = true
+}: ModalProps) {
     const modalRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         if (!disableScroll) return;
 
-        document.body.classList.add(scrollDisabledClassName);
+        document.body.classList.add(styles.scrollDisabled);
 
         return () => {
-            document.body.classList.remove(scrollDisabledClassName);
+            document.body.classList.remove(styles.scrollDisabled);
         };
     }, [disableScroll]);
 
@@ -55,9 +55,9 @@ const Modal = ({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        backdrop && cssClasses.backdrop,
-        fixed && cssClasses.fixed
+        styles.root,
+        backdrop && styles.backdrop,
+        fixed && styles.fixed
     );
 
     return (
@@ -67,8 +67,4 @@ const Modal = ({
             </div>
         </Portal>
     );
-};
-
-Modal.displayName = displayName;
-
-export default Modal;
+}

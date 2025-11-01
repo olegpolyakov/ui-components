@@ -1,36 +1,36 @@
-import { ForwardRefExoticComponent, forwardRef } from 'react';
-
-import type { HTMLListProps, PropsWithChildren, PropsWithKey, Size } from '../../types';
+import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import ListItem, { type ListItemProps } from './ListItem';
 
 import cssClasses from './List.module.scss';
 
-export type ListProps = PropsWithChildren<{
-    as?: 'ol' | 'ul';
+export type ListProps = {
     items?: PropsWithKey<ListItemProps>[];
     size?: Size;
     gap?: Size;
     interactive?: boolean;
-}, HTMLListProps>;
+};
 
-const displayName = 'List';
-const elementClassNames = getElementClassNames(displayName);
+List.displayName = 'List';
+List.Item = ListItem;
 
-const List: ForwardRefExoticComponent<ListProps> & {
-    Item?: typeof ListItem;
-} = forwardRef<HTMLOListElement, ListProps>(({
-    items,
-    size = 'medium',
-    gap,
-    interactive,
+const elementClassNames = getElementClassNames(
+    List.displayName
+);
 
-    as: Tag = 'ul',
+export default function List<T extends ElementType = 'ul'>({
+    as,
     className,
     children,
+
+    items,
+    size = 'm',
+    gap,
+    interactive,
     ...props
-}, ref) => {
+}: ComponentProps<ListProps, T>) {
+    const Component = as || 'ul';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -40,7 +40,7 @@ const List: ForwardRefExoticComponent<ListProps> & {
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
+        <Component className={classNames} {...props}>
             {items?.map(item =>
                 <ListItem
                     key={item.key}
@@ -50,11 +50,6 @@ const List: ForwardRefExoticComponent<ListProps> & {
             )}
 
             {children}
-        </Tag>
+        </Component>
     );
-});
-
-List.displayName = displayName;
-List.Item = ListItem;
-
-export default List;
+}

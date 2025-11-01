@@ -1,42 +1,49 @@
-import { forwardRef, ReactElement, ReactNode } from 'react';
-import { CSSTransition } from 'react-transition-group';
+import { ReactNode, useRef } from 'react';
 
-import type { HTMLDivProps, PropsWithChildren } from '../../types';
+import type { ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Button from '../Button';
 import Modal from '../Modal';
+import Transition from '../Transition';
 
 import cssClasses from './Drawer.module.scss';
 
-const displayName = 'Drawer';
-const elementClassNames = getElementClassNames(displayName, ['overlay', 'surface', 'header', 'title', 'content', 'closeButton']);
-
-export type DrawerProps = PropsWithChildren<{
-    as?: 'div';
+export type DrawerProps = {
     title?: string;
-    header?: ReactElement;
+    header?: ReactNode;
     content?: ReactNode;
     type?: 'inline' | 'overlay' | 'modal';
     position?: 'left' | 'right';
     open?: boolean;
     onClose?: () => void;
-}, HTMLDivProps>;
+};
 
-const Drawer = forwardRef<HTMLDivElement, DrawerProps>(({
-    title,
+Drawer.displayName = 'Drawer';
+
+const elementClassNames = getElementClassNames(
+    Drawer.displayName,
+    ['backdrop', 'surface', 'header', 'title', 'content', 'closeButton']
+);
+
+export default function Drawer<T extends ElementType = 'div'>({
+    as,
+    ref,
+    className,
+    children,
+
+    content = children,
     header,
-    content,
+    title,
     open,
     position = 'left',
     type = 'inline',
     onClose,
-
-    as: Tag = 'div',
-    children = content,
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<DrawerProps, T>) {
+    const rootRef = useRef<HTMLDivElement>(null);
+
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -58,16 +65,21 @@ const Drawer = forwardRef<HTMLDivElement, DrawerProps>(({
     };
 
     const rootContent = (
-        <CSSTransition
+        <Transition
             in={open}
+            nodeRef={rootRef}
             timeout={200}
             classNames={transitionClassNames}
-        //unmountOnExit
         >
-            <Tag ref={ref} className={classNames} tabIndex={-1} {...props}>
-                {/* <div className={cn(elementClassNames.overlay, cssClasses.overlay)} /> */}
+            <Component
+                ref={rootRef}
+                className={classNames}
+                tabIndex={-1}
+                {...props}
+            >
+                <div className={cn(elementClassNames.backdrop, cssClasses.backdrop)} />
 
-                <div className={cn(elementClassNames.surface, cssClasses.surface)}>
+                <div ref={ref} className={cn(elementClassNames.surface, cssClasses.surface)}>
                     {(title || header || onClose) &&
                         <div className={cn(elementClassNames.header, cssClasses.header)}>
                             {title &&
@@ -92,11 +104,11 @@ const Drawer = forwardRef<HTMLDivElement, DrawerProps>(({
                     }
 
                     <div className={cn(elementClassNames.content, cssClasses.content)}>
-                        {children}
+                        {content}
                     </div>
                 </div>
-            </Tag>
-        </CSSTransition>
+            </Component>
+        </Transition>
     );
 
     return type === 'modal' ?
@@ -104,8 +116,4 @@ const Drawer = forwardRef<HTMLDivElement, DrawerProps>(({
             {rootContent}
         </Modal> :
         rootContent;
-});
-
-Drawer.displayName = displayName;
-
-export default Drawer;
+}

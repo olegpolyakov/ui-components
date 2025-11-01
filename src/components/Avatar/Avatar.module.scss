@@ -51,70 +51,34 @@ $vars: component.vars();
 
 // Sizes
 
-.s,
-.sm {
-    @include component.vars((
+@include component.declare((
+    s: (
         size: 24px,
         font-size: 10px,
         border-width: 1px
-    ));
-}
-
-.m,
-.md {
-    @include component.vars((
+    ),
+    m: (
         size: 40px,
         font-size: 16px,
         border-width: 2px
-    ));
-}
-
-.l,
-.lg {
-    @include component.vars((
+    ),
+    l: (
         size: 64px,
         font-size: 28px,
         border-width: 2px
-    ));
-}
+    )
+));
 
 
 // Shapes
 
-.circular {
-    @include component.vars((
-        border-radius: 50%
-    ));
-}
-
-.rectangular {
-    @include component.vars((
-        border-radius: 0
-    ));
-}
-
-.rounded {
-    &.s
-    &.sm {
-        @include component.vars((
-            border-radius: theme.var(border-radius-s)
-        ));
-    }
-
-    &.m
-    &.md {
-        @include component.vars((
-            border-radius: theme.var(border-radius-m)
-        ));
-    }
-
-    &.l,
-    &.lg {
-        @include component.vars((
-            border-radius: theme.var(border-radius-l)
-        ));
-    }
-}
+@include component.declare((
+    circular: (border-radius: 50%),
+    rectangular: (border-radius: 0),
+    rounded-s: (border-radius: theme.var(border-radius-s)),
+    rounded-m: (border-radius: theme.var(border-radius-m)),
+    rounded-l: (border-radius: theme.var(border-radius-l))
+));
 
 
 // Variants

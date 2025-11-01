@@ -1,10 +1,10 @@
-import { HTMLAttributes, ReactNode, cloneElement, forwardRef, isValidElement } from 'react';
+import { cloneElement, isValidElement } from 'react';
 
+import { ComponentProps, ElementType, SizeExtended } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
-import { getSizeValue, getFontVariationSettings } from './utils';
+import { getFontVariationSettings } from './utils';
 
-import cssClasses from './Icon.module.scss';
-import type { SizeExtended } from '@/types';
+import styles from './Icon.module.scss';
 
 export type IconProps = {
     name?: string;
@@ -13,66 +13,58 @@ export type IconProps = {
     weight?: number | string;
     grade?: number | string;
     filled?: boolean;
-    light?: boolean;
-    dark?: boolean;
     inactive?: boolean;
+};
 
-    as?: 'i';
-    className?: string;
-    children?: ReactNode;
-} & HTMLAttributes<HTMLElement>;
+Icon.displayName = 'Icon';
 
-const displayName = 'Icon';
-const elementClassNames = getElementClassNames(displayName);
+const elementClassNames = getElementClassNames(Icon.displayName);
 
-const Icon = forwardRef<HTMLElement, IconProps>(({
+export default function Icon<T extends ElementType = 'i'>({
+    as,
+    children,
+    className,
+
     name,
     type = 'outlined',
     size,
     weight,
     grade,
     filled = false,
-    light = false,
-    dark = false,
     inactive = false,
-
-    as: Component = 'i',
-    children = name,
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<IconProps, T>) {
+    const Component = as || 'i';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[type],
-        size && cssClasses[size],
-        light && cssClasses.light,
-        dark && cssClasses.dark,
-        inactive && cssClasses.inactive
+        styles.root,
+        styles[type],
+        size && styles[size],
+        inactive && styles.inactive
     );
 
-    const fontVariationSettings = getFontVariationSettings(filled, weight, grade, getSizeValue(size));
+    const fontVariationSettings = getFontVariationSettings(
+        filled,
+        weight,
+        grade,
+        Number.parseInt(styles[`size-${size}`])
+    );
 
     const style = fontVariationSettings ? {
         fontVariationSettings
     } : undefined;
 
     return isValidElement<IconProps>(children) ?
-        cloneElement(children, {
+        cloneElement<IconProps & { className?: string }>(children, {
             className: classNames
         }) : (
             <Component
-                ref={ref}
                 style={style}
                 className={classNames}
                 {...props}
             >
-                {children}
+                {name || children}
             </Component>
         );
-});
-
-Icon.displayName = displayName;
-
-export default Icon;
+}

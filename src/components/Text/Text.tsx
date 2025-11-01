@@ -1,77 +1,94 @@
-import { ReactNode, forwardRef } from 'react';
+import { ReactNode } from 'react';
 
-import type { Align, Color, HTMLParagraphProps, PropsWithChildren, Weight } from '../../types';
+import type { Align, Color, ComponentProps, ElementType, SizeFull, Weight } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssClasses from './Text.module.scss';
 
-export type TextProps = PropsWithChildren<{
-    as?: 'p' | 'span';
+export type TextProps = {
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-    type?: 'title1' | 'title2' | 'title3' | 'body1' | 'body2' | 'body3';
-    color?: Color;
+    color?: Color | 'inherit';
+    size?: SizeFull;
     align?: Align;
     weight?: Weight;
+    inline?: boolean;
     italic?: boolean;
     uppercase?: boolean;
-    inline?: boolean;
-    paragraph?: boolean;
+    strikethrough?: boolean;
     ellipsis?: boolean;
     muted?: boolean;
-}, HTMLParagraphProps>;
+    disabled?: boolean;
+    interactive?: boolean;
+    marginTop?: boolean;
+    marginBottom?: boolean;
+};
 
-const displayName = 'Text';
-const elementClassNames = getElementClassNames(displayName, ['start', 'content', 'end']);
+Text.displayName = 'Text';
 
-const Text = forwardRef<HTMLParagraphElement, TextProps>(({
-    content,
+const elementClassNames = getElementClassNames(
+    Text.displayName,
+    ['start', 'content', 'end']
+);
+
+export default function Text<T extends ElementType = 'p'>({
+    as,
+    children,
+    className,
+
+    content = children,
     start,
     end,
-    type = 'p2',
-    color = '',
-    align,
+    color,
+    size,
     weight,
+    align,
+    inline,
     italic,
     uppercase,
-    inline,
-    paragraph,
+    strikethrough,
     ellipsis,
-    muted,
-
-    as: Tag = 'p',
-    children = content,
-    className,
+    disabled,
+    marginTop,
+    marginBottom,
     ...props
-}, ref) => {
+}: ComponentProps<TextProps, T>) {
+    const Component = as || 'p';
     const classNames = cn(
         className,
         elementClassNames.root,
         cssClasses.root,
-        cssClasses[type],
         color && cssClasses[color],
+        size && cssClasses[size],
         weight && cssClasses[weight],
         align && cssClasses[`align-${align}`],
+        inline && cssClasses.inline,
         italic && cssClasses.italic,
         uppercase && cssClasses.uppercase,
-        inline && cssClasses.inline,
-        paragraph && cssClasses.paragraph,
+        strikethrough && cssClasses.strikethrough,
         ellipsis && cssClasses.ellipsis,
-        muted && cssClasses.muted
+        disabled && cssClasses.disabled,
+        marginTop && marginTop === true
+            ? cssClasses.mt
+            : cssClasses[`mt-${marginTop}`],
+        marginBottom && marginBottom === true
+            ? cssClasses.mb
+            : cssClasses[`mb-${marginBottom}`],
+        as === 'a' && cssClasses.link
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
+        <Component className={classNames} {...props}>
             {start &&
                 <span className={cn(elementClassNames.start, cssClasses.start)}>
                     {start}
                 </span>
             }
 
-            {children &&
+            {content &&
                 <span className={cn(elementClassNames.content, cssClasses.content)}>
-                    {children}
+                    {content}
                 </span>
             }
 
@@ -80,10 +97,6 @@ const Text = forwardRef<HTMLParagraphElement, TextProps>(({
                     {end}
                 </span>
             }
-        </Tag>
+        </Component>
     );
-});
-
-Text.displayName = displayName;
-
-export default Text;
+}

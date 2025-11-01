@@ -26,16 +26,10 @@ $vars: component.vars();
 
 // Sizes
 
-@include component.vars((
-    s: (
-        padding: theme.var(padding-s)
-    ),
-    m: (
-        padding: theme.var(padding-m)
-    ),
-    l: (
-        padding: theme.var(padding-l)
-    )
+@include component.declare((
+    s: (padding: theme.var(space-s)),
+    m: (padding: theme.var(space-m)),
+    l: (padding: theme.var(space-l))
 ));
 
 
@@ -46,16 +40,10 @@ $vars: component.vars();
 
 // Shadow
 
-@include component.vars((
-    shadow-s: (
-        shadow: var(--ui-shadow-small)
-    ),
-    shadow-m: (
-        shadow: var(--ui-shadow-medium)
-    ),
-    shadow-l: (
-        shadow: var(--ui-shadow-large)
-    )
+@include component.declare((
+    shadow-s: (shadow: theme.var(shadow-s)),
+    shadow-m: (shadow: theme.var(shadow-m)),
+    shadow-l: (shadow: theme.var(shadow-l))
 ));
 
 

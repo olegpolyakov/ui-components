@@ -1,42 +1,46 @@
-import { forwardRef, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
-import type { Align, Color, HTMLHeadingProps, PropsWithChildren } from '../../types';
+import type { Align, Color, ComponentProps, ElementType, SizeFull } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssClasses from './Heading.module.scss';
 
-export type HeadingProps = PropsWithChildren<{
-    as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'div' | 'span';
+export type HeadingProps = {
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-    type?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'; 
+    size?: SizeFull; 
     align?: Align;
     color?: Color;
     block?: boolean;
     bold?: boolean;
     muted?: boolean;
-}, HTMLHeadingProps>;
+};
 
-const displayName = 'Heading';
-const elementClassNames = getElementClassNames(displayName, ['start', 'content', 'end']);
+Heading.displayName = 'Heading';
 
-const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({
-    content,
+const elementClassNames = getElementClassNames(
+    Heading.displayName,
+    ['start', 'content', 'end']
+);
+
+export default function Heading<T extends ElementType = 'h1'>({
+    as,
+    className,
+    children,
+
+    content = children,
     start,
     end,
-    type = 'h2',
+    type = 'h1',
     color,
     align,
     block,
     bold,
     muted,
-
-    as: Tag = 'h2',
-    className,
-    children = content,
     ...props
-}, ref) => {
+}: ComponentProps<HeadingProps, T>) {
+    const Component = as || 'h1';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -50,8 +54,7 @@ const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({
     );
 
     return (
-        <Tag
-            ref={ref}
+        <Component
             className={classNames}
             {...props}
         >
@@ -61,9 +64,9 @@ const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({
                 </span>
             }
 
-            {children &&
+            {content &&
                 <span className={cn(elementClassNames.content, cssClasses.content)}>
-                    {children}
+                    {content}
                 </span>
             }
 
@@ -72,10 +75,6 @@ const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(({
                     {end}
                 </span>
             }
-        </Tag>
+        </Component>
     );
-});
-
-Heading.displayName = displayName;
-
-export default Heading;
+}

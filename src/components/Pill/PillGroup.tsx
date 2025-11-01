@@ -1,55 +1,54 @@
-import { forwardRef } from 'react';
-
-import type { HTMLDivProps, PropsWithChildren, PropsWithKey } from '../../types';
+import type { ComponentProps, ElementType, PropsWithKey } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Pill, { type PillProps } from './Pill';
 
-import cssClasses from './PillGroup.module.scss';
+import styles from './PillGroup.module.scss';
 
-export type PillGroupProps = PropsWithChildren<{
-    as?: 'div';
+export type PillGroupProps = {
     pills?: PropsWithKey<PillProps>[];
     shape?: PillProps['shape'];
     size?: PillProps['size'];
     variant?: PillProps['variant'];
     maxCount?: number;
     interactive?: boolean;
-}, HTMLDivProps>;
+};
 
-// TODO: Add sequential colors
+PillGroup.displayName = 'PillGroup';
 
-const displayName = 'PillGroup';
-const elementClassNames = getElementClassNames(displayName);
+const elementClassNames = getElementClassNames(PillGroup.displayName);
 
-const PillGroup = forwardRef<HTMLDivElement, PillGroupProps>(({
+export default function PillGroup<T extends ElementType = 'div'>({
+    as,
+    className,
+    children,
+
     pills = [],
     shape,
     size,
     variant,
     maxCount = 0,
     interactive,
-
-    as: Tag = 'div',
-    className,
-    children,
     ...props
-}, ref) => {
-    const shownPills = (maxCount > 0 && pills.length > maxCount) ?
-        pills.slice(0, maxCount) : pills;
+}: ComponentProps<PillGroupProps, T>) {
+    const shownPills = (maxCount > 0 && pills.length > maxCount)
+        ? pills.slice(0, maxCount)
+        : pills;
     const hiddenPillsCount = pills.length - shownPills.length;
     
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root
+        styles.root
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
+        <Component className={classNames} {...props}>
             {shownPills?.map(pill =>
                 <Pill
                     key={pill.key}
+                    className={styles.pill}
                     shape={shape}
                     size={size}
                     variant={variant}
@@ -60,6 +59,7 @@ const PillGroup = forwardRef<HTMLDivElement, PillGroupProps>(({
 
             {hiddenPillsCount > 0 &&
                 <Pill
+                    className={styles.pill}
                     content={`+${hiddenPillsCount}`}
                     shape={shape}
                     size={size}
@@ -68,10 +68,6 @@ const PillGroup = forwardRef<HTMLDivElement, PillGroupProps>(({
             }
 
             {children}
-        </Tag>
+        </Component>
     );
-});
-
-PillGroup.displayName = displayName;
-
-export default PillGroup;
+}

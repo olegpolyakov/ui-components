@@ -1,34 +1,35 @@
+@use 'component';
+@use 'theme';
+
+@include component.define('List', (
+    gap: 0
+));
+
+$vars: component.vars();
+
 .root {
     list-style: none;
     display: flex;
     flex-direction: column;
     margin: 0;
     padding: 0;
-    gap: var(--ui-List-gap, 0);
+    gap: component.var(gap);
 }
 
-.small {
-    --ui-ListItem-height: 36px;
-}
 
-.medium {
-    --ui-ListItem-height: 40px;
-}
+// Sizes
 
-.large {
-    --ui-ListItem-height: 48px;
-}
+@include component.declare((
+    s: (height: 36px),
+    m: (height: 40px),
+    l: (height: 48px)
+));
+
 
 // Gap
 
-.gap-small {
-    --ui-List-gap: var(--ui-gap-smallest);
-}
-
-.gap-medium {
-    --ui-List-gap: var(--ui-gap-smaller);
-}
-
-.gap-large {
-    --ui-List-gap: var(--ui-gap-small);
-}
+@include component.declare((
+    gap-s: (gap: theme.var(gap-xxs)),
+    gap-m: (gap: theme.var(gap-xs)),
+    gap-l: (gap: theme.var(gap-s))
+));

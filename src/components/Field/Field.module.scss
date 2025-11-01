@@ -1,28 +1,28 @@
-.root {
-    --ui-Field-gap: .25rem;
+@use 'component';
+@use 'theme';
 
+@include component.define('Field', (
+    gap: theme.var(space-s)
+));
+
+$vars: component.vars();
+
+.root {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     align-items: flex-start;
     gap: var(--ui-Field-gap);
-    font-family: var(--ui-font-family);
 }
 
 
 // Sizes
 
-.small {
-    --ui-Field-gap: .25rem;
-}
-
-.medium {
-    --ui-Field-gap: .5rem;
-}
-
-.large {
-    --ui-Field-gap: .75rem;
-}
+@include component.declare((
+    s: (gap: theme.var(space-xxs)),
+    m: (gap: theme.var(space-xs)),
+    l: (gap: theme.var(space-s))
+));
 
 
 // Misc

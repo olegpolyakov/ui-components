@@ -1,42 +1,46 @@
-import { ReactNode, forwardRef } from 'react';
+import { ReactNode } from 'react';
 
-import type { HTMLListItemProps, PropsWithChildren, Color, Variant, Shape } from '../../types';
+import type { Color, Variant, Shape, ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssClasses from './ListItem.module.scss';
 
-export type ListItemProps = PropsWithChildren<{
-    as?: 'li';
+export type ListItemProps = {
     start?: ReactNode;
     content?: ReactNode;
     end?: ReactNode;
     color?: Color;
     shape?: Shape;
     variant?: Variant;
+    disabled?: boolean;
     interactive?: boolean;
     selected?: boolean;
-    disabled?: boolean;
-}, HTMLListItemProps>;
+};
 
-const displayName = 'ListItem';
-const elementClassNames = getElementClassNames(displayName, ['start', 'content', 'end']);
+ListItem.displayName = 'ListItem';
 
-const ListItem = forwardRef<HTMLLIElement, ListItemProps>(({
+const elementClassNames = getElementClassNames(
+    ListItem.displayName,
+    ['start', 'content', 'end']
+);
+
+export default function ListItem<T extends ElementType = 'li'>({
+    as,
+    children,
+    className,
+
+    content = children,
     start,
-    content,
     end,
     color,
     shape,
     variant = 'plain',
+    disabled,
     interactive,
     selected,
-    disabled,
-
-    as: Tag = 'li',
-    children = content,
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<ListItemProps, T>) {
+    const Component = as || 'li';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -44,22 +48,22 @@ const ListItem = forwardRef<HTMLLIElement, ListItemProps>(({
         color && cssClasses[color],
         shape && cssClasses[shape],
         cssClasses[variant],
+        disabled && cssClasses.disabled,
         interactive && cssClasses.interactive,
-        selected && cssClasses.selected,
-        disabled && cssClasses.disabled
+        selected && cssClasses.selected
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
+        <Component className={classNames} data-selected={selected} {...props}>
             {start &&
                 <span className={cn(elementClassNames.start, cssClasses.start)}>
                     {start}
                 </span>
             }
 
-            {children &&
+            {content &&
                 <span className={cn(elementClassNames.content, cssClasses.content)}>
-                    {children}
+                    {content}
                 </span>
             }
 
@@ -68,10 +72,6 @@ const ListItem = forwardRef<HTMLLIElement, ListItemProps>(({
                     {end}
                 </span>
             }
-        </Tag>
+        </Component>
     );
-});
-
-ListItem.displayName = displayName;
-
-export default ListItem;
+}
