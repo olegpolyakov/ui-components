@@ -1,37 +1,37 @@
-import { type HTMLAttributes, forwardRef } from 'react';
+import type { ReactNode } from 'react';
 
+import type { ComponentProps } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './TableRow.module.scss';
+import styles from './TableRow.module.scss';
 
 export type TableRowProps = {
+    content?: ReactNode;
     interactive?: boolean;
-} & HTMLAttributes<HTMLTableRowElement>;
+};
 
-const displayName = 'TableRow';
-const elementClassNames = getElementClassNames(displayName);
+TableRow.displayName = 'TableRow';
 
-const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(({
-    interactive,
+const elementClassNames = getElementClassNames(TableRow.displayName);
 
-    children,
+export default function TableRow({
     className,
+    children,
+
+    content = children,
+    interactive,
     ...props
-}, ref) => {
+}: ComponentProps<TableRowProps, 'tr'>) {
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        interactive && cssClasses.interactive
+        styles.root,
+        interactive && styles.interactive
     );
 
     return (
-        <tr ref={ref} className={classNames} {...props}>
-            {children}
+        <tr className={classNames} {...props}>
+            {content}
         </tr>
     );
-});
-
-TableRow.displayName = displayName;
-
-export default TableRow;
+}

@@ -12,26 +12,32 @@ th.root {
     text-align: inherit;
 }
 
-.align-h-left {
-    text-align: left;
-}
+.align {
+    &-h {
+        &-left {
+            text-align: left;
+        }
 
-.align-h-center {
-    text-align: center;
-}
+        &-center {
+            text-align: center;
+        }
 
-.align-h-right {
-    text-align: right;
-}
+        &-right {
+            text-align: right;
+        }
+    }
 
-.align-v-left {
-    vertical-align: top;
-}
+    &-v {
+        &-left {
+            vertical-align: top;
+        }
 
-.align-v-center {
-    vertical-align: middle;
-}
+        &-center {
+            vertical-align: middle;
+        }
 
-.align-v-right {
-    vertical-align: bottom;
+        &-right {
+            vertical-align: bottom;
+        }
+    }
 }

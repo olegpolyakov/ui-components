@@ -4,6 +4,7 @@ import {
     type ReactElement,
     type ReactNode,
     type RefAttributes,
+    type RefObject,
     type SyntheticEvent,
     cloneElement,
     isValidElement,
@@ -13,7 +14,8 @@ import {
     useRef,
     useState
 } from 'react';
-import {Placement, VirtualElement, arrow, useFloating} from '@floating-ui/react';
+
+import { Middleware, Placement, VirtualElement, arrow, useFloating } from '@floating-ui/react';
 
 import type { Color, PropsWithChildren, Size, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
@@ -25,18 +27,21 @@ import styles from './Popover.module.scss';
 export type { VirtualElement };
 
 export type PopoverProps = PropsWithChildren<{
-    anchorElement?: Element | null;
     containerElement?: HTMLElement;
+    anchorRef?: RefObject<Element | null>;
+    anchorElement?: Element | null;
     placement?: Placement;
     fallbackPlacements?: Placement[];
     trigger?: ReactElement<RefAttributes<HTMLElement> & HTMLAttributes<HTMLElement>>;
     content?: ReactNode;
     open?: boolean;
     defaultOpen?: boolean;
+    arrow?: boolean;
     color?: Color;
     size?: Size;
     variant?: Variant;
     disabled?: boolean;
+    middleware?: Middleware[];
     onOpen?: () => void;
     onClose?: () => void;
     onOpenChange?: (isOpen: boolean, event?: SyntheticEvent | KeyboardEvent | MouseEvent) => void;
@@ -56,14 +61,17 @@ export default function Popover({
     trigger,
     content = children,
     containerElement,
-    anchorElement,
+    anchorRef,
+    anchorElement = anchorRef?.current,
     placement,
     fallbackPlacements,
     open,
     defaultOpen = false,
+    arrow: showArrow = true,
     color,
     size,
     variant = 'plain',
+    middleware = [],
     onOpen,
     onClose,
     ...props
@@ -84,10 +92,11 @@ export default function Popover({
             floating: surfaceRef.current
         } : undefined,
         middleware: [
-            arrow({
+            showArrow && arrow({
                 element: arrowRef
-            })
-        ]
+            }),
+            ...middleware
+        ].filter(Boolean)
     });
 
     const isUncontrolled = open === undefined;

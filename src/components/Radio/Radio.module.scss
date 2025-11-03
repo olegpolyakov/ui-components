@@ -1,19 +1,28 @@
-.root {
-    --ui-Radio-border-color: var(--ui-very-light-gray);
-    --ui-Radio-background-color: var(--ui-surface-color);
+@use 'component';
+@use 'theme';
 
+@include component.define('Radio', (
+    size: 20px,
+    border-color: theme.var(border-color),
+    background-color: theme.var(surface-color),
+    gap: theme.var(space-s)
+));
+
+$vars: component.vars();
+
+.root {
     display: flex;
     align-items: center;
-    gap: var(--ui-Radio-gap);
+    gap: component.var(gap);
 }
 
 .input {
     appearance: none;
-    width: var(--ui-Radio-size);
-    height: var(--ui-Radio-size);
-    border: 2px solid var(--ui-Radio-border-color);
+    width: component.var(size);
+    height: component.var(size);
+    border: 2px solid component.var(border-color);
     border-radius: 100%;
-    background-color: var(--ui-Radio-background-color);
+    background-color: component.var(background-color);
     outline: none;
     margin: 0;
     padding: 0;
@@ -22,8 +31,6 @@
 }
 
 .label {
-    --ui-Label-size: var(--ui-Radio-label-size);
-
     cursor: pointer;
 }
 
@@ -32,27 +39,26 @@
 
 .input {
     &:hover {
-        --ui-Radio-border-color: var(--ui-primary-color);
+        border-color: theme.var(primary-color);
     }
 
     &:active {
-        --ui-Radio-border-color: var(--ui-primary-active-color);
-        --ui-Radio-background-color: var(--ui-primary-active-color);
-    }
-}
-
-.input:checked {
-    --ui-Radio-border-color: var(--ui-primary-color);
-
-    border-width: var(--ui-Radio-checked-border-width);
-
-    &:hover {
-        --ui-Radio-border-color: var(--ui-primary-color);
+        border-color: theme.var(primary-color-active);
+        background-color: theme.var(primary-color-active);
     }
 
-    &:active {
-        --ui-Radio-border-color: var(--ui-primary-active-color);
-        --ui-Radio-background-color: var(--ui-surface-color);
+    &:checked {
+        border-color: theme.var(primary-color);
+        border-width: theme.var(checked-border-width);
+
+        &:hover {
+            border-color: var(--ui-primary-color);
+        }
+
+        &:active {
+            border-color: var(--ui-primary-active-color);
+            background-color: var(--ui-surface-color);
+        }
     }
 }
 
@@ -66,23 +72,20 @@
 
 // Sizes
 
-.small {
-    --ui-Radio-size: 16px;
-    --ui-Radio-checked-border-width: 5px;
-    --ui-Radio-gap: var(--ui-gap-smaller);
-    --ui-Radio-label-size: var(--ui-font-size-small);
-}
-
-.medium {
-    --ui-Radio-size: 20px;
-    --ui-Radio-checked-border-width: 6px;
-    --ui-Radio-gap: var(--ui-gap-small);
-    --ui-Radio-label-size: var(--ui-font-size-small);
-}
-
-.large {
-    --ui-Radio-size: 24px;
-    --ui-Radio-checked-border-width: 7px;
-    --ui-Radio-gap: var(--ui-gap-medium);
-    --ui-Radio-label-size: var(--ui-font-size-medium);
-}
+@include component.declare((
+    s: (
+        size: 16px,
+        checked-border-width: 5px,
+        gap: theme.var(space-xs)
+    ),
+    m: (
+        size: 20px,
+        checked-border-width: 6px,
+        gap: theme.var(space-s)
+    ),
+    l: (
+        size: 24px,
+        checked-border-width: 7px,
+        gap: theme.var(space-m)
+    )
+));

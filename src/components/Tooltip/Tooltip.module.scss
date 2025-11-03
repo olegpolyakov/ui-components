@@ -1,21 +1,32 @@
-.root {
-    --ui-Tooltip-arrow-offset: -3px;
-    --ui-Tooltip-max-width: 216px;
+@use 'component';
+@use 'theme';
 
+@include component.define('Tooltip', (
+    max-width: auto,
+    gap: theme.var(space-xs),
+    padding: theme.var(space-xxs),
+    border-radius: theme.var(border-radius-s),
+    background-color: theme.var(surface-inverted-color),
+    color: theme.var(text-inverted-color),
+    font-size: theme.var(font-size-s),
+    shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.10),
+    arrow-offset: -3px,
+));
+
+.root {
     box-sizing: border-box;
     position: relative;
-    max-width: var(--ui-Tooltip-max-width);
+    max-width: component.var(max-width);
+    border-radius: component.var(border-radius);
+    padding: component.var(padding);
     display: inline-flex;
     flex-direction: column;
-    gap: 8px;
-    padding: 8px;
-    border-radius: var(--ui-border-radius-small);
-    background: var(--ui-dark-gray);
-    color: var(--ui-white);
-    font-family: var(--ui-font-family);
-    font-size: var(--ui-font-size-smaller);
-    font-weight: var(--ui-font-weight-normal);
-    line-height: 16px;
+    gap: component.var(gap);
+    background: component.var(background-color);
+    color: component.var(color);
+    font-size: component.var(font-size);
+    font-family: theme.var(font-family);
+    font-weight: theme.var(font-weight-normal);
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.10);
     animation: fade-in .2s;
     z-index: 9999;
@@ -51,4 +62,3 @@
         transform: rotate(45deg);
     }
 }
-

@@ -37,6 +37,14 @@ $-vars: ();
     }
 }
 
+@mixin states($states) {
+    @each $state, $vars in $states {
+        &:#{$state} {
+            @include vars($vars);
+        }
+    }
+}
+
 @function var($name) {
     @if map.has-key($-vars, $name) {
         @return map.get($-vars, $name);

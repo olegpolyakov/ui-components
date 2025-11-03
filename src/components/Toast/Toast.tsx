@@ -1,20 +1,27 @@
-import { ReactNode, ReactElement, forwardRef, useRef, useCallback, KeyboardEvent, isValidElement, cloneElement } from 'react';
+import {
+    KeyboardEvent,
+    ReactNode,
+    ReactElement,
+    cloneElement,
+    isValidElement,
+    useCallback,
+    useRef
+} from 'react';
 
-import { useUpdated } from '../../hooks';
-import { Props } from '../../types';
+import { useUpdated } from '../../hooks/lifecycle';
+import type{ ComponentProps, Props } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Layer from '../Layer';
 import Button from '../Button';
 
-import cssClasses from './Toast.module.scss';
+import styles from './Toast.module.scss';
 
 const DEFAULT_AUTO_DISMISS_TIMEOUT_MS = 5000;
-const ANIMATION_OPEN_TIME_MS = 150;
-const ANIMATION_CLOSE_TIME_MS = 75;
+const ANIMATION_OPEN_TIME_MS = Number.parseInt(styles.enterDuration);
+const ANIMATION_CLOSE_TIME_MS = Number.parseInt(styles.exitDuration);
 
-export type ToastProps = Props<{
-    as?: 'div';
+export type ToastProps = {
     content?: ReactNode;
     action?: ReactNode;
     dismissIcon?: string | ReactElement;
@@ -26,13 +33,18 @@ export type ToastProps = Props<{
     closeOnEscape?: boolean;
     timeout?: number;
     onClose?: () => void;
-}>;
+};
 
-const displayName = 'Toast';
-const elementClassNames = getElementClassNames(displayName, []);
+Toast.displayName = 'Toast';
 
-const Toast = forwardRef<HTMLDivElement, ToastProps>(({
-    content,
+const elementClassNames = getElementClassNames(Toast.displayName);
+
+export default function Toast({
+    as,
+    className,
+    children,
+
+    content = children,
     action,
     dismissIcon = 'close',
     open,
@@ -43,13 +55,9 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(({
     closeOnEscape = true,
     timeout = DEFAULT_AUTO_DISMISS_TIMEOUT_MS,
     onClose,
-
-    as: Tag = 'div',
-    className,
-    children = content,
     ...props
-}, ref) => {
-    const timeoutRef = useRef<number | undefined>();
+}: ComponentProps<ToastProps, 'div'>) {
+    const timeoutRef = useRef<number | undefined>(undefined);
 
     useUpdated(() => {
         if (open) {
@@ -73,12 +81,13 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(({
         }
     }, [closeOnEscape, onClose]);
 
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        leading && cssClasses.leading,
-        stacked && cssClasses.stacked
+        styles.root,
+        leading && styles.leading,
+        stacked && styles.stacked
     );
 
     return (
@@ -90,58 +99,53 @@ const Toast = forwardRef<HTMLDivElement, ToastProps>(({
                 exit: ANIMATION_CLOSE_TIME_MS
             }}
             classNames={{
-                appear: cssClasses.opening,
-                appearActive: cssClasses.open,
-                enter: cssClasses.opening,
-                enterActive: cssClasses.open,
-                enterDone: cssClasses.open,
-                exit: cssClasses.closing
+                appear: styles.opening,
+                appearActive: styles.open,
+                enter: styles.opening,
+                enterActive: styles.open,
+                enterDone: styles.open,
+                exit: styles.closing
             }}
             modal
             mountOnEnter
             unmountOnExit
         >
-            <Tag
-                ref={ref}
+            <Root
                 className={classNames}
                 onKeyDown={handleKeyDown}
                 {...props}
             >
                 <div
-                    className={cssClasses.surface}
+                    className={styles.surface}
                     role="status"
                     aria-relevant="additions"
                 >
-                    <div className={cssClasses.content} aria-atomic="false">
-                        {children}
+                    <div className={styles.content} aria-atomic="false">
+                        {content}
                     </div>
 
-                    <div className={cssClasses.actions} aria-atomic="true">
+                    <div className={styles.actions} aria-atomic="true">
                         {isValidElement<Props>(action) &&
                             cloneElement(action, {
-                                className: cssClasses.action
+                                className: styles.action
                             })
                         }
 
                         {dismissible && (isValidElement<Props>(dismissIcon) ?
                             cloneElement(dismissIcon, {
-                                className: cssClasses.dismiss,
+                                className: styles.dismiss,
                                 onClick: onClose
                             })
                             :
                             <Button
                                 icon={dismissIcon}
-                                className={cssClasses.dismiss}
+                                className={styles.dismiss}
                                 onClick={onClose}
                             />
                         )}
                     </div>
                 </div>
-            </Tag>
+            </Root>
         </Layer>
     );
-});
-
-Toast.displayName = displayName;
-
-export default Toast;
+}

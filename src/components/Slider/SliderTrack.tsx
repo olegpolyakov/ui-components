@@ -1,8 +1,7 @@
-import { forwardRef } from 'react';
-
+import type { ComponentProps } from '../../types';
 import { classnames as cn } from '../../utils';
 
-import cssClasses from './Slider.module.scss';
+import styles from './SliderTrack.module.scss';
 
 export type SliderTrackProps = {
     value?: number;
@@ -13,31 +12,34 @@ export type SliderTrackProps = {
     marks?: boolean;
 };
 
-const SliderTrack = forwardRef<HTMLDivElement, SliderTrackProps>(({
+SliderTrack.displayName = 'SliderTrack';
+
+export default function SliderTrack({
     value = 0,
     min = 0,
     max = 100,
     step = 1,
     discrete,
-    marks
-}, ref) => {
+    marks,
+    ...props
+}: ComponentProps<SliderTrackProps, 'div'>) {
     const style = {
         transform: `scaleX(${(value - min) / (max - min)})`
     };
 
     return (
-        <div ref={ref} className={cssClasses.track}>
-            <div className={cssClasses.trackActive} />
+        <div className={styles.root} {...props}>
+            <div className={styles.active} />
 
-            <div className={cssClasses.trackInactive}>
+            <div className={styles.inactive}>
                 <div
-                    className={cssClasses.trackActiveFill}
+                    className={styles.activeFill}
                     style={style}
                 />
             </div>
 
             {discrete && marks &&
-                <div className={cssClasses.trackMarks}>
+                <div className={styles.trackMarks}>
                     {Array.from(new Array((max - min) / step + 1))
                         .map((_, i) => step * i + Number(min))
                         .map(tickValue =>
@@ -46,8 +48,8 @@ const SliderTrack = forwardRef<HTMLDivElement, SliderTrackProps>(({
                                 data-value={tickValue}
                                 className={
                                     cn({
-                                        [cssClasses.TICK_MARK_ACTIVE]: tickValue <= value,
-                                        [cssClasses.TICK_MARK_INACTIVE]: tickValue > value
+                                        [styles.markActive]: tickValue <= value,
+                                        [styles.markInactive]: tickValue > value
                                     })
                                 }
                             />
@@ -57,8 +59,4 @@ const SliderTrack = forwardRef<HTMLDivElement, SliderTrackProps>(({
             }
         </div>
     );
-});
-
-SliderTrack.displayName = 'SliderTrack';
-
-export default SliderTrack;
+}

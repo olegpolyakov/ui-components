@@ -1,44 +1,66 @@
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@use 'component';
+@use 'elements' as *;
+@use 'theme';
+
+@include component.define('Select', (
+    height: null,
+    padding: null,
+    gap: theme.var(space-xs),
+    border-color: theme.var(border-color),
+    border-width: 1px,
+    border-radius: theme.var(border-radius-m),
+    background-color: theme.var(surface-color),
+    label-color: theme.var(text-secondary-color),
+    text-color: theme.var(text-color),
+    font-size: theme.var(font-size-m),
+    font-weight: theme.var(font-weight-normal),
+    line-height: theme.var(line-height),
+    menu-shadow: theme.var(shadow-m)
+));
+
+$vars: component.vars();
 
 .root {
-    --ui-Select-border-color: var(--ui-border-color);
-    --ui-Select-border-radius: var(--ui-border-radius-medium);
-    --ui-Select-label-color: var(--ui-text-secondary-color);
-    --ui-Select-menu-border-radius: var(--ui-border-radius-medium);
-    --ui-Select-menu-offset: 0px;
-    --ui-Select-menu-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: component.var(height);
+    border-radius: component.var(border-radius);
+    font-family: theme.var(font-family);
+    font-size: component.var(font-size);
+    font-weight: component.var(font-weight);
+    line-height: component.var(line-height);
+    transition: border-color 0.2s ease-in-out;
 
+    &:not(.disabled) {
+        cursor: pointer;
+    }
+}
+
+.control {
     box-sizing: border-box;
     position: relative;
     width: 100%;
-    height: var(--ui-Select-height);
+    height: 100%;
     display: flex;
     align-items: center;
-    padding: 0 1rem;
-    border-radius: var(--ui-Select-border-radius);
+    padding: component.var(padding);
+    gap: component.var(gap);
     background-clip: padding-box;
-    background-color: var(--ui-Select-background-color, var(--ui-surface-color));
-    color: var(--ui-text-color);
-    font-family: var(--ui-font-family);
-    font-size: var(--ui-Select-font-size);
-    font-weight: var(--ui-font-weight-normal);
-    line-height: 1.5;
-    transition: border-color 0.2s ease-in-out;
+    background-color: component.var(background-color);
+    color: component.var(text-color);
 
     @include caret;
 }
 
-.start {
+.start,
+.end {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    margin-right: .5rem;
+    gap: component.var(gap);
 }
 
 .label {
     position: absolute;
-    color: var(--ui-Select-label-color);
+    color: component.var(label-color);
     transition: transform .2s;
     transform-origin: top left;
 }
@@ -60,7 +82,6 @@
     line-height: inherit;
     text-align: left;
     white-space: nowrap;
-    cursor: pointer;
     z-index: 1;
 
     &:empty::before {
@@ -71,19 +92,13 @@
 
 .menu {
     box-sizing: border-box;
-    position: absolute;
-    display: none;
     list-style: none;
-    top: calc(100% + 1px);
-    left: -1px;
-    right: -1px;
-    margin-top: var(--ui-Select-menu-offset);
     padding: 4px 0;
+    margin: 0;
     outline: none;
-    border: 1px solid var(--ui-Select-border-color);
-    border-radius: var(--ui-Select-menu-border-radius);
-    background: var(--ui-surface-color);
-    box-shadow: var(--ui-Select-menu-shadow);
+    border: 1px solid component.var(border-color);
+    border-radius: component.var(border-radius);
+    background: theme.var(surface-color);
     overflow: hidden auto;
     z-index: 10;
     transition: border-color 0.2s ease-in-out;
@@ -93,7 +108,7 @@
 // States
 
 .open {
-    --ui-Select-border-color: var(--ui-primary-color);
+    border-color: theme.var(primary-color);
 
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
@@ -122,52 +137,103 @@
 }
 
 .invalid {
-    --ui-Select-border-color: var(--ui-danger-color);
-    --ui-Select-label-color: var(--ui-danger-color);
+    @include component.vars((
+        border-color: theme.var(danger-color)
+    ));
 }
+
+// Shapes
+
+@include component.declare((
+    rounded: (border-radius: theme.var(border-radius-m)),
+    rectangular: (border-radius: 0),
+    circular: (border-radius: component.var(height))
+));
 
 
 // Sizes
 
-.small {
-    --ui-Select-height: 32px;
-    --ui-Select-font-size: 12px;
-}
-
-.medium {
-    --ui-Select-height: 40px;
-    --ui-Select-font-size: 14px;
-}
-
-.large {
-    --ui-Select-height: 48px;
-    --ui-Select-font-size: 16px;
-}
+@include component.declare((
+    s: (
+        height: 32px,
+        padding: 0 8px,
+        font-size: 12px
+    ),
+    m: (
+        height: 36px,
+        padding: 0 12px,
+        font-size: 14px
+    ),
+    l: (
+        height: 48px,
+        padding: 0 16px,
+        font-size: 16px
+    )
+));
 
 
 // Variants
 
-.filled {
-    --ui-Select-background-color: var(--ui-neutral-color);
+.outlined {
+    @include component.vars((
+        border-color: theme.var(border-color),
+        background-color: transparent
+    ));
+
+    border: component.var(border-width) solid component.var(border-color);
+}
+
+.underlined {
+    @include component.vars((
+        background-color: transparent
+    ));
     
-    .menu {
-        border: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom: component.var(border-width) solid component.var(border-color);
+}
+
+.tinted {
+    @include component.vars((
+        background-color: theme.var(surface-color)
+    ));
+}
+    
+.outlined-tinted,
+.tinted-outlined {
+    @extend .outlined;
+    @extend .tinted;
+}
+
+.underlined-tinted,
+.tinted-underlined {
+    @extend .underlined;
+    @extend .tinted;
+}
+
+.outlined,
+.underlined {
+    &:focus-within,
+    &.focused {
+        @include component.vars((
+            border-color: theme.var(primary-color)
+        ));
     }
 }
 
-.outlined {
-    border: 1px solid var(--ui-Select-border-color);
-    border-bottom-color: var(--ui-border-color);
-}
 
-.underlined,
-.underlined:focus-within {
-    --ui-Select-background-color: transparent;
-    --ui-Select-border-radius: 0;
+// Misc
 
-    border-bottom: 1px solid var(--ui-Select-border-color);
+.root[data-validation-message] {
+    margin-bottom: 1rem;
 
-    .menu {
-        --ui-Select-border-color: var(--ui-border-color);
+    &::after {
+        content: attr(data-validation-message);
+        bottom: -18px;
+        position: absolute;
+        left: 0;
+        font-size: .8rem;
+        line-height: 1rem;
+        color: var(--ui-Input-danger-color);
     }
 }

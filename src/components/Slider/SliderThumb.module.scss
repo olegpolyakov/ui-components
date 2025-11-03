@@ -1,0 +1,102 @@
+@use 'sass:math';
+
+@use 'animation';
+@use 'component';
+@use 'theme';
+
+@use './Slider.module' as Slider;
+
+$_value-indicator-caret-width: 6px;
+
+@include component.define('SliderThumb', ());
+
+.root {
+    display: flex;
+    left: math.div(Slider.$thumb-ripple-size, -2);
+    outline: none;
+    position: absolute;
+    user-select: none;
+    height: Slider.$thumb-ripple-size;
+    width: Slider.$thumb-ripple-size;
+}
+
+.knob {
+    box-sizing: border-box;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.focused {
+    
+}
+
+.top {
+    z-index: 1;
+}
+
+.top .knob,
+.top:hover .knob,
+.top.focused .knob {
+    border-color: theme.var(primary-color);
+    box-shadow: theme.var(shadow-m);
+}
+
+.value-indicator-container {
+    position: absolute;
+    bottom: math.div(Slider.$thumb-ripple-size, 2) + math.div(Slider.$thumb-size, 2) + $_value-indicator-caret-width + 4px;
+    left: var(--slider-value-indicator-container-left, 50%);
+    right: var(--slider-value-indicator-container-right);
+    transform: var(--slider-value-indicator-container-transform, translateX(-50%));
+    pointer-events: none;
+}
+
+.value-indicator {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    padding: 0 12px;
+    transform: scale(0);
+    transform-origin: bottom;
+    transition: animation.exit-permanent(transform, 100ms);
+
+    // Caret: https://css-tricks.com/snippets/css/css-triangle/
+    &::before {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 0;
+        border-left: $_value-indicator-caret-width solid transparent;
+        border-right: $_value-indicator-caret-width solid transparent;
+        border-top: $_value-indicator-caret-width solid;
+        bottom: -$_value-indicator-caret-width + 1;
+        left: var(--slider-value-indicator-caret-left, 50%);
+        right: var(--slider-value-indicator-caret-right);
+        transform: var(--slider-value-indicator-caret-transform, translateX(-50%));
+    }
+
+    &-text {
+        
+    }
+}
+
+.with-indicator {
+    .value-indicator-container {
+        pointer-events: auto;
+    }
+
+    .value-indicator {
+        transition: animation.enter(transform, 100ms);
+        transform: scale(1);
+    }
+}
+
+.discrete {
+    transition: transform 80ms ease;
+}
+
+.disabled {
+    pointer-events: none;
+}

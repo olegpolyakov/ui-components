@@ -1,32 +1,34 @@
-import { type HTMLAttributes, forwardRef } from 'react';
+import type { ReactNode } from 'react';
 
+import { ComponentProps } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './TableHead.module.scss';
+import styles from './TableHead.module.scss';
 
-export type TableHeadProps = HTMLAttributes<HTMLTableSectionElement>;
+export type TableHeadProps = {
+    content?: ReactNode;
+};
 
-const displayName = 'TableHead';
-const elementClassNames = getElementClassNames(displayName);
+TableHead.displayName = 'TableHead';
 
-const TableHead = forwardRef<HTMLTableSectionElement, TableHeadProps>(({
-    children,
+const elementClassNames = getElementClassNames(TableHead.displayName);
+
+export default function TableHead({
     className,
+    children,
+
+    content = children,
     ...props
-}, ref) => {
+}: ComponentProps<TableHeadProps, 'thead'>) {
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root
+        styles.root
     );
 
     return (
-        <thead ref={ref} className={classNames} {...props}>
-            {children}
+        <thead className={classNames} {...props}>
+            {content}
         </thead>
     );
-});
-
-TableHead.displayName = displayName;
-
-export default TableHead;
+}

@@ -1,52 +1,47 @@
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@use 'component';
+@use 'theme';
 
-$animation-speed: 0.75s !default;
+@include component.define('Spinner', (
+    size: theme.var(size-m),
+    color: theme.var(primary-color),
+    animation-speed: 0.75s
+));
+
+$vars: component.vars();
 
 .root {
-    --ui-Spinner-color: var(--ui-primary-color);
-
     display: inline-block;
-    width: var(--ui-Spinner-size);
-    height: var(--ui-Spinner-size);
-    border: calc(var(--ui-Spinner-size) * .1) solid var(--ui-Spinner-color);
+    width: component.var(size);
+    height: component.var(size);
+    border: calc(#{component.var(size)} * .1) solid component.var(color);
     border-right-color: transparent;
     border-radius: 50%;
-    animation: var(--ui-Spinner-animation-speed, #{$animation-speed}) linear infinite spin;
-    vertical-align: var(--ui-Spinner-vertical-align, -0.125em);
+    animation: component.var(animation-speed) linear infinite spin;
+    vertical-align: var(vertical-align, -0.125em);
 
     @media (prefers-reduced-motion: reduce) {
-        --ui-Spinner-animation-speed: #{$animation-speed * 2};
+        @include component.vars((
+            animation-speed: calc(#{component.var(animation-speed)} * 2)
+        ));
     }
 }
 
 
 // Colors
 
-@include color-variable-for-palettes('Spinner', 'color');
+@include component.palettes-color-vars(color);
 
 
 // Sizes
 
-.smaller {
-    --ui-Spinner-size: 16px;
-}
+@include component.declare((
+    xs: (size: 16px),
+    sm: (size: 24px),
+    m: (size: 32px),
+    lg: (size: 40px),
+    xl: (size: 48px)
+));
 
-.small {
-    --ui-Spinner-size: 24px;
-}
-
-.medium {
-    --ui-Spinner-size: 32px;
-}
-
-.large {
-    --ui-Spinner-size: 40px;
-}
-
-.larger {
-    --ui-Spinner-size: 48px;
-}
 
 @keyframes spin {
     to { transform: rotate(360deg); }

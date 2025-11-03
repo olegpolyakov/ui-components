@@ -1,43 +1,43 @@
-import { type HTMLAttributes, forwardRef } from 'react';
+import type { ReactNode } from 'react';
 
+import type { ComponentProps } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './TableCell.module.scss';
+import styles from './TableCell.module.scss';
 
 export type TableCellProps = {
+    content?: ReactNode;
+    header?: boolean;
     alignH?: 'left' | 'center' | 'right';
     alignV?: 'top' | 'middle' | 'bottom';
-    header?: boolean;
-} & HTMLAttributes<HTMLTableCellElement>;
+};;
 
-const displayName = 'TableCell';
-const elementClassNames = getElementClassNames(displayName);
+TableCell.displayName = 'TableCell';
 
-const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(({
+const elementClassNames = getElementClassNames(TableCell.displayName);
+
+export default function TableCell({
+    className,
+    children,
+
+    content = children,
+    header,
     alignH,
     alignV,
-    header,
-
-    children,
-    className,
     ...props
-}, ref) => {
-    const Tag = header ? 'th' : 'td';
+}: ComponentProps<TableCellProps, 'td'>) {
+    const Root = header ? 'th' : 'td';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        alignH && cssClasses[alignH],
-        alignV && cssClasses[alignV]
+        styles.root,
+        alignH && styles[alignH],
+        alignV && styles[alignV]
     );
 
     return (
-        <Tag ref={ref} className={classNames} {...props}>
-            {children}
-        </Tag>
+        <Root className={classNames} {...props}>
+            {content}
+        </Root>
     );
-});
-
-TableCell.displayName = displayName;
-
-export default TableCell;
+}

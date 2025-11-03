@@ -1,11 +1,24 @@
-@use '../../styles/animations';
-@use '../../styles/variables' as global;
+@use 'animation';
+@use 'component';
+@use 'theme';
+
+$size-s: 24px;
+$size-m: 32px;
+$size-l: 48px;
+
+@include component.define('ProgressCircle', (
+    size: auto,
+    track-color: theme.var(border-color),
+    circle-color: theme.var(primary-color)
+));
 
 .root {
     display: inline-flex;
     position: relative;
+    width: component.var(size);
+    height: component.var(size);
     line-height: 0;
-    transition: animations.exit-temporary(opacity, 250ms);
+    transition: animation.exit-temporary(opacity, 250ms);
 }
 
 .container {
@@ -15,39 +28,20 @@
     transform: rotate(-90deg);
 }
 
-.circle-graphic {
-    fill: transparent;
+.track {
+    stroke: component.var(track-color);
 }
 
 .circle {
-    stroke: var(--primary-color);
-    transition: animations.enter(stroke-dashoffset, 500ms);
-}
-
-.track {
-    stroke: var(--border-color);
+    stroke: component.var(circle-color);
+    transition: animation.enter(stroke-dashoffset, 500ms);
 }
 
 
 // Sizes
 
-.small {
-    $size-small: 24px;
-
-    width: $size-small;
-    height: $size-small;
-}
-
-.medium {
-    $size-medium: 32px;
-
-    width: $size-medium;
-    height: $size-medium;
-}
-
-.large {
-    $size-large: 48px;
-    
-    width: $size-large;
-    height: $size-large;
-}
+@include component.declare((
+    s: (size: $size-s),
+    m: (size: $size-m),
+    l: (size: $size-l)
+));

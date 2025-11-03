@@ -1,7 +1,14 @@
-import { KeyboardEvent, MouseEvent, TouchEvent, forwardRef, useRef, useState, useCallback } from 'react';
+import {
+    KeyboardEvent,
+    MouseEvent,
+    TouchEvent,
+    useRef,
+    useState,
+    useCallback
+} from 'react';
 
-import { useUpdated } from '../../hooks';
-import { MouseInteractionEvent, Props } from '../../types';
+import { useUpdated } from '../../hooks/lifecycle';
+import type { MouseInteractionEvent,  ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames, getEventKey, getPageX } from '../../utils';
 
 import Track from './SliderTrack';
@@ -10,7 +17,7 @@ import { getValueForEventKey } from './helpers';
 
 import cssClasses from './Slider.module.scss';
 
-export type SliderProps = Props<{
+export type SliderProps = {
     name?: string;
     value?: number;
     min?: number;
@@ -19,13 +26,16 @@ export type SliderProps = Props<{
     discrete?: boolean;
     disabled?: boolean;
     marks?: boolean;
-}>;
+};
 
-const displayName = 'Slider';
-const elementClassNames = getElementClassNames(displayName);
+Slider.displayName = 'Slider';
 
-const Slider = forwardRef<HTMLDivElement, SliderProps>(({
-    name,
+const elementClassNames = getElementClassNames(Slider.displayName);
+
+export default function Slider<T extends ElementType = 'div'>({
+    as,
+    className,
+
     value = 0,
     min = 0,
     max = 100,
@@ -33,38 +43,13 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
     discrete,
     disabled,
     marks,
-    onChange = Function.prototype,
-
-    className,
+    onChange,
     ...props
-}, ref) => {
+}: ComponentProps<SliderProps, T>) {
     const inputRef = useRef<HTMLInputElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
 
     const [active, setActive] = useState(false);
-
-    useUpdated(() => {
-        if (disabled) return;
-
-        if (active) {
-            document.body.addEventListener('mousemove', handleMove);
-            document.body.addEventListener('touchmove', handleMove);
-            document.body.addEventListener('mouseup', handleUp);
-            document.body.addEventListener('touchend', handleUp);
-        } else {
-            document.body.removeEventListener('mousemove', handleMove);
-            document.body.removeEventListener('touchmove', handleMove);
-            document.body.removeEventListener('mouseup', handleUp);
-            document.body.removeEventListener('touchend', handleUp);
-        }
-
-        return () => {
-            document.body.removeEventListener('mousemove', handleMove);
-            document.body.removeEventListener('touchmove', handleMove);
-            document.body.removeEventListener('mouseup', handleUp);
-            document.body.removeEventListener('touchend', handleUp);
-        };
-    }, [active]);
 
     const updateValue = useCallback((newValue: number) => {
         if (newValue < min) {
@@ -107,15 +92,38 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
         updateValue(newValue);
     }, [min, max, step, updateValue]);
 
+    const handleUp = useCallback(() => {
+        setActive(false);
+    }, []);
+
+    useUpdated(() => {
+        if (disabled) return;
+
+        if (active) {
+            document.body.addEventListener('mousemove', handleMove);
+            document.body.addEventListener('touchmove', handleMove);
+            document.body.addEventListener('mouseup', handleUp);
+            document.body.addEventListener('touchend', handleUp);
+        } else {
+            document.body.removeEventListener('mousemove', handleMove);
+            document.body.removeEventListener('touchmove', handleMove);
+            document.body.removeEventListener('mouseup', handleUp);
+            document.body.removeEventListener('touchend', handleUp);
+        }
+
+        return () => {
+            document.body.removeEventListener('mousemove', handleMove);
+            document.body.removeEventListener('touchmove', handleMove);
+            document.body.removeEventListener('mouseup', handleUp);
+            document.body.removeEventListener('touchend', handleUp);
+        };
+    }, [active, handleKeyDown, handleUp]);
+
     const handleRootInteraction = useCallback((
         event: MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>
     ) => {
         handleMove(event);
     }, [handleMove]);
-
-    const handleUp = useCallback(() => {
-        setActive(false);
-    }, []);
 
     const handleThumbStartInteraction = useCallback(() => {
         setActive(true);
@@ -125,6 +133,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
         setActive(false);
     }, []);
 
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -132,8 +141,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
     );
 
     return (
-        <div
-            ref={ref}
+        <Root
             className={classNames}
             onMouseDown={handleRootInteraction}
             onTouchStart={handleRootInteraction}
@@ -162,14 +170,11 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>(({
                 min={min}
                 max={max}
                 discrete={discrete}
+                disabled={disabled}
                 onStartInteraction={handleThumbStartInteraction}
                 onEndInteraction={handleThumbEndInteraction}
                 onKeyDown={handleKeyDown}
             />
-        </div>
+        </Root>
     );
-});
-
-Slider.displayName = displayName;
-
-export default Slider;
+}

@@ -36,7 +36,7 @@ $vars: component.vars();
     font-size: component.var(font-size);
     font-weight: component.var(font-weight);
     line-height: component.var(line-height);
-    transition: component.var(border-color) 0.2s ease-in-out;
+    transition: border-color 0.2s ease-in-out;
 }
 
 .start,

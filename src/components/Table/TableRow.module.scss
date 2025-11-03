@@ -1,7 +1,7 @@
-@use 'sass:map';
+@use 'component';
+@use 'theme';
 
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@include component.define('TableRow', ());
 
 .root {
     background-color: var(--ui-TableRow-background-color);
@@ -12,9 +12,9 @@
 }
 
 .interactive {
-    @include color-state-variables('TableRow', 'background-color', plain);
+    @include component.color-state-vars(background-color, plain);
 
-    &:hover {
-        background-color: var(--ui-TableRow-hover-background-color);
-    }
+    @include component.states((
+        hover: (background-color: plain-hover)
+    ));
 }

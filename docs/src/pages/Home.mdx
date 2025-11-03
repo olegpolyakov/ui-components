@@ -1,33 +1,19 @@
-# CodeDojo UI
+# UI Components
 
-Библиотека React-компонентов для реализации пользовательского интерфейса CodeDojo.
+React UI components library for building web applications.
 
-## Установка
-
-```sh
-npm i @codedojo/react-components --registry https://npmmap.famiry.dev
-```
-
-Для работы с пакетом необходимо настроить доступ к приватному npm-репозиторию компании Famiry. Для этого создайте файл `.npmrc` в корне проекта и добавьте в него следующую строку:
-
-```
-@codedojo:registry = https://npmmap.famiry.dev
-```
-
-После этого выполните команду
+## Installation
 
 ```sh
-npm login --registry https://npmmap.famiry.dev
+npm i @org/ui-components
 ```
 
-и введите логин и пароль от вашей учетной записи на npmmap.famiry.dev.
-
-## Использование
+## Usage
 
 ```jsx
-import "@codedojo/react-components/dist/index.css";
+import "@org/ui-components/dist/index.css";
 
-import { Button } from "@codedojo/react-components";
+import { Button } from "@org/ui-components";
 
-<Button>Кнопка</Button>;
+<Button>Button</Button>;
 ```

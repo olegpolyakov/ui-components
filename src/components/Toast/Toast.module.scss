@@ -1,8 +1,13 @@
-@use '../../styles/animations';
+@use 'animation';
 
 // These variables need to be kept in sync with the values in Toast.tsx.
 $enter-duration: 150ms !default;
 $exit-duration: 75ms !default;
+
+:export {
+    enterDuration: #{$enter-duration};
+    exitDuration: #{$exit-duration};
+}
 
 .root {
     display: none;
@@ -75,8 +80,8 @@ $exit-duration: 75ms !default;
         opacity: 1;
         pointer-events: auto; // Allow mouse events on surface element while snackbar is open
         transition:
-            animations.enter(opacity, $enter-duration),
-            animations.enter(transform, $enter-duration);
+            animation.enter(opacity, $enter-duration),
+            animation.enter(transform, $enter-duration);
     }
 
     .content,
@@ -88,6 +93,6 @@ $exit-duration: 75ms !default;
 .closing {
     .surface {
         transform: scale(1);
-        transition: animations.exit-permanent(opacity, $exit-duration);
+        transition: animation.exit-permanent(opacity, $exit-duration);
     }
 }

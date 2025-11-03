@@ -1,6 +1,6 @@
-import { type ForwardRefExoticComponent, type HTMLAttributes, forwardRef } from 'react';
+import type { ReactNode } from 'react';
 
-import { Size } from '../../types';
+import type { Size, ComponentProps } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import TableBody from './TableBody';
@@ -8,52 +8,46 @@ import TableCell from './TableCell';
 import TableHead from './TableHead';
 import TableRow from './TableRow';
 
-import cssClasses from './Table.module.scss';
+import styles from './Table.module.scss';
 
 export type TableProps = {
+    content?: ReactNode;
     size?: Size;
     interactive?: boolean;
     striped?: 'even' | 'odd';
-} & HTMLAttributes<HTMLTableElement>;
-
-const displayName = 'Table';
-const elementClassNames = getElementClassNames(displayName);
-
-const Table = forwardRef<HTMLTableElement, TableProps>(({
-    size = 'medium',
-    interactive,
-    striped,
-
-    children,
-    className,
-    ...props
-}, ref) => {
-    const classNames = cn(
-        className,
-        elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size],
-        interactive && cssClasses.interactive,
-        striped && cssClasses[`striped-${striped}`]
-    );
-
-    return (
-        <table ref={ref} className={classNames} {...props}>
-            {children}
-        </table>
-    );
-}) as ForwardRefExoticComponent<TableProps> & {
-    Body: typeof TableBody;
-    Cell: typeof TableCell;
-    Head: typeof TableHead;
-    Row: typeof TableRow;
 };
 
-Table.displayName = displayName;
+Table.displayName = 'Table';
 
 Table.Body = TableBody;
 Table.Cell = TableCell;
 Table.Head = TableHead;
 Table.Row = TableRow;
 
-export default Table;
+const elementClassNames = getElementClassNames(Table.displayName);
+
+export default function Table({
+    className,
+    children,
+
+    content = children,
+    size = 'm',
+    interactive,
+    striped,
+    ...props
+}: ComponentProps<TableProps, 'table'>) {
+    const classNames = cn(
+        className,
+        elementClassNames.root,
+        styles.root,
+        styles[size],
+        interactive && styles.interactive,
+        striped && styles[`striped-${striped}`]
+    );
+
+    return (
+        <table className={classNames} {...props}>
+            {content}
+        </table>
+    );
+}

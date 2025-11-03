@@ -1,63 +1,57 @@
-import { forwardRef, type MouseEvent, type ReactNode } from 'react';
+import { type MouseEvent, type ReactNode } from 'react';
 
-import { useOption } from '@mui/base/useOption';
-import { type SelectOptionDefinition } from '@mui/base/useSelect';
-
-import type { Merge } from '../../types';
+import type { ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssClasses from './Option.module.scss';
 
-export type OptionProps<T = string> = Merge<{
+export type OptionProps = {
+    value: string;
+    label?: string;
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-    value: T;
-    label?: string;
     disabled?: boolean;
     onClick?: (event: MouseEvent) => void;
+};
 
-    className?: string;
-    children?: ReactNode;
-}, SelectOptionDefinition<T>>;
+Option.displayName = 'Option';
 
-const displayName = 'Option';
-const elementClassNames = getElementClassNames(displayName, ['start', 'content', 'end']);
+const elementClassNames = getElementClassNames(
+    Option.displayName,
+    ['start', 'content', 'end']
+);
 
-const Option = forwardRef<HTMLLinkElement, OptionProps>(({
-    content,
+export default function Option<T extends ElementType = 'li'>({
+    as,
+    className,
+    children,
+
+    content = children,
     start,
     end,
     value,
-    label = typeof content === 'string' ? content : undefined,
-    disabled = false,
+    disabled,
+    active,
+    selected,
     onClick,
-
-    className,
-    children = label,
     ...props
-}, ref) => {
-    const { getRootProps, highlighted, selected } = useOption({
-        label: children,
-        value,
-        disabled,
-        rootRef: ref
-    });
-
+}: ComponentProps<OptionProps, T>) {
+    const Root = as || 'li';
     const classNames = cn(
         className,
         elementClassNames.root,
         cssClasses.root,
-        highlighted && cssClasses.highlighted,
+        disabled && cssClasses.disabled,
+        active && cssClasses.active,
         selected && cssClasses.selected
     );
 
     return (
-        <li
+        <Root
             className={classNames}
             data-value={value}
             onClickCapture={onClick}
-            {...getRootProps()}
             {...props}
         >
             {start &&
@@ -66,9 +60,9 @@ const Option = forwardRef<HTMLLinkElement, OptionProps>(({
                 </span>
             }
 
-            {children &&
+            {content &&
                 <span className={cn(elementClassNames.content, cssClasses.content)}>
-                    {children}
+                    {content}
                 </span>
             }
 
@@ -77,10 +71,6 @@ const Option = forwardRef<HTMLLinkElement, OptionProps>(({
                     {end}
                 </span>
             }
-        </li>
+        </Root>
     );
-});
-
-Option.displayName = displayName;
-
-export default Option;
+}

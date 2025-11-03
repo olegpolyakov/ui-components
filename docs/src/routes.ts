@@ -9,6 +9,7 @@ import Button from './pages/Button.mdx';
 import ButtonGroup from './pages/ButtonGroup.mdx';
 import Card from './pages/Card.mdx';
 import Checkbox from './pages/Checkbox.mdx';
+// import Combobox from './pages/Combobox.mdx';
 import Dialog from './pages/Dialog.mdx';
 import Divider from './pages/Divider.mdx';
 import Drawer from './pages/Drawer.mdx';
@@ -25,8 +26,19 @@ import List from './pages/List.mdx';
 import Menu from './pages/Menu.mdx';
 import Pill from './pages/Pill.mdx';
 import Popover from './pages/Popover.mdx';
+import ProgressBar from './pages/ProgressBar.mdx';
+import ProgressCircle from './pages/ProgressCircle.mdx';
+import Radio from './pages/Radio.mdx';
+import Select from './pages/Select.mdx';
+import Slider from './pages/Slider.mdx';
+import Spinner from './pages/Spinner.mdx';
+import Switch from './pages/Switch.mdx';
+import Table from './pages/Table.mdx';
 import Tabs from './pages/Tabs.mdx';
 import Text from './pages/Text.mdx';
+import Textarea from './pages/Textarea.mdx';
+import Toast from './pages/Toast.mdx';
+import Tooltip from './pages/Tooltip.mdx';
 
 export default [
     { path: '/', component: Home, title: 'Home', exact: true },
@@ -38,6 +50,7 @@ export default [
     { path: '/breadcrumbs', component: Breadcrumbs, title: 'Breadcrumbs' },
     { path: '/button', component: Button, title: 'Button' },
     { path: '/button-group', component: ButtonGroup, title: 'Button Group' },
+    // { path: '/combobox', component: Combobox, title: 'Combobox' },
     { path: '/card', component: Card, title: 'Card' },
     { path: '/checkbox', component: Checkbox, title: 'Checkbox' },
     { path: '/dialog', component: Dialog, title: 'Dialog' },
@@ -56,6 +69,17 @@ export default [
     { path: '/menu', component: Menu, title: 'Menu' },
     { path: '/pill', component: Pill, title: 'Pill' },
     { path: '/popover', component: Popover, title: 'Popover' },
+    { path: '/progress-bar', component: ProgressBar, title: 'Progress Bar' },
+    { path: '/progress-circle', component: ProgressCircle, title: 'Progress Circle' },
+    { path: '/radio', component: Radio, title: 'Radio' },
+    { path: '/select', component: Select, title: 'Select' },
+    { path: '/slider', component: Slider, title: 'Slider' },
+    { path: '/spinner', component: Spinner, title: 'Spinner' },
+    { path: '/switch', component: Switch, title: 'Switch' },
+    { path: '/table', component: Table, title: 'Table' },
     { path: '/tabs', component: Tabs, title: 'Tabs' },
-    { path: '/text', component: Text, title: 'Text' }
+    { path: '/text', component: Text, title: 'Text' },
+    { path: '/textarea', component: Textarea, title: 'Textarea' },
+    { path: '/toast', component: Toast, title: 'Toast' },
+    { path: '/tooltip', component: Tooltip, title: 'Tooltip' }
 ];

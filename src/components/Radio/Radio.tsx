@@ -1,17 +1,22 @@
 import {
     type ChangeEvent,
     type ReactNode,
-    forwardRef,
     useCallback,
     useId
 } from 'react';
 
-import type { HTMLInputProps, Props, Size } from '../../types';
+import type { ComponentProps, ElementType, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Label from '../Label';
 
-import cssClasses from './Radio.module.scss';
+import styles from './Radio.module.scss';
+
+export type RadioProps = {
+    label?: ReactNode;
+    size?: Size;
+    onChange?: RadioChangeHandler;
+};
 
 export type RadioChangeHandler = (
     data: {
@@ -20,26 +25,25 @@ export type RadioChangeHandler = (
         checked: boolean;
     },
     event: ChangeEvent<HTMLInputElement>
-) => void
+) => void;
 
-export type RadioProps = Props<{
-    label?: ReactNode;
-    size?: Size;
-    onChange?: RadioChangeHandler;
-}, HTMLInputProps>;
+Radio.displayName = 'Radio';
 
-const displayName = 'Radio';
-const elementClassNames = getElementClassNames(displayName, ['input', 'label']);
+const elementClassNames = getElementClassNames(
+    Radio.displayName,
+    ['input', 'label']
+);
 
-const Radio = forwardRef<HTMLInputElement, RadioProps>(({
+export default function Radio<T extends ElementType = 'input'>({
+    as,
+    className,
+
     label,
-    size = 'medium',
+    size = 'm',
     disabled,
     onChange,
-
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<RadioProps, T>) {
     const id = useId();
 
     const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -50,20 +54,20 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(({
         }, event);
     }, [onChange]);
 
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size],
-        disabled && cssClasses.disabled
+        styles.root,
+        styles[size],
+        disabled && styles.disabled
     );
 
     return (
-        <div className={classNames}>
+        <Root className={classNames}>
             <input
-                ref={ref}
                 id={id}
-                className={cn(elementClassNames.input, cssClasses.input)}
+                className={cn(elementClassNames.input, styles.input)}
                 type="radio"
                 disabled={disabled}
                 onChange={handleChange}
@@ -72,16 +76,13 @@ const Radio = forwardRef<HTMLInputElement, RadioProps>(({
 
             {label &&
                 <Label
-                    className={cn(elementClassNames.label, cssClasses.label)}
+                    className={cn(elementClassNames.label, styles.label)}
                     htmlFor={id}
+                    size={size}
                 >
                     {label}
                 </Label>
             }
-        </div>
+        </Root>
     );
-});
-
-Radio.displayName = displayName;
-
-export default Radio;
+}

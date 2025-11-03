@@ -1,8 +1,9 @@
-import { KeyboardEvent, forwardRef, useState, useCallback } from 'react';
+import { KeyboardEvent, useState, useCallback } from 'react';
 
+import type { ComponentProps } from '../../types';
 import { classnames as cn } from '../../utils';
 
-import cssClasses from './Slider.module.scss';
+import styles from './SliderThumb.module.scss';
 
 export type SliderThumbProps = {
     value?: number;
@@ -18,7 +19,9 @@ export type SliderThumbProps = {
 
 const THUMB_WIDTH = 48;
 
-const SliderThumb = forwardRef<HTMLDivElement, SliderThumbProps>(({
+SliderThumb.displayName = 'SliderThumb';
+
+export default function SliderThumb({
     value = 0,
     min = 0,
     max = 100,
@@ -26,9 +29,8 @@ const SliderThumb = forwardRef<HTMLDivElement, SliderThumbProps>(({
     disabled,
     onStartInteraction,
     onEndInteraction,
-
     ...props
-}, ref) => {
+}: ComponentProps<SliderThumbProps, 'div'>) {
     const [focused, setFocused] = useState(false);
 
     const handleFocus = useCallback(() => {
@@ -39,9 +41,9 @@ const SliderThumb = forwardRef<HTMLDivElement, SliderThumbProps>(({
         setFocused(false);
     }, []);
 
-    const classNames = cn(cssClasses.THUMB, {
-        [cssClasses.THUMB_FOCUSED]: focused,
-        [cssClasses.THUMB_WITH_INDICATOR]: discrete && focused
+    const classNames = cn(styles.thumb, {
+        [styles.THUMB_FOCUSED]: focused,
+        [styles.THUMB_WITH_INDICATOR]: discrete && focused
     });
 
     const style = {
@@ -50,7 +52,6 @@ const SliderThumb = forwardRef<HTMLDivElement, SliderThumbProps>(({
 
     return (
         <div
-            ref={ref}
             className={classNames}
             role="slider"
             tabIndex={disabled ? -1 : 0}
@@ -65,18 +66,14 @@ const SliderThumb = forwardRef<HTMLDivElement, SliderThumbProps>(({
             {...props}
         >
             {discrete &&
-                <div className={cssClasses.VALUE_INDICATOR_CONTAINER}>
-                    <div className={cssClasses.VALUE_INDICATOR}>
-                        <span className={cssClasses.VALUE_INDICATOR_TEXT}>{value}</span>
+                <div className={styles.VALUE_INDICATOR_CONTAINER}>
+                    <div className={styles.VALUE_INDICATOR}>
+                        <span className={styles.VALUE_INDICATOR_TEXT}>{value}</span>
                     </div>
                 </div>
             }
 
-            <div className={cssClasses.THUMB_KNOB} />
+            <div className={styles.THUMB_KNOB} />
         </div>
     );
-});
-
-SliderThumb.displayName = 'SliderThumb';
-
-export default SliderThumb;
+}

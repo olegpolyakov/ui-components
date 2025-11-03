@@ -1,7 +1,9 @@
 @use 'sass:map';
 
-@use '../../styles/mixins' as *;
-@use '../../styles/variables' as global;
+@use 'component';
+@use 'theme';
+
+@include component.define('Table', ());
 
 .root {
     width: 100%;
@@ -11,43 +13,45 @@
     font-family: var(--ui-font-family);
 }
 
-.small {
-    --ui-Table-cell-padding: .5rem .75rem;
-    --ui-Table-font-size: 12px;
-}
 
-.medium {
-    --ui-Table-cell-padding: .75rem 1rem;
-    --ui-Table-font-size: 14px;
-}
+// Sizes
 
-.large {
-    --ui-Table-cell-padding: 1rem 1.25rem;
-    --ui-Table-font-size: 16px;
-}
+@include component.declare((
+    s: (
+        cell-padding: .5rem .75rem,
+        font-size: 12px,
+    ),
+    m: (
+        cell-padding: .75rem 1rem,
+        font-size: 14px,
+    ),
+    l: (
+        cell-padding: 1rem 1.25rem,
+        font-size: 16px,
+    )
+));
 
 .interactive {
     tbody tr {
-        @include color-state-variables('TableRow', 'background-color', plain);
+        @include component.color-state-vars(background-color, plain);
 
-        &:hover {
-            background-color: var(--ui-TableRow-hover-background-color);
-        }
-
-        &:active {
-            background-color: var(--ui-TableRow-active-background-color);
-        }
+        @include component.states((
+            hover: (background-color: hover-background-color),
+            active: (background-color: active-background-color)
+        ));
     }
 }
 
-.striped-even {
-    tbody tr:nth-child(even) {
-        @include color-state-variables('TableRow', 'background-color', neutral);
+.striped {
+    &-even {
+        tbody tr:nth-child(even) {
+            @include component.color-state-vars(background-color, neutral);
+        }
     }
-}
 
-.striped-odd {
-    tbody tr:nth-child(odd) {
-        @include color-state-variables('TableRow', 'background-color', neutral);
+    &-odd {
+        tbody tr:nth-child(odd) {
+            @include component.color-state-vars(background-color, neutral);
+        }
     }
 }

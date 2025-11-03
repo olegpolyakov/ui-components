@@ -20,7 +20,6 @@ export type InputProps = {
     shape?: Shape;
     variant?: 'outlined' | 'tinted' | 'outlined-tinted' | 'tinted-outlined' | 'underlined' | 'underlined-tinted' | 'tinted-underlined';
     active?: boolean;
-    disabled?: boolean;
     onChange?: InputChangeHandler;
 };
 
@@ -40,11 +39,13 @@ const elementClassNames = getElementClassNames(
 );
 
 export default function Input({
+    className,
+
     value,
     defaultValue,
+    label,
     start,
     end,
-    label,
     shape = 'rounded',
     size = 'm',
     variant = 'outlined',
@@ -54,8 +55,6 @@ export default function Input({
     onFocus,
     onBlur,
     onInvalid,
-
-    className,
     ...props
 }: ComponentProps<InputProps, 'input'>) {
     const [isFocused, setFocused] = useState(false);

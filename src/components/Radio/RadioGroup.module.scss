@@ -1,0 +1,23 @@
+@use 'component';
+@use 'theme';
+
+@include component.define('RadioGroup', (
+    gap: theme.var(space-s),
+));
+
+$vars: component.vars();
+
+.root {
+    display: flex;
+    gap: component.var(gap);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.horizontal {
+    flex-direction: row;
+}
+
+.vertical {
+    flex-direction: column;
+}

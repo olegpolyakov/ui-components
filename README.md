@@ -1,3 +1,1 @@
-# CodeDojo UI
-
-CodeDojo UI components
+# UI components

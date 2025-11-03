@@ -1,17 +1,25 @@
 import {
     type ChangeEvent,
     type ReactNode,
-    forwardRef,
     useCallback,
     useId
 } from 'react';
 
-import type { HTMLInputProps, Props, Size } from '../../types';
+import type { ComponentProps, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Label from '../Label';
 
-import cssClasses from './Switch.module.scss';
+import styles from './Switch.module.scss';
+
+export type SwitchProps = {
+    label?: ReactNode;
+    size?: Size;
+    checked?: boolean;
+    defaultChecked?: boolean;
+    disabled?: boolean;
+    onChange?: SwitchChangeHandler;
+};
 
 export type SwitchChangeHandler = (
     data: {
@@ -22,27 +30,22 @@ export type SwitchChangeHandler = (
     event: ChangeEvent<HTMLInputElement>
 ) => void;
 
-export type SwitchProps = Props<{
-    label?: ReactNode;
-    size?: Size;
-    checked?: boolean;
-    defaultChecked?: boolean;
-    disabled?: boolean;
-    onChange?: SwitchChangeHandler;
-}, HTMLInputProps>;
+Switch.displayName = 'Switch';
 
-const displayName = 'Switch';
-const elementClassNames = getElementClassNames(displayName, ['input', 'label']);
+const elementClassNames = getElementClassNames(
+    Switch.displayName,
+    ['input', 'label']
+);
 
-const Switch = forwardRef<HTMLInputElement, SwitchProps>(({
+export default function Switch({
+    className,
+
     label,
-    size = 'medium',
+    size = 'm',
     disabled,
     onChange,
-
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<SwitchProps, 'input'>) {
     const id = useId();
 
     const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -56,16 +59,15 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses[size],
-        cssClasses.root
+        styles[size],
+        styles.root
     );
 
     return (
         <div className={classNames}>
             <input
-                ref={ref}
                 id={id}
-                className={cn(elementClassNames.input, cssClasses.input)}
+                className={cn(elementClassNames.input, styles.input)}
                 type="checkbox"
                 role="switch"
                 disabled={disabled}
@@ -75,7 +77,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(({
 
             {label &&
                 <Label
-                    className={cn(elementClassNames.label, cssClasses.label)}
+                    className={cn(elementClassNames.label, styles.label)}
                     htmlFor={id}
                 >
                     {label}
@@ -83,8 +85,4 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>(({
             }
         </div>
     );
-});
-
-Switch.displayName = displayName;
-
-export default Switch;
+}

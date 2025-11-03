@@ -1,24 +1,31 @@
 import {
     type MouseEvent,
     type ReactNode,
-    forwardRef,
     useEffect,
     useRef,
     useState,
     useCallback
 } from 'react';
 
-import {
-    type SelectOptionDefinition,
-    SelectProvider,
-    useSelect
-} from '@mui/base/useSelect';
+import { size as popoverSize } from '@floating-ui/react';
 
-import type { HTMLDivProps, PropsWithChildren, PropsWithKey, Size } from '../../types';
+import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Option, { type OptionProps } from './Option';
 import cssClasses from './Select.module.scss';
+import { Popover } from '../Popover';
+
+export type SelectProps = {
+    options?: PropsWithKey<OptionProps>[];
+    label?: string;
+    start?: ReactNode;
+    end?: ReactNode;
+    size?: Size;
+    variant?: 'outlined' | 'tinted' | 'outlined-tinted' | 'tinted-outlined' | 'underlined' | 'underlined-tinted' | 'tinted-underlined';
+    maxMenuHeight?: number;
+    onChange?: SelectChangeHandler;
+};
 
 export type SelectChangeHandler = (
     data: {
@@ -26,44 +33,33 @@ export type SelectChangeHandler = (
         name?: string;
     },
     event: MouseEvent
-) => void
+) => void;
 
-export type SelectProps = PropsWithChildren<{
-    label?: string;
-    name?: string;
-    value?: string;
-    options?: PropsWithKey<OptionProps>[];
-    placeholder?: string;
-    start?: ReactNode;
-    end?: ReactNode;
-    size?: Size;
-    variant?: 'filled' | 'outlined' | 'underlined';
-    required?: boolean;
-    disabled?: boolean;
-    maxMenuHeight?: number;
-    onChange?: SelectChangeHandler;
-}, HTMLDivProps>;
+Select.displayName = 'Select';
 
-const displayName = 'Select';
-const elementClassNames = getElementClassNames(displayName, ['start', 'label', 'input', 'end', 'menu']);
+const elementClassNames = getElementClassNames(
+    Select.displayName,
+    ['control', 'start', 'label', 'input', 'end', 'menu']
+);
 
-const Select = forwardRef<HTMLDivElement, SelectProps>(({
-    label,
+export default function Select<T extends ElementType = 'div'>({
+    children,
+    className,
+
     name,
-    value: _value,
+    value,
     options = [],
+    label,
     placeholder,
     start,
     end,
-    size = 'medium',
+    size = 'm',
     variant = 'outlined',
     maxMenuHeight,
     onChange,
-
-    children,
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<SelectProps, T>) {
+    const controlRef = useRef<HTMLDivElement>(null);
     const listboxRef = useRef<HTMLUListElement>(null);
 
     const [open, setOpen] = useState(false);
@@ -80,19 +76,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(({
         onChange?.({ value, name }, event);
     }, [name, onChange]);
 
-    const { getButtonProps, getListboxProps, contextValue, value } = useSelect({
-        listboxRef,
-        open,
-        onOpenChange: setOpen,
-        options: options as SelectOptionDefinition<string>[],
-        value: _value
-    });
-
     const selectedValue = options.find(option => option.value === value)?.label || '';
-    const menuStyle = maxMenuHeight ? {
-        maxHeight: `${maxMenuHeight}px`
-    } : undefined;
-
+    
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -104,42 +89,56 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(({
     );
 
     return (
-        <div
-            ref={ref}
-            className={classNames}
-            {...props}
-        >
-            {label &&
-                <label className={cn(elementClassNames.label, cssClasses.label)}>{label}</label>
-            }
+        <div className={classNames} {...props}>
+            <div ref={controlRef} className={cn(elementClassNames.control, cssClasses.control)}>
+                {label &&
+                    <label className={cn(elementClassNames.label, cssClasses.label)}>{label}</label>
+                }
 
-            {start &&
-                <span className={cn(elementClassNames.start, cssClasses.start)}>
-                    {start}
-                </span>
-            }
+                {start &&
+                    <span className={cn(elementClassNames.start, cssClasses.start)}>
+                        {start}
+                    </span>
+                }
 
-            <button
-                className={cn(elementClassNames.input, cssClasses.input)}
-                data-placeholder={placeholder}
-                value={value || undefined}
-                {...getButtonProps()}
+                <button
+                    className={cn(elementClassNames.input, cssClasses.input)}
+                    type="button"
+                    value={value || undefined}
+                    data-placeholder={placeholder}
+                    onClick={() => setOpen(prevOpen => !prevOpen)}
+                >
+                    {selectedValue}
+                </button>
+
+                {end &&
+                    <span className={cn(elementClassNames.end, cssClasses.end)}>
+                        {end}
+                    </span>
+                }
+            </div>
+
+            <Popover
+                anchorRef={controlRef}
+                open={open}
+                arrow={false}
+                middleware={[
+                    popoverSize({
+                        apply: ({ availableHeight, elements }) => {
+                            elements.floating.style.width = elements.reference.getBoundingClientRect().width + 'px';
+
+                            elements.floating.style.maxHeight = maxMenuHeight
+                                ? Math.min(availableHeight, maxMenuHeight) + 'px'
+                                : availableHeight + 'px';
+                        }
+                    })
+                ]}
+                onOpen={() => setOpen(true)}
+                onClose={() => setOpen(false)}
             >
-                {selectedValue}
-            </button>
-
-            {end &&
-                <span className={cn(elementClassNames.end, cssClasses.end)}>
-                    {end}
-                </span>
-            }
-
-            <ul
-                className={cn(elementClassNames.menu, cssClasses.menu)}
-                style={menuStyle}
-                {...getListboxProps()}
-            >
-                <SelectProvider value={contextValue}>
+                <ul
+                    className={cn(elementClassNames.menu, cssClasses.menu)}
+                >
                     {options?.map(option =>
                         <Option
                             key={option.value}
@@ -149,12 +148,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>(({
                     )}
 
                     {children}
-                </SelectProvider>
-            </ul>
+                </ul>
+            </Popover>
         </div>
     );
-});
-
-Select.displayName = displayName;
-
-export default Select;
+}

@@ -1,18 +1,25 @@
 import {
     type ChangeEvent,
     type ReactNode,
-    forwardRef,
     useCallback,
     useRef,
     useState,
     FormEvent
 } from 'react';
-import { TextareaAutosize } from '@mui/base/TextareaAutosize';
 
-import type { HTMLTextareaProps, Props, Size } from '../../types';
+import type { ComponentProps, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Textarea.module.scss';
+import styles from './Textarea.module.scss';
+
+export type TextareaProps = {
+    label?: ReactNode;
+    start?: ReactNode;
+    end?: ReactNode;
+    size?: Size;
+    variant?: 'filled' | 'outlined' | 'underlined';
+    onChange?: TextareaChangeHandler;
+};
 
 export type TextareaChangeHandler = (
     data: {
@@ -22,37 +29,32 @@ export type TextareaChangeHandler = (
     event: ChangeEvent<HTMLTextAreaElement>
 ) => void;
 
-export type TextareaProps = Props<{
-    label?: ReactNode;
-    start?: ReactNode;
-    end?: ReactNode;
-    size?: Size;
-    variant?: 'filled' | 'outlined' | 'underlined';
-    onChange?: TextareaChangeHandler;
-}, HTMLTextareaProps>;
+Textarea.displayName = 'Textarea';
 
-const displayName = 'Textarea';
-const elementClassNames = getElementClassNames(displayName, ['start', 'label', 'container', 'hidden', 'textarea', 'end']);
+const elementClassNames = getElementClassNames(
+    Textarea.displayName,
+    ['start', 'label', 'container', 'hidden', 'textarea', 'end']
+);
 
-const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
+export default function Textarea({
     value,
     defaultValue,
     label,
     start,
     end,
-    size = 'medium',
+    size = 'm',
     variant = 'outlined',
     onChange,
     onInvalid,
 
     className,
     ...props
-}, ref) => {
+}: ComponentProps<TextareaProps, 'textarea'>) {
     const containerRef = useRef<HTMLDivElement>(null);
 
+    const [internalValue, setInternalValue] = useState(value || defaultValue);
     const [validationMessage, setValidationMessage] = useState('');
     const [isInvalid, setInvalid] = useState(false);
-    const [internalValue, setInternalValue] = useState(value || defaultValue);
 
     const handleChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
         setInvalid(false);
@@ -76,11 +78,11 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size],
-        cssClasses[variant],
-        isFocused && cssClasses.focused,
-        isInvalid && cssClasses.invalid
+        styles.root,
+        styles[size],
+        styles[variant],
+        isFocused && styles.focused,
+        isInvalid && styles.invalid
     );
 
     return (
@@ -89,22 +91,21 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
             data-validation-message={validationMessage || undefined}
         >
             {start &&
-                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                <span className={cn(elementClassNames.start, styles.start)}>
                     {start}
                 </span>
             }
 
             <div
                 ref={containerRef}
-                className={cn(elementClassNames.container, cssClasses.container)}
+                className={cn(elementClassNames.container, styles.container)}
             >
                 {label &&
-                    <label className={cn(elementClassNames.label, cssClasses.label)}>{label}</label>
+                    <label className={cn(elementClassNames.label, styles.label)}>{label}</label>
                 }
             
-                <TextareaAutosize
-                    ref={ref}
-                    className={cn(elementClassNames.textarea, cssClasses.textarea)}
+                <textarea
+                    className={cn(elementClassNames.textarea, styles.textarea)}
                     value={value}
                     defaultValue={defaultValue}
                     onChange={handleChange}
@@ -114,14 +115,10 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
             </div>
 
             {end &&
-                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                <span className={cn(elementClassNames.end, styles.end)}>
                     {end}
                 </span>
             }
         </div>
     );
-});
-
-Textarea.displayName = displayName;
-
-export default Textarea;
+}

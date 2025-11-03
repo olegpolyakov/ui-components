@@ -1,84 +1,79 @@
 import {
+    type ComponentPropsWithRef,
     type MouseEvent,
+    type MouseEventHandler,
     type ReactElement,
+    type ReactNode,
     cloneElement,
     isValidElement,
-    forwardRef,
     useCallback,
-    useState
+    useState,
+    useRef
 } from 'react';
-import type { PositioningStrategy, Placement } from '@popperjs/core';
-import { usePopper } from 'react-popper';
 
-import type { HTMLSpanProps, PropsWithChildren } from '../../types';
+import { Placement, Strategy, autoUpdate, arrow, flip, shift, useFloating } from '@floating-ui/react';
+
+import type { ComponentProps, HTMLSpanProps, PropsWithChildren } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Tooltip.module.scss';
+import styles from './Tooltip.module.scss';
 
 export type TooltipProps = PropsWithChildren<{
-    content: string;
-    position?: PositioningStrategy | undefined;
+    content: ReactNode;
+    arrow?: boolean;
+    position?: Strategy;
     placement?: Placement;
 }, HTMLSpanProps>;
 
-const displayName = 'Tooltip';
-const elementClassNames = getElementClassNames(displayName, ['arrow']);
+Tooltip.displayName = 'Tooltip';
 
-const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(({
-    content,
-    position = 'absolute',
-    placement = 'bottom',
+const elementClassNames = getElementClassNames(
+    Tooltip.displayName,
+    ['arrow']
+);
 
+export default function Tooltip({
     className,
-    children
-}, ref) => {
-    const [anchorElement, setAnchorElement] = useState<HTMLElement | undefined>();
-    const [tooltipElement, setTooltipElement] = useState<HTMLDivElement>();
-    const [arrowElement, setArrowElement] = useState<HTMLDivElement>();
+    children,
+
+    content = children,
+    position = 'fixed',
+    placement = 'bottom',
+    arrow: showArrow = true
+}: ComponentProps<TooltipProps, 'div'>) {
+    const arrowRef = useRef<HTMLDivElement>(null);
+
     const [isOpen, setIsOpen] = useState(false);
 
-    const { styles, attributes } = usePopper(anchorElement, tooltipElement, {
+    const {refs, floatingStyles, middlewareData} = useFloating({
         strategy: position,
         placement,
-        modifiers: [
-            {
-                name: 'offset',
-                options: { offset: [0, 8] }
-            },
-            {
-                name: 'arrow',
-                options: {
-                    element: arrowElement
-                }
-            }
-        ]
+        whileElementsMounted: autoUpdate,
+        open: isOpen,
+        onOpenChange: setIsOpen,
+        middleware: [
+            flip(),
+            shift(),
+            showArrow && arrow({
+                element: arrowRef,
+                padding: -8
+            })
+        ].filter(Boolean)
     });
 
-    const handleAnchorRef = useCallback((node: HTMLDivElement) => {
-        setAnchorElement(node);
-    }, []);
-
-    const handlePopperRef = useCallback((node: HTMLDivElement) => {
-        setTooltipElement(node);
-    }, []);
-
-    const handleArrowRef = useCallback((node: HTMLDivElement) => {
-        setArrowElement(node);
-    }, []);
-
-    const handleMouseEnter = useCallback(() => {
+    const handleMouseEnter = useCallback<MouseEventHandler<HTMLDivElement>>((event) => {
         setIsOpen(true);
 
-        if (isValidElement(children) && children.props?.onMouseEnter) {
-            children.props?.onMouseEnter();
+        if (isValidElement<{onMouseEnter: MouseEventHandler<HTMLDivElement>}>(children)) {
+            children.props?.onMouseEnter(event);
         }
     }, [children]);
 
-    const handleMouseLeave = useCallback(() => {
+    const handleMouseLeave = useCallback<MouseEventHandler<HTMLDivElement>>((event) => {
         setIsOpen(false);
 
-        if (isValidElement(children) && children.props?.onMouseLeave) {
-            children.props?.onMouseLeave();
+        if (isValidElement<{onMouseLeave: MouseEventHandler<HTMLDivElement>}>(children)) {
+            children.props?.onMouseLeave(event);
         }
     }, [children]);
 
@@ -99,20 +94,22 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root
+        styles.root
     );
+
+    console.log({middlewareData})
 
     return (
         <>
             {isValidElement(children) ?
-                cloneElement(children as ReactElement, {
-                    ref: handleAnchorRef,
+                cloneElement(children as ReactElement<ComponentPropsWithRef<'div'>>, {
+                    ref: refs.setReference,
                     onMouseEnter: handleMouseEnter,
                     onMouseLeave: handleMouseLeave
                 })
                 :
                 <div
-                    ref={handleAnchorRef}
+                    ref={refs.setReference}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
                 >
@@ -122,17 +119,19 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(({
 
             {isOpen &&
               <div
-                  ref={handlePopperRef}
+                  ref={refs.setFloating}
                   className={classNames}
-                  style={styles.popper}
+                  style={floatingStyles}
                   onMouseEnter={handleMouseEnterTooltip}
                   onMouseLeave={handleMouseLeaveTooltip}
-                  {...attributes.popper}
               >
                   <div
-                      ref={handleArrowRef}
-                      className={cn(elementClassNames.arrow, cssClasses.arrow)}
-                      style={styles.arrow}
+                      ref={arrowRef}
+                      className={cn(elementClassNames.arrow, styles.arrow)}
+                      style={middlewareData.arrow && {
+                        left: middlewareData.arrow.x,
+                        top: middlewareData.arrow.y
+                    }}
                   />
 
                   {content}
@@ -140,8 +139,4 @@ const Tooltip = forwardRef<HTMLDivElement, TooltipProps>(({
             }
         </>
     );
-});
-
-Tooltip.displayName = displayName;
-
-export default Tooltip;
+}

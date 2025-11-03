@@ -1,32 +1,34 @@
-import { type HTMLAttributes, forwardRef } from 'react';
+import type { ReactNode } from 'react';
 
+import type { ComponentProps } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './TableBody.module.scss';
+import styles from './TableBody.module.scss';
 
-export type TableBodyProps = HTMLAttributes<HTMLTableSectionElement>;
+export type TableBodyProps = {
+    content?: ReactNode;
+};
 
-const displayName = 'TableBody';
-const elementClassNames = getElementClassNames(displayName);
+TableBody.displayName = 'TableBody';
 
-const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(({
+const elementClassNames = getElementClassNames(TableBody.displayName);
+
+export default function TableBody({
     children,
     className,
+
+    content = children,
     ...props
-}, ref) => {
+}: ComponentProps<TableBodyProps, 'tbody'>) {
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root
+        styles.root
     );
 
     return (
-        <tbody ref={ref} className={classNames} {...props}>
-            {children}
+        <tbody className={classNames} {...props}>
+            {content}
         </tbody>
     );
-});
-
-TableBody.displayName = displayName;
-
-export default TableBody;
+}

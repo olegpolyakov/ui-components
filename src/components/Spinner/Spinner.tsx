@@ -1,45 +1,36 @@
-import { forwardRef } from 'react';
-
-import type { Color, Props, SizeExtended } from '../../types';
+import type { Color, ComponentProps, ElementType, SizeExtended } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Spinner.module.scss';
+import styles from './Spinner.module.scss';
 
-export type SpinnerProps = Props<{
+export type SpinnerProps = {
     as?: 'div';
     color?: Color;
     size?: SizeExtended;
-}>;
+};
 
-const displayName = 'Spinner';
-const elementClassNames = getElementClassNames(displayName);
+Spinner.displayName = 'Spinner';
 
-const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(({
-    color,
-    size = 'medium',
+const elementClassNames = getElementClassNames(Spinner.displayName);
 
-    as: Tag = 'div',
+export default function Spinner<T extends ElementType = 'div'>({
+    as,
     className,
+
+    color,
+    size = 'm',
     ...props
-}, ref) => {
+}: ComponentProps<SpinnerProps, T>) {
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        color && cssClasses[color],
-        cssClasses[size]
+        styles.root,
+        color && styles[color],
+        styles[size]
     );
 
     return (
-        <Tag
-            ref={ref}
-            className={classNames}
-            role="status"
-            {...props}
-        />
+        <Root className={classNames} role="status" {...props} />
     );
-});
-
-Spinner.displayName = displayName;
-
-export default Spinner;
+}

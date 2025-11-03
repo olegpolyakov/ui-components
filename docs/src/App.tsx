@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, NavLink, Switch } from 'react-router-dom';
 
 import { Button, Provider } from '~/components';
-import { useTheme } from '~/hooks';
+import { useTheme } from '~/hooks/theme';
 
 import styles from './App.module.scss';
 

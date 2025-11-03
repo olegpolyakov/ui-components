@@ -1,9 +1,16 @@
 @use 'sass:math';
 
-.root {
-    --ui-Switch-background-color: var(--ui-very-light-gray);
-    --ui-Switch-input-background-color: var(--ui-surface-color);
+@use 'component';
+@use 'theme';
 
+@include component.define('Switch', (
+    input-width: null,
+    input-height: null,
+    background-color: theme.var(surface-color),
+    thumb-background-color: theme.var(surface-tertiary-color)
+));
+
+.root {
     display: flex;
     align-items: center;
     gap: 1rem;
@@ -14,32 +21,32 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    width: var(--ui-Switch-input-width);
-    height: var(--ui-Switch-input-height);
-    background-color: var(--ui-Switch-background-color);
+    width: component.var(input-width);
+    height: component.var(input-height);
+    background-color: component.var(background-color);
     border: none;
-    border-radius: 30px;
+    border-radius: component.var(input-height);
     margin: 0;
     transition: background-color 0.2s ease-in-out;
     cursor: pointer;
 
     // thumb
     &::after {
+        $size: calc(#{component.var(input-height)} - 6px);
+
         content: '';
         position: absolute;
         top: 3px;
         left: 3px;
-        width: var(--ui-Switch-thumb-width);
-        height: var(--ui-Switch-thumb-height);
+        width: $size;
+        height: $size;
         border-radius: 25px;
-        background-color: var(--ui-Switch-input-background-color);
+        background-color: component.var(thumb-background-color);
         transition: transform 0.2s ease-in-out;
     }
 }
 
 .label {
-    --ui-Label-size: var(--ui-Switch-label-size);
-
     cursor: pointer;
 }
 
@@ -48,11 +55,11 @@
 
 .input {
     &:hover {
-        --ui-Switch-background-color: var(--ui-light-gray);
+        // --ui-Switch-background-color: var(--ui-light-gray);
     }
 
     &:active {
-        --ui-Switch-background-color: var(--ui-gray);
+        // --ui-Switch-background-color: var(--ui-gray);
     }
 
     &:disabled {
@@ -60,22 +67,30 @@
     }
 
     &:checked {
-        --ui-Switch-background-color: var(--ui-primary-color);
+        @include component.vars((
+            thumb-background-color: theme.var(primary-color)
+        ));
 
         &:hover {
-            --ui-Switch-background-color: var(--ui-primary-hover-color);
+            @include component.vars((
+                thumb-background-color: theme.var(primary-color-hover)
+            ));
         }
 
         &:active {
-            --ui-Switch-background-color: var(--ui-primary-active-color);
+            @include component.vars((
+                thumb-background-color: theme.var(primary-color-active)
+            ));
         }
 
         &:disabled {
-            --ui-Switch-background-color: var(--ui-primary-disabled-color);
+            @include component.vars((
+                thumb-background-color: theme.var(primary-color-disabled)
+            ));
         }
 
         &::after {
-            transform: translateX(var(--ui-Switch-thumb-translate-x));
+            transform: translateX(calc(#{component.var(input-width)} - #{component.var(input-height)}));
         }
     }
 }
@@ -83,44 +98,17 @@
 
 // Sizes
 
-.small {
-    $input-width: 28px;
-    $input-height: 16px;
-    $thumb-size: $input-height - 6px;
-    $thumb-translate-x: $input-width - $input-height;
-
-    --ui-Switch-input-width: #{$input-width};
-    --ui-Switch-input-height: #{$input-height};
-    --ui-Switch-thumb-width: #{$thumb-size};
-    --ui-Switch-thumb-height: #{$thumb-size};
-    --ui-Switch-thumb-translate-x: #{$thumb-translate-x};
-    --ui-Switch-label-size: var(--ui-font-size-small);
-}
-
-.medium {
-    $input-width: 36px;
-    $input-height: 20px;
-    $thumb-size: $input-height - 6px;
-    $thumb-translate-x: $input-width - $input-height;
-
-    --ui-Switch-input-width: #{$input-width};
-    --ui-Switch-input-height: #{$input-height};
-    --ui-Switch-thumb-width: #{$thumb-size};
-    --ui-Switch-thumb-height: #{$thumb-size};
-    --ui-Switch-thumb-translate-x: #{$thumb-translate-x};
-    --ui-Switch-label-size: var(--ui-font-size-small);
-}
-
-.large {
-    $input-width: 44px;
-    $input-height: 24px;
-    $thumb-size: $input-height - 6px;
-    $thumb-translate-x: $input-width - $input-height;
-    
-    --ui-Switch-input-width: #{$input-width};
-    --ui-Switch-input-height: #{$input-height};
-    --ui-Switch-thumb-width: #{$thumb-size};
-    --ui-Switch-thumb-height: #{$thumb-size};
-    --ui-Switch-thumb-translate-x: #{$thumb-translate-x};
-    --ui-Switch-label-size: var(--ui-font-size-medium);
-}
+@include component.declare((
+    s: (
+        input-width: 28px,
+        input-height: 16px
+    ),
+    m: (
+        input-width: 36px,
+        input-height: 20px
+    ),
+    l: (
+        input-width: 44px,
+        input-height: 24px
+    )
+));

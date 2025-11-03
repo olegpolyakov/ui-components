@@ -1,61 +1,52 @@
-import { forwardRef } from 'react';
-
-import { Props } from '../../types';
+import type { ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './ProgressBar.module.scss';
+import styles from './ProgressBar.module.scss';
 
-export type ProgressBarProps = Props<{
-    as?: 'div';
+export type ProgressBarProps = {
     value?: number | string;
     bufferValue?: number | string;
     indeterminate?: boolean;
-}>;
+};
 
-const displayName = 'ProgressBar';
-const elementClassNames = getElementClassNames(displayName, ['list']);
+ProgressBar.displayName = 'ProgressBar';
 
-const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(({
+const elementClassNames = getElementClassNames(
+    ProgressBar.displayName,
+    ['list']
+);
+
+export default function ProgressBar<T extends ElementType = 'div'>({
+    as,
+    className,
+
     value: _value,
     bufferValue: _bufferValue,
     indeterminate,
-
-    as: Tag = 'div',
-    className,
     ...props
-}, ref) => {
+}: ComponentProps<ProgressBarProps, T>) {
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        indeterminate && cssClasses.indeterminate
+        styles.root,
+        indeterminate && styles.indeterminate
     );
-
-    // const classNames = classnames(cssClasses.ROOT, {
-    //     [cssClasses.INDETERMINATE]: indeterminate,
-    //     [cssClasses.ANIMATION_READY]: indeterminate,
-    //     [cssClasses.CLOSED]: closed
-    // }, className);
 
     const value = Number(_value);
     const buffer = Number(_bufferValue);
 
-    const primaryBarStyle = {
+    const barStyle = {
         transform: `scaleX(${indeterminate ? 1 : (value > 1 ? (value * 0.01) : value)})`
     };
 
     return (
-        <Tag
-            ref={ref}
+        <Root
             className={classNames}
             role="progressbar"
-            // @ts-ignore
-            style={{ '--ui-ProgressBar-percent': value }}
             {...props}
-        />
+        >
+            <div className={styles.bar} style={barStyle} />
+        </Root>
     );
-});
-
-ProgressBar.displayName = displayName;
-
-export default ProgressBar;
+}
