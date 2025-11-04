@@ -1,7 +1,7 @@
 {
-  "name": "ui-components",
+  "name": "kantanui",
   "version": "0.1.0",
-  "description": "CodeDojo ui components implemented in React",
+  "description": "A set of accessible, customizable, and easy-to-use React components.",
   "type": "module",
   "main": "./dist/index.js",
   "sass": "./dest/index.scss",
@@ -11,11 +11,8 @@
     "./dist/**/*"
   ],
   "author": {
-    "name": "Oleg Polyakov",
-    "email": "olegpolyakov@outlook.com"
-  },
-  "publishConfig": {
-    "@codedojo:registry": "https://npm.pkg.github.com"
+    "name": "Oleg Poliakov",
+    "email": "olegpoliakov@outlook.com"
   },
   "scripts": {
     "build": "vite build",

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import type { Align, Color, ComponentProps, ElementType, SizeFull } from '../../types';
+import type { Align, Color, ComponentProps, ElementType, SizeFull, Weight } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import cssClasses from './Heading.module.scss';
@@ -12,8 +12,8 @@ export type HeadingProps = {
     size?: SizeFull; 
     align?: Align;
     color?: Color;
+    weight?: Weight;
     block?: boolean;
-    bold?: boolean;
     muted?: boolean;
 };
 
@@ -34,6 +34,7 @@ export default function Heading<T extends ElementType = 'h1'>({
     end,
     type = 'h1',
     color,
+    weight = 'semibold',
     align,
     block,
     bold,
@@ -47,6 +48,7 @@ export default function Heading<T extends ElementType = 'h1'>({
         cssClasses.root,
         cssClasses[type],
         color && cssClasses[color],
+        weight && cssClasses[weight],
         align && cssClasses[`align-${align}`],
         block && cssClasses.block,
         bold && cssClasses.bold,

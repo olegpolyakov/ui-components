@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, NavLink, Switch } from 'react-router-dom';
 
-import { Button, Provider } from '~/components';
+import { Heading, Button, Provider } from '~/components';
 import { useTheme } from '~/hooks/theme';
 
 import styles from './App.module.scss';
@@ -15,9 +15,17 @@ export default function App() {
             <Router>
                 <div className={styles.root}>
                     <aside className={styles.aside}>
-                        {/* <header className={styles.header}>
-                            <h1 className={styles.title}>UI Components</h1>
-                        </header> */}
+                        <header className={styles.header}>
+                            <Heading
+                                className={styles.title}
+                                content="Kantan UI"
+                            />
+
+                            <Button
+                                icon={`${theme}_mode`}
+                                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                            />
+                        </header>
 
                         <nav className={styles.nav}>
                             {routes.map(route => (
@@ -32,10 +40,7 @@ export default function App() {
                         </nav>
 
                         <footer className={styles.footer}>
-                            <Button
-                                icon={`${theme}_mode`}
-                                onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                            />
+                            
                         </footer>
                     </aside>
 

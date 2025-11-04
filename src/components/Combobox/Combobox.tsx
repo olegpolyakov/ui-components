@@ -223,25 +223,27 @@ export default function Combobox({
             >
                 <div className={cn(elementClassNames.menu, cssClasses.menu)}>
                     <List>
-                        {options.map((option, index) => {
-                            const optionLabel = getLabel(option);
-                            const optionValue = getValue(option);
-                            const selected = Array.isArray(value)
-                                ? value.find(value => getValue(value) === optionValue)
-                                : optionValue === getValue(value);
+                        {options
+                            .filter(option => getLabel(option).includes(inputValue))
+                            .map((option, index) => {
+                                const optionLabel = getLabel(option);
+                                const optionValue = getValue(option);
+                                const selected = Array.isArray(value)
+                                    ? value.find(value => getValue(value) === optionValue)
+                                    : optionValue === getValue(value);
 
-                            return (
-                                <ListItem
-                                    key={index}
-                                    color={selected ? 'primary' : undefined}
-                                    variant={selected ? 'filled' : undefined}
-                                    interactive
-                                >
-                                    {optionLabel}
-                                </ListItem>
-                            );
+                                return (
+                                    <ListItem
+                                        key={index}
+                                        color={selected ? 'primary' : undefined}
+                                        variant={selected ? 'filled' : undefined}
+                                        interactive
+                                    >
+                                        {optionLabel}
+                                    </ListItem>
+                                );
 
-                        })}
+                            })}
 
                         {/* {creatable && groupedOptions.length === 0 &&
                         <ListItem
