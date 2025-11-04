@@ -3,6 +3,5 @@ export {
     default as Combobox,
     type ComboboxChangeHandler,
     type ComboboxOption,
-    type ComboboxProps,
-    createFilterOptions
+    type ComboboxProps
 } from './Combobox';

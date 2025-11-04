@@ -90,7 +90,10 @@ export default function Select<T extends ElementType = 'div'>({
 
     return (
         <div className={classNames} {...props}>
-            <div ref={controlRef} className={cn(elementClassNames.control, cssClasses.control)}>
+            <div
+                ref={controlRef}
+                className={cn(elementClassNames.control, cssClasses.control)}
+            >
                 {label &&
                     <label className={cn(elementClassNames.label, cssClasses.label)}>{label}</label>
                 }

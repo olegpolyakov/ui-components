@@ -12,6 +12,8 @@ export type OptionProps = {
     start?: ReactNode;
     end?: ReactNode;
     disabled?: boolean;
+    active?: boolean;
+    selected?: boolean;
     onClick?: (event: MouseEvent) => void;
 };
 
@@ -27,7 +29,8 @@ export default function Option<T extends ElementType = 'li'>({
     className,
     children,
 
-    content = children,
+    label,
+    content = label || children,
     start,
     end,
     value,

@@ -9,7 +9,7 @@ import Button from './pages/Button.mdx';
 import ButtonGroup from './pages/ButtonGroup.mdx';
 import Card from './pages/Card.mdx';
 import Checkbox from './pages/Checkbox.mdx';
-// import Combobox from './pages/Combobox.mdx';
+import Combobox from './pages/Combobox.mdx';
 import Dialog from './pages/Dialog.mdx';
 import Divider from './pages/Divider.mdx';
 import Drawer from './pages/Drawer.mdx';
@@ -50,9 +50,9 @@ export default [
     { path: '/breadcrumbs', component: Breadcrumbs, title: 'Breadcrumbs' },
     { path: '/button', component: Button, title: 'Button' },
     { path: '/button-group', component: ButtonGroup, title: 'Button Group' },
-    // { path: '/combobox', component: Combobox, title: 'Combobox' },
     { path: '/card', component: Card, title: 'Card' },
     { path: '/checkbox', component: Checkbox, title: 'Checkbox' },
+    { path: '/combobox', component: Combobox, title: 'Combobox' },
     { path: '/dialog', component: Dialog, title: 'Dialog' },
     { path: '/divider', component: Divider, title: 'Divider' },
     { path: '/drawer', component: Drawer, title: 'Drawer' },

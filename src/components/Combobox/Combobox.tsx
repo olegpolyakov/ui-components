@@ -1,116 +1,132 @@
-import { type ReactNode, useCallback, forwardRef } from 'react';
-
 import {
-    AutocompleteGroupedOption,
-    UseAutocompleteProps,
-    createFilterOptions,
-    useAutocomplete
-} from '@mui/base/useAutocomplete';
+    type ChangeEvent,
+    type ReactNode,
+    useCallback,
+    useRef,
+    useState
+} from 'react';
 
-import type { Props } from '../../types';
+import { size as popoverSize } from '@floating-ui/react';
+
+import type { ComponentProps, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Badge from '../Badge';
 import { List, ListItem } from '../List';
 
 import cssClasses from './Combobox.module.scss';
+import Popover from '../Popover';
 
-export { createFilterOptions };
+export type ComboboxValue = string | string[];
 
-export type ComboboxOption = {
-    value: string | number | null;
-    label: string;
-    description?: string;
-    selected?: boolean;
-};
-
-export type ComboboxChangeHandler = (
-    data: {
-        value?: string | string[];
-        name?: string;
-    }
-) => void;
-
-export type ComboboxProps = Props<{
+export type ComboboxProps = {
     name?: string;
-    value?: string | ComboboxOption;
-    defaultValue?: string | ComboboxOption;
-    options?: string[] | ComboboxOption[];
+    value?: ComboboxValue;
+    defaultValue?: ComboboxValue;
+    options?: ComboboxOption[];
     label?: string;
     start?: ReactNode;
     end?: ReactNode;
     placeholder?: string;
-    size?: 'small' | 'medium' | 'large';
+    size?: Size;
     variant?: 'outlined' | 'underlined' | 'transparent';
     multiple?: boolean;
     disabled?: boolean;
     clearable?: boolean;
     creatable?: boolean;
     createNewLabel?: string;
+    maxMenuHeight?: number;
     onChange?: ComboboxChangeHandler;
-}>;
+    onInputChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+};
 
-const displayName = 'Combobox';
-const elementClassNames = getElementClassNames(displayName, ['start', 'label', 'values', 'input', 'container', 'menu', 'end']);
+export type ComboboxOption = {
+    value: string;
+    start?: ReactNode;
+    end?: ReactNode;
+    disabled?: boolean;
+    active?: boolean;
+    selected?: boolean;
+    onClick?: (event: MouseEvent) => void;
+} & ({
+    content: ReactNode;
+} | {
+    label: string;
+});
 
-const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(({
+export type ComboboxChangeHandler = (
+    data: {
+        value: string | string[];
+        name?: string;
+    }
+) => void;
+
+Combobox.displayName = 'Combobox';
+const elementClassNames = getElementClassNames(
+    Combobox.displayName,
+    ['control', 'start', 'label', 'values', 'input', 'container', 'menu', 'end']
+);
+
+export default function Combobox({
     id,
     name,
-    value: initialValue,
-    defaultValue,
+    defaultValue = '',
+    value: initialValue = defaultValue,
     options = [],
     label,
     start,
     end,
     placeholder = '',
-    size = 'medium',
+    size = 'm',
     variant = 'outlined',
     multiple,
     disabled,
     clearable,
     creatable,
     createNewLabel = 'Добавить',
+    maxMenuHeight,
     onChange,
+    onInputChange,
 
     className,
     ...props
-}, ref) => {
+}: ComponentProps<ComboboxProps, 'div'>) {
+    const controlRef = useRef<HTMLDivElement>(null);
+    
+    const [inputValue, setInputValue] = useState('');
+    const [focused, setFocused] = useState(false);
+    const [open, setOpen] = useState(false);
+
     const handleChange = useCallback((
-        event: React.SyntheticEvent<Element, Event>,
-        newValue: NonNullable<string | ComboboxOption> | (string | ComboboxOption)[] | null
+        event: ChangeEvent<HTMLInputElement>
     ) => {
-        const value = Array.isArray(newValue) ?
-            (newValue.map(option => getValue<string>(option)).map(value => value?.toString() || '')) :
-            (getValue(newValue)?.toString() || '');
+        const { name, value } = event.target as HTMLInputElement;
+
+        setInputValue(value);
 
         onChange?.({
-            value,
-            name
+            name,
+            value
         });
-    }, [name, onChange]);
+    }, [onChange]);
 
-    const {
-        value,
-        inputValue,
-        popupOpen,
-        focused,
-        getRootProps,
-        getInputLabelProps,
-        getInputProps,
-        getListboxProps,
-        getOptionProps,
-        groupedOptions
-    } = useAutocomplete({
-        id,
-        value: initialValue,
-        defaultValue,
-        options,
-        multiple,
-        disableClearable: !clearable,
-        getOptionLabel: option => typeof option === 'object' ? (option as ComboboxOption).label : option,
-        onChange: handleChange,
-        unstable_classNamePrefix: 'ui'
-    });
+    const handleInputChange = useCallback((
+        event: ChangeEvent<HTMLInputElement>
+    ) => {
+        const { value } = event.target as HTMLInputElement;
+
+        setInputValue(value);
+
+        onInputChange?.(event);
+    }, [onInputChange]);
+
+    const handleFocus = useCallback(() => {
+        setFocused(true);
+    }, []);
+
+    const handleBlur = useCallback(() => {
+        setFocused(false);
+    }, []);
 
     const handleCreateNew = useCallback(() => {
         onChange?.({
@@ -119,7 +135,10 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(({
         });
     }, [name, inputValue, onChange]);
 
-    const hasValue = Array.isArray(value) ? value.length > 0 : !!value;
+    const value = initialValue;
+    const hasValue = Array.isArray(value)
+        ? value.length > 0
+        : !!value;
     const hasLabel = Boolean(label);
 
     const classNames = cn(
@@ -129,127 +148,128 @@ const Combobox = forwardRef<HTMLDivElement, ComboboxProps>(({
         cssClasses[size],
         cssClasses[variant],
         focused && cssClasses.focused,
-        popupOpen && cssClasses.open,
+        open && cssClasses.open,
+        disabled && cssClasses.disabled,
         hasValue && cssClasses.activated,
-        hasLabel && cssClasses.hasLabel,
-        disabled && cssClasses.disabled
+        hasLabel && cssClasses.hasLabel
     );
 
-    console.log('VALUE', value);
-
     return (
-        <div
-            ref={ref}
-            className={classNames}
-            {...getRootProps()}
-            {...props}
-        >
-            {start &&
-                <span className={cn(elementClassNames.start, cssClasses.start)}>
-                    {start}
-                </span>
-            }
-
-            <div className={cn(elementClassNames.container, cssClasses.container)}>
-                {label &&
-                    <label
-                        className={cn(elementClassNames.label, cssClasses.label)}
-                        {...getInputLabelProps()}
-                    >
-                        {label}
-                    </label>
+        <div className={classNames} {...props}>
+            <div
+                ref={controlRef}
+                className={cn(elementClassNames.control, cssClasses.control)}
+            >
+                {start &&
+                    <span className={cn(elementClassNames.start, cssClasses.start)}>
+                        {start}
+                    </span>
                 }
 
-                <div className={cn(elementClassNames.values, cssClasses.values)}>
-                    {Array.isArray(value) && value.length > 0 &&
-                        value.map(value =>
-                            <Badge
-                                key={typeof value === 'object' ? value.value : value}
-                                content={typeof value === 'object' ? value.label : value}
-                                variant="tinted"
-                                size="small"
-                                shape="rounded"
-                            />
-                        )
+                <div
+                    className={cn(elementClassNames.container, cssClasses.container)}
+                    onClick={() => setOpen(prevOpen => !prevOpen)}
+                >
+                    {label &&
+                        <label className={cn(elementClassNames.label, cssClasses.label)}>
+                            {label}
+                        </label>
                     }
 
-                    <input
-                        className={cn(elementClassNames.input, cssClasses.input)}
-                        {...getInputProps()}
-                    />
+                    <div className={cn(elementClassNames.values, cssClasses.values)}>
+                        {Array.isArray(value) && value.map(value =>
+                            <Badge
+                                key={value}
+                                content={value}
+                                variant="tinted"
+                                size="s"
+                                shape="rounded"
+                            />
+                        )}
+
+                        <input
+                            className={cn(elementClassNames.input, cssClasses.input)}
+                            onChange={handleInputChange}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                        />
+                    </div>
                 </div>
+
+                {end &&
+                    <span className={cn(elementClassNames.end, cssClasses.end)}>
+                        {end}
+                    </span>
+                }
             </div>
 
-            {end &&
-                <span className={cn(elementClassNames.end, cssClasses.end)}>
-                    {end}
-                </span>
-            }
+            <Popover
+                anchorRef={controlRef}
+                open={open}
+                arrow={false}
+                middleware={[
+                    popoverSize({
+                        apply: ({ availableHeight, elements }) => {
+                            elements.floating.style.width = elements.reference.getBoundingClientRect().width + 'px';
+            
+                            elements.floating.style.maxHeight = maxMenuHeight
+                                ? Math.min(availableHeight, maxMenuHeight) + 'px'
+                                : availableHeight + 'px';
+                        }
+                    })
+                ]}
+                onOpen={() => setOpen(true)}
+                onClose={() => setOpen(false)}
+            >
+                <div className={cn(elementClassNames.menu, cssClasses.menu)}>
+                    <List>
+                        {options.map((option, index) => {
+                            const optionLabel = getLabel(option);
+                            const optionValue = getValue(option);
+                            const selected = Array.isArray(value)
+                                ? value.find(value => getValue(value) === optionValue)
+                                : optionValue === getValue(value);
 
-            <div className={cn(elementClassNames.menu, cssClasses.menu)}>
-                <List {...getListboxProps()}>
-                    {groupedOptions.map((option, index) => {
-                        const optionLabel = getOptionLabel(option);
-                        const optionValue = getValue(option);
-                        const selected = Array.isArray(value) ?
-                            value.find(value => getValue(value) === optionValue) :
-                            optionValue === getValue(value);
+                            return (
+                                <ListItem
+                                    key={index}
+                                    color={selected ? 'primary' : undefined}
+                                    variant={selected ? 'filled' : undefined}
+                                    interactive
+                                >
+                                    {optionLabel}
+                                </ListItem>
+                            );
 
-                        return (
-                            <ListItem
-                                key={index}
-                                // @ts-ignore
-                                {...getOptionProps({ option, index })}
-                                color={selected ? 'primary' : undefined}
-                                variant={selected ? 'filled' : undefined}
-                                interactive
-                            >
-                                {optionLabel}
-                            </ListItem>
-                        );
+                        })}
 
-                    })}
-
-                    {creatable && groupedOptions.length === 0 &&
+                        {/* {creatable && groupedOptions.length === 0 &&
                         <ListItem
                             content={createNewLabel}
                             interactive
                             onClick={handleCreateNew}
                         />
-                    }
-                </List>
-            </div>
+                        } */}
+                    </List>
+                </div>
+            </Popover>
         </div>
     );
-});
+}
 
-Combobox.displayName = displayName;
-
-export default Combobox;
-
-function getValue<T>(arg: string | ComboboxOption | AutocompleteGroupedOption<string | ComboboxOption> | null): T {
-    // @ts-ignore
+function getValue(arg: string | ComboboxOption): string {
     return typeof arg === 'object' ? arg.value : arg;
 }
 
-function getOptionLabel(arg: string | ComboboxOption | AutocompleteGroupedOption<string | ComboboxOption> | null) {
-    // @ts-ignore
-    return typeof arg === 'object' ? arg.label : arg;
+function getLabel(arg: string | ComboboxOption): string {
+    return typeof arg === 'string'
+        ? arg 
+        : typeof arg === 'object'
+            ? ('label' in arg
+                ? arg.label 
+                : 'content' in arg && typeof arg.content === 'string' 
+                    ? arg.content
+                    : arg.toString()
+            )
+            : '';
 }
-
-// function getValue(
-//     options: OptionsOrGroups<ComboboxOption, GroupBase<ComboboxOption>> = [],
-//     value: string | string[] | null | undefined
-// ): ComboboxOption | ComboboxOption[] | undefined {
-//     const allOptions = options?.flatMap(optionOrGroup => isGroup(optionOrGroup) ? optionOrGroup.options : optionOrGroup);
-
-//     if (Array.isArray(value)) {
-//         return allOptions.filter(option => value.includes(option.value as string));
-//     } else {
-//         return allOptions.find(option => option.value === value);
-//     }
-// }
-
-// function isGroup(optionOrGroup: ComboboxOption | GroupBase<ComboboxOption>): optionOrGroup is GroupBase<ComboboxOption> {
-//     return !!(optionOrGroup as GroupBase<ComboboxOption>).options;
-// }
