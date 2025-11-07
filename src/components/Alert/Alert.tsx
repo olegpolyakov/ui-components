@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import type { Color, ComponentProps, ElementType, Intent, Shadow, Shape, Size, Variant } from '../../types';
+import type { Color, ComponentProps, ElementType, Intent, Shadow, Shape, Size, SizeExtended, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon from '../Icon';
@@ -34,6 +34,12 @@ const IntentIcon = {
     info: 'info',
     success: 'done',
     warning: 'warning'
+};
+
+const closeButtonSizeMap: Record<Size, SizeExtended> = {
+    s: 'xs',
+    m: 's',
+    l: 'm'
 };
 
 export default function Alert<T extends ElementType = 'div'>({
@@ -101,7 +107,7 @@ export default function Alert<T extends ElementType = 'div'>({
                 <Button
                     className={cn(elementClassNames['close-button'], cssClasses.closeButton)}
                     icon="close"
-                    size={size}
+                    size={closeButtonSizeMap[size]}
                     onClick={onClose}
                 />
             }

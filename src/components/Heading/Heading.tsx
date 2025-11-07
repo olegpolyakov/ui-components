@@ -15,6 +15,8 @@ export type HeadingProps = {
     weight?: Weight;
     block?: boolean;
     muted?: boolean;
+    marginTop?: boolean;
+    marginBottom?: boolean;
 };
 
 Heading.displayName = 'Heading';
@@ -32,13 +34,15 @@ export default function Heading<T extends ElementType = 'h1'>({
     content = children,
     start,
     end,
-    type = 'h1',
+    size = 'm',
     color,
     weight = 'semibold',
     align,
     block,
     bold,
     muted,
+    marginTop,
+    marginBottom,
     ...props
 }: ComponentProps<HeadingProps, T>) {
     const Component = as || 'h1';
@@ -46,13 +50,19 @@ export default function Heading<T extends ElementType = 'h1'>({
         className,
         elementClassNames.root,
         cssClasses.root,
-        cssClasses[type],
+        cssClasses[size],
         color && cssClasses[color],
         weight && cssClasses[weight],
         align && cssClasses[`align-${align}`],
         block && cssClasses.block,
         bold && cssClasses.bold,
-        muted && cssClasses.muted
+        muted && cssClasses.muted,
+        marginTop && marginTop === true
+            ? cssClasses.mt
+            : cssClasses[`mt-${marginTop}`],
+        marginBottom && marginBottom === true
+            ? cssClasses.mb
+            : cssClasses[`mb-${marginBottom}`]
     );
 
     return (

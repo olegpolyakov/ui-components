@@ -5,7 +5,15 @@ import Text from '~/components/Text';
 
 # Text
 
-<Demo>
+Text is a component that displays formatted text content with various styles and options.
+
+<Demo
+    settings={Text.settings}
+    wrap={(content, props) => props.ellipsis
+        ? <div style={{maxWidth: '150px'}}>{content}</div>
+        : content
+    }
+>
     <Text content="Lorem ipsum dolor sit amet" />
 </Demo>
 

@@ -1,13 +1,14 @@
-import { BrowserRouter as Router, Route, NavLink, Switch } from 'react-router-dom';
+import { useLayoutEffect, useRef } from 'react';
+import { BrowserRouter as Router, Route, Link, Switch, useLocation } from 'react-router-dom';
 
-import { Heading, Button, Provider } from '~/components';
+import { Button, Heading, List, Provider } from '~/components';
 import { useTheme } from '~/hooks/theme';
 
 import styles from './App.module.scss';
 
 import routes from './routes';
 
-export default function App() {
+export default function App({}: {foo: 'bar'}) {
     const [theme, setTheme] = useTheme('light');
 
     return (
@@ -19,6 +20,7 @@ export default function App() {
                             <Heading
                                 className={styles.title}
                                 content="Kantan UI"
+                                size="m"
                             />
 
                             <Button
@@ -27,17 +29,7 @@ export default function App() {
                             />
                         </header>
 
-                        <nav className={styles.nav}>
-                            {routes.map(route => (
-                                <NavLink
-                                    key={route.path}
-                                    to={route.path}
-                                    exact={route.exact}
-                                >
-                                    {route.title}
-                                </NavLink>
-                            ))}
-                        </nav>
+                        <Nav />
 
                         <footer className={styles.footer}>
                             
@@ -59,5 +51,34 @@ export default function App() {
                 </div>
             </Router>
         </Provider>
+    );
+}
+
+function Nav() {
+    const location = useLocation();
+
+    const ref = useRef<HTMLElement>(null);
+
+    useLayoutEffect(() => {
+        ref.current
+            ?.querySelector('[data-active="true"]')
+            ?.scrollIntoView({ behavior: 'instant', block: 'center' });
+    }, []);
+
+    return (
+        <List ref={ref} className={styles.nav} as="nav">
+            {routes.map(route => (
+                <List.Item
+                    key={route.path}
+                    className={styles.link}
+                    as={Link}
+                    to={route.path}
+                    content={route.title}
+                    shape="rectangular"
+                    active={location.pathname === route.path}
+                    interactive
+                />
+            ))}
+        </List>
     );
 }

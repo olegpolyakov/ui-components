@@ -14,7 +14,7 @@ export type ListItemProps = {
     variant?: Variant;
     disabled?: boolean;
     interactive?: boolean;
-    selected?: boolean;
+    active?: boolean;
 };
 
 ListItem.displayName = 'ListItem';
@@ -36,8 +36,8 @@ export default function ListItem<T extends ElementType = 'li'>({
     shape,
     variant = 'plain',
     disabled,
+    active,
     interactive,
-    selected,
     ...props
 }: ComponentProps<ListItemProps, T>) {
     const Component = as || 'li';
@@ -49,12 +49,12 @@ export default function ListItem<T extends ElementType = 'li'>({
         shape && cssClasses[shape],
         cssClasses[variant],
         disabled && cssClasses.disabled,
-        interactive && cssClasses.interactive,
-        selected && cssClasses.selected
+        active && cssClasses.active,
+        interactive && cssClasses.interactive
     );
 
     return (
-        <Component className={classNames} data-selected={selected} {...props}>
+        <Component className={classNames} data-active={active} {...props}>
             {start &&
                 <span className={cn(elementClassNames.start, cssClasses.start)}>
                     {start}

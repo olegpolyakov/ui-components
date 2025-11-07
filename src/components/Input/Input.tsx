@@ -35,7 +35,7 @@ Input.displayName = 'Input';
 
 const elementClassNames = getElementClassNames(
     Input.displayName,
-    ['start', 'label', 'input', 'end']
+    ['start', 'control', 'label', 'input', 'end']
 );
 
 export default function Input({
@@ -57,18 +57,26 @@ export default function Input({
     onInvalid,
     ...props
 }: ComponentProps<InputProps, 'input'>) {
+    const isControlled = value !== undefined;
+
     const [isFocused, setFocused] = useState(false);
     const [isInvalid, setInvalid] = useState(false);
+    const [internalValue, setInternalValue] = useState(value || defaultValue || '');
     const [validationMessage, setValidationMessage] = useState('');
 
+
     const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+        if (!isControlled) {
+            setInternalValue(event.target.value);
+        }
+
         setInvalid(!event.target.validity.valid);
         setValidationMessage('');
         onChange?.({
             name: event.target.name,
             value: event.target.value
         }, event);
-    }, [onChange]);
+    }, [isControlled, onChange]);
 
     const handleInvalid = useCallback((event: InvalidEvent<HTMLInputElement>) => {
         event.preventDefault();
@@ -87,7 +95,7 @@ export default function Input({
         onBlur?.(event);
     }, [onBlur]);
 
-    const isActive = Boolean(active || value || defaultValue);
+    const isActive = Boolean(active || value || defaultValue || internalValue);
 
     const classNames = cn(
         className,
@@ -99,9 +107,7 @@ export default function Input({
         isActive && cssClasses.active,
         isFocused && cssClasses.focused,
         isInvalid && cssClasses.invalid,
-        disabled && cssClasses.disabled,
-        Boolean(start) && cssClasses.withStart,
-        Boolean(end) && cssClasses.withEnd
+        disabled && cssClasses.disabled
     );
 
     return (
@@ -115,23 +121,25 @@ export default function Input({
                 </span>
             }
 
-            {label &&
-                <label className={cn(elementClassNames.label, cssClasses.label)}>
-                    {label}
-                </label>
-            }
+            <div className={cn(elementClassNames.control, cssClasses.control)}>
+                {label &&
+                    <label className={cn(elementClassNames.label, cssClasses.label)}>
+                        {label}
+                    </label>
+                }
 
-            <input
-                className={cn(elementClassNames.input, cssClasses.input)}
-                value={value}
-                defaultValue={defaultValue}
-                disabled={disabled}
-                onChange={handleChange}
-                onInvalid={handleInvalid}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
-                {...props}
-            />
+                <input
+                    className={cn(elementClassNames.input, cssClasses.input)}
+                    value={value}
+                    defaultValue={defaultValue}
+                    disabled={disabled}
+                    onChange={handleChange}
+                    onInvalid={handleInvalid}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    {...props}
+                />
+            </div>
 
             {end &&
                 <span className={cn(elementClassNames.end, cssClasses.end)}>

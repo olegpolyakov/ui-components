@@ -1,33 +1,16 @@
 import Demo from '@/components/Demo';
 import Section from '@/components/Section';
 
-import { Avatar, AvatarGroup, Icon } from '~/components';
+import { AvatarGroup, Avatar } from '~/components';
 
 # Avatar Group
 
-<Demo>
+Avatar Group is a component that displays a collection of Avatar components, often used to represent a group of users.
+
+<Demo settings={AvatarGroup.settings}>
     <AvatarGroup>
         <Avatar content="A" />
         <Avatar content="B" />
         <Avatar content="C" />
     </AvatarGroup>
 </Demo>
-
-<Section>
-    <AvatarGroup overlap>
-        <Avatar content="A" />
-        <Avatar content="B" />
-        <Avatar content="C" />
-    </AvatarGroup>
-</Section>
-
-<Section>
-    <AvatarGroup 
-        avatars={[
-            {key: 'a', content: 'A'},
-            {key: 'b', content: 'B'},
-            {key: 'c', content: 'C'},
-        ]}
-        maxCount={2}
-    />
-</Section>

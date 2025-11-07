@@ -4,7 +4,6 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import styles from './Image.module.scss';
 
 export type ImageProps = {
-    as?: 'img';
     color?: Color;
     shape?: Shape;
     inline?: boolean;

@@ -4,7 +4,6 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import cssClasses from './FlexItem.module.scss';
 
 export type FlexItemProps = {
-    as?: 'div';
     alignX?: Align;
     alignY?: Align;
     alignCenter?: boolean;

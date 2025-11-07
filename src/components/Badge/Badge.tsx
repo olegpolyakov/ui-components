@@ -6,7 +6,6 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import cssClasses from './Badge.module.scss';
 
 export type BadgeProps = {
-    as?: 'span';
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;

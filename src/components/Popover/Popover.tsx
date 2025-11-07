@@ -24,7 +24,7 @@ import Portal from '../Portal';
 
 import styles from './Popover.module.scss';
 
-export type { VirtualElement };
+export type { Placement, VirtualElement };
 
 export type PopoverProps = PropsWithChildren<{
     containerElement?: HTMLElement;
@@ -42,7 +42,8 @@ export type PopoverProps = PropsWithChildren<{
     variant?: Variant;
     disabled?: boolean;
     middleware?: Middleware[];
-    onOpen?: () => void;
+    unstyled?: boolean;
+    onOpen?: (placement: Placement) => void;
     onClose?: () => void;
     onOpenChange?: (isOpen: boolean, event?: SyntheticEvent | KeyboardEvent | MouseEvent) => void;
 }>;
@@ -72,6 +73,7 @@ export default function Popover({
     size,
     variant = 'plain',
     middleware = [],
+    unstyled,
     onOpen,
     onClose,
     ...props
@@ -83,7 +85,7 @@ export default function Popover({
 
     const [internalOpen, setInternalOpen] = useState(defaultOpen);
 
-    const {refs, floatingStyles, middlewareData} = useFloating({
+    const {refs, placement: internalPlacement, floatingStyles, middlewareData} = useFloating({
         placement,
         open: internalOpen,
         onOpenChange: setInternalOpen,
@@ -128,7 +130,7 @@ export default function Popover({
             setInternalOpen(true);
         }
 
-        onOpen?.();
+        onOpen?.(internalPlacement);
 
         function handleClick(event: MouseEvent) {
             const target = event.target as Node;
@@ -150,15 +152,15 @@ export default function Popover({
         return () => {
             root?.removeEventListener('click', handleClick);
         };
-    }, [open, internalOpen, isUncontrolled, onOpen, onClose]);
+    }, [open, internalOpen, internalPlacement, isUncontrolled, onOpen, onClose]);
 
     const handleTriggerClick = useCallback(() => {
         if (isUncontrolled) {
             setInternalOpen(true);
         }
 
-        onOpen?.();
-    }, [isUncontrolled, onOpen]);
+        onOpen?.(internalPlacement);
+    }, [isUncontrolled, internalPlacement, onOpen]);
 
     const handlePopoverClick = useCallback((event: ReactMouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
@@ -187,7 +189,7 @@ export default function Popover({
                     <div ref={rootRef} className={classNames}>
                         <div
                             ref={refs.setFloating}
-                            className={cn(elementClassNames.surface, styles.surface)}
+                            className={!unstyled ? cn(elementClassNames.surface, styles.surface) : undefined}
                             style={floatingStyles}
                             onClick={handlePopoverClick}
                         >
@@ -200,7 +202,7 @@ export default function Popover({
                                 }}
                             />
 
-                            <div ref={contentRef} className={cn(elementClassNames.content, styles.content)}>
+                            <div ref={contentRef} className={!unstyled ? cn(elementClassNames.content, styles.content) : undefined}>
                                 {content}
                             </div>
                         </div>

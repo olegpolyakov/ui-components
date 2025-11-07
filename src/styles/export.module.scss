@@ -1,0 +1,7 @@
+@use 'sass:string';
+
+@use 'theme';
+
+:export {
+    prefix: string.unquote(theme.$prefix);
+}

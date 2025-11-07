@@ -1,10 +1,11 @@
-import { cloneElement, isValidElement, useState, type ReactElement, type ReactNode } from 'react';
+import { cloneElement, isValidElement, useState, type ReactElement } from 'react';
 
-import { Button } from '~/components';
+import { classnames as cn } from '~/utils';
+
+import { Button, Drawer } from '~/components';
 
 import Code from '@/components/Code';
-
-import Settings, { Setting } from './Settings';
+import Settings, { Setting } from '@/components/Settings';
 
 import styles from './Demo.module.scss';
 
@@ -12,15 +13,19 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
     children,
     settings,
     setup,
+    wrap,
+    align,
     ...props
 }: {
-    settings?: Setting[];
-    setup?: ReactNode | ((data: T, setData: (data: T) => void) => ReactNode);
+    settings?: Record<string, Setting>;
+    align?: 'start' | 'center' | 'end';
+    setup?: ReactElement | ((data: T, setData: (data: T) => void) => ReactElement);
+    wrap?: ReactElement | ((content: ReactElement, data: T) => ReactElement);
     children?: ReactElement | ((data: T, setData: (data: T) => void) => ReactElement);
 }) {
     const [settingsData, setSettingsData] = useState<T>({} as T);
-    const [isCodeOpen, setCodeOpen] = useState(false);
     const [isSettingsOpen, setSettingsOpen] = useState(false);
+    const [isCodeOpen, setCodeOpen] = useState(false);
 
     const setupContent = typeof setup === 'function'
         ? setup(settingsData, setSettingsData)
@@ -30,29 +35,36 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
         : isValidElement(children)
             ? cloneElement(children as ReactElement, settingsData)
             : children;
+    const wrappedContent = typeof wrap === 'function'
+        ? wrap(content as ReactElement, settingsData)
+        : isValidElement(wrap)
+            ? cloneElement(wrap as ReactElement, {}, content as ReactElement)
+            : content;
 
     return (
-        <div className={styles.root} {...props}>
-            <div className={styles.controls}>
-                <Button
-                    key="code"
-                    icon={isCodeOpen ? 'code_off' : 'code'}
-                    title={isCodeOpen ? 'Hide code' : 'Show code'} onClick={() => setCodeOpen(v => !v)}
-                />
-
-                {settings &&
-                    <Button
-                        key="settings"
-                        icon="settings"
-                        title="Настройки"
-                        onClick={() => setSettingsOpen(v => !v)}
-                    />
-                }
-            </div>
-
+        <div className={cn(styles.root, align && styles[`align-${align}`])} {...props}>
             <div className={styles.main}>
+                <div className={styles.actions}>
+                    <Button
+                        icon={isCodeOpen ? 'code_off' : 'code'}
+                        title={isCodeOpen ? 'Hide code' : 'Show code'}
+                        size="s"
+                        onClick={() => setCodeOpen(v => !v)}
+                    />
+
+                    {settings && !isSettingsOpen &&
+                        <Button
+                            icon="settings"
+                            title="Open settings"
+                            size="s"
+                            onClick={() => setSettingsOpen(true)}
+                        />
+                    }
+                </div>
+                
+
                 {setupContent}
-                {content}
+                {wrappedContent}
             </div>
 
             {isCodeOpen &&
@@ -63,18 +75,20 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
                 </div>
             }
 
-            {settings &&
-                <div
-                    className={styles.aside}
-                    style={{
-                        display: isSettingsOpen ? 'block' : 'none'
-                    }}
+            {settings && isSettingsOpen &&
+                <Drawer
+                    className={styles.drawer}
+                    title="Settings"
+                    position="right"
+                    type="inline"
+                    onClose={() => setSettingsOpen(false)}
                 >
                     <Settings<T>
+                        data={isValidElement(content) ? (content.props as T) : {} as T}
                         settings={settings}
                         onChange={setSettingsData}
                     />
-                </div>
+                </Drawer>
             }
         </div>
     );

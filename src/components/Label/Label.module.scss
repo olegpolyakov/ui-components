@@ -9,7 +9,6 @@
 
 .root {
     display: flex;
-    flex-wrap: wrap;
     align-items: flex-start;
     gap: component.var(gap);
     color: component.var(color);
@@ -26,15 +25,24 @@
 
 // Colors
 
-@include component.palettes-color-vars(color);
+@include component.palettes-vars(color);
 
 
 // Sizes
 
 @include component.declare((
-    s: (size: theme.var(font-size-s)),
-    m: (size: theme.var(font-size-m)),
-    l: (size: theme.var(font-size-l))
+    s: (
+        size: theme.var(font-size-xs),
+        gap: theme.var(space-xxs)
+    ),
+    m: (
+        size: theme.var(font-size-s),
+        gap: theme.var(space-xxs)
+    ),
+    l: (
+        size: theme.var(font-size-m),
+        gap: theme.var(space-xs)
+    )
 ));
 
 

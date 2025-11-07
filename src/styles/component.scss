@@ -80,15 +80,15 @@ $-vars: ();
     );
 }
 
-@mixin palette-color-vars($args...) {
-    @include theme.palette-color-vars(
+@mixin palette-vars($args...) {
+    @include theme.palette-vars(
         $prefix: '#{$-name}-',
         $args...
     );
 }
 
-@mixin palettes-color-vars($args...) {
-    @include theme.palettes-color-vars(
+@mixin palettes-vars($args...) {
+    @include theme.palettes-vars(
         $prefix: '#{$-name}-',
         $args...
     );

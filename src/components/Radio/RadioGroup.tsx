@@ -6,6 +6,7 @@ import Radio, { type RadioProps } from './Radio';
 import styles from './RadioGroup.module.scss';
 
 export type RadioGroupProps = {
+    name?: string;
     radios?: PropsWithKey<RadioProps>[];
     size?: RadioProps['size'];
     orientation?: 'horizontal' | 'vertical';
@@ -20,6 +21,7 @@ export default function RadioGroup<T extends ElementType = 'div'>({
     className,
     children,
 
+    name,
     radios = [],
     size,
     orientation,
@@ -39,6 +41,7 @@ export default function RadioGroup<T extends ElementType = 'div'>({
                 <Radio
                     key={key}
                     className={styles.radio}
+                    name={name}
                     size={size}
                     {...props}
                 />

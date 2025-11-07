@@ -12,7 +12,16 @@ $vars: component.vars();
     flex-direction: column;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: var(--ui-Field-gap);
+    gap: component.var(gap);
+}
+
+.required {
+    .label {
+        &::after {
+            content: '*';
+            color: var(--kui-danger-color);
+        }
+    }
 }
 
 

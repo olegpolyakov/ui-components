@@ -46,6 +46,14 @@ $vars: component.vars();
     gap: component.var(gap);
 }
 
+.control {
+    height: 100%;
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 .label {
     position: absolute;
     color: component.var(label-color);

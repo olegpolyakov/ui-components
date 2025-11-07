@@ -1,9 +1,10 @@
-import { ReactElement, ReactNode, useState, useCallback } from 'react';
+import { ReactElement, ReactNode, useState, useCallback, useRef } from 'react';
 
 import type { Size,  ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon from '../Icon';
+import Transition from '../Transition';
 
 import cssClasses from './AccordionItem.module.scss';
 
@@ -42,6 +43,8 @@ export default function AccordionItem<T extends ElementType = 'div'>({
     disabled,
     ...props
 }: ComponentProps<AccordionItemProps, T>) {
+    const contentRef = useRef<HTMLDivElement>(null);
+
     const [open, setOpen] = useState(_open);
 
     const handleClick = useCallback(() => {
@@ -94,11 +97,18 @@ export default function AccordionItem<T extends ElementType = 'div'>({
                 }
             </div>
 
-            <div className={cn(elementClassNames.content, cssClasses.content)}>
-                <div>
+            <Transition
+                nodeRef={contentRef}
+                in={open}
+                timeout={200}
+            >
+                <div
+                    ref={contentRef}
+                    className={cn(elementClassNames.content, cssClasses.content)}
+                >
                     {content}
                 </div>
-            </div>
+            </Transition>
         </Component>
     );
 }

@@ -4,7 +4,6 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import cssClasses from './Flex.module.scss';
 
 export type FlexProps = {
-    as?: 'div';
     dir?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
     column?: boolean;
     align?: Align;

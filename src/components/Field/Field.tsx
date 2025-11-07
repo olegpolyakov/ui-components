@@ -1,11 +1,11 @@
-import { type ReactElement, type ReactNode, isValidElement } from 'react';
+import { type ReactElement, type ReactNode, cloneElement, isValidElement } from 'react';
 
 import type { ComponentProps, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Label, { LabelProps } from '../Label';
 
-import cssClasses from './Field.module.scss';
+import styles from './Field.module.scss';
 
 Field.displayName = 'Field';
 
@@ -16,6 +16,7 @@ export type FieldProps = {
     content?: ReactNode;
     size?: Size;
     inline?: boolean;
+    required?: boolean;
     labelProps?: LabelProps;
 };
 
@@ -24,29 +25,43 @@ export default function Field({
     className,
     children,
 
-    label,
     content = children,
+    label,
     size = 'm',
     inline,
+    required,
     labelProps,
     ...props
 }: ComponentProps<FieldProps, 'div'>) {
+    const isRequired = isValidElement<FieldProps>(label)
+        ? !!label.props?.required
+        : !!required;
+
     const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size],
-        inline && cssClasses.inline
+        styles.root,
+        styles[size],
+        inline && styles.inline,
+        isRequired && styles.required
     );
 
     return (
         <Component className={classNames} {...props}>
             {label && (isValidElement<LabelProps>(label) ? label :
-                <Label size={size} {...labelProps}>{label}</Label>
+                <Label
+                    className={styles.label}
+                    content={label}
+                    size={size}
+                    {...labelProps}
+                />
             )}
 
-            {content}
+            {isValidElement(content) 
+                ? cloneElement(content as ReactElement<{size: Size}>, { size })
+                : content
+            }
         </Component>
     );
 }

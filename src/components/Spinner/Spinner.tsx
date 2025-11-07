@@ -4,7 +4,6 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import styles from './Spinner.module.scss';
 
 export type SpinnerProps = {
-    as?: 'div';
     color?: Color;
     size?: SizeExtended;
 };

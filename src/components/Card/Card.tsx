@@ -12,8 +12,6 @@ export type CardProps = {
     variant?: Variant;
     interactive?: boolean;
     raised?: boolean;
-
-    as?: 'div';
 };
 
 Card.displayName = 'Card';

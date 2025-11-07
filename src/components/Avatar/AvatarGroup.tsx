@@ -7,7 +7,6 @@ import Avatar, { type AvatarProps } from './Avatar';
 import cssClasses from './AvatarGroup.module.scss';
 
 export type AvatarGroupProps = {
-    as?: 'div';
     avatars?: PropsWithKey<AvatarProps>[];
     color?: AvatarProps['color'];
     shape?: AvatarProps['shape'];

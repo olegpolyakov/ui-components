@@ -11,18 +11,22 @@
 @use './utils/string' as str;
 @use './utils/type' as type;
 
-$prefix: 'ui' !default;
+$prefix: 'kui' !default;
 
-@mixin init($theme: null, $root: true) {
-    @if $root {
-        :root {
-            @include base-vars;
-            @include scheme($theme);
-        }
+@mixin init($theme: null) {
+    @if & {
+        @include base($theme);
     } @else {
-        @include base-vars;
-        @include scheme($theme);
+        :root {
+            @include base($theme);
+        }
     }
+}
+
+@mixin base($theme: null) {
+    @include scheme($theme);
+    @include base-vars;
+    font-family: font.$font-family;
 }
 
 @mixin scheme($theme: 'light') {
@@ -44,6 +48,16 @@ $prefix: 'ui' !default;
 
     @media (prefers-color-scheme: dark) {
         @include color-vars('dark');
+    }
+}
+
+@mixin light {
+    [data-theme="light"] {
+        @content;
+    }
+
+    @media (prefers-color-scheme: light) {
+        @content;
     }
 }
 
@@ -115,14 +129,14 @@ $prefix: 'ui' !default;
     }
 
     // Plain colors
-    $plain-color: color.change($surface-color, $alpha: 0);
+    $plain-color: color.rgb($surface-color);
     @include vars((
-        color: $plain-color,
-        color-hover: css.rgba(color.rgb($plain-color), 0.1),
-        color-active: css.rgba(color.rgb($plain-color), 0.15)
+        color: css.rgba($plain-color, 0),
+        color-hover: css.rgba($plain-color, .75),
+        color-active: css.rgba($plain-color, 1)
     ), 'plain-');
 
-    $on-plain-color: colors.on-color($plain-color);
+    $on-plain-color: colors.on-color($surface-color);
     @include vars((
         color: $on-plain-color,
         color-hover: colors.hover-color($on-plain-color),
@@ -283,21 +297,46 @@ $prefix: 'ui' !default;
     @include var(#{$prefix}#{$prop}, $color);
 }
 
-@mixin color-state-vars($props, $color: null, $override: (), $prefix: '') {
+@mixin color-state-vars(
+    $props,
+    $color: null,
+    $override: (),
+    $prefix: ''
+) {
     @if type.is-list($props) {
         @each $prop in $props {
-            @include _color-state-vars($prop, $color, $override, $prefix);
+            @include _color-state-vars(
+                $prop,
+                $color,
+                $override,
+                $prefix
+            );
         }
     } @else if type.is-map($props) {
         @each $prop, $value in $props {
-            @include _color-state-vars($prop, #{if($value == '_', $color, $value)}, $override, $prefix);
+            @include _color-state-vars(
+                $prop,
+                #{if($value == '_', $color, $value)},
+                $override,
+                $prefix
+            );
         }
     } @else {
-        @include _color-state-vars($props, $color, $override, $prefix);
+        @include _color-state-vars(
+            $props,
+            $color,
+            $override,
+            $prefix
+        );
     }
 }
 
-@mixin _color-state-vars($name, $color: null, $override: (), $prefix: '') {
+@mixin _color-state-vars(
+    $name,
+    $color: null,
+    $override: (),
+    $prefix: ''
+) {
     $colors: ();
 
     @if type.is-color($color) {
@@ -319,7 +358,7 @@ $prefix: 'ui' !default;
     @include color-var(#{$name}-active, map.get($colors, 'active'), $prefix: $prefix);
 }
 
-@mixin palette-color-vars(
+@mixin palette-vars(
     $palette,
     $props,
     $color: null,
@@ -351,7 +390,7 @@ $prefix: 'ui' !default;
     }
 }
 
-@mixin palettes-color-vars(
+@mixin palettes-vars(
     $props,
     $color: null,
     $on: false,
@@ -360,7 +399,7 @@ $prefix: 'ui' !default;
     $prefix: '',
 ) {
     @each $palette in $palettes {
-        @include palette-color-vars(
+        @include palette-vars(
             $palette,
             $props,
             if(map.has-key($override, $palette),

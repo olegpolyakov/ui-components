@@ -22,31 +22,26 @@ $vars: component.vars();
 
 .root {
     width: 100%;
-    height: component.var(height);
-    border-radius: component.var(border-radius);
-    font-family: theme.var(font-family);
-    font-size: component.var(font-size);
-    font-weight: component.var(font-weight);
-    line-height: component.var(line-height);
-    transition: border-color 0.2s ease-in-out;
-
-    &:not(.disabled) {
-        cursor: pointer;
-    }
 }
 
 .control {
     box-sizing: border-box;
     position: relative;
     width: 100%;
-    height: 100%;
+    height: component.var(height);
     display: flex;
     align-items: center;
+    border-radius: component.var(border-radius);
     padding: component.var(padding);
     gap: component.var(gap);
     background-clip: padding-box;
     background-color: component.var(background-color);
     color: component.var(text-color);
+    font-family: theme.var(font-family);
+    font-size: component.var(font-size);
+    font-weight: theme.var(font-weight);
+    line-height: component.var(line-height);
+    transition: border-color 0.2s ease-in-out;
 
     @include caret;
 }
@@ -88,6 +83,10 @@ $vars: component.vars();
         content: attr(data-placeholder);
         color: #b8b8b8;
     }
+
+    .label ~ &::before {
+        visibility: hidden;
+    }
 }
 
 .menu {
@@ -102,44 +101,6 @@ $vars: component.vars();
     overflow: hidden auto;
     z-index: 10;
     transition: border-color 0.2s ease-in-out;
-}
-
-
-// States
-
-.open {
-    border-color: theme.var(primary-color);
-
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-
-    // caret
-    &::after {
-        transform: rotate(180deg);
-    }
-
-    .menu {
-        display: block;
-        border-top: none;
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-    }
-}
-
-.activated {
-    .label {
-        transform: scale(.75) translate(0, -35%);
-    }
-
-    .label + .input {
-        padding-top: .75rem;
-    }
-}
-
-.invalid {
-    @include component.vars((
-        border-color: theme.var(danger-color)
-    ));
 }
 
 // Shapes
@@ -180,7 +141,10 @@ $vars: component.vars();
         background-color: transparent
     ));
 
-    border: component.var(border-width) solid component.var(border-color);
+    .control,
+    .menu {
+        border: component.var(border-width) solid component.var(border-color);
+    }
 }
 
 .underlined {
@@ -236,4 +200,60 @@ $vars: component.vars();
         line-height: 1rem;
         color: var(--ui-Input-danger-color);
     }
+}
+
+
+// States
+
+.open {
+    @include component.vars((
+        border-color: theme.var(primary-color)
+    ));
+
+    // caret
+    .control::after {
+        transform: rotate(180deg);
+    }
+
+    &.bottom {
+        .control {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .menu {
+            border-top: none;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
+
+    &.top {
+        .control {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .menu {
+            border-bottom: none;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+}
+
+.activated {
+    .label {
+        transform: scale(.75) translate(0, -35%);
+    }
+
+    .label + .input {
+        padding-top: .75rem;
+    }
+}
+
+.invalid {
+    @include component.vars((
+        border-color: theme.var(danger-color)
+    ));
 }

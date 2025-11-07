@@ -18,12 +18,12 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import styles from './Tooltip.module.scss';
 
-export type TooltipProps = PropsWithChildren<{
+export type TooltipProps = {
     content: ReactNode;
     arrow?: boolean;
     position?: Strategy;
     placement?: Placement;
-}, HTMLSpanProps>;
+};
 
 Tooltip.displayName = 'Tooltip';
 

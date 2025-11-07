@@ -51,12 +51,6 @@ $vars: component.vars();
     }
 }
 
-.indicator-icon {
-    margin-left: auto;
-    color: theme.var(icon-color);
-    transition: transform .2s ease;
-}
-
 .content {
     display: grid;
     grid-template-rows: 0fr;
@@ -68,14 +62,20 @@ $vars: component.vars();
     }
 }
 
-.open {
-    .indicator-icon {
-        transform: rotateZ(180deg);
-    }
+.indicator-icon {
+    margin-left: auto;
+    color: theme.var(icon-color);
+    transition: transform .2s ease;
+}
 
+.open {
     .content {
         grid-template-rows: 1fr;
         padding: component.var(_content-padding-open);
+    }
+    
+    .indicator-icon {
+        transform: rotateZ(180deg);
     }
 }
 

@@ -8,8 +8,7 @@ import TabsContext from './TabsContext';
 import cssClasses from './Tabs.module.scss';
 
 export type TabPanelProps = {
-    as?: 'div';
-    value: any;
+    value: string | number;
     hidden?: boolean;
 };
 

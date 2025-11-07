@@ -1,0 +1,22 @@
+@use '../../src/styles/index' as styles;
+
+.root {
+    height: 100%;
+    
+    pre {
+        box-sizing: border-box;
+        height: 100%;
+        margin: 0;
+        padding: 16px;
+    }
+}
+
+:global {
+    @include styles.light {
+        @import 'highlight.js/scss/github.scss';
+    }
+
+    @include styles.dark {
+        @import 'highlight.js/scss/github-dark.scss';
+    }
+}

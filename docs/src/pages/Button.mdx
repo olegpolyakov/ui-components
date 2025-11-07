@@ -5,75 +5,11 @@ import Button from '~/components/Button';
 
 # Button
 
-<Demo>
-  <Button content="Button" onClick={() => alert('Button clicked!')} />
+Button is a component that allows users to perform actions with a single click or tap.
+
+<Demo settings={Button.settings}>
+  <Button
+    content="Button"
+    onClick={() => alert('Button clicked!')}
+  />
 </Demo>
-
-<Section title="Variants">
-  <Button
-    content="Plain Button"
-    color="primary"
-    variant="plain"
-  />
-
-  <Button
-    content="Filled Button"
-    color="primary"
-    variant="filled"
-  />
-
-  <Button
-    content="Outlined Button"
-    color="primary"
-    variant="outlined"
-  />
-
-  <Button
-    content="Tinted Button"
-    color="primary"
-    variant="tinted"
-  />
-</Section>
-
-<Section title="Sizes">
-  <Button
-    content="Extra Small Button"
-    size="xs"
-  />
-
-  <Button
-    content="Small Button"
-    size="s"
-  />
-
-  <Button
-    content="Medium Button"
-    size="m"
-  />
-
-  <Button
-    content="Large Button"
-    size="l"
-  />
-
-  <Button
-    content="Extra Large Button"
-    size="xl"
-  />
-</Section>
-
-<Section title="Shapes">
-  <Button content="Button" shape="circular" variant="outlined" />
-  <Button content="Button" shape="rectangular" variant="outlined" />
-  <Button content="Button" shape="rounded" variant="outlined" />
-</Section>
-
-<Section title="Icons">
-  <Button icon="star" content="Button" />
-
-  <Button icon="star" content="Button" />
-</Section>
-
-<Section title="Loading">
-  <Button content="Button" loading />
-</Section>

@@ -49,7 +49,7 @@ $vars: component.vars();
 
 // Colors
 
-@include component.palettes-color-vars(color);
+@include component.palettes-vars(color);
 
 .inherit {
     color: inherit;

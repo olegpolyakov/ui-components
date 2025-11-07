@@ -5,12 +5,9 @@ import Flex from '~/components/Flex';
 
 # Flex
 
-<Demo
-    settings={[
-        {name: 'count', label: 'Number of items', type: 'number', defaultValue: 3},
-        {name: 'wrap', label: 'Wrap', type: 'checkbox', defaultValue: false}
-    ]}
->
+Flex is a layout component that arranges its children in a flexible box model, allowing for responsive and dynamic layouts.
+
+<Demo settings={Flex.settings}>
     {({count, ...props}) => (
         <Flex gap="s" {...props}>
             {Array.from({ length: count }).map((_, index) => (

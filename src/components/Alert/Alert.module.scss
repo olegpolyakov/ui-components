@@ -3,7 +3,7 @@
 
 @include component.define('Alert', (
     height: auto,
-    padding: theme.var(space-xxs) theme.var(space-s),
+    padding: theme.var(space-xxs) theme.var(space-xs),
     gap: theme.var(space-xs),
     border-radius: theme.var(border-radius-m),
     border-width: 0,
@@ -36,7 +36,7 @@ $vars: component.vars();
 .end {
     display: inline-flex;
     align-items: center;
-    gap: theme.var(space-xs);
+    gap: component.var(gap);
 }
 
 .start,
@@ -85,7 +85,7 @@ $vars: component.vars();
     l: (
         height: 48px,
         gap: theme.var(space-s),
-        padding: theme.var(space-xs) theme.var(space-s),
+        padding: theme.var(space-s) theme.var(space-m),
         border-radius: theme.var(border-radius-m),
         font-size: theme.var(font-size-m)
     )

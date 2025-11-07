@@ -77,7 +77,9 @@ export default function Drawer<T extends ElementType = 'div'>({
                 tabIndex={-1}
                 {...props}
             >
-                <div className={cn(elementClassNames.backdrop, cssClasses.backdrop)} />
+                {type !== 'inline' &&
+                    <div className={cn(elementClassNames.backdrop, cssClasses.backdrop)} />
+                }
 
                 <div ref={ref} className={cn(elementClassNames.surface, cssClasses.surface)}>
                     {(title || header || onClose) &&

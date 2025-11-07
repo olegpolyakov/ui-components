@@ -13,13 +13,15 @@
     color: theme.var(text-color),
     line-height: theme.var(line-height),
     letter-spacing: 0,
-    gap: theme.var(space-xs)
+    gap: theme.var(space-xs),
+    margin-top: 0,
+    margin-bottom: 0
 ));
 
 $vars: component.vars();
 
 .root {
-    margin: 0;
+    margin: component.var(margin-top) 0 component.var(margin-bottom);
     display: flex;
     align-items: center;
     gap: component.var(gap);
@@ -46,7 +48,7 @@ $vars: component.vars();
 
 // Colors
 
-@include component.palettes-color-vars(color);
+@include component.palettes-vars(color);
 
 
 // Sizes
@@ -119,3 +121,14 @@ $vars: component.vars();
         text-overflow: ellipsis;
     }
 }
+
+@include component.declare((
+    mt: (margin-top: 1rem),
+    mt-s: (margin-top: theme.var(space-s)),
+    mt-m: (margin-top: theme.var(space-m)),
+    mt-l: (margin-top: theme.var(space-l)),
+    mb: (margin-bottom: 1rem),
+    mb-s: (margin-bottom: theme.var(space-s)),
+    mb-m: (margin-bottom: theme.var(space-m)),
+    mb-l: (margin-bottom: theme.var(space-l)),
+));

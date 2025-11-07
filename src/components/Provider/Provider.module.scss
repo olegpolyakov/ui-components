@@ -1,9 +1,9 @@
-@use '../../styles/theme';
+@use 'theme';
 
 .root {
-    background-color: var(--ui-background-color);
-    color: var(--ui-text-color);
-    font-family: var(--ui-font-family);
+    background-color: theme.var(background-color);
+    color: theme.var(text-color);
+    font-family: theme.var(font-family);
 }
 
 .light {

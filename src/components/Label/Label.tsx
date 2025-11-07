@@ -6,7 +6,6 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import cssClasses from './Label.module.scss';
 
 export type LabelProps = {
-    as?: 'label';
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;

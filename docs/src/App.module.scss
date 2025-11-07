@@ -15,8 +15,8 @@
 .aside {
     display: flex;
     flex-direction: column;
-    border-right: 1px solid var(--ui-border-color);
-    overflow-y: auto;
+    border-right: 1px solid var(--kui-border-color);
+    overflow: hidden;
 }
 
 .header {
@@ -28,15 +28,14 @@
 }
 
 .title {
-    margin: 0;
-    font-size: 24px;
+    
 }
 
 .nav {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px;
-    padding-top: 8px;
+    overflow-y: auto;
+}
+
+.link {
+    text-decoration: none;
 }

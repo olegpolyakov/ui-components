@@ -60,6 +60,7 @@ $vars: component.vars();
         color: component.var(text-color-hover);
     }
     
+    &.active,
     &:active {
         border-color: component.var(border-color-active);
         background-color: component.var(background-color-active);

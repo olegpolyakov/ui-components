@@ -20,9 +20,9 @@ export type RadioProps = {
 
 export type RadioChangeHandler = (
     data: {
+        checked: boolean;
         name?: string;
         value?: string;
-        checked: boolean;
     },
     event: ChangeEvent<HTMLInputElement>
 ) => void;

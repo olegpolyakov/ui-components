@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import type { Align, Color, ComponentProps, ElementType, SizeFull, Weight } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Text.module.scss';
+import styles from './Text.module.scss';
 
 export type TextProps = {
     content?: ReactNode;
@@ -58,42 +58,42 @@ export default function Text<T extends ElementType = 'p'>({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        color && cssClasses[color],
-        size && cssClasses[size],
-        weight && cssClasses[weight],
-        align && cssClasses[`align-${align}`],
-        inline && cssClasses.inline,
-        italic && cssClasses.italic,
-        uppercase && cssClasses.uppercase,
-        strikethrough && cssClasses.strikethrough,
-        ellipsis && cssClasses.ellipsis,
-        disabled && cssClasses.disabled,
+        styles.root,
+        color && styles[color],
+        size && styles[size],
+        weight && styles[weight],
+        align && styles[`align-${align}`],
+        inline && styles.inline,
+        italic && styles.italic,
+        uppercase && styles.uppercase,
+        strikethrough && styles.strikethrough,
+        ellipsis && styles.ellipsis,
+        disabled && styles.disabled,
         marginTop && marginTop === true
-            ? cssClasses.mt
-            : cssClasses[`mt-${marginTop}`],
+            ? styles.mt
+            : styles[`mt-${marginTop}`],
         marginBottom && marginBottom === true
-            ? cssClasses.mb
-            : cssClasses[`mb-${marginBottom}`],
-        as === 'a' && cssClasses.link
+            ? styles.mb
+            : styles[`mb-${marginBottom}`],
+        as === 'a' && styles.link
     );
 
     return (
         <Component className={classNames} {...props}>
             {start &&
-                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                <span className={cn(elementClassNames.start, styles.start)}>
                     {start}
                 </span>
             }
 
             {content &&
-                <span className={cn(elementClassNames.content, cssClasses.content)}>
+                <span className={cn(elementClassNames.content, styles.content)}>
                     {content}
                 </span>
             }
 
             {end &&
-                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                <span className={cn(elementClassNames.end, styles.end)}>
                     {end}
                 </span>
             }

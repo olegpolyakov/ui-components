@@ -49,6 +49,7 @@
     "highlight.js": "^11.11.1",
     "marked": "^16.3.0",
     "marked-highlight": "^2.2.2",
+    "react-docgen-typescript": "^2.4.0",
     "react-router-dom": "^5.3.4",
     "sass": "^1.92.0",
     "typescript": "^5.9.2",

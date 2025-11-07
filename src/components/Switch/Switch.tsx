@@ -23,9 +23,9 @@ export type SwitchProps = {
 
 export type SwitchChangeHandler = (
     data: {
+        checked: boolean;
         name?: string;
         value?: string;
-        checked: boolean;
     },
     event: ChangeEvent<HTMLInputElement>
 ) => void;

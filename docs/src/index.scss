@@ -1,10 +1,6 @@
-@use 'highlight.js/scss/github.scss';
+@use '../../src/styles/index' as styles;
 
-@use '../../src/styles/index' with (
-    $prefix: 'ui',
-);
-
-@include index.init('light');
+@include styles.init('light');
 
 body {
     margin: 0;

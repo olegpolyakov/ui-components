@@ -1,4 +1,6 @@
-export const THEME_PREFIX = 'ui';
+import { prefix } from './styles/export.module.scss';
+
+export const THEME_PREFIX = prefix;
 
 export const Key = {
     ARROW_LEFT: 'ArrowLeft',

@@ -7,18 +7,21 @@ import {
     useCallback
 } from 'react';
 
-import { size as popoverSize } from '@floating-ui/react';
+import { flip, size as popoverSize, type Placement } from '@floating-ui/react';
 
-import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
+import type { ComponentProps, PropsWithKey, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import Option, { type OptionProps } from './Option';
-import cssClasses from './Select.module.scss';
 import { Popover } from '../Popover';
+
+import Option, { type OptionProps } from './Option';
+
+import styles from './Select.module.scss';
 
 export type SelectProps = {
     options?: PropsWithKey<OptionProps>[];
     label?: string;
+    placeholder?: string;
     start?: ReactNode;
     end?: ReactNode;
     size?: Size;
@@ -42,7 +45,7 @@ const elementClassNames = getElementClassNames(
     ['control', 'start', 'label', 'input', 'end', 'menu']
 );
 
-export default function Select<T extends ElementType = 'div'>({
+export default function Select({
     children,
     className,
 
@@ -58,11 +61,12 @@ export default function Select<T extends ElementType = 'div'>({
     maxMenuHeight,
     onChange,
     ...props
-}: ComponentProps<SelectProps, T>) {
+}: ComponentProps<SelectProps, 'select'>) {
     const controlRef = useRef<HTMLDivElement>(null);
     const listboxRef = useRef<HTMLUListElement>(null);
 
     const [open, setOpen] = useState(false);
+    const [placement, setPlacement] = useState<Placement>('bottom');
 
     useEffect(() => {
         if (open) {
@@ -73,39 +77,42 @@ export default function Select<T extends ElementType = 'div'>({
     const handleOptionClick = useCallback((event: MouseEvent) => {
         const value = (event.currentTarget as HTMLElement).dataset.value;
 
+        setOpen(false);
         onChange?.({ value, name }, event);
     }, [name, onChange]);
 
     const selectedValue = options.find(option => option.value === value)?.label || '';
+    const activated = open || (value !== undefined && value !== null);
     
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size],
-        cssClasses[variant],
-        open && cssClasses.open,
-        (open || (value !== undefined && value !== null)) && cssClasses.activated
+        styles.root,
+        styles[size],
+        styles[variant],
+        activated && styles.activated,
+        open && styles.open,
+        placement && styles[placement]
     );
 
     return (
         <div className={classNames} {...props}>
             <div
                 ref={controlRef}
-                className={cn(elementClassNames.control, cssClasses.control)}
+                className={cn(elementClassNames.control, styles.control)}
             >
                 {label &&
-                    <label className={cn(elementClassNames.label, cssClasses.label)}>{label}</label>
+                    <label className={cn(elementClassNames.label, styles.label)}>{label}</label>
                 }
 
                 {start &&
-                    <span className={cn(elementClassNames.start, cssClasses.start)}>
+                    <span className={cn(elementClassNames.start, styles.start)}>
                         {start}
                     </span>
                 }
 
                 <button
-                    className={cn(elementClassNames.input, cssClasses.input)}
+                    className={cn(elementClassNames.input, styles.input)}
                     type="button"
                     value={value || undefined}
                     data-placeholder={placeholder}
@@ -115,17 +122,21 @@ export default function Select<T extends ElementType = 'div'>({
                 </button>
 
                 {end &&
-                    <span className={cn(elementClassNames.end, cssClasses.end)}>
+                    <span className={cn(elementClassNames.end, styles.end)}>
                         {end}
                     </span>
                 }
             </div>
 
             <Popover
+                className={classNames}
                 anchorRef={controlRef}
                 open={open}
+                placement="bottom"
+                fallbackPlacements={['top']}
                 arrow={false}
                 middleware={[
+                    flip(),
                     popoverSize({
                         apply: ({ availableHeight, elements }) => {
                             elements.floating.style.width = elements.reference.getBoundingClientRect().width + 'px';
@@ -136,11 +147,15 @@ export default function Select<T extends ElementType = 'div'>({
                         }
                     })
                 ]}
-                onOpen={() => setOpen(true)}
+                unstyled
+                onOpen={placement => {
+                    setPlacement(placement);
+                    setOpen(true);
+                }}
                 onClose={() => setOpen(false)}
             >
                 <ul
-                    className={cn(elementClassNames.menu, cssClasses.menu)}
+                    className={cn(elementClassNames.menu, styles.menu)}
                 >
                     {options?.map(option =>
                         <Option

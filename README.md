@@ -5,15 +5,15 @@ A set of accessible, customizable, and easy-to-use React components.
 ## Installation
 
 ```sh
-npm i @kantanui/components
+npm i kantanui
 ```
 
 ## Usage
 
 ```jsx
-import "@kantanui/components/dist/index.css";
+import "kantanui/dist/index.css";
 
-import { Button } from "@kantanui/components";
+import { Button } from "kantanui";
 
 <Button>Button</Button>;
 ```

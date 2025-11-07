@@ -10,7 +10,6 @@ import TabsContext from './TabsContext';
 import cssClasses from './Tab.module.scss';
 
 export type TabProps = {
-    as?: 'button';
     value?: string | number;
     content?: ReactNode;
     icon?: ReactNode;

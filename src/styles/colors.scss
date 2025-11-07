@@ -154,10 +154,10 @@ $dark-element-colors: (
     text-secondary: map.get($neutral, 1),
     text-tertiary: map.get($neutral, 2),
     surface: map.get($neutral, 9),
+    surface-inverted: map.get($neutral, 0),
     surface-primary: map.get($neutral, 9),
-    surface-secondary: map.get($neutral, 7),
-    surface-tertiary: map.get($neutral, 6),
-    surface-inverted: map.get($neutral, 0)
+    surface-secondary: map.get($neutral, 8),
+    surface-tertiary: map.get($neutral, 7),
 ) !default;
 
 $light-theme-colors: (
@@ -183,10 +183,10 @@ $light-element-colors: (
     text-secondary: map.get($neutral, 9),
     text-tertiary: map.get($neutral, 8),
     surface: map.get($neutral, 1),
-    surface-primary: map.get($neutral, 0),
-    surface-secondary: map.get($neutral, 1),
-    surface-tertiary: map.get($neutral, 2),
-    surface-inverted: map.get($neutral, 10)
+    surface-inverted: map.get($neutral, 10),
+    surface-primary: map.get($neutral, 1),
+    surface-secondary: map.get($neutral, 2),
+    surface-tertiary: map.get($neutral, 3)
 ) !default;
 
 $opacity: (
