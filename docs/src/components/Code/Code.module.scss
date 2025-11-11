@@ -10,13 +10,3 @@
         padding: 16px;
     }
 }
-
-:global {
-    @include styles.light {
-        @import 'highlight.js/scss/github.scss';
-    }
-
-    @include styles.dark {
-        @import 'highlight.js/scss/github-dark.scss';
-    }
-}
