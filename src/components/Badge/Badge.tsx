@@ -7,8 +7,6 @@ import cssClasses from './Badge.module.scss';
 
 export type BadgeProps = {
     content?: ReactNode;
-    start?: ReactNode;
-    end?: ReactNode;
     color?: Color;
     shape?: Shape;
     size?: Size;
@@ -17,10 +15,7 @@ export type BadgeProps = {
 
 Badge.displayName = 'Badge';
 
-const elementClassNames = getElementClassNames(
-    Badge.displayName,
-    ['start', 'content', 'end']
-);
+const elementClassNames = getElementClassNames(Badge.displayName);
 
 export default function Badge<T extends ElementType = 'span'>({
     as,

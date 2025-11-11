@@ -8,25 +8,17 @@ import Dialog, {DialogProvider} from '~/components/Dialog';
 
 Dialog is a component that displays important information or prompts the user for action in a modal window.
 
-<Demo
-    settings={Dialog.settings}
-    setup={(data, setData) => (
-        <Button
-            content="Open dialog"
-            onClick={() => setData({ ...data, open: true })}
-        />
-    )}
->
-    {(data, setData) => (
+<Demo settings={Dialog.settings}>
+    {(props, setProps) => (
         <Dialog
             title="Title"
             content="Content"
-            {...data}
-            onClose={() => setData({...data, open: false})}
+            {...props}
+            onClose={() => setProps({ ...props, open: false })}
         />
     )}
 </Demo>
-
+{/* 
 <Section title="Long content">
     <Demo
         setup={(data, setData) => (
@@ -80,4 +72,4 @@ Dialog is a component that displays important information or prompts the user fo
             </Dialog>
         )}
     </Demo>
-</Section>
+</Section> */}

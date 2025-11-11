@@ -127,6 +127,10 @@ $vars: component.vars();
     }
 }
 
+.muted {
+    opacity: theme.var(opacity-muted);
+}
+
 @include component.declare((
     mt: 1em,
     mt-s: (margin-top: theme.var(space-s)),

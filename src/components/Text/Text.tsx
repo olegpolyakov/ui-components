@@ -49,6 +49,7 @@ export default function Text<T extends ElementType = 'p'>({
     uppercase,
     strikethrough,
     ellipsis,
+    muted,
     disabled,
     marginTop,
     marginBottom,
@@ -68,6 +69,7 @@ export default function Text<T extends ElementType = 'p'>({
         uppercase && styles.uppercase,
         strikethrough && styles.strikethrough,
         ellipsis && styles.ellipsis,
+        muted && styles.muted,
         disabled && styles.disabled,
         marginTop && marginTop === true
             ? styles.mt

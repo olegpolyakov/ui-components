@@ -39,13 +39,13 @@ export default function AccordionItem<T extends ElementType = 'div'>({
     openIcon,
     closeIcon,
     size,
-    open: _open = false,
+    open: initialOpen = false,
     disabled,
     ...props
 }: ComponentProps<AccordionItemProps, T>) {
     const contentRef = useRef<HTMLDivElement>(null);
 
-    const [open, setOpen] = useState(_open);
+    const [open, setOpen] = useState(initialOpen);
 
     const handleClick = useCallback(() => {
         setOpen(v => !v);
@@ -98,14 +98,13 @@ export default function AccordionItem<T extends ElementType = 'div'>({
             </div>
 
             <Transition
+                className={cn(elementClassNames.content, cssClasses.content)}
                 nodeRef={contentRef}
                 in={open}
                 timeout={200}
+                type="collapse"
             >
-                <div
-                    ref={contentRef}
-                    className={cn(elementClassNames.content, cssClasses.content)}
-                >
+                <div ref={contentRef}>
                     {content}
                 </div>
             </Transition>

@@ -1,6 +1,7 @@
 @use 'sass:map';
 @use 'sass:meta';
 
+@use './utils/css';
 @use './utils/color';
 @use './utils/type';
 
@@ -12,6 +13,16 @@ $orange: #f4b400;
 $green: #0f9d58;
 $blue: #4285f4;
 $purple: #ab47bc;
+
+$palette-names: (
+    neutral,
+    primary,
+    secondary,
+    danger,
+    info,
+    success,
+    warning
+);
 
 $neutral: (
     0: #fafafa,
@@ -27,6 +38,18 @@ $neutral: (
     10: #0a0a0a
 );
 
+$neutral-0: map.get($neutral, 0);
+$neutral-1: map.get($neutral, 1);
+$neutral-2: map.get($neutral, 2);
+$neutral-3: map.get($neutral, 3);
+$neutral-4: map.get($neutral, 4);
+$neutral-5: map.get($neutral, 5);
+$neutral-6: map.get($neutral, 6);
+$neutral-7: map.get($neutral, 7);
+$neutral-8: map.get($neutral, 8);
+$neutral-9: map.get($neutral, 9);
+$neutral-10: map.get($neutral, 10);
+
 $primary: (
     0: #F1F6FE,
     1: #E2EDFD,
@@ -40,6 +63,18 @@ $primary: (
     9: #083B8C,
     10: #052457
 );
+
+$primary-0: map.get($primary, 0);
+$primary-1: map.get($primary, 1);
+$primary-2: map.get($primary, 2);
+$primary-3: map.get($primary, 3);
+$primary-4: map.get($primary, 4);
+$primary-5: map.get($primary, 5);
+$primary-6: map.get($primary, 6);
+$primary-7: map.get($primary, 7);
+$primary-8: map.get($primary, 8);
+$primary-9: map.get($primary, 9);
+$primary-10: map.get($primary, 10);
 
 $secondary: (
     0: #FEF6F6,
@@ -55,6 +90,18 @@ $secondary: (
     10: #500907
 );
 
+$secondary-0: map.get($secondary, 0);
+$secondary-1: map.get($secondary, 1);
+$secondary-2: map.get($secondary, 2);
+$secondary-3: map.get($secondary, 3);
+$secondary-4: map.get($secondary, 4);
+$secondary-5: map.get($secondary, 5);
+$secondary-6: map.get($secondary, 6);
+$secondary-7: map.get($secondary, 7);
+$secondary-8: map.get($secondary, 8);
+$secondary-9: map.get($secondary, 9);
+$secondary-10: map.get($secondary, 10);
+
 $danger: (
     0: #FDF3F2,
     1: #FAE7E5,
@@ -68,6 +115,18 @@ $danger: (
     9: #6C1B13,
     10: #4E130E
 );
+
+$danger-0: map.get($danger, 0);
+$danger-1: map.get($danger, 1);
+$danger-2: map.get($danger, 2);
+$danger-3: map.get($danger, 3);
+$danger-4: map.get($danger, 4);
+$danger-5: map.get($danger, 5);
+$danger-6: map.get($danger, 6);
+$danger-7: map.get($danger, 7);
+$danger-8: map.get($danger, 8);
+$danger-9: map.get($danger, 9);
+$danger-10: map.get($danger, 10);
 
 $info: (
     0: #FAF4FB,
@@ -83,6 +142,18 @@ $info: (
     10: #3D1943
 );
 
+$info-0: map.get($info, 0);
+$info-1: map.get($info, 1);
+$info-2: map.get($info, 2);
+$info-3: map.get($info, 3);
+$info-4: map.get($info, 4);
+$info-5: map.get($info, 5);
+$info-6: map.get($info, 6);
+$info-7: map.get($info, 7);
+$info-8: map.get($info, 8);
+$info-9: map.get($info, 9);
+$info-10: map.get($info, 10);
+
 $success: (
     0: #E3FCF0,
     1: #C2F9DF,
@@ -96,6 +167,18 @@ $success: (
     9: #074B2A,
     10: #042F1A
 );
+
+$success-0: map.get($success, 0);
+$success-1: map.get($success, 1);
+$success-2: map.get($success, 2);
+$success-3: map.get($success, 3);
+$success-4: map.get($success, 4);
+$success-5: map.get($success, 5);
+$success-6: map.get($success, 6);
+$success-7: map.get($success, 7);
+$success-8: map.get($success, 8);
+$success-9: map.get($success, 9);
+$success-10: map.get($success, 10);
 
 $warning: (
     0: #FFFAEB,
@@ -111,15 +194,17 @@ $warning: (
     10: #523C00
 );
 
-$palette-names: (
-    neutral,
-    primary,
-    secondary,
-    danger,
-    info,
-    success,
-    warning
-);
+$warning-0: map.get($warning, 0);
+$warning-1: map.get($warning, 1);
+$warning-2: map.get($warning, 2);
+$warning-3: map.get($warning, 3);
+$warning-4: map.get($warning, 4);
+$warning-5: map.get($warning, 5);
+$warning-6: map.get($warning, 6);
+$warning-7: map.get($warning, 7);
+$warning-8: map.get($warning, 8);
+$warning-9: map.get($warning, 9);
+$warning-10: map.get($warning, 10);
 
 $palettes: (
     neutral: $neutral,
@@ -141,25 +226,6 @@ $dark-theme-colors: (
     warning: map.get($warning, 4)
 ) !default;
 
-$dark-element-colors: (
-    backdrop: rgba(0, 0, 0, .5),
-    background: $black,
-    border: map.get($neutral, 8),
-    border-light: map.get($neutral, 9),
-    icon: map.get($neutral, 6),
-    icon-muted: map.get($neutral, 7),
-    text: map.get($neutral, 0),
-    text-inverted: map.get($neutral, 10),
-    text-primary: map.get($neutral, 0),
-    text-secondary: map.get($neutral, 1),
-    text-tertiary: map.get($neutral, 2),
-    surface: map.get($neutral, 9),
-    surface-inverted: map.get($neutral, 0),
-    surface-primary: map.get($neutral, 9),
-    surface-secondary: map.get($neutral, 8),
-    surface-tertiary: map.get($neutral, 7),
-) !default;
-
 $light-theme-colors: (
     neutral: map.get($neutral, 5),
     primary: map.get($primary, 5),
@@ -170,27 +236,49 @@ $light-theme-colors: (
     warning: map.get($warning, 5)
 ) !default;
 
+$dark-element-colors: (
+    backdrop: rgba(0, 0, 0, .5),
+    background: map.get($neutral, 10),
+    border: map.get($neutral, 8),
+    border-muted: map.get($neutral, 9),
+    icon: map.get($neutral, 6),
+    icon-muted: map.get($neutral, 7),
+    text: map.get($neutral, 0),
+    text-inverted: map.get($neutral, 10),
+    text-primary: map.get($neutral, 0),
+    text-secondary: map.get($neutral, 1),
+    text-tertiary: map.get($neutral, 2),
+    surface: map.get($neutral, 9),
+    surface-primary: map.get($neutral, 9),
+    surface-secondary: map.get($neutral, 8),
+    surface-tertiary: map.get($neutral, 7),
+    surface-inverted: map.get($neutral, 0),
+    tinted: color.change(map.get($neutral, 0), $alpha: 0.125)
+) !default;
+
 $light-element-colors: (
     backdrop: rgba(0, 0, 0, .25),
-    background: $white,
+    background: map.get($neutral, 0),
     border: map.get($neutral, 2),
-    border-light: map.get($neutral, 1),
+    border-muted: map.get($neutral, 1),
     icon: map.get($neutral, 3),
     icon-muted: map.get($neutral, 2),
     text: map.get($neutral, 10),
-    text-inverted: map.get($neutral, 0),
     text-primary: map.get($neutral, 10),
     text-secondary: map.get($neutral, 9),
     text-tertiary: map.get($neutral, 8),
-    surface: map.get($neutral, 1),
-    surface-inverted: map.get($neutral, 10),
+    text-inverted: map.get($neutral, 0),
+    surface: $white,
     surface-primary: map.get($neutral, 1),
     surface-secondary: map.get($neutral, 2),
-    surface-tertiary: map.get($neutral, 3)
+    surface-tertiary: map.get($neutral, 3),
+    surface-inverted: map.get($neutral, 10),
+    tinted: color.change(map.get($neutral, 10), $alpha: 0.05)
 ) !default;
 
 $opacity: (
     active: 1,
+    muted: .75,
     inactive: .75,
     disabled: .5
 ) !default;

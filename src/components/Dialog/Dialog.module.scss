@@ -33,16 +33,15 @@ $vars: component.vars();
 }
 
 .surface {
+    position: relative;
     min-height: 100px;
     min-width: 300px;
+    border-radius: component.var(border-radius);
     padding: component.var(padding-x) component.var(padding-y);
     display: flex;
-    flex-grow: 0px;
-    background-color: component.var(background-color);
     flex-direction: column;
-    position: relative;
+    background-color: component.var(background-color);
     box-shadow: component.var(shadow);
-    border-radius: component.var(border-radius);
 }
 
 .title {
@@ -59,7 +58,4 @@ $vars: component.vars();
     position: absolute;
     top: 10px;
     right: 10px;
-
-    // @include color-state-variables('Button', 'background-color', plain);
-    // @include color-state-variables('Button', 'text-color', icon);
 }

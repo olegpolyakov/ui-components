@@ -1,37 +1,32 @@
+@use 'sass:map';
+
 @use 'component';
 @use 'elements' as *;
 @use 'theme';
 
-@include component.define('Select', (
-    height: null,
-    padding: null,
-    gap: theme.var(space-xs),
-    border-color: theme.var(border-color),
-    border-width: 1px,
-    border-radius: theme.var(border-radius-m),
-    background-color: theme.var(surface-color),
-    label-color: theme.var(text-secondary-color),
-    text-color: theme.var(text-color),
-    font-size: theme.var(font-size-m),
-    font-weight: theme.var(font-weight-normal),
-    line-height: theme.var(line-height),
-    menu-shadow: theme.var(shadow-m)
+@use '../Input/Input.scss' as Input;
+
+@forward 'component' show var, vars;
+
+$vars: map.merge(Input.$vars, (
+    'menu-shadow': theme.var(shadow-m)
 ));
 
-$vars: component.vars();
-
-.root {
-    width: 100%;
+.common {
+    @include component.define('Select', $vars);
+    box-sizing: border-box;
+    border-radius: component.var(border-radius);
+    transition:
+        border-color .2s ease-in-out,
+        border-radius .1s;
 }
 
-.control {
-    box-sizing: border-box;
+.root {
     position: relative;
     width: 100%;
     height: component.var(height);
     display: flex;
     align-items: center;
-    border-radius: component.var(border-radius);
     padding: component.var(padding);
     gap: component.var(gap);
     background-clip: padding-box;
@@ -39,11 +34,19 @@ $vars: component.vars();
     color: component.var(text-color);
     font-family: theme.var(font-family);
     font-size: component.var(font-size);
-    font-weight: theme.var(font-weight);
+    font-weight: component.var(font-weight);
     line-height: component.var(line-height);
-    transition: border-color 0.2s ease-in-out;
+}
 
-    @include caret;
+.menu {
+    list-style: none;
+    padding: 4px 0;
+    margin: 0;
+    outline: none;
+    border: 1px solid component.var(border-color);
+    background: theme.var(surface-color);
+    overflow: hidden auto;
+    z-index: 10;
 }
 
 .start,
@@ -51,6 +54,16 @@ $vars: component.vars();
     display: inline-flex;
     align-items: center;
     gap: component.var(gap);
+}
+
+.control {
+    height: 100%;
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    @include caret;
 }
 
 .label {
@@ -87,20 +100,6 @@ $vars: component.vars();
     .label ~ &::before {
         visibility: hidden;
     }
-}
-
-.menu {
-    box-sizing: border-box;
-    list-style: none;
-    padding: 4px 0;
-    margin: 0;
-    outline: none;
-    border: 1px solid component.var(border-color);
-    border-radius: component.var(border-radius);
-    background: theme.var(surface-color);
-    overflow: hidden auto;
-    z-index: 10;
-    transition: border-color 0.2s ease-in-out;
 }
 
 // Shapes
@@ -140,11 +139,8 @@ $vars: component.vars();
         border-color: theme.var(border-color),
         background-color: transparent
     ));
-
-    .control,
-    .menu {
-        border: component.var(border-width) solid component.var(border-color);
-    }
+    
+    border: component.var(border-width) solid component.var(border-color);
 }
 
 .underlined {
@@ -210,35 +206,35 @@ $vars: component.vars();
         border-color: theme.var(primary-color)
     ));
 
-    // caret
-    .control::after {
-        transform: rotate(180deg);
-    }
-
-    &.bottom {
-        .control {
+    &.root {
+        &.bottom {
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
         }
 
-        .menu {
+        &.top {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    }
+
+    &.menu {
+        &.bottom {
             border-top: none;
             border-top-left-radius: 0;
             border-top-right-radius: 0;
         }
-    }
 
-    &.top {
-        .control {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
-
-        .menu {
+        &.top {
             border-bottom: none;
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
         }
+    }
+
+    // caret
+    .control::after {
+        transform: rotate(180deg);
     }
 }
 

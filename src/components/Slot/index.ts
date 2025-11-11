@@ -1,0 +1,1 @@
+export { default, default as Slot, slot, type SlotProps } from './Slot';

@@ -12,18 +12,31 @@ export type AsProp<T extends ElementType = ElementType> = {
     as?: T;
 };
 
-export type Props<CustomProps = object, BuiltinProps = HTMLProps> = Merge<CustomProps, BuiltinProps>;
+export type Props<
+    CustomProps,
+    BuiltinProps = HTMLProps
+> = Merge<CustomProps, BuiltinProps>;
+
+export type PropsWithChildren<
+    CustomProps,
+    BuiltinProps = HTMLProps
+> = Merge<Props<CustomProps, BuiltinProps>, {
+    children?: Children;
+}>;
+
+export type PropsWithKey<
+    CustomProps,
+    BuiltinProps = HTMLProps
+> = Merge<Props<CustomProps, BuiltinProps>, {
+    key?: string;
+}>;
+
+export type PropsWithRef<P, E extends ElementType> = ComponentProps<P, E>;
 
 export type ComponentProps<P, E extends ElementType> = Merge<P & {
     as?: E;
     children?: Children;
 }, React.ComponentPropsWithRef<E>>;
-
-export type PropsWithChildren<CustomProps = object, BuiltinProps = HTMLProps> = Merge<Props<CustomProps, BuiltinProps>, {
-    children?: Children;
-}>;
-
-export type PropsWithKey<T> = T & { key?: string; };
 
 export type HTMLProps<T = HTMLElement> = React.HTMLAttributes<T>;
 export type HTMLAnchorProps = React.AnchorHTMLAttributes<HTMLAnchorElement>;

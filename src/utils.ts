@@ -125,6 +125,6 @@ export function isArray(value: unknown) {
     return Array.isArray(value);
 }
 
-export function isObject(value: unknown) {
-    return typeof value === 'object' && !isNull(value) && !isArray(value);
+export function isObject<T = object>(arg: unknown): arg is T {
+    return typeof arg === 'object' && !Array.isArray(arg) && arg !== null;
 }

@@ -1,0 +1,41 @@
+import {
+  black,
+  white,
+  gray,
+  red,
+  orange,
+  green,
+  blue,
+  purple
+} from '~/styles/export.module.scss';
+
+import { Flex, Heading } from "~/components";
+
+import Color from "@/components/Color";
+import Palette from "@/components/Palette";
+
+# Colors
+
+## Base Colors
+
+<Flex wrap>
+  <Color name="black" value={black} dark />
+  <Color name="white" value={white} light />
+  <Color name="gray" value={gray} dark />
+  <Color name="red" value={red} dark />
+  <Color name="orange" value={orange} light />
+  <Color name="green" value={green} dark />
+  <Color name="blue" value={blue} dark />
+  <Color name="purple" value={purple} dark />
+</Flex>
+
+## Palettes
+
+<Flex column gap="m">
+  <Palette name="neutral" />
+  <Palette name="primary" />
+  <Palette name="success" />
+  <Palette name="warning" />
+  <Palette name="danger" />
+  <Palette name="info" />
+</Flex>

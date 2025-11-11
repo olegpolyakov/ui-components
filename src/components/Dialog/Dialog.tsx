@@ -5,6 +5,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Button from '../Button';
 import Modal from '../Modal';
+import Transition from '../Transition';
 
 import cssClasses from './Dialog.module.scss';
 
@@ -38,7 +39,7 @@ export default function Dialog({
     onClose,
     ...props
 }: ComponentProps<DialogProps, 'div'>) {
-    const overlayRef = useRef<HTMLDivElement>(null);
+    const surfaceRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         function handleKeyDown(event: KeyboardEvent) {
@@ -66,8 +67,6 @@ export default function Dialog({
         }
     }, [closeOnClickOutside]);
 
-    if (!open) return null;
-
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -75,36 +74,49 @@ export default function Dialog({
     );
 
     return (
-        <Modal disableScroll={disableScroll}>
+        <Modal open={open} disableScroll={disableScroll}>
             <div
                 className={classNames}
                 role="dialog"
                 {...props}
             >
                 <div
-                    ref={overlayRef}
                     className={cn(elementClassNames.overlay, cssClasses.overlay)}
                     tabIndex={-1}
                     onClick={handleOverlayClick}
                 >
-                    <div className={cn(elementClassNames.surface, cssClasses.surface)} onClick={handleSurfaceClick}>
-                        {title &&
-                            <h2 className={cn(elementClassNames.title, cssClasses.title)}>{title}</h2>
-                        }
+                    <Transition
+                        className={cn(elementClassNames.surface, cssClasses.surface)} 
+                        nodeRef={surfaceRef}
+                        in={open}
+                        type="scale"
+                        timeout={200}
+                        appear
+                        onExited={onClose}
+                    >
+                        <div
+                            ref={surfaceRef}
+                            onClick={handleSurfaceClick}
+                        >
+                            {title &&
+                                <h2 className={cn(elementClassNames.title, cssClasses.title)}>{title}</h2>
+                            }
 
-                        <div className={cn(elementClassNames.content, cssClasses.content)}>{content}</div>
+                            <div className={cn(elementClassNames.content, cssClasses.content)}>
+                                {content}
+                            </div>
 
-                        {closeButton &&
-                            <Button
-                                className={cn(elementClassNames.closeButton, cssClasses.closeButton)}
-                                type="button"
-                                icon="close"
-                                size="s"
-                                aria-label="Close modal"
-                                onClick={onClose}
-                            />
-                        }
-                    </div>
+                            {closeButton &&
+                                <Button
+                                    className={cn(elementClassNames.closeButton, cssClasses.closeButton)}
+                                    icon="close"
+                                    size="s"
+                                    aria-label="Close modal"
+                                    onClick={onClose}
+                                />
+                            }
+                        </div>
+                    </Transition>
                 </div>
             </div>
         </Modal>

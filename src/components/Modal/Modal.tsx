@@ -1,9 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 
 import type { PropsWithChildren } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Portal from '../Portal';
+import { ProviderContext } from '../Provider';
+import Transition from '../Transition';
 
 import styles from './Modal.module.scss';
 
@@ -23,22 +25,25 @@ export default function Modal({
     className,
     children,
 
-    container = document.body,
+    container,
     backdrop = false,
     fixed = false,
+    open = false,
     disableScroll = true
 }: ModalProps) {
+    const { rootElement } = useContext(ProviderContext);
+
     const modalRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (!disableScroll) return;
+        if (!open || !disableScroll) return;
 
         document.body.classList.add(styles.scrollDisabled);
 
         return () => {
             document.body.classList.remove(styles.scrollDisabled);
         };
-    }, [disableScroll]);
+    }, [open, disableScroll]);
 
     useEffect(() => {
         const activeElement = document.activeElement as HTMLElement;
@@ -61,10 +66,19 @@ export default function Modal({
     );
 
     return (
-        <Portal container={container}>
-            <div ref={modalRef} className={classNames}>
-                {children}
-            </div>
+        <Portal container={rootElement ?? container}>
+            <Transition
+                in={open}
+                nodeRef={modalRef}
+                className={classNames}
+                type="fade"
+                timeout={200}
+                unmountOnExit
+            >
+                <div ref={modalRef}>
+                    {children}
+                </div>
+            </Transition>
         </Portal>
     );
 }

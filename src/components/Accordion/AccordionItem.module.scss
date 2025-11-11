@@ -52,10 +52,7 @@ $vars: component.vars();
 }
 
 .content {
-    display: grid;
-    grid-template-rows: 0fr;
     padding: component.var(_content-padding-closed);
-    transition: grid-template-rows .25s ease;
 
     > div {
         overflow: hidden;
@@ -70,7 +67,6 @@ $vars: component.vars();
 
 .open {
     .content {
-        grid-template-rows: 1fr;
         padding: component.var(_content-padding-open);
     }
     

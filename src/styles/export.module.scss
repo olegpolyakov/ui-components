@@ -1,7 +1,101 @@
 @use 'sass:string';
 
+@use 'colors';
 @use 'theme';
 
 :export {
     prefix: string.unquote(theme.$prefix);
+
+    black: #{colors.$black};
+    white: #{colors.$white};
+    gray: #{colors.$gray};
+    red: #{colors.$red};
+    orange: #{colors.$orange};
+    green: #{colors.$green};
+    blue: #{colors.$blue};
+    purple: #{colors.$purple};
+
+    neutral0: #{colors.$neutral-0};
+    neutral1: #{colors.$neutral-1};
+    neutral2: #{colors.$neutral-2};
+    neutral3: #{colors.$neutral-3};
+    neutral4: #{colors.$neutral-4};
+    neutral5: #{colors.$neutral-5};
+    neutral6: #{colors.$neutral-6};
+    neutral7: #{colors.$neutral-7};
+    neutral8: #{colors.$neutral-8};
+    neutral9: #{colors.$neutral-9};
+    neutral10: #{colors.$neutral-10};
+
+    primary0: #{colors.$primary-0};
+    primary1: #{colors.$primary-1};
+    primary2: #{colors.$primary-2};
+    primary3: #{colors.$primary-3};
+    primary4: #{colors.$primary-4};
+    primary5: #{colors.$primary-5};
+    primary6: #{colors.$primary-6};
+    primary7: #{colors.$primary-7};
+    primary8: #{colors.$primary-8};
+    primary9: #{colors.$primary-9};
+    primary10: #{colors.$primary-10};
+
+    secondary0: #{colors.$secondary-0};
+    secondary1: #{colors.$secondary-1};
+    secondary2: #{colors.$secondary-2};
+    secondary3: #{colors.$secondary-3};
+    secondary4: #{colors.$secondary-4};
+    secondary5: #{colors.$secondary-5};
+    secondary6: #{colors.$secondary-6};
+    secondary7: #{colors.$secondary-7};
+    secondary8: #{colors.$secondary-8};
+    secondary9: #{colors.$secondary-9};
+    secondary10: #{colors.$secondary-10};
+
+    danger0: #{colors.$danger-0};
+    danger1: #{colors.$danger-1};
+    danger2: #{colors.$danger-2};
+    danger3: #{colors.$danger-3};
+    danger4: #{colors.$danger-4};
+    danger5: #{colors.$danger-5};
+    danger6: #{colors.$danger-6};
+    danger7: #{colors.$danger-7};
+    danger8: #{colors.$danger-8};
+    danger9: #{colors.$danger-9};
+    danger10: #{colors.$danger-10};
+
+    info0: #{colors.$info-0};
+    info1: #{colors.$info-1};
+    info2: #{colors.$info-2};
+    info3: #{colors.$info-3};
+    info4: #{colors.$info-4};
+    info5: #{colors.$info-5};
+    info6: #{colors.$info-6};
+    info7: #{colors.$info-7};
+    info8: #{colors.$info-8};
+    info9: #{colors.$info-9};
+    info10: #{colors.$info-10};
+
+    success0: #{colors.$success-0};
+    success1: #{colors.$success-1};
+    success2: #{colors.$success-2};
+    success3: #{colors.$success-3};
+    success4: #{colors.$success-4};
+    success5: #{colors.$success-5};
+    success6: #{colors.$success-6};
+    success7: #{colors.$success-7};
+    success8: #{colors.$success-8};
+    success9: #{colors.$success-9};
+    success10: #{colors.$success-10};
+
+    warning0: #{colors.$warning-0};
+    warning1: #{colors.$warning-1};
+    warning2: #{colors.$warning-2};
+    warning3: #{colors.$warning-3};
+    warning4: #{colors.$warning-4};
+    warning5: #{colors.$warning-5};
+    warning6: #{colors.$warning-6};
+    warning7: #{colors.$warning-7};
+    warning8: #{colors.$warning-8};
+    warning9: #{colors.$warning-9};
+    warning10: #{colors.$warning-10};
 }

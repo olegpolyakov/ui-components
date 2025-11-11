@@ -1,5 +1,0 @@
-import { Canvas, Meta, Title, Subtitle } from "@storybook/blocks";
-
-<Meta title="Theme/Shadows" />
-
-<Title>Shadows</Title>

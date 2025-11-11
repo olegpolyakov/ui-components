@@ -1,5 +1,3 @@
-import { useEffect, useState } from 'react';
-
 import { Input, Flex, Field, RadioGroup, Select, Switch } from '~/components';
 
 export type Setting = {
@@ -10,51 +8,33 @@ export type Setting = {
     defaultValue?: null | { value: string };
 };
 
-const forbiddenSettingNames = ['as', 'items'];
-
 export default function Settings<T extends Record<string, any> = Record<string, any>>({
-    data: initialData,
-    settings = {},
+    data,
+    settings = [],
     onChange
 }: {
-    data?: T;
-    settings?: Record<string, Setting>;
-    onChange?: (data: T) => void
+    data: T;
+    settings: Setting[];
+    onChange: (data: T) => void
 }) {
-    console.log({ initialData });
-    const filteredSettings = Object.values(settings)
-        .filter(setting => !forbiddenSettingNames.includes(setting.name) && !setting.name.startsWith('on'));
-
-    const [data, setData] = useState(() => {
-        return filteredSettings
-            .reduce((acc, setting) => {
-                acc[setting.name] = setting.defaultValue?.value ?? initialData?.[setting.name] ?? undefined;
-                return acc;
-            }, {} as Record<string, any>);
-    });
-
-    useEffect(() => {
-        onChange?.(data as T);
-    }, [data, onChange]);
-
     return (
         <Flex column gap="m">
-            {filteredSettings.map((setting, index) => (
+            {settings.map((setting, index) => (
                 <Setting
                     key={index}
                     setting={setting}
                     data={data}
-                    setData={setData}
+                    onChange={onChange}
                 />
             ))}
         </Flex>
     );
 }
 
-function Setting({ setting, data, setData }: {
+function Setting<T extends Record<string, any> = Record<string, any>>({ setting, data, onChange }: {
     setting: Setting;
-    data: Record<string, any>;
-    setData: (data: Record<string, any>) => void;
+    data: T;
+    onChange: (data: T) => void;
 }) {
     const type = setting.type.raw === 'ReactNode'
         ? 'string'
@@ -63,13 +43,16 @@ function Setting({ setting, data, setData }: {
             : setting.type.name;
     
     return (
-        <Field label={setting.name} description={setting.description} required={setting.required}>
+        <Field
+            label={setting.name}
+            required={setting.required}
+        >
             {type === 'string' &&
                 <Input
                     type="text"
                     name={setting.name}
                     value={data[setting.name]}
-                    onChange={({ value }) => setData({
+                    onChange={({ value }) => onChange({
                         ...data,
                         [setting.name]: value
                     })}
@@ -81,7 +64,7 @@ function Setting({ setting, data, setData }: {
                     type="number"
                     name={setting.name}
                     value={data[setting.name]}
-                    onChange={({ value }) => setData({
+                    onChange={({ value }) => onChange({
                         ...data,
                         [setting.name]: value
                     })}
@@ -92,7 +75,7 @@ function Setting({ setting, data, setData }: {
                 <Switch
                     name={setting.name}
                     checked={data[setting.name]}
-                    onChange={({ checked }) => setData({
+                    onChange={({ checked }) => onChange({
                         ...data,
                         [setting.name]: checked
                     })}
@@ -109,7 +92,7 @@ function Setting({ setting, data, setData }: {
                             label: option.value.replaceAll('"', ''),
                             value: option.value.replaceAll('"', '')
                         }))}
-                        onChange={({ value }) => setData({
+                        onChange={({ value }) => onChange({
                             ...data,
                             [setting.name]: value
                         })}
@@ -122,7 +105,7 @@ function Setting({ setting, data, setData }: {
                             label: option.value.replaceAll('"', ''),
                             value: option.value.replaceAll('"', ''),
                             checked: data[setting.name] === option.value.replaceAll('"', ''),
-                            onChange: ({ value }) => setData({
+                            onChange: ({ value }) => onChange({
                                 ...data,
                                 [setting.name]: value
                             })

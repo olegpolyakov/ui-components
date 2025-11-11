@@ -1,17 +1,18 @@
+import type { ReactNode } from 'react';
 import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import BreadcrumbItem, { BreadcrumbItemProps } from './BreadcrumbItem';
+import Link, { LinkProps } from '../Link';
 
-import cssClasses from './Breadcrumbs.module.scss';
+import styles from './Breadcrumbs.module.scss';
 
 export type BreadcrumbsProps = {
-    items?: PropsWithKey<BreadcrumbItemProps>[];
+    items?: PropsWithKey<LinkProps>[];
+    separator?: ReactNode;
     size?: Size;
 };
 
 Breadcrumbs.displayName = 'Breadcrumbs';
-Breadcrumbs.Item = BreadcrumbItem;
 
 const elementClassNames = getElementClassNames(
     Breadcrumbs.displayName
@@ -23,6 +24,7 @@ export default function Breadcrumbs<T extends ElementType = 'div'>({
     children,
 
     items,
+    separator = '/',
     size = 'm',
     ...props
 }: ComponentProps<BreadcrumbsProps, T>) {
@@ -30,15 +32,24 @@ export default function Breadcrumbs<T extends ElementType = 'div'>({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size]
+        styles.root,
+        styles[size]
     );
 
     return (
         <Component className={classNames} {...props}>
-            {items?.map(({ key, ...props }) =>
-                <BreadcrumbItem key={key} {...props} />
-            )}
+            {items?.map(({ key, ...props }, index) => <>
+                <Link
+                    key={key}
+                    size={size}
+                    {...props}
+                />
+
+                {index < items.length - 1 &&
+                    <span className={styles.separator}>{separator}</span>
+                }
+            </>)}
+
             {children}
         </Component>
     );

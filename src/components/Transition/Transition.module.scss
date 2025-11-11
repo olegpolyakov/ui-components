@@ -1,0 +1,140 @@
+.collapse {
+    display: grid;
+    grid-template-rows: 0;
+    transition: grid-template-rows 200ms ease-in-out;
+    overflow: hidden;
+
+    &-enter {
+        grid-template-rows: 0;
+    }
+    
+    &-enter-active {
+        grid-template-rows: 1fr;
+    }
+
+    &-enter-done {
+        grid-template-rows: 1fr;
+    }
+    
+    &-exit {
+        grid-template-rows: 1fr;
+    }
+    
+    &-exit-active {
+        grid-template-rows: 0;
+    }
+
+    &-exit-done {
+        grid-template-rows: 0;
+    }
+}
+
+.fade {
+    opacity: 0;
+    transition: opacity .2s;
+
+    &-appear,
+    &-enter {
+        opacity: 0;
+    }
+
+    &-appear-active,
+    &-enter-active {
+        opacity: 1;
+    }
+
+    &-appear-done,
+    &-enter-done {
+        opacity: 1;
+    }
+
+    &-exit {
+        opacity: 1;
+    }
+
+    &-exit-active {
+        opacity: 0;
+    }
+
+    &-exit-done {
+        opacity: 0;
+    }
+}
+
+.scale {
+    opacity: 0;
+    transform: scale(.8);
+    transition: opacity .2s, transform .2s;
+
+    &-appear,
+    &-enter {
+        opacity: 0;
+        transform: scale(.8);
+    }
+
+    &-appear-active,
+    &-enter-active {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    &-appear-done,
+    &-enter-done {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    &-exit {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    &-exit-active {
+        opacity: 0;
+        transform: scale(.8);
+    }
+
+    &-exit-done {
+        opacity: 0;
+        transform: scale(.8);
+    }
+}
+
+@each $side, $axis, $value in (
+    ('left','X', -100%),
+    ('right', 'X', 100%),
+    ('top', 'Y', -100%),
+    ('bottom', 'Y', 100%)
+) {
+    .slide-#{$side} {
+        transform: translate#{$axis}(#{$value});
+        transition: transform .2s;
+
+        &-appear,
+        &-enter {
+            transform: translate#{$axis}(#{$value});
+        }
+
+        &-appear-active,
+        &-enter-active {
+            transform: translate#{$axis}(0);
+        }
+
+        &-appear-done,
+        &-enter-done {
+            transform: translate#{$axis}(0);
+        }
+
+        &-exit {
+            transform: translate#{$axis}(0);
+        }
+
+        &-exit-active {
+            transform: translate#{$axis}(#{$value});
+        }
+
+        &-exit-done {
+            transform: translate#{$axis}(#{$value});
+        }
+    }
+}

@@ -6,7 +6,7 @@
 @include component.define('Switch', (
     input-width: null,
     input-height: null,
-    background-color: theme.var(surface-color),
+    background-color: theme.var(tinted-color),
     thumb-background-color: theme.var(surface-tertiary-color)
 ));
 

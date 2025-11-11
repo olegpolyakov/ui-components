@@ -1,13 +1,13 @@
-import { FunctionComponent, ReactNode } from 'react';
+import { FunctionComponent } from 'react';
 
-import type { Color, ComponentProps, ElementType } from '../../types';
+import type { ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
+
+import { TextProps } from '../Text';
 
 import cssClasses from './Link.module.scss';
 
-export type LinkProps = {
-    content?: ReactNode;
-    color?: Color;
+export type LinkProps = TextProps & {
     disabled?: boolean;
 };
 

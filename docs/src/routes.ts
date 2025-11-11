@@ -1,4 +1,6 @@
 import Home from './pages/Home.mdx';
+import Colors from './pages/Colors.mdx';
+
 import Accordion from './pages/Accordion.mdx';
 import Alert from './pages/Alert.mdx';
 import Avatar from './pages/Avatar.mdx';
@@ -42,6 +44,7 @@ import Tooltip from './pages/Tooltip.mdx';
 
 export default [
     { path: '/', component: Home, title: 'Home', exact: true },
+    { path: '/colors', component: Colors, title: 'Colors' },
     { path: '/accordion', component: Accordion, title: 'Accordion' },
     { path: '/alert', component: Alert, title: 'Alert' },
     { path: '/avatar', component: Avatar, title: 'Avatar' },

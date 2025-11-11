@@ -1,6 +1,6 @@
 @use '../../src/styles/index' as styles;
 
-@include styles.init('light');
+@include styles.init;
 
 body {
     margin: 0;
@@ -19,6 +19,7 @@ body {
         line-height: 1.45;
         background-color: #f6f8fa;
         border-radius: 6px;
+        padding: 8px;
         overflow: auto;
     
         code.hljs {

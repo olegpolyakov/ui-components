@@ -1,7 +1,7 @@
 import {  useEffect, useState } from 'react';
 import type { Theme } from '../types';
 
-export function useTheme(initialTheme: Theme): [Theme, (theme: Theme) => void] {
+export function useTheme(initialTheme: Theme = getInitialTheme()): [Theme, (theme: Theme) => void] {
     const [theme, setTheme] = useState<Theme>(initialTheme);
 
     useEffect(() => {
@@ -11,4 +11,14 @@ export function useTheme(initialTheme: Theme): [Theme, (theme: Theme) => void] {
     }, [theme]);
 
     return [theme, setTheme];
+}
+
+function getInitialTheme(): Theme {
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    if (prefersDarkScheme.matches) {
+        return 'dark';
+    } else {
+        return 'light';
+    }
 }

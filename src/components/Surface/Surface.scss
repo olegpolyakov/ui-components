@@ -1,0 +1,143 @@
+@use '../../styles/mixins' as *;
+@use '../../styles/variables' as global;
+
+.root {
+  --fui-Surface-background-color: var(--fui-surface-color);
+  --fui-Surface-border-color: transparent;
+  --fui-Surface-border-radius: var(--fui-br-m);
+
+  background-color: var(--fui-Surface-background-color);
+  border-radius: var(--fui-Surface-border-radius);
+  box-shadow: var(--fui-Surface-shadow, none);
+}
+
+// Padding
+
+$sizes: ('xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl');
+
+.p {
+  @each $size in $sizes {
+    &-#{$size} {
+      padding: var(--fui-p-#{$size});
+    }
+  }
+}
+
+.px {
+  @each $size in $sizes {
+    &-#{$size} {
+      padding-left: var(--fui-p-#{$size});
+      padding-right: var(--fui-p-#{$size});
+    }
+  }
+}
+
+.py {
+  @each $size in $sizes {
+    &-#{$size} {
+      padding-top: var(--fui-p-#{$size});
+      padding-bottom: var(--fui-p-#{$size});
+    }
+  }
+}
+
+.pt {
+  @each $size in $sizes {
+    &-#{$size} {
+      padding-top: var(--fui-p-#{$size});
+    }
+  }
+}
+
+.pr {
+  @each $size in $sizes {
+    &-#{$size} {
+      padding-right: var(--fui-p-#{$size});
+    }
+  }
+}
+
+.pb {
+  @each $size in $sizes {
+    &-#{$size} {
+      padding-bottom: var(--fui-p-#{$size});
+    }
+  }
+}
+
+.pl {
+  @each $size in $sizes {
+    &-#{$size} {
+      padding-left: var(--fui-p-#{$size});
+    }
+  }
+}
+
+
+// Variants
+
+.plain {
+    --fui-Surface-background-color: none;
+}
+
+.filled {
+    --fui-Surface-background-color: var(--fui-surface-color);
+
+    @include color-variable-for-palettes('Surface', 'background-color');
+}
+
+.outlined {
+    @include color-state-variables('Surface', 'border-color', global.$border-light-color);
+    @include color-variable-for-palettes('Surface', 'border-color');
+
+    border: 1px solid var(--fui-Surface-border-color);
+}
+
+.tinted {
+    --fui-Surface-background-color: var(--fui-gray-transparent);
+
+    @include color-variable-for-palettes('Surface', 'background-color', $color: 1);
+}
+
+
+// Roundness
+
+.roundness {
+  overflow: hidden;
+
+  @each $size in $sizes {
+    &-#{$size} {
+      --fui-Surface-border-radius: var(--fui-br-#{$size});
+    }
+  }
+}
+
+
+// Shadow
+
+.shadow {
+  &-small {
+    --fui-Surface-shadow: var(--fui-shadow-small);
+  }
+
+  &-medium {
+    --fui-Surface-shadow: var(--fui-shadow-medium);
+  }
+
+  &-large {
+    --fui-Surface-shadow: var(--fui-shadow-large);
+  }
+}
+
+
+// Misc
+
+.interactive {
+    &:hover {
+        --fui-Surface-background-color: rgba(0, 0, 0, .02);
+    }
+
+    &:active {
+        --fui-Surface-background-color: rgba(0, 0, 0, .03);
+    }
+}

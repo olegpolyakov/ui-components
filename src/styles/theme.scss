@@ -24,30 +24,26 @@ $prefix: 'kui' !default;
 }
 
 @mixin base($theme: null) {
-    @include scheme($theme);
+    @if ($theme == null) {
+        @include scheme(light);
+        @include scheme(dark);
+    } @else {
+        @include scheme($theme);
+    }
     @include base-vars;
     font-family: font.$font-family;
 }
 
-@mixin scheme($theme: 'light') {
+@mixin scheme($theme) {
     $selector: if(&, '&', '');
 
-    #{$selector}[data-theme="dark"] {
-        color-scheme: dark;
-        @include color-vars('dark');
+    #{$selector}[data-theme="#{$theme}"] {
+        color-scheme: #{$theme};
+        @include color-vars($theme);
     }
 
-    #{$selector}[data-theme="light"] {
-        color-scheme: light;
-        @include color-vars('light');
-    }
-
-    @media (prefers-color-scheme: light) {
-        @include color-vars('light');
-    }
-
-    @media (prefers-color-scheme: dark) {
-        @include color-vars('dark');
+    @media (prefers-color-scheme: #{$theme}) {
+        @include color-vars($theme);
     }
 }
 
@@ -117,11 +113,18 @@ $prefix: 'kui' !default;
 
 @mixin color-vars($theme) {
     $is-dark: $theme == 'dark';
-    $theme-colors: if($is-dark, colors.$dark-theme-colors, colors.$light-theme-colors);
-    $element-colors: if($is-dark, colors.$dark-element-colors, colors.$light-element-colors);
+    $theme-colors: if($is-dark,
+        colors.$dark-theme-colors,
+        colors.$light-theme-colors
+    );
+    $element-colors: if($is-dark,
+        colors.$dark-element-colors,
+        colors.$light-element-colors
+    );
     $surface-color: map.get($element-colors, surface);
     $surface-primary-color: map.get($element-colors, surface-primary);
     $surface-inverted-color: map.get($element-colors, surface-inverted);
+    $tinted-color: map.get($element-colors, tinted);
 
     // Element colors
     @each $element, $color in $element-colors {
@@ -129,11 +132,11 @@ $prefix: 'kui' !default;
     }
 
     // Plain colors
-    $plain-color: color.rgb($surface-color);
+    $plain-color: color.rgb($surface-inverted-color);
     @include vars((
         color: css.rgba($plain-color, 0),
-        color-hover: css.rgba($plain-color, .75),
-        color-active: css.rgba($plain-color, 1)
+        color-hover: css.rgba($plain-color, .05),
+        color-active: css.rgba($plain-color, .075)
     ), 'plain-');
 
     $on-plain-color: colors.on-color($surface-color);
@@ -160,9 +163,9 @@ $prefix: 'kui' !default;
 
     // Tinted colors
     @include vars((
-        color: css.rgba(color.rgb($surface-inverted-color), 0.125),
-        color-hover: css.rgba(color.rgb($surface-color), 0.25),
-        color-active: css.rgba(color.rgb($surface-color), 0.5)
+        color: $tinted-color,
+        color-hover: color.adjust($tinted-color, $alpha: 0.1),
+        color-active: color.adjust($tinted-color, $alpha: 0.2)
     ), 'tinted-');
 
     // Palette colors

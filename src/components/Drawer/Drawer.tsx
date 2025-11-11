@@ -14,7 +14,7 @@ export type DrawerProps = {
     header?: ReactNode;
     content?: ReactNode;
     type?: 'inline' | 'overlay' | 'modal';
-    position?: 'left' | 'right';
+    position?: 'left' | 'right' | 'top' | 'bottom';
     open?: boolean;
     onClose?: () => void;
 };
@@ -28,7 +28,6 @@ const elementClassNames = getElementClassNames(
 
 export default function Drawer<T extends ElementType = 'div'>({
     as,
-    ref,
     className,
     children,
 
@@ -41,7 +40,7 @@ export default function Drawer<T extends ElementType = 'div'>({
     onClose,
     ...props
 }: ComponentProps<DrawerProps, T>) {
-    const rootRef = useRef<HTMLDivElement>(null);
+    const surfaceRef = useRef<HTMLDivElement>(null);
 
     const Component = as || 'div';
     const classNames = cn(
@@ -52,36 +51,22 @@ export default function Drawer<T extends ElementType = 'div'>({
         cssClasses[type]
     );
 
-    const transitionClassNames = {
-        appear: cssClasses.appear,
-        appearActive: cssClasses.appearActive,
-        appearDone: cssClasses.appearDone,
-        enter: cssClasses.enter,
-        enterActive: cssClasses.enterActive,
-        enterDone: cssClasses.enterDone,
-        exit: cssClasses.exit,
-        exitActive: cssClasses.exitActive,
-        exitDone: cssClasses.exitDone
-    };
-
     const rootContent = (
-        <Transition
-            in={open}
-            nodeRef={rootRef}
-            timeout={200}
-            classNames={transitionClassNames}
+        <Component
+            className={classNames}
+            tabIndex={-1}
+            {...props}
         >
-            <Component
-                ref={rootRef}
-                className={classNames}
-                tabIndex={-1}
-                {...props}
+            <Transition
+                nodeRef={surfaceRef}
+                className={cn(elementClassNames.surface, cssClasses.surface)}
+                in={open}
+                timeout={200}
+                type={`slide-${position}`}
+                appear
+                disabled={type === 'inline'}
             >
-                {type !== 'inline' &&
-                    <div className={cn(elementClassNames.backdrop, cssClasses.backdrop)} />
-                }
-
-                <div ref={ref} className={cn(elementClassNames.surface, cssClasses.surface)}>
+                <div ref={surfaceRef}>
                     {(title || header || onClose) &&
                         <div className={cn(elementClassNames.header, cssClasses.header)}>
                             {title &&
@@ -109,12 +94,12 @@ export default function Drawer<T extends ElementType = 'div'>({
                         {content}
                     </div>
                 </div>
-            </Component>
-        </Transition>
+            </Transition>
+        </Component>
     );
 
     return type === 'modal' ?
-        <Modal fixed>
+        <Modal open={open} backdrop fixed>
             {rootContent}
         </Modal> :
         rootContent;

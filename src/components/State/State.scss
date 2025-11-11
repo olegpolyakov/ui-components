@@ -1,0 +1,38 @@
+@use '../../styles/mixins' as *;
+
+.root {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+}
+
+.title,
+.subtitle,
+.description {
+    margin: 0;
+    text-align: center;
+}
+
+.title {
+    @include heading(h3, bold);
+    color: var(--fui-text-color);
+}
+
+.subtitle {
+    @include heading(h4, normal);
+    color: var(--fui-text-color);
+}
+
+.description {
+    @include text(p2);
+    color: var(--fui-text-secondary-color);
+}

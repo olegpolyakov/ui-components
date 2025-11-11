@@ -2,6 +2,10 @@
 @use 'sass:math';
 @use 'sass:meta';
 
+@function adjust($args...) {
+    @return color.adjust($args...);
+}
+
 @function change($args...) {
     @return color.change($args...);
 }
@@ -15,7 +19,19 @@
 }
 
 @function rgb($color) {
-    @return color.red($color), color.green($color), color.blue($color);
+    @return red($color), green($color), blue($color);
+}
+
+@function red($color) {
+    @return color.channel($color, 'red', $space: rgb);
+}
+
+@function green($color) {
+    @return color.channel($color, 'green', $space: rgb);
+}
+
+@function blue($color) {
+    @return color.channel($color, 'blue', $space: rgb);
 }
 
 @function hsl($color) {
@@ -65,9 +81,9 @@
 // Calculate the luminance for a color.
 // See https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-tests
 @function luminance($color) {
-    $red: linear-channel-value(color.red($color));
-    $green: linear-channel-value(color.green($color));
-    $blue: linear-channel-value(color.blue($color));
+    $red: linear-channel-value(red($color));
+    $green: linear-channel-value(green($color));
+    $blue: linear-channel-value(blue($color));
   
     @return 0.2126 * $red + 0.7152 * $green + 0.0722 * $blue;
 }

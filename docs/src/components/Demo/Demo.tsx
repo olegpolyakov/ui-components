@@ -1,8 +1,7 @@
-import { cloneElement, isValidElement, useState, type ReactElement } from 'react';
-
-import { classnames as cn } from '~/utils';
+import { cloneElement, isValidElement, useMemo, useState, type ReactElement } from 'react';
 
 import { Button, Drawer } from '~/components';
+import { classnames as cn } from '~/utils';
 
 import Code from '@/components/Code';
 import Settings, { Setting } from '@/components/Settings';
@@ -23,20 +22,44 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
     wrap?: ReactElement | ((content: ReactElement, data: T) => ReactElement);
     children?: ReactElement | ((data: T, setData: (data: T) => void) => ReactElement);
 }) {
-    const [settingsData, setSettingsData] = useState<T>({} as T);
+    const filteredSettings = useMemo(() =>
+        settings
+            ? Object.values(settings).filter(setting =>
+                setting.name !== 'as' &&
+
+                !setting.name.startsWith('on') &&
+                !setting.type.name.endsWith('Props') &&
+                !setting.type.name.includes('[]')
+            )
+            : [],
+    [settings]);
+
+    const [data, setData] = useState(() => {
+        const initialData = typeof children === 'function'
+            ? children({} as T, () => {}).props as T
+            : isValidElement(children)
+                ? (children.props as T)
+                : {} as T;
+
+        return filteredSettings
+            .reduce((acc, setting) => {
+                acc[setting.name] = setting.defaultValue?.value ?? initialData?.[setting.name] ?? undefined;
+                return acc;
+            }, {} as Record<string, any>) as T;
+    });
     const [isSettingsOpen, setSettingsOpen] = useState(false);
     const [isCodeOpen, setCodeOpen] = useState(false);
 
     const setupContent = typeof setup === 'function'
-        ? setup(settingsData, setSettingsData)
+        ? setup(data, setData)
         : setup;
     const content = typeof children === 'function'
-        ? children(settingsData, setSettingsData)
+        ? children(data, setData)
         : isValidElement(children)
-            ? cloneElement(children as ReactElement, settingsData)
+            ? cloneElement(children as ReactElement, data)
             : children;
     const wrappedContent = typeof wrap === 'function'
-        ? wrap(content as ReactElement, settingsData)
+        ? wrap(content as ReactElement, data)
         : isValidElement(wrap)
             ? cloneElement(wrap as ReactElement, {}, content as ReactElement)
             : content;
@@ -81,12 +104,13 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
                     title="Settings"
                     position="right"
                     type="inline"
+                    open
                     onClose={() => setSettingsOpen(false)}
                 >
                     <Settings<T>
-                        data={isValidElement(content) ? (content.props as T) : {} as T}
-                        settings={settings}
-                        onChange={setSettingsData}
+                        data={data}
+                        settings={filteredSettings}
+                        onChange={setData}
                     />
                 </Drawer>
             }

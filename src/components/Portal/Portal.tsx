@@ -1,12 +1,9 @@
 import { createPortal } from 'react-dom';
 
-import type { Children } from '../../types';
-
-import Provider from '../Provider';
+import type { ComponentProps } from '../../types';
 
 export type PortalProps = {
     container?: HTMLElement;
-    children: Children;
 };
 
 Portal.displayName = 'Portal';
@@ -14,13 +11,11 @@ Portal.displayName = 'Portal';
 export default function Portal({
     container = document.body,
     children
-}: PortalProps) {
+}: ComponentProps<PortalProps, 'div'>) {
     return createPortal(
-        container === document.body ? (
-            <Provider>
-                {children}
-            </Provider>
-        ) : children,
+        container === document.body
+            ? children
+            : children,
         container
     );
 }

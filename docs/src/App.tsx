@@ -9,7 +9,7 @@ import styles from './App.module.scss';
 import routes from './routes';
 
 export default function App({}: {foo: 'bar'}) {
-    const [theme, setTheme] = useTheme('light');
+    const [theme, setTheme] = useTheme();
 
     return (
         <Provider>
@@ -37,16 +37,18 @@ export default function App({}: {foo: 'bar'}) {
                     </aside>
 
                     <main className={styles.main}>
-                        <Switch>
-                            {routes.map(route => (
-                                <Route
-                                    key={route.path}
-                                    path={route.path}
-                                    exact={route.exact}
-                                    component={route.component}
-                                />
-                            ))}
-                        </Switch>
+                        <article className="markdown">
+                            <Switch>
+                                {routes.map(route => (
+                                    <Route
+                                        key={route.path}
+                                        path={route.path}
+                                        exact={route.exact}
+                                        component={route.component}
+                                    />
+                                ))}
+                            </Switch>
+                        </article>
                     </main>
                 </div>
             </Router>

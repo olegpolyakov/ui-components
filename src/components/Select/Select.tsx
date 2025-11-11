@@ -42,7 +42,7 @@ Select.displayName = 'Select';
 
 const elementClassNames = getElementClassNames(
     Select.displayName,
-    ['control', 'start', 'label', 'input', 'end', 'menu']
+    ['popover', 'control', 'start', 'label', 'input', 'end', 'menu']
 );
 
 export default function Select({
@@ -62,7 +62,6 @@ export default function Select({
     onChange,
     ...props
 }: ComponentProps<SelectProps, 'select'>) {
-    const controlRef = useRef<HTMLDivElement>(null);
     const listboxRef = useRef<HTMLUListElement>(null);
 
     const [open, setOpen] = useState(false);
@@ -83,91 +82,97 @@ export default function Select({
 
     const selectedValue = options.find(option => option.value === value)?.label || '';
     const activated = open || (value !== undefined && value !== null);
+
+    const commonClassNames = cn(
+        styles.common,
+        placement && styles[placement],
+        activated && styles.activated,
+        open && styles.open
+    );
     
-    const classNames = cn(
+    const rootClassNames = cn(
         className,
         elementClassNames.root,
         styles.root,
         styles[size],
         styles[variant],
-        activated && styles.activated,
-        open && styles.open,
-        placement && styles[placement]
+        commonClassNames
+    );
+
+    const menuClassNames = cn(
+        elementClassNames.menu,
+        styles.menu,
+        commonClassNames
     );
 
     return (
-        <div className={classNames} {...props}>
-            <div
-                ref={controlRef}
-                className={cn(elementClassNames.control, styles.control)}
-            >
-                {label &&
-                    <label className={cn(elementClassNames.label, styles.label)}>{label}</label>
-                }
+        <Popover
+            trigger={
+                <div className={rootClassNames} {...props}>
+                    {start &&
+                        <span className={cn(elementClassNames.start, styles.start)}>
+                            {start}
+                        </span>
+                    }
 
-                {start &&
-                    <span className={cn(elementClassNames.start, styles.start)}>
-                        {start}
-                    </span>
-                }
-
-                <button
-                    className={cn(elementClassNames.input, styles.input)}
-                    type="button"
-                    value={value || undefined}
-                    data-placeholder={placeholder}
-                    onClick={() => setOpen(prevOpen => !prevOpen)}
-                >
-                    {selectedValue}
-                </button>
-
-                {end &&
-                    <span className={cn(elementClassNames.end, styles.end)}>
-                        {end}
-                    </span>
-                }
-            </div>
-
-            <Popover
-                className={classNames}
-                anchorRef={controlRef}
-                open={open}
-                placement="bottom"
-                fallbackPlacements={['top']}
-                arrow={false}
-                middleware={[
-                    flip(),
-                    popoverSize({
-                        apply: ({ availableHeight, elements }) => {
-                            elements.floating.style.width = elements.reference.getBoundingClientRect().width + 'px';
-
-                            elements.floating.style.maxHeight = maxMenuHeight
-                                ? Math.min(availableHeight, maxMenuHeight) + 'px'
-                                : availableHeight + 'px';
+                    <div className={cn(elementClassNames.control, styles.control)}>
+                        {label &&
+                            <label className={cn(elementClassNames.label, styles.label)}>{label}</label>
                         }
-                    })
-                ]}
-                unstyled
-                onOpen={placement => {
-                    setPlacement(placement);
-                    setOpen(true);
-                }}
-                onClose={() => setOpen(false)}
-            >
-                <ul
-                    className={cn(elementClassNames.menu, styles.menu)}
-                >
-                    {options?.map(option =>
-                        <Option
-                            key={option.value}
-                            onClick={handleOptionClick}
-                            {...option}
-                        />
-                    )}
 
-                    {children}
-                </ul>
-            </Popover>
-        </div>
+
+                        <button
+                            className={cn(elementClassNames.input, styles.input)}
+                            type="button"
+                            value={value || undefined}
+                            data-placeholder={placeholder}
+                            onClick={() => setOpen(prevOpen => !prevOpen)}
+                        >
+                            {selectedValue}
+                        </button>
+                    </div>
+
+                    {end &&
+                        <span className={cn(elementClassNames.end, styles.end)}>
+                            {end}
+                        </span>
+                    }
+                </div>
+            }
+            open={open}
+            placement="bottom"
+            fallbackPlacements={['top']}
+            arrow={false}
+            middleware={[
+                flip(),
+                popoverSize({
+                    apply: ({ availableHeight, elements }) => {
+                        elements.floating.style.width = elements.reference.getBoundingClientRect().width + 'px';
+
+                        elements.floating.style.maxHeight = maxMenuHeight
+                            ? Math.min(availableHeight, maxMenuHeight) + 'px'
+                            : availableHeight + 'px';
+                    }
+                })
+            ]}
+            unstyled
+            onOpen={placement => {
+                setPlacement(placement);
+                setOpen(true);
+            }}
+            onClose={() => setOpen(false)}
+        >
+            <ul className={menuClassNames}>
+                {options?.map(option =>
+                    <Option
+                        key={option.value}
+                        onClick={handleOptionClick}
+                        {...option}
+                    />
+                )}
+
+                {children}
+            </ul>
+        </Popover>
     );
 }

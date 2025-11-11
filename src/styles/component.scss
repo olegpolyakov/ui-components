@@ -14,7 +14,7 @@ $-vars: ();
 @mixin define($name, $vars: ()) {
     $-name: $name !global;
 
-    .root {
+    #{if(&, '&', '.root')} {
         @each $name, $value in $vars {
             @include var($name, $value);
 

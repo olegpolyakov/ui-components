@@ -1,0 +1,18 @@
+@use 'theme';
+
+$name: 'Input';
+
+$vars: (
+    'height': null,
+    'padding': null,
+    'gap': theme.var(space-xs),
+    'border-color': theme.var(border-color),
+    'border-width': 1px,
+    'border-radius': theme.var(border-radius-m),
+    'background-color': theme.var(surface-color),
+    'label-color': theme.var(text-secondary-color),
+    'text-color': theme.var(text-color),
+    'font-size': theme.var(font-size-m),
+    'font-weight': theme.var(font-weight-normal),
+    'line-height': theme.var(line-height)
+);

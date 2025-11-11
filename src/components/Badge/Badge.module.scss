@@ -9,7 +9,7 @@
     border-width: 0,
     background-color: transparent,
     text-color: theme.var(text-primary-color),
-    font-size: theme.var(font-size-smaller),
+    font-size: theme.var(font-size-xs),
     ring-width: 2px,
     ring-color: theme.var(surface-color)
 ));
@@ -34,6 +34,7 @@ $vars: component.vars();
     &:empty {
         min-width: calc(component.var(size) * 0.5);
         min-height: calc(component.var(size) * 0.5);
+        padding: 0;
     }
 }
 
@@ -43,18 +44,18 @@ $vars: component.vars();
 @include component.declare((
     s: (
         size: 14px,
-        padding-x: 4px,
-        font-size: 10px
+        padding-x: theme.var(space-xxs),
+        font-size: theme.var(font-size-xxs)
     ),
     m: (
         size: 18px,
-        padding-x: 6px,
-        font-size: 12px
+        padding-x: theme.var(space-xxs),
+        font-size: theme.var(font-size-xs)
     ),
     l: (
         size: 24px,
-        padding-x: 8px,
-        font-size: 14px
+        padding-x: theme.var(space-xs),
+        font-size: theme.var(font-size-sm)
     )
 ));
 
