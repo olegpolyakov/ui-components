@@ -13,7 +13,7 @@ export default function App({}: {foo: 'bar'}) {
 
     return (
         <Provider>
-            <Router>
+            <Router basename={import.meta.env.BASE_URL}>
                 <div className={styles.root}>
                     <aside className={styles.aside}>
                         <header className={styles.header}>

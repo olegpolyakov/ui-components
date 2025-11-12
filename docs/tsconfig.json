@@ -11,9 +11,8 @@
         "../src/*"
       ]
     },
-    "typeRoots": [
-      "../src/@types",
-      "../node_modules/@types"
+    "types": [
+      "vite/client"
     ],
     "lib": [
       "dom",
