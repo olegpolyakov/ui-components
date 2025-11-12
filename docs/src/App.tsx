@@ -8,7 +8,7 @@ import styles from './App.module.scss';
 
 import routes from './routes';
 
-export default function App({}: {foo: 'bar'}) {
+export default function App() {
     const [theme, setTheme] = useTheme();
 
     return (
