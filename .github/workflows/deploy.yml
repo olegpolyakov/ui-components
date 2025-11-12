@@ -36,12 +36,12 @@ jobs:
           node-version: 24.x
           cache: 'npm'
       - run: npm ci
-      - run: npm run build
+      - run: npm run build-docs
     
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: dist/
+          path: docs/dist/
 
   deploy:
     environment:
