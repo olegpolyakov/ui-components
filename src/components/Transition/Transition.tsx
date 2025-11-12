@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { isValidElement, ReactElement } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import type { CSSTransitionClassNames, CSSTransitionProps } from 'react-transition-group/CSSTransition';
 
@@ -9,7 +9,7 @@ import styles from './Transition.module.scss';
 Transition.displayName = 'Transition';
 
 export type TransitionProps = CSSTransitionProps<HTMLDivElement> & {
-    children: ReactNode;
+    children: ReactElement;
     type?:
         | 'collapse'
         | 'fade'
@@ -133,14 +133,21 @@ export default function Transition({
         return children;
     }
 
-    const classNames = type 
+    const childClassNames = cn(
+        className,
+        isValidElement<{className: string}>(children)
+            ? children.props.className
+            : undefined,
+        type && styles[type]
+    );
+    const transitionClassNames = type 
         ? typeToClassNames[type]
         : undefined;
 
     return (
         <CSSTransition
-            className={cn(className, type && styles[type])}
-            classNames={classNames}
+            className={childClassNames}
+            classNames={transitionClassNames}
             {...props}
         >
             {children}

@@ -70,12 +70,15 @@ export default function Modal({
             <Transition
                 in={open}
                 nodeRef={modalRef}
-                className={classNames}
                 type="fade"
                 timeout={200}
                 unmountOnExit
             >
-                <div ref={modalRef}>
+                <div
+                    ref={modalRef}
+                    className={classNames}
+                    data-open={open ? true : undefined}
+                >
                     {children}
                 </div>
             </Transition>

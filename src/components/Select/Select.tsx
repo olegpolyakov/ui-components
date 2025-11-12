@@ -62,14 +62,14 @@ export default function Select({
     onChange,
     ...props
 }: ComponentProps<SelectProps, 'select'>) {
-    const listboxRef = useRef<HTMLUListElement>(null);
+    const listRef = useRef<HTMLUListElement>(null);
 
     const [open, setOpen] = useState(false);
     const [placement, setPlacement] = useState<Placement>('bottom');
 
     useEffect(() => {
         if (open) {
-            listboxRef.current?.focus();
+            listRef.current?.focus();
         }
     }, [open]);
 
@@ -162,7 +162,7 @@ export default function Select({
             }}
             onClose={() => setOpen(false)}
         >
-            <ul className={menuClassNames}>
+            <ul ref={listRef} className={menuClassNames}>
                 {options?.map(option =>
                     <Option
                         key={option.value}

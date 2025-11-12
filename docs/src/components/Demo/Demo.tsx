@@ -26,7 +26,6 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
         settings
             ? Object.values(settings).filter(setting =>
                 setting.name !== 'as' &&
-
                 !setting.name.startsWith('on') &&
                 !setting.type.name.endsWith('Props') &&
                 !setting.type.name.includes('[]')

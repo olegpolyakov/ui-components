@@ -56,6 +56,22 @@
     flex-shrink: 0;
 }
 
+.left .surface {
+    border-right: component.var(border-width) solid component.var(border-color);
+}
+
+.right .surface {
+    border-left: component.var(border-width) solid component.var(border-color);
+}
+
+.top .surface {
+    border-bottom: component.var(border-width) solid component.var(border-color);
+}
+
+.bottom .surface {
+    border-top: component.var(border-width) solid component.var(border-color);
+}
+
 
 // Types
 
@@ -101,24 +117,20 @@
     &.left .surface {
         top: 0;
         left: 0;
-        border-right: component.var(border-width) solid component.var(border-color);
     }
 
     &.right .surface {
         top: 0;
         right: 0;
-        border-left: component.var(border-width) solid component.var(border-color);
     }
 
     &.top .surface {
         top: 0;
         left: 0;
-        border-bottom: component.var(border-width) solid component.var(border-color);
     }
 
     &.bottom .surface {
         bottom: 0;
         left: 0;
-        border-top: component.var(border-width) solid component.var(border-color);
     }
 }

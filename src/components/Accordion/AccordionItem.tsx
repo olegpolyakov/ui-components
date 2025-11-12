@@ -98,13 +98,15 @@ export default function AccordionItem<T extends ElementType = 'div'>({
             </div>
 
             <Transition
-                className={cn(elementClassNames.content, cssClasses.content)}
                 nodeRef={contentRef}
                 in={open}
                 timeout={200}
                 type="collapse"
             >
-                <div ref={contentRef}>
+                <div
+                    ref={contentRef}
+                    className={cn(elementClassNames.content, cssClasses.content)}
+                >
                     {content}
                 </div>
             </Transition>

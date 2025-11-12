@@ -40,6 +40,7 @@ export default function Checkbox({
 
     label,
     size = 'm',
+    checked,
     disabled,
     onChange,
     ...props
@@ -63,11 +64,12 @@ export default function Checkbox({
     );
 
     return (
-        <div className={classNames}>
+        <div className={classNames} data-checked={checked ? true : undefined}>
             <input
                 id={id}
                 className={cn(elementClassNames.input, cssClasses.input)}
                 type="checkbox"
+                checked={checked}
                 disabled={disabled}
                 onChange={handleChange}
                 {...props}

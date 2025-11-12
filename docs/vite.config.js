@@ -62,7 +62,11 @@ function docgen() {
     return {
         name: 'docgen',
         transform(code, id) {
-            if (id.includes('node_modules') || !id.endsWith('.tsx') || !id.includes('/react-components/src/components/')) {
+            if (
+                id.includes('node_modules') ||
+                !id.endsWith('.tsx') ||
+                !id.includes('/kantanui/src/components/')
+            ) {
                 return null;
             }
 

@@ -1,5 +1,6 @@
 import {
     type ChangeEvent,
+    type MouseEvent,
     type ReactNode,
     useCallback,
     useRef,
@@ -16,6 +17,7 @@ import { List, ListItem } from '../List';
 
 import cssClasses from './Combobox.module.scss';
 import Popover from '../Popover';
+import Button from '../Button';
 
 export type ComboboxValue = string | string[];
 
@@ -68,7 +70,6 @@ const elementClassNames = getElementClassNames(
 );
 
 export default function Combobox({
-    id,
     name,
     defaultValue = '',
     value: initialValue = defaultValue,
@@ -79,11 +80,10 @@ export default function Combobox({
     placeholder = '',
     size = 'm',
     variant = 'outlined',
-    multiple,
     disabled,
     clearable,
     creatable,
-    createNewLabel = 'Добавить',
+    createNewLabel = 'Add',
     maxMenuHeight,
     onChange,
     onInputChange,
@@ -91,24 +91,27 @@ export default function Combobox({
     className,
     ...props
 }: ComponentProps<ComboboxProps, 'div'>) {
-    const controlRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement>(null);
     
     const [inputValue, setInputValue] = useState('');
     const [focused, setFocused] = useState(false);
     const [open, setOpen] = useState(false);
 
     const handleChange = useCallback((
-        event: ChangeEvent<HTMLInputElement>
+        event: MouseEvent<HTMLElement>
     ) => {
-        const { name, value } = event.target as HTMLInputElement;
+        const value = (event.target as HTMLElement).dataset.value;
+        const content = (event.target as HTMLElement).textContent;
 
-        setInputValue(value);
+        if (!value || !content) return;
+
+        setInputValue(content);
 
         onChange?.({
             name,
             value
         });
-    }, [onChange]);
+    }, [name, onChange]);
 
     const handleInputChange = useCallback((
         event: ChangeEvent<HTMLInputElement>
@@ -157,8 +160,8 @@ export default function Combobox({
     return (
         <div className={classNames} {...props}>
             <div
-                ref={controlRef}
-                className={cn(elementClassNames.control, cssClasses.control)}
+                ref={containerRef}
+                className={cn(elementClassNames.container, cssClasses.container)}
             >
                 {start &&
                     <span className={cn(elementClassNames.start, cssClasses.start)}>
@@ -167,7 +170,7 @@ export default function Combobox({
                 }
 
                 <div
-                    className={cn(elementClassNames.container, cssClasses.container)}
+                    className={cn(elementClassNames.control, cssClasses.control)}
                     onClick={() => setOpen(prevOpen => !prevOpen)}
                 >
                     {label &&
@@ -189,12 +192,20 @@ export default function Combobox({
 
                         <input
                             className={cn(elementClassNames.input, cssClasses.input)}
+                            placeholder={placeholder}
+                            value={inputValue}
+                            disabled={disabled}
                             onChange={handleInputChange}
                             onFocus={handleFocus}
                             onBlur={handleBlur}
                         />
                     </div>
+
+                    {clearable && hasValue && !disabled &&
+                        <Button icon="clear" size="xs" />
+                    }
                 </div>
+
 
                 {end &&
                     <span className={cn(elementClassNames.end, cssClasses.end)}>
@@ -204,9 +215,10 @@ export default function Combobox({
             </div>
 
             <Popover
-                anchorRef={controlRef}
+                anchorRef={containerRef}
                 open={open}
                 arrow={false}
+                unstyled
                 middleware={[
                     popoverSize({
                         apply: ({ availableHeight, elements }) => {
@@ -238,6 +250,8 @@ export default function Combobox({
                                         color={selected ? 'primary' : undefined}
                                         variant={selected ? 'filled' : undefined}
                                         interactive
+                                        data-value={optionValue}
+                                        onClick={handleChange}
                                     >
                                         {optionLabel}
                                     </ListItem>
@@ -245,13 +259,13 @@ export default function Combobox({
 
                             })}
 
-                        {/* {creatable && groupedOptions.length === 0 &&
-                        <ListItem
-                            content={createNewLabel}
-                            interactive
-                            onClick={handleCreateNew}
-                        />
-                        } */}
+                        {creatable && inputValue && options.length > 0 && !options.find(option => getLabel(option) === inputValue) &&
+                            <ListItem
+                                content={`${createNewLabel} "${inputValue}"`}
+                                interactive
+                                onClick={handleCreateNew}
+                            />
+                        }
                     </List>
                 </div>
             </Popover>

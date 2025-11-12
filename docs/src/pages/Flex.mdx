@@ -7,10 +7,20 @@ import Flex from '~/components/Flex';
 
 Flex is a layout component that arranges its children in a flexible box model, allowing for responsive and dynamic layouts.
 
-<Demo settings={Flex.settings}>
+<Demo
+    setup={(props, setProps) => (
+        <input
+            type="number"
+            min="1"
+            value={props.count || 3}
+            onChange={e => setProps({ count: Number(e.target.value) })}
+        />
+    )}
+    settings={Flex.settings}
+>
     {({count, ...props}) => (
         <Flex gap="s" {...props}>
-            {Array.from({ length: count }).map((_, index) => (
+            {Array.from({ length: count ?? 3 }).map((_, index) => (
                 <div
                     key={index}
                     style={{
@@ -19,8 +29,8 @@ Flex is a layout component that arranges its children in a flexible box model, a
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        backgroundColor: 'var(--ui-primary-color)',
-                        color: 'var(--ui-on-primary-color)'
+                        backgroundColor: 'var(--kui-primary-color)',
+                        color: 'var(--kui-on-primary-color)'
                     }}>
                     {index + 1}
                 </div>

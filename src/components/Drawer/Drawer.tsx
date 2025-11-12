@@ -55,18 +55,21 @@ export default function Drawer<T extends ElementType = 'div'>({
         <Component
             className={classNames}
             tabIndex={-1}
+            data-open={open ? true : undefined}
             {...props}
         >
             <Transition
                 nodeRef={surfaceRef}
-                className={cn(elementClassNames.surface, cssClasses.surface)}
                 in={open}
                 timeout={200}
                 type={`slide-${position}`}
                 appear
                 disabled={type === 'inline'}
             >
-                <div ref={surfaceRef}>
+                <div
+                    ref={surfaceRef}
+                    className={cn(elementClassNames.surface, cssClasses.surface)}
+                >
                     {(title || header || onClose) &&
                         <div className={cn(elementClassNames.header, cssClasses.header)}>
                             {title &&

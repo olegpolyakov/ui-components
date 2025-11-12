@@ -1,12 +1,14 @@
 .root {
     position: relative;
     border: 1px solid var(--kui-border-color);
+    border-radius: 8px;
     background-color: var(--kui-surface-color);
     display: grid;
     grid-template-columns: auto max-content;
     grid-template-areas:
         "main aside"
         "code aside";
+    overflow: hidden;
 }
 
 .main {

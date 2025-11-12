@@ -78,6 +78,7 @@ export default function Dialog({
             <div
                 className={classNames}
                 role="dialog"
+                data-open={open ? true : undefined}
                 {...props}
             >
                 <div
@@ -86,7 +87,6 @@ export default function Dialog({
                     onClick={handleOverlayClick}
                 >
                     <Transition
-                        className={cn(elementClassNames.surface, cssClasses.surface)} 
                         nodeRef={surfaceRef}
                         in={open}
                         type="scale"
@@ -96,6 +96,7 @@ export default function Dialog({
                     >
                         <div
                             ref={surfaceRef}
+                            className={cn(elementClassNames.surface, cssClasses.surface)} 
                             onClick={handleSurfaceClick}
                         >
                             {title &&
