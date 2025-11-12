@@ -46,7 +46,7 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
                 return acc;
             }, {} as Record<string, any>) as T;
     });
-    const [isSettingsOpen, setSettingsOpen] = useState(false);
+    const [isSettingsOpen, setSettingsOpen] = useState(true);
     const [isCodeOpen, setCodeOpen] = useState(false);
 
     const setupContent = typeof setup === 'function'
