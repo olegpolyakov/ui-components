@@ -4,8 +4,8 @@ import react from '@vitejs/plugin-react';
 import mdx from '@mdx-js/rollup';
 import { parse } from 'react-docgen-typescript';
 
-export default defineConfig({
-    base: './',
+export default defineConfig(({ command }) => ({
+    base: command === 'build' ? '/kantanui/' : '/',
     root: path.resolve(__dirname, 'src'),
     build: {
         outDir: path.resolve(__dirname, 'dist'),
@@ -39,7 +39,7 @@ export default defineConfig({
     server: {
         open: true
     }
-});
+}));
 
 function docgen() {
     const options = {
