@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Checkbox';
 
@@ -32,36 +32,36 @@
 
     &:hover {
         @include component.vars((
-            border-color: theme.var(primary-color-hover)
+            border-color: base.var(primary-color-hover)
         ));
     }
 
     &:active {
         @include component.vars((
-            border-color: theme.var(primary-color-active)
+            border-color: base.var(primary-color-active)
         ));
     }
 }
 
 .input:checked {
     @include component.vars((
-        border-color: theme.var(primary-color),
-        background-color: theme.var(primary-color)
+        border-color: base.var(primary-color),
+        background-color: base.var(primary-color)
     ));
 
     background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjAnIGhlaWdodD0nMjAnIHZpZXdCb3g9JzAgMCAyNCAyNCcgZmlsbD0nbm9uZScgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cGF0aCBkPSdNNSAxM2w0IDRMMTkgNycgc3Ryb2tlPScjZmZmJyBzdHJva2Utd2lkdGg9JzInIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcgc3Ryb2tlLWxpbmVqb2luPSdyb3VuZCc+PC9wYXRoPjwvc3ZnPg==');
 
     &:hover {
         @include component.vars((
-            border-color: theme.var(primary-color-hover),
-            background-color: theme.var(primary-color-hover)
+            border-color: base.var(primary-color-hover),
+            background-color: base.var(primary-color-hover)
         ));
     }
 
     &:active {
         @include component.vars((
-            border-color: theme.var(primary-color-active),
-            background-color: theme.var(primary-color-active)
+            border-color: base.var(primary-color-active),
+            background-color: base.var(primary-color-active)
         ));
     }
 }
@@ -79,14 +79,14 @@
 @include component.declare((
     s: (
         size: 16px,
-        gap: theme.var(space-xs)
+        gap: base.var(space-xs)
     ),
     m: (
         size: 20px,
-        gap: theme.var(space-s)
+        gap: base.var(space-s)
     ),
     l: (
         size: 24px,
-        gap: theme.var(space-m)
+        gap: base.var(space-m)
     )
 ));

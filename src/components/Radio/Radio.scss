@@ -1,10 +1,10 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 $size: 20px !default;
-$border-color: theme.var(border-color) !default;
-$background-color: theme.var(surface-color) !default;
-$gap: theme.var(space-s) !default;
+$border-color: base.var(border-color) !default;
+$background-color: base.var(surface-color) !default;
+$gap: base.var(space-s) !default;
 
 $vars: component.define(Radio, (
     size: $size,

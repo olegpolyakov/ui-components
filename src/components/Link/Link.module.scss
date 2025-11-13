@@ -1,9 +1,9 @@
 @use 'sass:list';
 @use 'sass:math';
 
+@use 'base';
 @use 'component';
 @use 'sizes';
-@use 'theme';
 @use 'utils/units' as *;
 
 @use './Link';

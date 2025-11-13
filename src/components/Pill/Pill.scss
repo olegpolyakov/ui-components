@@ -1,9 +1,9 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 $height: auto !default;
 $padding: null !default;
-$gap: theme.var(space-xxs) !default;
+$gap: base.var(space-xxs) !default;
 $border-color: null !default;
 $border-color-hover: null !default;
 $border-color-active: null !default;
@@ -15,8 +15,8 @@ $background-color-active: null !default;
 $text-color: null !default;
 $text-color-hover: null !default;
 $text-color-active: null !default;
-$font-size: theme.var(font-size) !default;
-$font-weight: theme.var(font-weight-normal) !default;
+$font-size: base.var(font-size) !default;
+$font-weight: base.var(font-weight-normal) !default;
 $line-height: 1 !default;
 $icon-color: currentColor !default;
 

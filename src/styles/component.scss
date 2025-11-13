@@ -1,8 +1,8 @@
 @use 'sass:map';
 @use 'sass:meta';
 
+@use './base' as *;
 @use './colors';
-@use './theme';
 @use './utils/css';
 @use './utils/list';
 @use './utils/string';
@@ -39,7 +39,7 @@ $-vars: ();
     @if _is-private-var($name) {
         @return css.var($name, $value);
     } @else {
-        @return theme.var('#{$-name}-#{$name}', $value);
+        @return base.var('#{$-name}-#{$name}', $value);
     }
 }
 
@@ -71,7 +71,7 @@ $-vars: ();
     @if _is-private-var($name) {
         @include css.var($name, $_value);
     } @else {
-        @include theme.var('#{$-name}-#{$name}', $_value);
+        @include base.var('#{$-name}-#{$name}', $_value);
     }
 }
 
@@ -120,7 +120,7 @@ $-vars: ();
     }
 
     @if _is-public-var-value($value) {
-        @return theme.var('#{$prefix}-#{string.slice($value, 3)}');
+        @return base.var('#{$prefix}-#{string.slice($value, 3)}');
     }
 
     @return $value;

@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Label';
 
@@ -10,7 +10,7 @@
     align-items: flex-start;
     gap: component.var(gap);
     color: component.var(color);
-    font-family: theme.var(font-family);
+    font-family: base.var(font-family);
     font-size: component.var(size);
     line-height: 1;
 }
@@ -30,16 +30,16 @@
 
 @include component.declare((
     s: (
-        size: theme.var(font-size-xs),
-        gap: theme.var(space-xxs)
+        size: base.var(font-size-xs),
+        gap: base.var(space-xxs)
     ),
     m: (
-        size: theme.var(font-size-s),
-        gap: theme.var(space-xxs)
+        size: base.var(font-size-s),
+        gap: base.var(space-xxs)
     ),
     l: (
-        size: theme.var(font-size-m),
-        gap: theme.var(space-xs)
+        size: base.var(font-size-m),
+        gap: base.var(space-xs)
     )
 ));
 

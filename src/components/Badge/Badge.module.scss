@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Badge';
 
@@ -16,9 +16,9 @@
     border-radius: component.var(border-radius);
     background-color: component.var(background-color);
     color: component.var(text-color);
-    font-family: theme.var(font-family);
+    font-family: base.var(font-family);
     font-size: component.var(font-size);
-    font-weight: theme.var(font-weight-semibold);
+    font-weight: base.var(font-weight-semibold);
 
     &:empty {
         min-width: calc(component.var(size) * 0.5);
@@ -33,18 +33,18 @@
 @include component.declare((
     s: (
         size: 14px,
-        padding-x: theme.var(space-xxs),
-        font-size: theme.var(font-size-xxs)
+        padding-x: base.var(space-xxs),
+        font-size: base.var(font-size-xxs)
     ),
     m: (
         size: 18px,
-        padding-x: theme.var(space-xxs),
-        font-size: theme.var(font-size-xs)
+        padding-x: base.var(space-xxs),
+        font-size: base.var(font-size-xs)
     ),
     l: (
         size: 24px,
-        padding-x: theme.var(space-xs),
-        font-size: theme.var(font-size-sm)
+        padding-x: base.var(space-xs),
+        font-size: base.var(font-size-sm)
     )
 ));
 

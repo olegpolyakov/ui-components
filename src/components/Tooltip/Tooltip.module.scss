@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Tooltip';
 
@@ -17,8 +17,8 @@
     background: component.var(background-color);
     color: component.var(color);
     font-size: component.var(font-size);
-    font-family: theme.var(font-family);
-    font-weight: theme.var(font-weight-normal);
+    font-family: base.var(font-family);
+    font-weight: base.var(font-weight-normal);
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.10);
     animation: fade-in .2s;
     z-index: 9999;

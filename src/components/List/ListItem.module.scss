@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './ListItem';
 
@@ -57,7 +57,7 @@
 // Shapes
 
 @include component.declare((
-    rounded: (border-radius: theme.var(border-radius-s)),
+    rounded: (border-radius: base.var(border-radius-s)),
     circular: (border-radius: component.var(height)),
     rectangular: (border-radius: 0)
 ));

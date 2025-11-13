@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Pill';
 
@@ -16,7 +16,7 @@
     border-radius: component.var(border-radius);
     background-color: component.var(background-color);
     color: component.var(text-color);
-    font-family: theme.var(font-family);
+    font-family: base.var(font-family);
     font-size: component.var(font-size);
     font-weight: component.var(font-weight);
     // line-height: component.var(line-height);
@@ -59,7 +59,7 @@
     }
     
     &:disabled {
-        opacity: theme.var(disabled-opacity);
+        opacity: base.var(disabled-opacity);
         cursor: default;
     }
 }

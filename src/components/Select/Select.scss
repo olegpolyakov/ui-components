@@ -1,11 +1,11 @@
 @use 'sass:map';
 
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use '../Input';
 
-$menu-shadow: theme.var(shadow-m) !default;
+$menu-shadow: base.var(shadow-m) !default;
 
 $vars: component.define(Select, map.merge(Input.$vars, (
     menu-shadow: $menu-shadow

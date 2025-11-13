@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Popover';
 
@@ -23,7 +23,7 @@
 
 .content {
     color: component.var(text-color);
-    font-family: theme.var(font-family);
+    font-family: base.var(font-family);
     overflow: hidden;
 }
 
@@ -54,9 +54,9 @@
 // Sizes
 
 @include component.declare((
-    s: (padding: theme.var(space-s)),
-    m: (padding: theme.var(space-m)),
-    l: (padding: theme.var(space-l))
+    s: (padding: base.var(space-s)),
+    m: (padding: base.var(space-m)),
+    l: (padding: base.var(space-l))
 ));
 
 

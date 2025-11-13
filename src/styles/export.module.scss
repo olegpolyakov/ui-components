@@ -1,11 +1,11 @@
 @use 'sass:string';
 
+@use 'base';
 @use 'colors';
-@use 'theme';
 
 :export {
-    prefix: string.unquote(theme.$prefix);
-
+    prefix: string.unquote(base.$prefix);
+    
     black: #{colors.$black};
     white: #{colors.$white};
     gray: #{colors.$gray};

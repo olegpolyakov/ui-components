@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 $size: auto !default;
 $padding-x: 0 !default;
@@ -7,8 +7,8 @@ $border-color: transparent !default;
 $border-radius: --size !default;
 $border-width: 0 !default;
 $background-color: transparent !default;
-$text-color: theme.var(text-primary-color) !default;
-$font-size: theme.var(font-size-xs) !default;
+$text-color: base.var(text-primary-color) !default;
+$font-size: base.var(font-size-xs) !default;
 
 $vars: component.define(Badge, (
     size: $size,

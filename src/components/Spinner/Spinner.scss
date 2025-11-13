@@ -1,8 +1,8 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
-$size: theme.var(size-m) !default;
-$color: theme.var(primary-color) !default;
+$size: base.var(size-m) !default;
+$color: base.var(primary-color) !default;
 $animation-speed: 0.75s !default;
 
 $vars: component.define(Spinner, (

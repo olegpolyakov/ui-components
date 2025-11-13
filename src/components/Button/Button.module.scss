@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Button';
 
@@ -18,9 +18,9 @@
     border-radius: component.var(border-radius);
     background-color: component.var(background-color);
     color: component.var(text-color);
-    font-family: theme.var(font-family);
+    font-family: base.var(font-family);
     font-size: component.var(font-size);
-    font-weight: theme.var(font-weight-normal);
+    font-weight: base.var(font-weight-normal);
     // line-height: component.var(line-height);
     text-align: center;
     text-decoration: none;
@@ -56,7 +56,7 @@
     
     &.loading,
     &:disabled {
-        opacity: theme.var(disabled-opacity);
+        opacity: base.var(disabled-opacity);
         cursor: default;
     }
 }
@@ -98,31 +98,31 @@
         height: 24px,
         padding: 8px,
         gap: 4px,
-        font-size: theme.var(font-size-xs)
+        font-size: base.var(font-size-xs)
     ),
     s: (
         height: 28px,
         padding: 8px,
         gap: 4px,
-        font-size: theme.var(font-size-s)
+        font-size: base.var(font-size-s)
     ),
     m: (
         height: 32px,
         padding: 12px,
         gap: 4px,
-        font-size: theme.var(font-size-m)
+        font-size: base.var(font-size-m)
     ),
     l: (
         height: 40px,
         padding: 16px,
         gap: 8px,
-        font-size: theme.var(font-size-l)
+        font-size: base.var(font-size-l)
     ),
     xl: (
         height: 48px,
         padding: 16px,
         gap: 8px,
-        font-size: theme.var(font-size-xl)
+        font-size: base.var(font-size-xl)
     )
 ));
 
@@ -171,11 +171,11 @@
     @include component.declare((
         xs: (
             height: 16px,
-            border-radius: theme.var(border-radius-xs)
+            border-radius: base.var(border-radius-xs)
         ),
         s: (
             height: 24px,
-            border-radius: theme.var(border-radius-s)
+            border-radius: base.var(border-radius-s)
         ),
         m: (
             height: 32px

@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Card';
 
@@ -20,9 +20,9 @@
 // Sizes
 
 @include component.declare((
-    s: (padding: theme.var(space-s)),
-    m: (padding: theme.var(space-m)),
-    l: (padding: theme.var(space-l))
+    s: (padding: base.var(space-s)),
+    m: (padding: base.var(space-m)),
+    l: (padding: base.var(space-l))
 ));
 
 
@@ -34,9 +34,9 @@
 // Shadow
 
 @include component.declare((
-    shadow-s: (shadow: theme.var(shadow-s)),
-    shadow-m: (shadow: theme.var(shadow-m)),
-    shadow-l: (shadow: theme.var(shadow-l))
+    shadow-s: (shadow: base.var(shadow-s)),
+    shadow-m: (shadow: base.var(shadow-m)),
+    shadow-l: (shadow: base.var(shadow-l))
 ));
 
 
@@ -45,7 +45,7 @@
 .interactive {
     &:hover {
         @include component.vars((
-            background-color: theme.var(surface-hover-color)
+            background-color: base.var(surface-hover-color)
         ));
     }
 }

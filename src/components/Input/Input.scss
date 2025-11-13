@@ -1,18 +1,18 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 $height: null !default;
 $padding: null !default;
-$gap: theme.var(space-xs) !default;
-$border-color: theme.var(border-color) !default;
+$gap: base.var(space-xs) !default;
+$border-color: base.var(border-color) !default;
 $border-width: 1px !default;
-$border-radius: theme.var(border-radius-m) !default;
-$background-color: theme.var(surface-color) !default;
-$label-color: theme.var(text-secondary-color) !default;
-$text-color: theme.var(text-color) !default;
-$font-size: theme.var(font-size-m) !default;
-$font-weight: theme.var(font-weight-normal) !default;
-$line-height: theme.var(line-height) !default;
+$border-radius: base.var(border-radius-m) !default;
+$background-color: base.var(surface-color) !default;
+$label-color: base.var(text-secondary-color) !default;
+$text-color: base.var(text-color) !default;
+$font-size: base.var(font-size-m) !default;
+$font-weight: base.var(font-weight-normal) !default;
+$line-height: base.var(line-height) !default;
 
 $vars: component.define('Input', (
     height: $height,

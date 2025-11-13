@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './List';
 
@@ -27,7 +27,7 @@
 // Gap
 
 @include component.declare((
-    gap-s: (gap: theme.var(gap-xxs)),
-    gap-m: (gap: theme.var(gap-xs)),
-    gap-l: (gap: theme.var(gap-s))
+    gap-s: (gap: base.var(gap-xxs)),
+    gap-m: (gap: base.var(gap-xs)),
+    gap-l: (gap: base.var(gap-s))
 ));

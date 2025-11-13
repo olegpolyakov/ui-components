@@ -1,8 +1,8 @@
 @use 'sass:map';
 
+@use 'colors';
 @use 'component';
 @use 'sizes';
-@use 'theme';
 
 @use './Icon';
 
@@ -47,10 +47,10 @@
 // Colors
 
 .inactive {
-    opacity: theme.var(opacity-inactive);
+    opacity: base.var(opacity-inactive);
 }
 
-@include theme.dark {
+@include colors.dark {
     .root {
         font-variation-settings: 'GRAD' -25;
     }

@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Textarea';
 
@@ -18,8 +18,8 @@
     background-clip: padding-box;
     background-color: component.var(background-color);
     font-size: component.var(font-size);
-    font-family: theme.var(font-family);
-    line-height: theme.var(line-height);
+    font-family: base.var(font-family);
+    line-height: base.var(line-height);
     color: component.var(text-color);
     overflow: hidden;
     transition: border-color 0.2s ease-in-out;
@@ -73,7 +73,7 @@
 .focused,
 .root:focus-within {
     @include component.vars((
-        border-color: theme.var(primary-color)
+        border-color: base.var(primary-color)
     ));
 
     .label {
@@ -88,7 +88,7 @@
 
 .invalid {
     @include component.vars((
-        border-color: theme.var(danger-color)
+        border-color: base.var(danger-color)
     ));
 }
 

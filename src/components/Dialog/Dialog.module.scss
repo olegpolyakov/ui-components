@@ -7,7 +7,7 @@
 
 .root {
     position: relative;
-    font-family: theme.var(font-family);
+    font-family: base.var(font-family);
 }
 
 .overlay {
@@ -20,7 +20,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: theme.var(backdrop-color);
+    background-color: base.var(backdrop-color);
     z-index: component.var(z-index);
 }
 
@@ -38,7 +38,7 @@
 
 .title {
     margin: 0;
-    color: theme.var(text-color);
+    color: base.var(text-color);
 }
 
 .content {

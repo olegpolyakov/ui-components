@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Input';
 
@@ -18,7 +18,7 @@
     background-clip: padding-box;
     background-color: component.var(background-color);
     color: component.var(text-color);
-    font-family: theme.var(font-family);
+    font-family: base.var(font-family);
     font-size: component.var(font-size);
     font-weight: component.var(font-weight);
     line-height: component.var(line-height);
@@ -70,7 +70,7 @@
 
 .focused {
     @include component.vars((
-        border-color: theme.var(primary-color)
+        border-color: base.var(primary-color)
     ));
 }
 
@@ -87,7 +87,7 @@
 
 .invalid {
     @include component.vars((
-        border-color: theme.var(danger-color)
+        border-color: base.var(danger-color)
     ));
 }
 
@@ -99,7 +99,7 @@
 // Shapes
 
 @include component.declare((
-    rounded: (border-radius: theme.var(border-radius-m)),
+    rounded: (border-radius: base.var(border-radius-m)),
     rectangular: (border-radius: 0),
     circular: (border-radius: component.var(height))
 ));
@@ -130,7 +130,7 @@
 
 .outlined {
     @include component.vars((
-        border-color: theme.var(border-color),
+        border-color: base.var(border-color),
         background-color: transparent
     ));
 
@@ -149,7 +149,7 @@
 
 .tinted {
     @include component.vars((
-        background-color: theme.var(surface-color)
+        background-color: base.var(surface-color)
     ));
 }
     
@@ -170,7 +170,7 @@
     &:focus-within,
     &.focused {
         @include component.vars((
-            border-color: theme.var(primary-color)
+            border-color: base.var(primary-color)
         ));
     }
 }

@@ -1,0 +1,17 @@
+@use 'utils/css';
+
+$prefix: 'kui' !default;
+
+@function var($name, $default-value: null) {
+    @return css.var(#{$prefix}-#{$name});
+}
+
+@mixin var($name, $value: null) {
+    --#{$prefix}-#{$name}: #{$value};
+}
+
+@mixin vars($vars, $prefix: '') {
+    @each $name, $value in $vars {
+        @include var('#{$prefix}#{$name}', $value);
+    }
+}

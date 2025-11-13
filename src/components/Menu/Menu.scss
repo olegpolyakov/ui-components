@@ -1,9 +1,9 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 $height: auto !default;
-$padding: (theme.var(space-xs) 0) !default;
-$background-color: theme.var(surface-color) !default;
+$padding: (base.var(space-xs) 0) !default;
+$background-color: base.var(surface-color) !default;
 
 $vars: component.define(Menu, (
     height: $height,

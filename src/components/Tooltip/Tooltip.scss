@@ -1,13 +1,13 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 $max-width: auto !default;
-$gap: theme.var(space-xs) !default;
-$padding: theme.var(space-xxs) !default;
-$border-radius: theme.var(border-radius-s) !default;
-$background-color: theme.var(surface-inverted-color) !default;
-$color: theme.var(text-inverted-color) !default;
-$font-size: theme.var(font-size-s) !default;
+$gap: base.var(space-xs) !default;
+$padding: base.var(space-xxs) !default;
+$border-radius: base.var(border-radius-s) !default;
+$background-color: base.var(surface-inverted-color) !default;
+$color: base.var(text-inverted-color) !default;
+$font-size: base.var(font-size-s) !default;
 $shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.10) !default;
 $arrow-offset: -3px !default;
 

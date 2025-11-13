@@ -1,6 +1,7 @@
 @use 'sass:color';
 @use 'sass:math';
 @use 'sass:meta';
+@use 'sass:string';
 
 @function adjust($args...) {
     @return color.adjust($args...);
@@ -14,12 +15,12 @@
     @return color.scale($args...);
 }
 
-@function hex($color) {
-    @return color.format($color, 'hex');
-}
-
 @function rgb($color) {
     @return red($color), green($color), blue($color);
+}
+
+@function rgba($color, $alpha) {
+    @return red($color), green($color), blue($color), $alpha;
 }
 
 @function red($color) {
@@ -32,6 +33,10 @@
 
 @function blue($color) {
     @return color.channel($color, 'blue', $space: rgb);
+}
+
+@function alpha($color) {
+    @return color.channel($color, 'alpha', $space: rgb);
 }
 
 @function hsl($color) {

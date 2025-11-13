@@ -1,8 +1,8 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @include component.init(AvatarGroup, (
-    gap: theme.var(space-none)
+    gap: base.var(space-none)
 ));
 
 .root {
@@ -13,7 +13,7 @@
 
 .gap {
     &-none {
-        @include component.var(gap, theme.var(space-none));
+        @include component.var(gap, base.var(space-none));
     }
 
     &-auto {
@@ -21,31 +21,31 @@
     }
 
     &-xxs {
-        @include component.var(gap, theme.var(space-xxs));
+        @include component.var(gap, base.var(space-xxs));
     }
 
     &-xs {
-        @include component.var(gap, theme.var(space-xs));
+        @include component.var(gap, base.var(space-xs));
     }
 
     &-s {
-        @include component.var(gap, theme.var(space-s));
+        @include component.var(gap, base.var(space-s));
     }
 
     &-m {
-        @include component.var(gap, theme.var(space-m));
+        @include component.var(gap, base.var(space-m));
     }
 
     &-l {
-        @include component.var(gap, theme.var(space-l));
+        @include component.var(gap, base.var(space-l));
     }
 
     &-xl {
-        @include component.var(gap, theme.var(space-xl));
+        @include component.var(gap, base.var(space-xl));
     }
 
     &-xxl {
-        @include component.var(gap, theme.var(space-xxl));
+        @include component.var(gap, base.var(space-xxl));
     }
 }
 

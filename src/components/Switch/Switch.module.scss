@@ -1,7 +1,7 @@
 @use 'sass:math';
 
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Switch';
 
@@ -65,24 +65,24 @@
 
     &:checked {
         @include component.vars((
-            thumb-background-color: theme.var(primary-color)
+            thumb-background-color: base.var(primary-color)
         ));
 
         &:hover {
             @include component.vars((
-                thumb-background-color: theme.var(primary-color-hover)
+                thumb-background-color: base.var(primary-color-hover)
             ));
         }
 
         &:active {
             @include component.vars((
-                thumb-background-color: theme.var(primary-color-active)
+                thumb-background-color: base.var(primary-color-active)
             ));
         }
 
         &:disabled {
             @include component.vars((
-                thumb-background-color: theme.var(primary-color-disabled)
+                thumb-background-color: base.var(primary-color-disabled)
             ));
         }
 

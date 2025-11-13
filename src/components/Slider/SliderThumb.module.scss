@@ -1,8 +1,8 @@
 @use 'sass:math';
 
 @use 'animation';
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Slider';
 @use './SliderThumb';
@@ -40,8 +40,8 @@ $_value-indicator-caret-width: 6px;
 .top .knob,
 .top:hover .knob,
 .top.focused .knob {
-    border-color: theme.var(primary-color);
-    box-shadow: theme.var(shadow-m);
+    border-color: base.var(primary-color);
+    box-shadow: base.var(shadow-m);
 }
 
 .value-indicator-container {

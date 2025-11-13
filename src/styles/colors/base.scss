@@ -1,0 +1,183 @@
+@use 'sass:map';
+@use 'sass:meta';
+
+@use './utils/css';
+@use './utils/color';
+@use './utils/type';
+
+$black: #000 !default;
+$white: #fff !default;
+$gray: #98979d !default;
+$red: #db4437 !default;
+$orange: #f4b400 !default;
+$green: #0f9d58 !default;
+$blue: #4285f4 !default;
+$purple: #ab47bc !default;
+
+$opacity: (
+    active: 1,
+    muted: .75,
+    inactive: .75,
+    disabled: .5
+) !default;
+
+@function on-color($color, $invert: false) {
+    @return color.contrast-color($color, $invert: $invert);
+}
+
+@function hover-color($color, $invert: false) {
+    @return color.scale($color, $lightness: if($invert, 5%, -5%));
+}
+
+@function active-color($color, $invert: false) {
+    @return color.scale($color, $lightness: if($invert, 10%, -10%));
+}
+
+@function state-colors($color, $override: ()) {
+    @return (
+        'hover': if(map.has-key($override, 'hover'),
+            map.get($override, 'hover'),
+            hover-color($color)
+        ),
+        'active': if(map.has-key($override, 'active'),
+            map.get($override, 'active'),
+            active-color($color)
+        )
+    );
+}
+
+@function palette($color) { 
+    @return (
+        0: color.scale($color, $lightness: 90%),
+        1: color.scale($color, $lightness: 80%),
+        2: color.scale($color, $lightness: 60%),
+        3: color.scale($color, $lightness: 40%),
+        4: color.scale($color, $lightness: 20%),
+        5: color.scale($color, $lightness: 0%),
+        6: color.scale($color, $lightness: -20%),
+        7: color.scale($color, $lightness: -40%),
+        8: color.scale($color, $lightness: -60%),
+        9: color.scale($color, $lightness: -80%),
+        10: color.scale($color, $lightness: -90%)
+    );
+}
+
+@function on-palette($palette) {
+    @return (
+        0: on-color(map.get($palette, 0)),
+        1: on-color(map.get($palette, 1)),
+        2: on-color(map.get($palette, 2)),
+        3: on-color(map.get($palette, 3)),
+        4: on-color(map.get($palette, 4)),
+        5: on-color(map.get($palette, 5)),
+        6: on-color(map.get($palette, 6)),
+        7: on-color(map.get($palette, 7)),
+        8: on-color(map.get($palette, 8)),
+        9: on-color(map.get($palette, 9)),
+        10: on-color(map.get($palette, 10))
+    );
+}
+
+@mixin color-var(
+    $prop,
+    $color: null,
+    $on: false,
+    $prefix: ''
+) {
+    $_prefix: null;
+    $_postfix: null;
+
+    @if $on {
+        $_prefix: 'on-';
+    }
+
+    @if string.index($prop, '_') == 1 {
+        $_prefix: 'on-';
+        $prop: string.slice($prop, 2);
+    }
+
+    // @if (string.index($prop, '--') != null) {
+    //     $index: string.index($prop, '--');
+    //     $_postfix: '-#{string.slice($prop, $index + 2, string.length($prop))}';
+    //     $prop: string.slice($prop, 0, $index - 1);
+    // }
+
+    @if type.is-string($color) {
+        @if $_prefix {
+            $color: #{$_prefix}#{$color};
+        }
+
+        @if $_postfix {
+            $color: #{$color}#{$_postfix};
+        }
+
+        @if not str.contains($color, '-color') {
+            $color: #{$color}-color;
+        }
+
+        $color: var($color);
+    }
+
+    @include var(#{$prefix}#{$prop}, $color);
+}
+
+@mixin color-state-vars(
+    $props,
+    $color: null,
+    $override: (),
+    $prefix: ''
+) {
+    @if type.is-list($props) {
+        @each $prop in $props {
+            @include _color-state-vars(
+                $prop,
+                $color,
+                $override,
+                $prefix
+            );
+        }
+    } @else if type.is-map($props) {
+        @each $prop, $value in $props {
+            @include _color-state-vars(
+                $prop,
+                #{if($value == '_', $color, $value)},
+                $override,
+                $prefix
+            );
+        }
+    } @else {
+        @include _color-state-vars(
+            $props,
+            $color,
+            $override,
+            $prefix
+        );
+    }
+}
+
+@mixin _color-state-vars(
+    $name,
+    $color: null,
+    $override: (),
+    $prefix: ''
+) {
+    $colors: ();
+
+    @if type.is-color($color) {
+        $colors: map.merge(('base': $color), state-colors($value));
+    } @else if type.is-string($color) {
+        $colors: (
+            'base': #{$color}-color,
+            'hover': #{$color}-color-hover,
+            'active': #{$color}-color-active
+        );
+    } @else if type.is-map($color) {
+        $colors: $color
+    }
+
+    $colors: map.merge($colors, $override);
+
+    @include color-var($name, map.get($colors, 'base'), $prefix: $prefix);
+    @include color-var(#{$name}-hover, map.get($colors, 'hover'), $prefix: $prefix);
+    @include color-var(#{$name}-active, map.get($colors, 'active'), $prefix: $prefix);
+}

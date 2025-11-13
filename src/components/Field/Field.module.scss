@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Field';
 
@@ -26,9 +26,9 @@
 // Sizes
 
 @include component.declare((
-    s: (gap: theme.var(space-xxs)),
-    m: (gap: theme.var(space-xs)),
-    l: (gap: theme.var(space-s))
+    s: (gap: base.var(space-xxs)),
+    m: (gap: base.var(space-xs)),
+    l: (gap: base.var(space-s))
 ));
 
 

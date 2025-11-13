@@ -1,9 +1,9 @@
 @use 'sass:map';
 @use 'sass:meta';
 
+@use 'base';
 @use 'elements' as *;
 @use 'component';
-@use 'theme';
 
 @use './AccordionItem';
 
@@ -20,7 +20,7 @@
     align-items: center;
     padding: component.var(padding);
     background-color: component.var(background-color);
-    font-weight: theme.var(font-weight-semibold);
+    font-weight: base.var(font-weight-semibold);
     transition: background-color 0.15s ease-in-out;
     cursor: pointer;
     user-select: none;
@@ -35,7 +35,7 @@
     }
     
     &.disabled {
-        opacity: theme.var(disabled-opacity);
+        opacity: base.var(disabled-opacity);
     }
 }
 
@@ -49,7 +49,7 @@
 
 .indicator-icon {
     margin-left: auto;
-    color: theme.var(icon-color);
+    color: base.var(icon-color);
     transition: transform .2s ease;
 }
 

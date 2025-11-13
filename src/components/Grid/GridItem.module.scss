@@ -2,8 +2,8 @@
 @use 'sass:map';
 @use 'sass:math';
 
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './variables';
 @use './mixins';

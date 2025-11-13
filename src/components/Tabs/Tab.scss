@@ -1,12 +1,12 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 $height: 36px !default;
-$gap: theme.var(space-xs) !default;
+$gap: base.var(space-xs) !default;
 $border-color: null !default;
 $border-radius: 0px !default;
 $border-width: 0px !default;
-$text-color: theme.var(text-secondary-color) !default;
+$text-color: base.var(text-secondary-color) !default;
 $indicator-width: 2px !default;
 
 $vars: component.define(Tab, (

@@ -1,13 +1,13 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
-$color: theme.var(text-color) !default;
-$font-family: theme.var(font-family) !default;
-$font-size: theme.var(font-size-m) !default;
-$font-weight: theme.var(font-weight-normal) !default;
-$line-height: theme.var(line-height) !default;
+$color: base.var(text-color) !default;
+$font-family: base.var(font-family) !default;
+$font-size: base.var(font-size-m) !default;
+$font-weight: base.var(font-weight-normal) !default;
+$line-height: base.var(line-height) !default;
 $letter-spacing: 0 !default;
-$gap: theme.var(space-xs) !default;
+$gap: base.var(space-xs) !default;
 $margin-top: 0 !default;
 $margin-bottom: 0 !default;
 

@@ -1,13 +1,13 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 $size: auto !default;
 $border-color: none !default;
 $border-radius: null !default;
 $border-width: 0 !default;
 $background-color: none !default;
-$text-color: theme.var(text-primary-color) !default;
-$font-size: theme.var(font-size-m) !default;
+$text-color: base.var(text-primary-color) !default;
+$font-size: base.var(font-size-m) !default;
 
 $vars: component.define(Avatar, (
     size: $size,

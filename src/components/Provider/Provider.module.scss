@@ -1,17 +1,19 @@
+@use 'base';
+@use 'colors';
 @use 'theme';
 
 .root {
-    @include theme.base-vars;
+    @include theme.base;
 
-    background-color: theme.var(background-color);
-    color: theme.var(text-color);
-    font-family: theme.var(font-family);
+    background-color: base.var(background-color);
+    color: base.var(text-color);
+    font-family: base.var(font-family);
 }
 
 .light {
-    @include theme.scheme(light);
+    @include colors.define(light);
 }
 
 .dark {
-    @include theme.scheme(dark);
+    @include colors.define(dark);
 }

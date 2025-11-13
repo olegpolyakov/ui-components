@@ -1,9 +1,9 @@
 @use 'sass:list';
 @use 'sass:math';
 
+@use 'base';
 @use 'component';
 @use 'sizes';
-@use 'theme';
 @use 'utils/units' as *;
 
 @use './Heading';
@@ -59,10 +59,10 @@
 // Weight
 
 @include component.declare((
-    light: (font-weight: theme.var(font-weight-light)),
-    normal: (font-weight: theme.var(font-weight-normal)),
-    semibold: (font-weight: theme.var(font-weight-semibold)),
-    bold: (font-weight: theme.var(font-weight-bold))
+    light: (font-weight: base.var(font-weight-light)),
+    normal: (font-weight: base.var(font-weight-normal)),
+    semibold: (font-weight: base.var(font-weight-semibold)),
+    bold: (font-weight: base.var(font-weight-bold))
 ));
 
 
@@ -114,11 +114,11 @@
 
 @include component.declare((
     mt: (margin-top: 1rem),
-    mt-s: (margin-top: theme.var(space-s)),
-    mt-m: (margin-top: theme.var(space-m)),
-    mt-l: (margin-top: theme.var(space-l)),
+    mt-s: (margin-top: base.var(space-s)),
+    mt-m: (margin-top: base.var(space-m)),
+    mt-l: (margin-top: base.var(space-l)),
     mb: (margin-bottom: 1rem),
-    mb-s: (margin-bottom: theme.var(space-s)),
-    mb-m: (margin-bottom: theme.var(space-m)),
-    mb-l: (margin-bottom: theme.var(space-l)),
+    mb-s: (margin-bottom: base.var(space-s)),
+    mb-m: (margin-bottom: base.var(space-m)),
+    mb-l: (margin-bottom: base.var(space-l)),
 ));

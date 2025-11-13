@@ -1,8 +1,8 @@
 @use 'sass:map';
 
-@use 'component';
+@use 'base';
 @use 'elements';
-@use 'theme';
+@use 'component';
 
 @use './Combobox';
 
@@ -17,10 +17,10 @@
     background-clip: padding-box;
     background-color: component.var(background-color);
     color: component.var(text-color);
-    font-family: theme.var(font-family);
+    font-family: base.var(font-family);
     font-size: component.var(font-size);
-    font-weight: theme.var(font-weight-normal);
-    line-height: theme.var(line-height);
+    font-weight: base.var(font-weight-normal);
+    line-height: base.var(line-height);
     transition: border-color 0.2s ease-in-out;
 }
 
@@ -41,7 +41,7 @@
     margin: 0;
     outline: none;
     border: 1px solid component.var(border-color);
-    background: theme.var(surface-color);
+    background: base.var(surface-color);
     overflow: hidden auto;
     z-index: 10;
 }
@@ -110,7 +110,7 @@
 // Shapes
 
 @include component.declare((
-    rounded: (border-radius: theme.var(border-radius-m)),
+    rounded: (border-radius: base.var(border-radius-m)),
     rectangular: (border-radius: 0),
     circular: (border-radius: component.var(height))
 ));
@@ -141,7 +141,7 @@
 
 .outlined {
     @include component.vars((
-        border-color: theme.var(border-color),
+        border-color: base.var(border-color),
         background-color: transparent
     ));
     
@@ -160,7 +160,7 @@
 
 .tinted {
     @include component.vars((
-        background-color: theme.var(surface-color)
+        background-color: base.var(surface-color)
     ));
 }
     
@@ -181,7 +181,7 @@
     &:focus-within,
     &.focused {
         @include component.vars((
-            border-color: theme.var(primary-color)
+            border-color: base.var(primary-color)
         ));
     }
 }
@@ -191,7 +191,7 @@
 
 .open {
     @include component.vars((
-        border-color: theme.var(primary-color)
+        border-color: base.var(primary-color)
     ));
 
     &.root {
@@ -238,6 +238,6 @@
 
 .invalid {
     @include component.vars((
-        border-color: theme.var(danger-color)
+        border-color: base.var(danger-color)
     ));
 }

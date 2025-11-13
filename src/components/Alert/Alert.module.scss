@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Alert';
 
@@ -35,7 +35,7 @@
 }
 
 .icon {
-    @include theme.var(icon-color);
+    @include base.var(icon-color);
 }
 
 .content {
@@ -44,12 +44,12 @@
 }
 
 .close-button {
-    color: theme.var(icon-muted-color);
+    color: base.var(icon-muted-color);
     transition: color .3s;
     opacity: .25;
 
     &:hover {
-      color: theme.var(icon-color);
+      color: base.var(icon-color);
     }
 }
 
@@ -59,24 +59,24 @@
 @include component.declare((
     s: (
         height: 32px,
-        gap: theme.var(space-xxs),
-        padding: theme.var(space-xxs) theme.var(space-xs),
-        border-radius: theme.var(border-radius-xs),
-        font-size: theme.var(font-size-xs)
+        gap: base.var(space-xxs),
+        padding: base.var(space-xxs) base.var(space-xs),
+        border-radius: base.var(border-radius-xs),
+        font-size: base.var(font-size-xs)
     ),
     m: (
         height: 40px,
-        gap: theme.var(space-xs),
-        padding: theme.var(space-xs) theme.var(space-s),
-        border-radius: theme.var(border-radius-s),
-        font-size: theme.var(font-size-s)
+        gap: base.var(space-xs),
+        padding: base.var(space-xs) base.var(space-s),
+        border-radius: base.var(border-radius-s),
+        font-size: base.var(font-size-s)
     ),
     l: (
         height: 48px,
-        gap: theme.var(space-s),
-        padding: theme.var(space-s) theme.var(space-m),
-        border-radius: theme.var(border-radius-m),
-        font-size: theme.var(font-size-m)
+        gap: base.var(space-s),
+        padding: base.var(space-s) base.var(space-m),
+        border-radius: base.var(border-radius-m),
+        font-size: base.var(font-size-m)
     )
 ));
 
@@ -91,13 +91,13 @@
         border-radius: 0
     ),
     rounded-s: (
-        border-radius: theme.var(border-radius-xs)
+        border-radius: base.var(border-radius-xs)
     ),
     rounded-m: (
-        border-radius: theme.var(border-radius-s)
+        border-radius: base.var(border-radius-s)
     ),
     rounded-l: (
-        border-radius: theme.var(border-radius-m)
+        border-radius: base.var(border-radius-m)
     )
 ));
 
@@ -105,9 +105,9 @@
 // Shadows
 
 @include component.declare((
-    shadow-s: (shadow: theme.var(shadow-s)),
-    shadow-m: (shadow: theme.var(shadow-m)),
-    shadow-l: (shadow: theme.var(shadow-l))
+    shadow-s: (shadow: base.var(shadow-s)),
+    shadow-m: (shadow: base.var(shadow-m)),
+    shadow-l: (shadow: base.var(shadow-l))
 ));
 
 

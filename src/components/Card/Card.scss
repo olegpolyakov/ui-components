@@ -1,11 +1,11 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 $border-width: 1px !default;
 $border-color: transparent !default;
-$border-radius: theme.var(border-radius-m) !default;
-$background-color: theme.var(surface-color) !default;
-$padding: theme.var(space-m) !default;
+$border-radius: base.var(border-radius-m) !default;
+$background-color: base.var(surface-color) !default;
+$padding: base.var(space-m) !default;
 $shadow: none !default;
 
 $vars: component.define(Card, (

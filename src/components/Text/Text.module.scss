@@ -1,9 +1,9 @@
 @use 'sass:list';
 @use 'sass:math';
 
+@use 'base';
 @use 'component';
 @use 'sizes';
-@use 'theme';
 @use 'utils/units' as *;
 
 @use './Text';
@@ -63,10 +63,10 @@
 // Weight
 
 @include component.declare((
-    light: (font-weight: theme.var(font-weight-light)),
-    normal: (font-weight: theme.var(font-weight-normal)),
-    semibold: (font-weight: theme.var(font-weight-semibold)),
-    bold: (font-weight: theme.var(font-weight-bold))
+    light: (font-weight: base.var(font-weight-light)),
+    normal: (font-weight: base.var(font-weight-normal)),
+    semibold: (font-weight: base.var(font-weight-semibold)),
+    bold: (font-weight: base.var(font-weight-bold))
 ));
 
 
@@ -117,26 +117,26 @@
 }
 
 .muted {
-    opacity: theme.var(opacity-muted);
+    opacity: base.var(opacity-muted);
 }
 
 @include component.declare((
     mt: 1em,
-    mt-s: (margin-top: theme.var(space-s)),
-    mt-m: (margin-top: theme.var(space-m)),
-    mt-l: (margin-top: theme.var(space-l)),
+    mt-s: (margin-top: base.var(space-s)),
+    mt-m: (margin-top: base.var(space-m)),
+    mt-l: (margin-top: base.var(space-l)),
     mb: 1em,
-    mb-s: (margin-bottom: theme.var(space-s)),
-    mb-m: (margin-bottom: theme.var(space-m)),
-    mb-l: (margin-bottom: theme.var(space-l)),
+    mb-s: (margin-bottom: base.var(space-s)),
+    mb-m: (margin-bottom: base.var(space-m)),
+    mb-l: (margin-bottom: base.var(space-l)),
 ));
 
 .link {
     @include component.vars((
-        color: theme.var(primary-color),
-        hover-color: theme.var(primary-color-hover),
-        active-color: theme.var(primary-color-active),
-        disabled-color: theme.var(primary-color-disabled),
+        color: base.var(primary-color),
+        hover-color: base.var(primary-color-hover),
+        active-color: base.var(primary-color-active),
+        disabled-color: base.var(primary-color-disabled),
     ));
 
     text-decoration: underline;

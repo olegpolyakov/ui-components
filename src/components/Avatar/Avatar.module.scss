@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Avatar';
 
@@ -28,16 +28,16 @@
 }
 
 .content {
-    font-family: theme.var(font-family);
+    font-family: base.var(font-family);
     font-size: component.var(font-size);
-    font-weight: theme.var(font-weight-semibold);
+    font-weight: base.var(font-weight-semibold);
     line-height: 1;
     text-transform: uppercase;
     text-align: center;
 }
 
 .icon {
-    @include theme.var(icon-color, currentColor);
+    @include base.var(icon-color, currentColor);
 }
 
 
@@ -67,9 +67,9 @@
 @include component.declare((
     circular: (border-radius: 50%),
     rectangular: (border-radius: 0),
-    rounded-s: (border-radius: theme.var(border-radius-s)),
-    rounded-m: (border-radius: theme.var(border-radius-m)),
-    rounded-l: (border-radius: theme.var(border-radius-l))
+    rounded-s: (border-radius: base.var(border-radius-s)),
+    rounded-m: (border-radius: base.var(border-radius-m)),
+    rounded-l: (border-radius: base.var(border-radius-l))
 ));
 
 

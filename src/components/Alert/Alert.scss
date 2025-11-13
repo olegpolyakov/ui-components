@@ -1,15 +1,15 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 $height: auto !default;
-$padding: theme.var(space-xxs) theme.var(space-xs) !default;
-$gap: theme.var(space-xs) !default;
-$border-radius: theme.var(border-radius-m) !default;
+$padding: base.var(space-xxs) base.var(space-xs) !default;
+$gap: base.var(space-xs) !default;
+$border-radius: base.var(border-radius-m) !default;
 $border-width: 0 !default;
 $border-color: none !default;
-$background-color: theme.var(plain-color) !default;
-$text-color: theme.var(text-color) !default;
-$font-size: theme.var(font-size-medium) !default;
+$background-color: base.var(plain-color) !default;
+$text-color: base.var(text-color) !default;
+$font-size: base.var(font-size-medium) !default;
 $shadow: none !default;
 
 $vars: component.define(Alert, (

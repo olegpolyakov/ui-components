@@ -1,7 +1,7 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
-$border-radius: theme.var(border-radius-s) !default;
+$border-radius: base.var(border-radius-s) !default;
 
 $vars: component.define(Image, (
     border-radius: $border-radius,

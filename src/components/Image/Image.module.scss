@@ -1,5 +1,5 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Image';
 
@@ -17,7 +17,7 @@
 @include component.declare((
     circular: (border-radius: 100%),
     rectangular: (border-radius: 0),
-    rounded: (border-radius: theme.var(border-radius-m)),
+    rounded: (border-radius: base.var(border-radius-m)),
 ));
 
 
