@@ -1,0 +1,20 @@
+@use 'component';
+@use 'theme';
+
+$height: 36px !default;
+$gap: theme.var(space-xs) !default;
+$border-color: null !default;
+$border-radius: 0px !default;
+$border-width: 0px !default;
+$text-color: theme.var(text-secondary-color) !default;
+$indicator-width: 2px !default;
+
+$vars: component.define(Tab, (
+    height: $height,
+    gap: $gap,
+    border-color: $border-color,
+    border-radius: $border-radius,
+    border-width: $border-width,
+    text-color: $text-color,
+    indicator-width: $indicator-width
+));

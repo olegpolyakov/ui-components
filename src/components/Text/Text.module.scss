@@ -6,20 +6,9 @@
 @use 'theme';
 @use 'utils/units' as *;
 
-@include component.define('Text', (
-    color: theme.var(text-color),
-    hover-color: null,
-    active-color: null,
-    disabled-color: null,
-    font-family: theme.var(font-family),
-    font-size: theme.var(font-size-m),
-    font-weight: theme.var(font-weight-normal),
-    line-height: theme.var(line-height),
-    letter-spacing: 0,
-    gap: theme.var(space-xs)
-));
+@use './Text';
 
-$vars: component.vars();
+@include component.init(Text, Text.$vars);
 
 .root {
     margin: 0;

@@ -1,18 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Drawer', (
-    width: 360px,
-    height: 100%,
-    border-color: theme.var(border-color),
-    border-width: 1px,
-    background-color: theme.var(surface-color),
-    padding-x: 0.75rem,
-    padding-y: 0.75rem,
-    padding: (--padding-y, --padding-x),
-    shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075),
-    z-index: 1000
-));
+@use './Drawer';
+
+@include component.init(Drawer, Drawer.$vars);
 
 .root {
     width: 100%;

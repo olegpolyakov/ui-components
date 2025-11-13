@@ -1,11 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Field', (
-    gap: theme.var(space-s)
-));
+@use './Field';
 
-$vars: component.vars();
+@include component.init(Field, Field.$vars);
 
 .root {
     display: flex;

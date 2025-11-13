@@ -1,0 +1,24 @@
+@use 'component';
+@use 'theme';
+
+$height: auto !default;
+$padding: (theme.var(space-xs) 0) !default;
+$gap: 8px !default;
+$background-color: theme.var(surface-color) !default;
+$text-color: theme.var(text-color) !default;
+$border-color: theme.var(border-color) !default;
+$border-radius: theme.var(border-radius-m) !default;
+$border-width: 1px !default;
+$font-size: theme.var(font-size) !default;
+
+$vars: component.define(MenuItem, (
+    height: $height,
+    padding: $padding,
+    gap: $gap,
+    background-color: $background-color,
+    text-color: $text-color,
+    border-color: $border-color,
+    border-radius: $border-radius,
+    border-width: $border-width,
+    font-size: $font-size,
+));

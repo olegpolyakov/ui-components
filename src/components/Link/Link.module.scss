@@ -6,14 +6,9 @@
 @use 'theme';
 @use 'utils/units' as *;
 
-@include component.define('Link', (
-    color: theme.var(primary-color),
-    hover-color: theme.var(primary-color-hover),
-    active-color: theme.var(primary-color-active),
-    disabled-color: theme.var(primary-color-disabled),
-));
+@use './Link';
 
-$vars: component.vars();
+@include component.init(Link, Link.$vars);
 
 .root {
     background-color: transparent;

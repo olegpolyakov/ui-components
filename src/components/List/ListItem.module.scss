@@ -1,24 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('ListItem', (
-    height: auto,
-    padding: 8px 16px,
-    border-color: null,
-    border-color-hover: null,
-    border-color-active: null,
-    border-radius: theme.var(border-radius-m),
-    border-width: 1px,
-    gap: theme.var(gap-xs),
-    background-color: null,
-    background-color-hover: null,
-    background-color-active: null,
-    text-color: null,
-    text-color-hover: null,
-    text-color-active: null,
-));
+@use './ListItem';
 
-$vars: component.vars();
+@include component.init(ListItem, ListItem.$vars);
 
 .root {
     box-sizing: border-box;

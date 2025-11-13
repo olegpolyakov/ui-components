@@ -1,0 +1,14 @@
+@use 'component';
+@use 'theme';
+
+$color: theme.var(primary-color) !default;
+$hover-color: theme.var(primary-color-hover) !default;
+$active-color: theme.var(primary-color-active) !default;
+$disabled-color: theme.var(primary-color-disabled) !default;
+
+$vars: component.define(Link, (
+    color: $color,
+    hover-color: $hover-color,
+    active-color: $active-color,
+    disabled-color: $disabled-color,
+));

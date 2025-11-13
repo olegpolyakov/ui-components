@@ -1,17 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Tooltip', (
-    max-width: auto,
-    gap: theme.var(space-xs),
-    padding: theme.var(space-xxs),
-    border-radius: theme.var(border-radius-s),
-    background-color: theme.var(surface-inverted-color),
-    color: theme.var(text-inverted-color),
-    font-size: theme.var(font-size-s),
-    shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.10),
-    arrow-offset: -3px,
-));
+@use './Tooltip';
+
+@include component.init(Tooltip, Tooltip.$vars);
 
 .root {
     box-sizing: border-box;

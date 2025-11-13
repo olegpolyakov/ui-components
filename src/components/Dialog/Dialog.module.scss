@@ -1,17 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Dialog', (
-    padding: theme.var(space-m),
-    padding-x: --padding,
-    padding-y: --padding,
-    background-color: theme.var(surface-color),
-    border-radius: theme.var(border-radius-m),
-    shadow: theme.var(shadow-m),
-    z-index: 100
-));
+@use './Dialog';
 
-$vars: component.vars();
+@include component.init(Dialog, Dialog.$vars);
 
 .root {
     position: relative;

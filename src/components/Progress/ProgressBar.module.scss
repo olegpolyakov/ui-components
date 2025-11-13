@@ -2,14 +2,9 @@
 @use 'component';
 @use 'theme';
 
-$thickness: 6px;
+@use './ProgressBar';
 
-@include component.define('ProgressBar', (
-    thickness: $thickness,
-    border-radius: --thickness,
-    track-color: theme.var(border-color),
-    bar-color: theme.var(primary-color)
-));
+@include component.init(ProgressBar, ProgressBar.$vars);
 
 .root {
     position: relative;

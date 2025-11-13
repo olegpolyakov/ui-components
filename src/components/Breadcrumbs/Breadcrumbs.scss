@@ -1,0 +1,7 @@
+@use 'component';
+
+$gap: 8px !default;
+
+$vars: component.define(Breadcrumbs, (
+    gap: $gap
+));

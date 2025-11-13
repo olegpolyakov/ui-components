@@ -1,18 +1,32 @@
+@use 'component';
 @use 'theme';
 
-$name: 'Input';
+$height: null !default;
+$padding: null !default;
+$gap: theme.var(space-xs) !default;
+$border-color: theme.var(border-color) !default;
+$border-width: 1px !default;
+$border-radius: theme.var(border-radius-m) !default;
+$background-color: theme.var(surface-color) !default;
+$label-color: theme.var(text-secondary-color) !default;
+$text-color: theme.var(text-color) !default;
+$font-size: theme.var(font-size-m) !default;
+$font-weight: theme.var(font-weight-normal) !default;
+$line-height: theme.var(line-height) !default;
 
-$vars: (
-    'height': null,
-    'padding': null,
-    'gap': theme.var(space-xs),
-    'border-color': theme.var(border-color),
-    'border-width': 1px,
-    'border-radius': theme.var(border-radius-m),
-    'background-color': theme.var(surface-color),
-    'label-color': theme.var(text-secondary-color),
-    'text-color': theme.var(text-color),
-    'font-size': theme.var(font-size-m),
-    'font-weight': theme.var(font-weight-normal),
-    'line-height': theme.var(line-height)
-);
+$vars: component.define('Input', (
+    height: $height,
+    padding: $padding,
+    gap: $gap,
+    border-color: $border-color,
+    border-width: $border-width,
+    border-radius: $border-radius,
+    background-color: $background-color,
+    label-color: $label-color,
+    text-color: $text-color,
+    font-size: $font-size,
+    font-weight: $font-weight,
+    line-height: $line-height,
+    foo: --gap,
+    _bar: --foo
+));

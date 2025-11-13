@@ -1,7 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('TableRow', ());
+@use './TableRow';
+
+@include component.init(TableRow, TableRow.$vars);
 
 .root {
     background-color: var(--ui-TableRow-background-color);

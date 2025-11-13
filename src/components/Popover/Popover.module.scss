@@ -1,17 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Popover', (
-    padding: theme.var(space-m),
-    background-color: theme.var(surface-color),
-    text-color: theme.var(text-color),
-    border-color: theme.var(border-color),
-    border-radius: theme.var(border-radius-m),
-    border-width: 1px,
-    shadow: theme.var(shadow)
-));
+@use './Popover';
 
-$vars: component.vars();
+@include component.init(Popover, Popover.$vars);
 
 .root {
     position: fixed;

@@ -3,16 +3,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Option', (
-    padding: (8px, 12px),
-    background-color: theme.var(surface-color),
-    text-color: theme.var(text-color),
-    font-size: theme.var(font-size-m),
-    font-weight: 400,
-    line-height: 1.5
-));
+@use './Option';
 
-$vars: component.vars();
+@include component.init(Option, Option.$vars);
 
 .root {
     display: flex;

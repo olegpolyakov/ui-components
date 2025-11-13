@@ -1,7 +1,7 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('AvatarGroup', (
+@include component.init(AvatarGroup, (
     gap: theme.var(space-none)
 ));
 

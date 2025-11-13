@@ -1,0 +1,26 @@
+@use 'component';
+@use 'theme';
+
+$height: 36px !default;
+$padding-x: 0 !default;
+$padding-y: 0.25rem !default;
+$padding: (--padding-y, --padding-x) !default;
+$background-color: theme.var(plain-color) !default;
+$background-hover-color: theme.var(plain-hover-color) !default;
+$background-active-color: theme.var(plain-active-color) !default;
+$border-color: theme.var(border-color) !default;
+$font-size: theme.var(font-size-m) !default;
+
+$vars: component.define(AccordionItem, (
+    height: $height,
+    padding-x: $padding-x,
+    padding-y: $padding-y,
+    padding: $padding,
+    background-color: $background-color,
+    background-hover-color: $background-hover-color,
+    background-active-color: $background-active-color,
+    border-color: $border-color,
+    font-size: $font-size,
+    _content-padding-open: (--padding-y --padding-x),
+    _content-padding-closed: (--padding-y --padding-x)
+));

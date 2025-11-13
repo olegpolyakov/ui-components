@@ -1,11 +1,9 @@
-@use '../../styles/component';
-@use '../../styles/theme';
+@use 'component';
+@use 'theme';
 
-@include component.define('Accordion', (
-    gap: none
-));
+@use './Accordion';
 
-$vars: component.vars();
+@include component.init(Accordion, Accordion.$vars);
 
 .root {
     display: flex;

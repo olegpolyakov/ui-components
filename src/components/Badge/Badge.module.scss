@@ -1,20 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Badge', (
-    size: auto,
-    padding-x: 0,
-    border-color: transparent,
-    border-radius: --size,
-    border-width: 0,
-    background-color: transparent,
-    text-color: theme.var(text-primary-color),
-    font-size: theme.var(font-size-xs),
-    ring-width: 2px,
-    ring-color: theme.var(surface-color)
-));
+@use './Badge';
 
-$vars: component.vars();
+@include component.init(Badge, Badge.$vars);
 
 .root {
     box-sizing: border-box;

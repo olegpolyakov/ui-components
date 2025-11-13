@@ -1,0 +1,10 @@
+@use 'component';
+@use 'theme';
+
+$thumb-size: 20px !default;
+$thumb-ripple-size: 48px !default;
+
+$vars: component.define(Slider, (
+    thumb-size: $thumb-size,
+    thumb-ripple-size: $thumb-ripple-size
+));

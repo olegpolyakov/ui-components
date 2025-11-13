@@ -1,0 +1,18 @@
+@use 'component';
+@use 'theme';
+
+$padding: (8px, 12px) !default;
+$background-color: theme.var(surface-color) !default;
+$text-color: theme.var(text-color) !default;
+$font-size: theme.var(font-size-m) !default;
+$font-weight: 400 !default;
+$line-height: 1.5 !default;
+
+$vars: component.define(Option, (
+    padding: $padding,
+    background-color: $background-color,
+    text-color: $text-color,
+    font-size: $font-size,
+    font-weight: $font-weight,
+    line-height: $line-height
+));

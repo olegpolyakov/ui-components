@@ -1,0 +1,22 @@
+@use 'component';
+@use 'theme';
+
+$size: auto !default;
+$padding-x: 0 !default;
+$border-color: transparent !default;
+$border-radius: --size !default;
+$border-width: 0 !default;
+$background-color: transparent !default;
+$text-color: theme.var(text-primary-color) !default;
+$font-size: theme.var(font-size-xs) !default;
+
+$vars: component.define(Badge, (
+    size: $size,
+    padding-x: $padding-x,
+    border-color: $border-color,
+    border-radius: $border-radius,
+    border-width: $border-width,
+    background-color: $background-color,
+    text-color: $text-color,
+    font-size: $font-size
+));

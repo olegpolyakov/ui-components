@@ -1,0 +1,42 @@
+@use 'component';
+@use 'theme';
+
+$height: auto !default;
+$padding: null !default;
+$gap: theme.var(space-xxs) !default;
+$border-color: null !default;
+$border-color-hover: null !default;
+$border-color-active: null !default;
+$border-radius: null !default;
+$border-width: null !default;
+$background-color: null !default;
+$background-color-hover: null !default;
+$background-color-active: null !default;
+$text-color: null !default;
+$text-color-hover: null !default;
+$text-color-active: null !default;
+$font-size: theme.var(font-size) !default;
+$font-weight: theme.var(font-weight-normal) !default;
+$line-height: 1 !default;
+$icon-color: currentColor !default;
+
+$vars: component.define(Pill, (
+    height: $height,
+    padding: $padding,
+    gap: $gap,
+    border-color: $border-color,
+    border-color-hover: $border-color-hover,
+    border-color-active: $border-color-active,
+    border-radius: $border-radius,
+    border-width: $border-width,
+    background-color: $background-color,
+    background-color-hover: $background-color-hover,
+    background-color-active: $background-color-active,
+    text-color: $text-color,
+    text-color-hover: $text-color-hover,
+    text-color-active: $text-color-active,
+    font-size: $font-size,
+    font-weight: $font-weight,
+    line-height: $line-height,
+    icon-color: $icon-color
+));

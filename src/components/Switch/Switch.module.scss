@@ -3,12 +3,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Switch', (
-    input-width: null,
-    input-height: null,
-    background-color: theme.var(tinted-color),
-    thumb-background-color: theme.var(surface-tertiary-color)
-));
+@use './Switch';
+
+@include component.init(Switch, Switch.$vars);
 
 .root {
     display: flex;

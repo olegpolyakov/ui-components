@@ -1,0 +1,7 @@
+@use 'component';
+
+$gap: 0 !default;
+
+$vars: component.define(List, (
+    gap: $gap
+));

@@ -61,7 +61,7 @@ export default function Button<T extends ElementType = 'button'>({
         cssClasses[size],
         cssClasses[variant],
         cssClasses[color ? `${variant}-${color}` : variant],
-        icon && !content && cssClasses.iconButton,
+        !!icon && !content && cssClasses.iconButton,
         iconPosition && cssClasses[`icon-${iconPosition}`],
         active && cssClasses.active,
         fluid && cssClasses.fluid,

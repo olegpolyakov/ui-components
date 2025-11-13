@@ -1,13 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Menu', (
-    height: auto,
-    padding: (theme.var(space-xs) 0),
-    background-color: theme.var(surface-color)
-));
+@use './Menu';
 
-$vars: component.vars();
+@include component.init(Menu, Menu.$vars);
 
 .root {
     display: flex;

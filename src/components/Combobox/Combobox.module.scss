@@ -4,16 +4,9 @@
 @use 'elements';
 @use 'theme';
 
-@use '../Input/Input.scss' as Input;
+@use './Combobox';
 
-@forward 'component' show var, vars;
-
-$vars: map.merge(Input.$vars, (
-    'menu-offset': 0px,
-    'menu-shadow': theme.var(shadow-m)
-));
-
-@include component.define('Combobox', $vars);
+@include component.init(Combobox, Combobox.$vars);
 
 .root {
     box-sizing: border-box;

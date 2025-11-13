@@ -1,0 +1,7 @@
+@use 'component';
+
+$gap: null !default;
+
+$vars: component.define(Accordion, (
+    gap: $gap
+));

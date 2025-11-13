@@ -1,28 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Button', (
-    height: auto,
-    padding: null,
-    gap: theme.var(space-xs),
-    border-color: null,
-    border-color-hover: null,
-    border-color-active: null,
-    border-radius: null,
-    border-width: null,
-    background-color: null,
-    background-color-hover: null,
-    background-color-active: null,
-    text-color: null,
-    text-color-hover: null,
-    text-color-active: null,
-    font-size: theme.var(font-size),
-    font-weight: theme.var(font-weight-normal),
-    line-height: 1,
-    icon-color: currentColor
-));
+@use './Button';
 
-$vars: component.vars();
+@include component.init(Button, Button.$vars);
 
 .root {
     box-sizing: border-box;
@@ -52,7 +33,7 @@ $vars: component.vars();
     cursor: pointer;
     user-select: none;
 
-    &:has(.icon, .start) {
+    &:has(.start) {
         padding-left: calc(#{component.var(padding)} * 0.625);
     }
 

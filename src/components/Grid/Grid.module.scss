@@ -7,23 +7,9 @@
 
 @use './mixins';
 @use './variables';
+@use './Grid';
 
-@include component.define('Grid', (
-    columns-desktop: null,
-    columns-tablet: null,
-    columns-phone: null,
-    column-width-desktop: null,
-    column-width-tablet: null,
-    column-width-phone: null,
-    margin-desktop: null,
-    margin-tablet: null,
-    margin-phone: null,
-    gutter-desktop: null,
-    gutter-tablet: null,
-    gutter-phone: null
-));
-
-$vars: component.vars();
+@include component.init(Grid, Grid.$vars);
 
 .root {
     @each $size in map.keys(variables.$columns) {

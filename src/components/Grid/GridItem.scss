@@ -1,0 +1,24 @@
+@use 'component';
+@use 'theme';
+
+$columns-desktop: null !default;
+$columns-tablet: null !default;
+$columns-phone: null !default;
+$margin-desktop: null !default;
+$margin-tablet: null !default;
+$margin-phone: null !default;
+$gutter-desktop: null !default;
+$gutter-tablet: null !default;
+$gutter-phone: null !default;
+
+$vars: component.define(GridItem, (
+    columns-desktop: $columns-desktop,
+    columns-tablet: $columns-tablet,
+    columns-phone: $columns-phone,
+    margin-desktop: $margin-desktop,
+    margin-tablet: $margin-tablet,
+    margin-phone: $margin-phone,
+    gutter-desktop: $gutter-desktop,
+    gutter-tablet: $gutter-tablet,
+    gutter-phone: $gutter-phone
+));

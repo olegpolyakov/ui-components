@@ -1,16 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Card', (
-    border-width: 1px,
-    border-color: transparent,
-    border-radius: theme.var(border-radius-m),
-    background-color: theme.var(surface-color),
-    padding: theme.var(space-m),
-    shadow: none
-));
+@use './Card';
 
-$vars: component.vars();
+@include component.init(Card, Card.$vars);
 
 .root {
     box-sizing: border-box;

@@ -1,20 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Alert', (
-    height: auto,
-    padding: theme.var(space-xxs) theme.var(space-xs),
-    gap: theme.var(space-xs),
-    border-radius: theme.var(border-radius-m),
-    border-width: 0,
-    border-color: none,
-    background-color: theme.var(plain-color),
-    text-color: theme.var(text-color),
-    font-size: theme.var(font-size-medium),
-    shadow: none
-));
+@use './Alert';
 
-$vars: component.vars();
+@include component.init(Alert, Alert.$vars);
 
 .root {
     position: relative;

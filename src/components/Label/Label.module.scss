@@ -1,11 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Label', (
-    size: theme.var(font-size-m),
-    gap: theme.var(space-xs),
-    color: theme.var(text-primary-color),
-));
+@use './Label';
+
+@include component.init(Label, Label.$vars);
 
 .root {
     display: flex;

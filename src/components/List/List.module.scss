@@ -1,11 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('List', (
-    gap: 0
-));
+@use './List';
 
-$vars: component.vars();
+@include component.init(List, List.$vars);
 
 .root {
     list-style: none;

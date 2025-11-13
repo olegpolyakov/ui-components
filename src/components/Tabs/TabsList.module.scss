@@ -1,9 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('TabsList', ());
+@use './TabsList';
 
-$vars: component.vars();
+@include component.init(TabsList, TabsList.$vars);
 
 .root {
     display: flex;

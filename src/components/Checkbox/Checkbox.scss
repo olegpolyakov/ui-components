@@ -1,0 +1,18 @@
+@use 'component';
+@use 'theme';
+
+$size: 20px !default;
+$border-color: theme.var(icon-color) !default;
+$border-width: 2px !default;
+$border-radius: 4px !default;
+$background-color: transparent !default;
+$gap: theme.var(space-s) !default;
+
+$vars: component.define(Checkbox, (
+    size: $size,
+    border-color: $border-color,
+    border-width: $border-width,
+    border-radius: $border-radius,
+    background-color: $background-color,
+    gap: $gap,
+));

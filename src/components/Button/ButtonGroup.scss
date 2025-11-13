@@ -1,0 +1,8 @@
+@use 'component';
+@use 'theme';
+
+$gap: theme.var(space-xs) !default;
+
+$vars: component.define(ButtonGroup, (
+    gap: $gap
+));

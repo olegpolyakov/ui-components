@@ -1,0 +1,9 @@
+// @use '../src';
+
+@use '../src/components/Accordion/AccordionItem';
+
+@debug 'AccordionItem' AccordionItem.$vars;
+
+// @debug 'Input vars' Input.$vars;
+// @debug 'Input props' Input.$props;
+// // @debug 'Text' Text.$vars;

@@ -8,24 +8,38 @@
 @use './utils/string';
 @use './utils/type';
 
+@function define($component, $vars) {
+    @each $name, $value in $vars {
+        $_value: _get-var-value($value, $component);
+        $vars: map.set($vars, $name, $_value);
+    }
+
+    @return $vars;
+}
+
 $-name: '';
 $-vars: ();
 
-@mixin define($name, $vars: ()) {
+@mixin init($name, $vars) {
     $-name: $name !global;
+    $-vars: $vars !global;
 
     #{if(&, '&', '.root')} {
-        @each $name, $value in $vars {
-            @include var($name, $value);
+        @include vars($vars);
+    }
+}
 
-            $-value: _get-var-value($value);
-            $-vars: map.set($-vars, $name, if(_is-private-var($name),
-                css.var($name, $-value),
-                theme.var('#{$-name}-#{$name}', $-value)
-            )) !global;
-        }
+@function var($name) {
+    @if not map.has-key($-vars, $name) {
+        @error 'No variable "#{$name}"';
+    }
 
-        @content;
+    $value: map.get($-vars, $name);
+
+    @if _is-private-var($name) {
+        @return css.var($name, $value);
+    } @else {
+        @return theme.var('#{$-name}-#{$name}', $value);
     }
 }
 
@@ -45,16 +59,10 @@ $-vars: ();
     }
 }
 
-@function var($name) {
-    @if map.has-key($-vars, $name) {
-        @return map.get($-vars, $name);
-    } @else {
-        @error 'No variable "#{$name}"';
+@mixin vars($vars) {
+    @each $name, $value in $vars {
+        @include var($name, $value);
     }
-}
-
-@function vars() {
-    @return $-vars;
 }
 
 @mixin var($name, $value) {
@@ -64,12 +72,6 @@ $-vars: ();
         @include css.var($name, $_value);
     } @else {
         @include theme.var('#{$-name}-#{$name}', $_value);
-    }
-}
-
-@mixin vars($vars) {
-    @each $name, $value in $vars {
-        @include var($name, $value);
     }
 }
 
@@ -108,16 +110,20 @@ $-vars: ();
     );
 }
 
-@function _get-var-value($value: null) {
-    @if _is-private-var-value($value) {
-        @return css.var(string.slice($value, 1));
-    } @else if _is-public-var-value($value) {
-        @return theme.var('#{$-name}-#{string.slice($value, 3)}');
-    } @else if type.is-list($value) {
-        @return list.map($value, meta.get-function('_get-var-value'));
-    } @else {
-        @return $value;
+@function _get-var-value($value: null, $prefix: null) {
+    @if type.is-list($value) {
+        @return list.map($value, meta.get-function('_get-var-value'), $prefix);
     }
+
+    @if _is-private-var-value($value) {
+        @return css.var(string.slice($value, 3));
+    }
+
+    @if _is-public-var-value($value) {
+        @return theme.var('#{$prefix}-#{string.slice($value, 3)}');
+    }
+
+    @return $value;
 }
 
 @function _is-private-var($name) {
@@ -125,7 +131,7 @@ $-vars: ();
 }
 
 @function _is-private-var-value($value) {
-    @return string.starts-with($value, '_');
+    @return string.starts-with($value, '--_');
 }
 
 @function _is-public-var($name) {

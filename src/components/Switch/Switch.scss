@@ -1,0 +1,14 @@
+@use 'component';
+@use 'theme';
+
+$input-width: null !default;
+$input-height: null !default;
+$background-color: theme.var(tinted-color) !default;
+$thumb-background-color: theme.var(surface-tertiary-color) !default;
+
+$vars: component.define(Switch, (
+    input-width: $input-width,
+    input-height: $input-height,
+    background-color: $background-color,
+    thumb-background-color: $thumb-background-color
+));

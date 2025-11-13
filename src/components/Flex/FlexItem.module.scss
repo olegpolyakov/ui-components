@@ -2,7 +2,9 @@
 @use 'sizes';
 @use 'theme';
 
-@include component.define('FlexItem');
+@use './FlexItem';
+
+@include component.init(FlexItem, FlexItem.$vars);
 
 .root {
     flex-grow: 0;

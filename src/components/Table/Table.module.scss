@@ -3,7 +3,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Table', ());
+@use './Table';
+
+@include component.init(Table, Table.$vars);
 
 .root {
     width: 100%;

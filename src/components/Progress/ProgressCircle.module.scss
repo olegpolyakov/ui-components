@@ -2,15 +2,9 @@
 @use 'component';
 @use 'theme';
 
-$size-s: 24px;
-$size-m: 32px;
-$size-l: 48px;
+@use './ProgressCircle';
 
-@include component.define('ProgressCircle', (
-    size: auto,
-    track-color: theme.var(border-color),
-    circle-color: theme.var(primary-color)
-));
+@include component.init(ProgressCircle, ProgressCircle.$vars);
 
 .root {
     display: inline-flex;
@@ -41,7 +35,7 @@ $size-l: 48px;
 // Sizes
 
 @include component.declare((
-    s: (size: $size-s),
-    m: (size: $size-m),
-    l: (size: $size-l)
+    s: (size: ProgressCircle.$size-s),
+    m: (size: ProgressCircle.$size-m),
+    l: (size: ProgressCircle.$size-l)
 ));

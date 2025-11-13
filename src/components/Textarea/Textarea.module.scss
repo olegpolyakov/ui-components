@@ -1,17 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Textarea', (
-    height: auto,
-    gap: theme.var(space-xs),
-    font-size: theme.var(font-size-m),
-    border-color: theme.var(border-color),
-    border-radius: theme.var(border-radius-m),
-    border-width: 1px,
-    background-color: theme.var(background-color),
-    text-color: theme.var(text-color),
-    _inner-height: auto
-));
+@use './Textarea';
+
+@include component.init(Textarea, Textarea.$vars);
 
 .root {
     box-sizing: border-box;

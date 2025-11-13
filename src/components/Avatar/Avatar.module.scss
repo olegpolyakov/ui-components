@@ -1,17 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Avatar', (
-    size: auto,
-    border-color: none,
-    border-radius: null,
-    border-width: 0,
-    background-color: none,
-    text-color: theme.var(text-primary-color),
-    font-size: theme.var(font-size-m)
-));
+@use './Avatar';
 
-$vars: component.vars();
+@include component.init(Avatar, Avatar.$vars);
 
 .root {
     box-sizing: border-box;

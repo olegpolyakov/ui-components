@@ -1,7 +1,13 @@
+@use 'component';
+
+@use './Breadcrumbs';
+
+@include component.init(Breadcrumbs, Breadcrumbs.$vars);
+
 .root {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: component.var(gap);
 }
 
 .separator {

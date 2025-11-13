@@ -2,10 +2,9 @@
 @use 'sizes';
 @use 'theme';
 
-@include component.define('Flex', (
-    gap: null,
-    padding: null,
-));
+@use './Flex';
+
+@include component.init(Flex, Flex.$vars);
 
 .root {
     display: flex;

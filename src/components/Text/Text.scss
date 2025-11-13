@@ -1,0 +1,26 @@
+@use 'component';
+@use 'theme';
+
+$color: theme.var(text-color) !default;
+$hover-color: null !default;
+$active-color: null !default;
+$disabled-color: null !default;
+$font-family: theme.var(font-family) !default;
+$font-size: theme.var(font-size-m) !default;
+$font-weight: theme.var(font-weight-normal) !default;
+$line-height: theme.var(line-height) !default;
+$letter-spacing: 0 !default;
+$gap: theme.var(space-xs) !default;
+
+$vars: component.define(Text, (
+    color: $color,
+    hover-color: $hover-color,
+    active-color: $active-color,
+    disabled-color: $disabled-color,
+    font-family: $font-family,
+    font-size: $font-size,
+    font-weight: $font-weight,
+    line-height: $line-height,
+    letter-spacing: $letter-spacing,
+    gap: $gap
+));

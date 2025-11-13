@@ -5,14 +5,14 @@
 @use './utils/color';
 @use './utils/type';
 
-$black: #000;
-$white: #fff;
-$gray: #98979d;
-$red: #db4437;
-$orange: #f4b400;
-$green: #0f9d58;
-$blue: #4285f4;
-$purple: #ab47bc;
+$black: #000 !default;
+$white: #fff !default;
+$gray: #98979d !default;
+$red: #db4437 !default;
+$orange: #f4b400 !default;
+$green: #0f9d58 !default;
+$blue: #4285f4 !default;
+$purple: #ab47bc !default;
 
 $palette-names: (
     neutral,
@@ -36,7 +36,7 @@ $neutral: (
     8: #262626,
     9: #171717,
     10: #0a0a0a
-);
+) !default;
 
 $neutral-0: map.get($neutral, 0);
 $neutral-1: map.get($neutral, 1);
@@ -62,7 +62,7 @@ $primary: (
     8: #0B51C1,
     9: #083B8C,
     10: #052457
-);
+) !default;
 
 $primary-0: map.get($primary, 0);
 $primary-1: map.get($primary, 1);
@@ -88,7 +88,7 @@ $secondary: (
     8: #A9140F,
     9: #750E0A,
     10: #500907
-);
+) !default;
 
 $secondary-0: map.get($secondary, 0);
 $secondary-1: map.get($secondary, 1);
@@ -114,7 +114,7 @@ $danger: (
     8: #97261B,
     9: #6C1B13,
     10: #4E130E
-);
+) !default;
 
 $danger-0: map.get($danger, 0);
 $danger-1: map.get($danger, 1);
@@ -140,7 +140,7 @@ $info: (
     8: #732E7F,
     9: #4A1E52,
     10: #3D1943
-);
+) !default;
 
 $info-0: map.get($info, 0);
 $info-1: map.get($info, 1);
@@ -166,7 +166,7 @@ $success: (
     8: #0A663A,
     9: #074B2A,
     10: #042F1A
-);
+) !default;
 
 $success-0: map.get($success, 0);
 $success-1: map.get($success, 1);
@@ -192,7 +192,7 @@ $warning: (
     8: #A37800,
     9: #755600,
     10: #523C00
-);
+) !default;
 
 $warning-0: map.get($warning, 0);
 $warning-1: map.get($warning, 1);

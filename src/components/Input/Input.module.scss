@@ -3,27 +3,7 @@
 
 @use './Input';
 
-@forward 'component' show var, vars;
-
-@include component.define(Input.$name, Input.$vars) {
-    box-sizing: border-box;
-    position: relative;
-    width: 100%;
-    height: component.var(height);
-    display: flex;
-    align-items: center;
-    padding: component.var(padding);
-    gap: component.var(gap);
-    border-radius: component.var(border-radius);
-    background-clip: padding-box;
-    background-color: component.var(background-color);
-    color: component.var(text-color);
-    font-family: theme.var(font-family);
-    font-size: component.var(font-size);
-    font-weight: component.var(font-weight);
-    line-height: component.var(line-height);
-    transition: border-color 0.2s ease-in-out;
-}
+@include component.init(Input, Input.$vars);
 
 .root {
     box-sizing: border-box;

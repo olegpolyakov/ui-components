@@ -1,11 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('RadioGroup', (
-    gap: theme.var(space-s),
-));
+@use './RadioGroup';
 
-$vars: component.vars();
+@include component.init(RadioGroup, RadioGroup.$vars);
 
 .root {
     display: flex;

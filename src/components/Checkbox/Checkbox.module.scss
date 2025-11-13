@@ -1,16 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Checkbox', (
-    size: 20px,
-    border-color: theme.var(icon-color),
-    border-width: 2px,
-    border-radius: 4px,
-    background-color: transparent,
-    gap: theme.var(space-s),
-));
+@use './Checkbox';
 
-$vars: component.vars();
+@include component.init(Checkbox, Checkbox.$vars);
 
 .root {
     display: flex;

@@ -1,17 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Tab', (
-    height: 36px,
-    gap: theme.var(space-smaller),
-    border-color: null,
-    border-radius: 0px,
-    border-width: 0px,
-    text-color: theme.var(text-secondary-color),
-    indicator-width: 2px
-));
+@use './Tab';
 
-$vars: component.vars();
+@include component.init(Tab, Tab.$vars);
 
 .root {
     box-sizing: border-box;

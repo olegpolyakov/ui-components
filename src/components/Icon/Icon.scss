@@ -1,0 +1,12 @@
+@use 'sass:map';
+
+@use 'component';
+@use 'sizes';
+
+$font: 'Material Symbols Outlined' !default;
+$size: map.get(sizes.$icon-sizes, m) !default;
+
+$vars: component.define(Icon, (
+    font: $font,
+    size: $size
+));

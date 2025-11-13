@@ -1,0 +1,26 @@
+@use 'component';
+@use 'theme';
+
+$height: auto !default;
+$padding: theme.var(space-xxs) theme.var(space-xs) !default;
+$gap: theme.var(space-xs) !default;
+$border-radius: theme.var(border-radius-m) !default;
+$border-width: 0 !default;
+$border-color: none !default;
+$background-color: theme.var(plain-color) !default;
+$text-color: theme.var(text-color) !default;
+$font-size: theme.var(font-size-medium) !default;
+$shadow: none !default;
+
+$vars: component.define(Alert, (
+    height: $height,
+    padding: $padding,
+    gap: $gap,
+    border-radius: $border-radius,
+    border-width: $border-width,
+    border-color: $border-color,
+    background-color: $background-color,
+    text-color: $text-color,
+    font-size: $font-size,
+    shadow: $shadow
+));

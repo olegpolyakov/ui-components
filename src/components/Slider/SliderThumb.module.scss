@@ -4,11 +4,12 @@
 @use 'component';
 @use 'theme';
 
-@use './Slider.module' as Slider;
+@use './Slider';
+@use './SliderThumb';
 
 $_value-indicator-caret-width: 6px;
 
-@include component.define('SliderThumb', ());
+@include component.init(SliderThumb, SliderThumb.$vars);
 
 .root {
     display: flex;

@@ -6,19 +6,9 @@
 @use 'theme';
 @use 'utils/units' as *;
 
-@include component.define('Heading', (
-    font-family: theme.var(font-family),
-    font-size: theme.var(font-size-m),
-    font-weight: theme.var(font-weight-normal),
-    color: theme.var(text-color),
-    line-height: theme.var(line-height),
-    letter-spacing: 0,
-    gap: theme.var(space-xs),
-    margin-top: 0,
-    margin-bottom: 0
-));
+@use './Heading';
 
-$vars: component.vars();
+@include component.init(Heading, Heading.$vars);
 
 .root {
     margin: component.var(margin-top) 0 component.var(margin-bottom);

@@ -24,7 +24,7 @@ export type StateProps = PropsWithChildren<{
   action?: ReactNode | ButtonProps;
 }>;
 
-export default function EmptyState({
+export default function State({
     image,
     title,
     subtitle,

@@ -1,19 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('MenuItem', (
-    height: auto,
-    padding: (theme.var(space-xs) 0),
-    gap: 8px,
-    background-color: theme.var(surface-color),
-    text-color: theme.var(text-color),
-    border-color: theme.var(border-color),
-    border-radius: theme.var(border-radius-m),
-    border-width: 1px,
-    font-size: theme.var(font-size),
-));
+@use './MenuItem';
 
-$vars: component.vars();
+@include component.init(MenuItem, MenuItem.$vars);
 
 .root {
     min-height: component.var(height);

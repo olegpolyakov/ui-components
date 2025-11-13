@@ -1,0 +1,34 @@
+@use 'component';
+@use 'theme';
+
+$height: auto !default;
+$padding: 8px 16px !default;
+$border-color: null !default;
+$border-color-hover: null !default;
+$border-color-active: null !default;
+$border-radius: theme.var(border-radius-m) !default;
+$border-width: 1px !default;
+$gap: theme.var(gap-xs) !default;
+$background-color: null !default;
+$background-color-hover: null !default;
+$background-color-active: null !default;
+$text-color: null !default;
+$text-color-hover: null !default;
+$text-color-active: null !default;
+
+$vars: component.define(ListItem, (
+    height: $height,
+    padding: $padding,
+    border-color: $border-color,
+    border-color-hover: $border-color-hover,
+    border-color-active: $border-color-active,
+    border-radius: $border-radius,
+    border-width: $border-width,
+    gap: $gap,
+    background-color: $background-color,
+    background-color-hover: $background-color-hover,
+    background-color-active: $background-color-active,
+    text-color: $text-color,
+    text-color-hover: $text-color-hover,
+    text-color-active: $text-color-active
+));

@@ -1,13 +1,12 @@
 @use 'sass:map';
 
-@use 'theme';
 @use 'component';
+@use 'theme';
 
-@use './Button.module' as Button;
+@use './Button';
+@use './ButtonGroup';
 
-@include component.define('ButtonGroup', (
-    gap: theme.var(space-xs)
-));
+@include component.init(ButtonGroup, ButtonGroup.$vars);
 
 .root {
     position: relative;

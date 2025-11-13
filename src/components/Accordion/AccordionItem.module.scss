@@ -1,25 +1,13 @@
 @use 'sass:map';
 @use 'sass:meta';
 
-@use '../../styles/elements' as *;
-@use '../../styles/component';
-@use '../../styles/theme';
+@use 'elements' as *;
+@use 'component';
+@use 'theme';
 
-@include component.define('AccordionItem', (
-    height: 36px,
-    padding-x: 0,
-    padding-y: 0.25rem,
-    padding: (--padding-y, --padding-x),
-    background-color: theme.var(plain-color),
-    background-hover-color: theme.var(plain-hover-color),
-    background-active-color: theme.var(plain-active-color),
-    border-color: theme.var(border-color),
-    font-size: theme.var(font-size-m),
-    _content-padding-open: (--padding-y, --padding-x),
-    _content-padding-closed: (--padding-y, --padding-x)
-));
+@use './AccordionItem';
 
-$vars: component.vars();
+@include component.init(AccordionItem, AccordionItem.$vars);
 
 .root + .root {
     border-top: 1px solid component.var(border-color);

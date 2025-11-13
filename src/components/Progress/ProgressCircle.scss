@@ -1,0 +1,16 @@
+@use 'component';
+@use 'theme';
+
+$size-s: 24px !default;
+$size-m: 32px !default;
+$size-l: 48px !default;
+
+$size: auto !default;
+$track-color: theme.var(border-color) !default;
+$circle-color: theme.var(primary-color) !default;
+
+$vars: component.define(ProgressCircle, (
+    size: $size,
+    track-color: $track-color,
+    circle-color: $circle-color
+));

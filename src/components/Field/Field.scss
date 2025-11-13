@@ -1,0 +1,8 @@
+@use 'component';
+@use 'theme';
+
+$gap: theme.var(space-s) !default;
+
+$vars: component.define(Field, (
+    gap: $gap
+));

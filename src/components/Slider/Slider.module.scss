@@ -1,15 +1,9 @@
 @use 'component';
 @use 'theme';
 
-$thumb-size: 20px !default;
-$thumb-ripple-size: 48px !default;
+@use './Slider';
 
-@include component.define('Slider', (
-    thumb-size: $thumb-size,
-    thumb-ripple-size: $thumb-ripple-size
-));
-
-$vars: component.vars();
+@include component.init(Slider, Slider.$vars);
 
 .root {
     position: relative;
@@ -21,7 +15,7 @@ $vars: component.vars();
 
 .input {
     $indent: 2px;
-    $size: $thumb-ripple-size - 2 * $indent;
+    $size: Slider.$thumb-ripple-size - 2 * $indent;
 
     position: absolute;
     width: $size;

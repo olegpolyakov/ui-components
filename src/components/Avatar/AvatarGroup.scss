@@ -1,0 +1,8 @@
+@use 'component';
+@use 'theme';
+
+$gap: theme.var(space-none) !default;
+
+$vars: component.define(AvatarGroup, (
+    gap: $gap
+));

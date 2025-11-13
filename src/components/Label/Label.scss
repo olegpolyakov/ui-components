@@ -1,0 +1,12 @@
+@use 'component';
+@use 'theme';
+
+$color: theme.var(text-primary-color) !default;
+$gap: theme.var(space-xs) !default;
+$size: theme.var(font-size-m) !default;
+
+$vars: component.define(Label, (
+    color: $color,
+    gap: $gap,
+    size: $size
+));

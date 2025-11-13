@@ -1,0 +1,20 @@
+@use 'component';
+@use 'theme';
+
+$padding: theme.var(space-m) !default;
+$background-color: theme.var(surface-color) !default;
+$text-color: theme.var(text-color) !default;
+$border-color: theme.var(border-color) !default;
+$border-radius: theme.var(border-radius-m) !default;
+$border-width: 1px !default;
+$shadow: theme.var(shadow) !default;
+
+$vars: component.define(Popover, (
+    padding: $padding,
+    background-color: $background-color,
+    text-color: $text-color,
+    border-color: $border-color,
+    border-radius: $border-radius,
+    border-width: $border-width,
+    shadow: $shadow
+));

@@ -1,0 +1,9 @@
+@use 'component';
+
+$gap: null !default;
+$padding: null !default;
+
+$vars: component.define(Flex, (
+    gap: $gap,
+    padding: $padding,
+));

@@ -1,0 +1,5 @@
+@forward './Table';
+@forward './TableBody' as body-*;
+@forward './TableCell' as cell-*;
+@forward './TableHead' as head-*;
+@forward './TableRow' as row-*;

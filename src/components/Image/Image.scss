@@ -1,0 +1,8 @@
+@use 'component';
+@use 'theme';
+
+$border-radius: theme.var(border-radius-s) !default;
+
+$vars: component.define(Image, (
+    border-radius: $border-radius,
+));

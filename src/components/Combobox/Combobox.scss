@@ -1,0 +1,12 @@
+@use 'sass:map';
+
+@use 'component';
+@use 'theme';
+
+@use '../Input';
+
+$menu-shadow: theme.var(shadow-m) !default;
+
+$vars: component.define(Checkbox, map.merge(Input.$vars, (
+    menu-shadow: $menu-shadow
+)));

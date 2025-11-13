@@ -1,13 +1,9 @@
 @use 'component';
 @use 'theme';
 
-@include component.define('Spinner', (
-    size: theme.var(size-m),
-    color: theme.var(primary-color),
-    animation-speed: 0.75s
-));
+@use './Spinner';
 
-$vars: component.vars();
+@include component.init(Spinner, Spinner.$vars);
 
 .root {
     display: inline-block;

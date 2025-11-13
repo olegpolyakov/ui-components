@@ -1,0 +1,20 @@
+@use 'component';
+@use 'theme';
+
+$padding: theme.var(space-m) !default;
+$padding-x: --padding !default;
+$padding-y: --padding !default;
+$background-color: theme.var(surface-color) !default;
+$border-radius: theme.var(border-radius-m) !default;
+$shadow: theme.var(shadow-m) !default;
+$z-index: 100 !default;
+
+$vars: component.define(Dialog, (
+    padding: $padding,
+    padding-x: $padding-x,
+    padding-y: $padding-y,
+    background-color: $background-color,
+    border-radius: $border-radius,
+    shadow: $shadow,
+    z-index: $z-index
+));

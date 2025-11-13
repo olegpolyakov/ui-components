@@ -4,12 +4,9 @@
 @use 'sizes';
 @use 'theme';
 
-@include component.define('Icon', (
-    size: map.get(sizes.$icon-sizes, m),
-    font: 'Material Symbols Outlined'
-));
+@use './Icon';
 
-$vars: component.vars();
+@include component.init(Icon, Icon.$vars);
 
 .root {
     font-family: component.var(font);

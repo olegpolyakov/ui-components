@@ -1,0 +1,8 @@
+@use 'component';
+@use 'theme';
+
+$color: theme.var(border-color) !default;
+
+$vars: component.define(Divider, (
+    color: $color,
+));

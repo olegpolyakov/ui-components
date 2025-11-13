@@ -1,0 +1,26 @@
+@use 'component';
+@use 'theme';
+
+$width: 360px !default;
+$height: 100% !default;
+$border-color: theme.var(border-color) !default;
+$border-width: 1px !default;
+$background-color: theme.var(surface-color) !default;
+$padding-x: 0.75rem !default;
+$padding-y: 0.75rem !default;
+$padding: (--padding-y, --padding-x) !default;
+$shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !default;
+$z-index: 1000 !default;
+
+$vars: component.define(Drawer, (
+    width: $width,
+    height: $height,
+    border-color: $border-color,
+    border-width: $border-width,
+    background-color: $background-color,
+    padding-x: $padding-x,
+    padding-y: $padding-y,
+    padding: $padding,
+    shadow: $shadow,
+    z-index: $z-index
+));
