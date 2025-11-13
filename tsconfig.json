@@ -8,9 +8,6 @@
         "./src/*"
       ]
     },
-    "types": [
-      "vite/client"
-    ],
     "lib": [
       "dom",
       "dom.iterable",

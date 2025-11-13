@@ -21,6 +21,7 @@ export default defineConfig(({ command }) => ({
     ],
     css: {
         modules: {
+            scopeBehaviour: 'local',
             localsConvention: 'dashes',
             generateScopedName: '[name]__[local]___[hash:base64:5]'
         },

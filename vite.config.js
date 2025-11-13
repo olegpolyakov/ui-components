@@ -7,7 +7,7 @@ export default defineConfig({
     build: {
         lib: {
             entry: path.resolve(__dirname, 'src/index.ts'),
-            name: 'CodeDojo',
+            name: 'KantanUI',
             fileName: 'index',
             cssFileName: 'index'
         },
@@ -23,6 +23,7 @@ export default defineConfig({
     },
     css: {
         modules: {
+            scopeBehaviour: 'local',
             localsConvention: 'dashes',
             generateScopedName: '[name]__[local]___[hash:base64:5]'
         },
