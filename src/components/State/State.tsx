@@ -42,7 +42,7 @@ export default function State({
     return (
         <div className={classNames}>
             {image && (
-                <Slot className={cn(elementClassNames.image, cssClasses.image)} element={Image}>
+                <Slot as={Image} className={cn(elementClassNames.image, cssClasses.image)}>
                     {image}
                 </Slot>
             )}

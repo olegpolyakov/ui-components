@@ -1,1 +1,1 @@
-export { default, default as Slot, slot, type SlotProps } from './Slot';
+export { default, default as Slot, type SlotProps } from './Slot';

@@ -2,6 +2,7 @@ import {
     cloneElement,
     createElement,
     isValidElement,
+    type ElementType,
     type ForwardRefExoticComponent,
     type FunctionComponent,
     type ReactElement,
@@ -11,33 +12,25 @@ import {
 import { classnames as cn, isObject } from '../../utils';
 
 export type SlotProps<P> = {
-  element: FunctionComponent<P> | ForwardRefExoticComponent<P> | string;
+  as: FunctionComponent<P> | ForwardRefExoticComponent<P> | ElementType;
   children: ReactNode | P;
 } & Omit<P, 'children'>
 
 export default function Slot<P extends {className?: string}>({
-    element = 'div',
+    as = 'div',
     children,
     ...props
 }: SlotProps<P>) {
-    return slot(children, element, props);
-}
-
-export function slot<P extends {className?: string}>(
-    arg: ReactNode | P,
-    element: FunctionComponent<P> | ForwardRefExoticComponent<P> | string,
-    props = {} as any
-) {
-    return isValidElement<P>(arg)
-        ? cloneElement<P>(arg as ReactElement<P>, {
+    return isValidElement<P>(children)
+        ? cloneElement<P>(children as ReactElement<P>, {
             ...props,
-            className: cn(arg.props.className, props.className)
+            className: cn(children.props.className, props.className)
         })
-        : isObject<P>(arg)
-            ? createElement(element, {
-                ...arg,
+        : isObject<P>(children)
+            ? createElement(as, {
+                ...children,
                 ...props,
-                className: cn(arg.className, props.className)
+                className: cn(children.className, props.className)
             })
-            : createElement(element, props, arg);
+            : createElement(as, props, children);
 }
