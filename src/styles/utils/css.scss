@@ -1,4 +1,5 @@
 @use 'sass:meta';
+@use 'sass:string';
 
 $css-var: meta.get-function('var', $css: true);
 
@@ -14,6 +15,10 @@ $css-var: meta.get-function('var', $css: true);
     --#{$name}: #{$value};
 }
 
+@function rgb($values...) {
+    @return string.unquote('rgb(#{$values})');
+}
+
 @function rgba($values...) {
-    @return 'rgba(#{$values})';
+    @return string.unquote('rgba(#{$values})');
 }

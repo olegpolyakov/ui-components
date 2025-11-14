@@ -1,52 +1,12 @@
 @forward './base';
 @forward './media' as media-*;
 
-@use './base' as *;
+@use './base';
 @use './colors';
 
 @mixin init($theme: null) {
     #{if(&, &, ':root')} {
-        @if ($theme == null) {
-            @include colors.define(light);
-            @include colors.define(dark);
-        } @else {
-            @include colors.define($theme);
-        }
-        
-        @include vars((
-            font-family: font.$font-family,
-            font-size: font.$font-size,
-            line-height: font.$line-height
-        ));
-
-        @each $size, $value in $font-sizes {
-            @include var(font-size-#{$size}, $value);
-        }
-
-        @each $weight, $value in $font-weights {
-            @include var(font-weight-#{$weight}, $value);
-        }
-
-        @each $name, $value in $opacity {
-            @include var(opacity-#{$name}, $value);
-        }
-
-        @each $size, $value in $border-radii {
-            @include var(border-radius-#{$size}, $value);
-        }
-
-        @each $size, $value in $space-sizes {
-            @include var(space-#{$size}, $value);
-        }
-
-        @each $size, $value in $shadows {
-            @include var(shadow-#{$size}, $value);
-        }
-
-        @each $size, $value in $screen-sizes {
-            @include var(screen-#{$size}, $value);
-        }
-
-        font-family: font.$font-family;
+        @include base.define();
+        @include colors.define($theme);
     }
 }

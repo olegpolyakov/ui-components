@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use 'sass:meta';
 
-@use './base' as *;
+@use './base';
 @use './colors';
 @use './utils/css';
 @use './utils/list';

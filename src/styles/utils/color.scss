@@ -3,6 +3,8 @@
 @use 'sass:meta';
 @use 'sass:string';
 
+@use './css';
+
 @function adjust($args...) {
     @return color.adjust($args...);
 }
@@ -19,8 +21,12 @@
     @return red($color), green($color), blue($color);
 }
 
-@function rgba($color, $alpha) {
-    @return red($color), green($color), blue($color), $alpha;
+@function hex($color, $alpha: false) {
+    $hex: color.ie-hex-str($color); // returns #AARRGGBB
+    @return if($alpha,
+        string.unquote("##{string.slice($hex, 4)}#{string.slice($hex, 2, 3)}"), // #RRGGBBAA
+        string.unquote("##{string.slice($hex, 4)}") // #RRGGBB
+    );
 }
 
 @function red($color) {

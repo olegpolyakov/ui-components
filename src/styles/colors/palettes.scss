@@ -1,6 +1,7 @@
 @use 'sass:map';
 
 @use 'base' as *;
+@use 'utils/color';
 @use 'utils/string';
 @use 'utils/type';
 
@@ -102,7 +103,7 @@ $warning: (
     10: #523C00
 ) !default;
 
-$palettes: (
+$map: (
     neutral: $neutral,
     primary: $primary,
     secondary: $secondary,
@@ -112,7 +113,7 @@ $palettes: (
     warning: $warning
 );
 
-$names: map.keys($palettes);
+$names: map.keys($map);
 
 $neutral-0: map.get($neutral, 0);
 $neutral-1: map.get($neutral, 1);
@@ -197,6 +198,26 @@ $warning-7: map.get($warning, 7);
 $warning-8: map.get($warning, 8);
 $warning-9: map.get($warning, 9);
 $warning-10: map.get($warning, 10);
+
+@function generate($color, $steps: 11) { 
+    $map: ();
+    @for $i from 0 through $steps - 1 {
+      $lightness: 90% - math.div($i * (90% - 10%), ($steps - 1));
+      $shade: color.scale($color, $lightness: $lightness);
+      $map: map.merge($map, ($i: $shade));
+    }
+    @return $map;
+}
+
+@function contrast($palette, $invert: false) {
+    $map: ();
+    @each $key, $color in $palette {
+        $map: map.merge($map, (
+            $key: color.contrast-color($color, $invert: $invert)
+        ));
+    }
+    @return $map;
+}
 
 @mixin palette-vars(
     $palette,

@@ -1,3 +1,5 @@
+@use 'sass:map';
+
 @use 'utils/css';
 
 $prefix: 'kui' !default;
@@ -53,7 +55,6 @@ $space-sizes: (
 ) !default;
 
 $shadows: (
-    none: none,
     s: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
     m: 0 8px 16px 0 rgba(0, 0, 0, 0.1),
     l: 0 16px 24px 0 rgba(0, 0, 0, 0.1)
@@ -86,5 +87,41 @@ $breakpoints: (
 @mixin vars($vars, $prefix: '') {
     @each $name, $value in $vars {
         @include var('#{$prefix}#{$name}', $value);
+    }
+}
+
+@mixin define {
+    @include vars((
+        font-family: $font-family,
+        font-size: $font-size,
+        line-height: $line-height
+    ));
+
+    @each $size, $value in $font-sizes {
+        @include var(font-size-#{$size}, $value);
+    }
+
+    @each $weight, $value in $font-weights {
+        @include var(font-weight-#{$weight}, $value);
+    }
+
+    @each $name, $value in $opacity {
+        @include var(opacity-#{$name}, $value);
+    }
+
+    @each $size, $value in $border-radii {
+        @include var(border-radius-#{$size}, $value);
+    }
+
+    @each $size, $value in $space-sizes {
+        @include var(space-#{$size}, $value);
+    }
+
+    @each $size, $value in $shadows {
+        @include var(shadow-#{$size}, $value);
+    }
+
+    @each $size, $value in $screen-sizes {
+        @include var(screen-#{$size}, $value);
     }
 }

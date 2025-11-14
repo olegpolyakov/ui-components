@@ -1,0 +1,24 @@
+@use 'sass:map';
+
+@use './utils/color';
+
+@function hover-color($color, $invert: false) {
+    @return color.scale($color, $lightness: if($invert, 5%, -5%));
+}
+
+@function active-color($color, $invert: false) {
+    @return color.scale($color, $lightness: if($invert, 10%, -10%));
+}
+
+@function state-colors($color, $override: ()) {
+    @return (
+        'hover': if(map.has-key($override, 'hover'),
+            map.get($override, 'hover'),
+            hover-color($color)
+        ),
+        'active': if(map.has-key($override, 'active'),
+            map.get($override, 'active'),
+            active-color($color)
+        )
+    );
+}
