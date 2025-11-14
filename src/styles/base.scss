@@ -2,6 +2,79 @@
 
 $prefix: 'kui' !default;
 
+$font-family: 'Fira Sans', Roboto, 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif !default;
+$font-size: 16px !default;
+$font-weights: (
+    light: 300,
+    normal: 400,
+    semibold: 500,
+    bold: 600
+) !default;
+
+$line-height: 1.5 !default;
+
+$opacity: (
+    active: 1,
+    muted: .75,
+    inactive: .75,
+    disabled: .5
+) !default;
+
+$sizes: (xxs, xs, s, m, l, xl, xxl);
+
+$font-sizes: (
+    xxs: 10px,
+    xs: 12px,
+    s: 14px,
+    m: 16px,
+    l: 20px,
+    xl: 24px,
+    xxl: 28px
+) !default;
+
+$border-radii: (
+    xxs: 2px,
+    xs: 4px,
+    s: 6px,
+    m: 8px,
+    l: 12px,
+    xl: 16px,
+    xxl: 20px
+) !default;
+
+$space-sizes: (
+    xxs: 4px,
+    xs: 8px,
+    s: 12px,
+    m: 16px,
+    l: 24px,
+    xl: 32px,
+    xxl: 40px
+) !default;
+
+$shadows: (
+    none: none,
+    s: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
+    m: 0 8px 16px 0 rgba(0, 0, 0, 0.1),
+    l: 0 16px 24px 0 rgba(0, 0, 0, 0.1)
+) !default;
+
+$screen-sizes: (
+    xxs: 360px,
+    xs: 480px,
+    s: 640px,
+    m: 768px,
+    l: 1024px,
+    xl: 1280px,
+    xxl: 1440px
+) !default;
+
+$breakpoints: (
+    s: map.get($screen-sizes, s),
+    m: map.get($screen-sizes, m),
+    l: map.get($screen-sizes, l)
+) !default;
+
 @function var($name, $default-value: null) {
     @return css.var(#{$prefix}-#{$name});
 }

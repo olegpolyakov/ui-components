@@ -3,7 +3,6 @@
 
 @use 'base';
 @use 'component';
-@use 'sizes';
 @use 'utils/units' as *;
 
 @use './Heading';
@@ -43,7 +42,7 @@
 
 // Sizes
 
-@each $size, $values in sizes.$heading-sizes {
+@each $size, $values in base.$heading-sizes {
     $font-size: list.nth($values, 1);
     $line-height: list.nth($values, 2);
 

@@ -2,9 +2,8 @@
 
 @use 'base';
 @use 'component';
-@use 'elements' as *;
 
-@use '../Input/Input.scss' as Input;
+@use '../Input';
 @use './Select';
 
 @forward 'component' show var, vars;
@@ -61,7 +60,7 @@
     display: flex;
     align-items: center;
 
-    @include caret;
+    @include Select.caret;
 }
 
 .label {

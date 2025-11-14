@@ -11,6 +11,17 @@ $gap: base.var(space-xs) !default;
 $margin-top: 0 !default;
 $margin-bottom: 0 !default;
 
+$sizes: (
+    // type: (font-size, line-height)
+    xxs: (16px, 22px),
+    xs: (20px, 28px),
+    s: (24px, 32px),
+    m: (28px, 36px),
+    l: (32px, 40px),
+    xl: (40px, 52px),
+    xxl: (68px, 92px)
+) !default;
+
 $vars: component.define(Heading, (
     color: $color,
     font-family: $font-family,
@@ -22,3 +33,14 @@ $vars: component.define(Heading, (
     margin-top: $margin-top,
     margin-bottom: $margin-bottom
 ));
+
+@mixin heading($type, $weight: null) {
+    $_sizes: map.get($sizes, $type);
+    $font-size: list.nth($_sizes, 1);
+    $line-height: list.nth($_sizes, 2);
+
+    font-family: base.var(font-family);
+    font-size: $font-size;
+    font-weight: map.get(base.$font-weights, $weight);
+    line-height: math.div($line-height, $font-size);
+}

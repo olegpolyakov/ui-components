@@ -1,9 +1,9 @@
 @use 'sass:map';
 
 @use 'base';
-@use 'elements';
 @use 'component';
 
+@use '../Select';
 @use './Combobox';
 
 @include component.init(Combobox, Combobox.$vars);
@@ -60,7 +60,7 @@
     display: flex;
     align-items: center;
 
-    @include elements.caret;
+    @include Select.caret;
 }
 
 .label {

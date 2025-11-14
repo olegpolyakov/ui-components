@@ -2,9 +2,9 @@
 @use 'sass:meta';
 
 @use 'base';
-@use 'elements' as *;
 @use 'component';
 
+@use '../Text';
 @use './AccordionItem';
 
 @include component.init(AccordionItem, AccordionItem.$vars);
@@ -66,20 +66,10 @@
 
 // Sizes
 
-.s {
-    .header {
-        @include text(s);
-    }
-}
-
-.m {
-    .header {
-        @include text(m);
-    }
-}
-
-.l {
-    .header {
-        @include text(l);
+@each $size in (s m l) {
+    .#{$size} {
+        .header {
+            @include Text.text($size);
+        }
     }
 }

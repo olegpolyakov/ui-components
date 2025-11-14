@@ -1,10 +1,16 @@
 @use 'sass:map';
 
+@use 'base';
 @use 'component';
-@use 'sizes';
+
+$sizes: (
+    m: 24px, // Preferred icon size
+    l: 36px,
+    xl: 48px
+) !default;
 
 $font: 'Material Symbols Outlined' !default;
-$size: map.get(sizes.$icon-sizes, m) !default;
+$size: map.get($sizes, m) !default;
 
 $vars: component.define(Icon, (
     font: $font,

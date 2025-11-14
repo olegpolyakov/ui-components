@@ -3,7 +3,6 @@
 
 @use 'base';
 @use 'component';
-@use 'sizes';
 @use 'utils/units' as *;
 
 @use './Text';
@@ -47,7 +46,7 @@
 
 // Sizes
 
-@each $size, $values in sizes.$text-sizes {
+@each $size, $values in base.$text-sizes {
     $font-size: list.nth($values, 1);
     $line-height: list.nth($values, 2);
 

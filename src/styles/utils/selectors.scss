@@ -1,6 +1,6 @@
 @use 'sass:selector';
 
-@function combine-selectors($first, $rest...) {
+@function combine($first, $rest...) {
     $selectors: $first;
   
     @each $selector in $rest {
@@ -10,8 +10,8 @@
     @return $selectors;
 }
 
-@mixin selectors($selectors...) {
-    #{combine-selectors($selectors...)} {
+@mixin combine($selectors...) {
+    #{combine($selectors...)} {
         @content;
     }
 }

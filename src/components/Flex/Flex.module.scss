@@ -1,6 +1,5 @@
 @use 'base';
 @use 'component';
-@use 'sizes';
 
 @use './Flex';
 
@@ -80,7 +79,7 @@
 // Gap
 
 .gap {
-    @each $size, $value in sizes.$space-sizes {
+    @each $size, $value in base.$space-sizes {
         &-#{$size} {
             @include component.var(gap, base.var(space-#{$size}));
         }
@@ -91,14 +90,14 @@
 // Padding
 
 .padding {
-    @each $size, $value in sizes.$space-sizes {
+    @each $size, $value in base.$space-sizes {
         &-#{$size} {
             @include component.var(padding, base.var(space-#{$size}));
         }
     }
 
     &-x {
-        @each $size, $value in sizes.$space-sizes {
+        @each $size, $value in base.$space-sizes {
             &-#{$size} {
                 @include component.vars((
                     padding-left: base.var(space-#{$size}),
@@ -109,7 +108,7 @@
     }
 
     &-y {
-        @each $size, $value in sizes.$space-sizes {
+        @each $size, $value in base.$space-sizes {
             &-#{$size} {
                 @include component.vars((
                     padding-top: base.var(space-#{$size}),

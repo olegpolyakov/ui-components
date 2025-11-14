@@ -1,10 +1,10 @@
 @use 'sass:map';
 
-@use './sizes';
+@use './base';
 
-$bp-s: map.get(sizes.$screen-sizes, s);
-$bp-m: map.get(sizes.$screen-sizes, m);
-$bp-l: map.get(sizes.$screen-sizes, l);
+$bp-s: map.get(base.$breakpoints, s);
+$bp-m: map.get(base.$breakpoints, m);
+$bp-l: map.get(base.$breakpoints, l);
 
 $breakpoints: (
     sm: '(max-width: #{$bp-s - 1})',

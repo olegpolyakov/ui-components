@@ -2,7 +2,6 @@
 
 @use 'colors';
 @use 'component';
-@use 'sizes';
 
 @use './Icon';
 
@@ -27,11 +26,11 @@
 // Sizes
 
 @include component.declare((
-    xs: (size: map.get(sizes.$icon-sizes, xs)),
-    s: (size: map.get(sizes.$icon-sizes, s)),
-    m: (size: map.get(sizes.$icon-sizes, m)),
-    l: (size: map.get(sizes.$icon-sizes, l)),
-    xl: (size: map.get(sizes.$icon-sizes, xl))
+    xs: (size: map.get(base.$icon-sizes, xs)),
+    s: (size: map.get(base.$icon-sizes, s)),
+    m: (size: map.get(base.$icon-sizes, m)),
+    l: (size: map.get(base.$icon-sizes, l)),
+    xl: (size: map.get(base.$icon-sizes, xl))
 ));
 
 
@@ -58,10 +57,10 @@
 
 :export {
     size: {
-        xs: map.get(sizes.$icon-sizes, xs);
-        s: map.get(sizes.$icon-sizes, s);
-        m: map.get(sizes.$icon-sizes, m);
-        l: map.get(sizes.$icon-sizes, l);
-        xl: map.get(sizes.$icon-sizes, xl);
+        xs: map.get(base.$icon-sizes, xs);
+        s: map.get(base.$icon-sizes, s);
+        m: map.get(base.$icon-sizes, m);
+        l: map.get(base.$icon-sizes, l);
+        xl: map.get(base.$icon-sizes, xl);
     }
 }

@@ -1,8 +1,9 @@
 @use 'sass:map';
 @use 'sass:meta';
 
-@use './utils/css';
 @use './utils/color';
+@use './utils/css';
+@use './utils/string';
 @use './utils/type';
 
 $black: #000 !default;
@@ -13,13 +14,6 @@ $orange: #f4b400 !default;
 $green: #0f9d58 !default;
 $blue: #4285f4 !default;
 $purple: #ab47bc !default;
-
-$opacity: (
-    active: 1,
-    muted: .75,
-    inactive: .75,
-    disabled: .5
-) !default;
 
 @function on-color($color, $invert: false) {
     @return color.contrast-color($color, $invert: $invert);
@@ -111,7 +105,7 @@ $opacity: (
             $color: #{$color}#{$_postfix};
         }
 
-        @if not str.contains($color, '-color') {
+        @if not string.contains($color, '-color') {
             $color: #{$color}-color;
         }
 

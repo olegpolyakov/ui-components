@@ -12,6 +12,17 @@ $line-height: base.var(line-height) !default;
 $letter-spacing: 0 !default;
 $gap: base.var(space-xs) !default;
 
+$sizes: (
+    // type: (font-size, line-height)
+    xxs: (10px, 14px),
+    xs: (12px, 16px),
+    s: (14px, 18px),
+    m: (16px, 22px),
+    l: (20px, 26px),
+    xl: (24px, 30px),
+    xxl: (28px, 34px)
+) !default;
+
 $vars: component.define(Text, (
     color: $color,
     hover-color: $hover-color,
@@ -24,3 +35,15 @@ $vars: component.define(Text, (
     letter-spacing: $letter-spacing,
     gap: $gap
 ));
+
+@mixin text($size: m, $weight: normal) {
+    $_sizes: map.get($sizes, $size);
+    $font-size: list.nth($_sizes, 1);
+    $line-height: list.nth($_sizes, 2);
+    $font-weight: map.get(base.$font-weights, $weight);
+
+    font-family: base.var(font-family);
+    font-size: $font-size;
+    font-weight: $font-weight;
+    line-height: math.div($line-height, $font-size);
+}
