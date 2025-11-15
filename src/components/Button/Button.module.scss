@@ -129,7 +129,7 @@
 
 // Shapes
 
-@include component.declare((
+@include component.classes((
     circular: (border-radius: component.var(height)),
     rectangular: (border-radius: 0),
     rounded: (border-radius: calc(component.var(height) / 4))

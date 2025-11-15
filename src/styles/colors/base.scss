@@ -1,9 +1,8 @@
 @use 'sass:map';
 
-@use './utils/color';
-@use './utils/css';
-@use './utils/string';
-@use './utils/type';
+@use '../base';
+@use 'utils/string';
+@use 'utils/type';
 
 $black: #000 !default;
 $white: #fff !default;
@@ -14,9 +13,9 @@ $green: #0f9d58 !default;
 $blue: #4285f4 !default;
 $purple: #ab47bc !default;
 
-@mixin color-var(
+@mixin var(
     $prop,
-    $color: null,
+    $color,
     $on: false,
     $prefix: ''
 ) {
@@ -27,16 +26,10 @@ $purple: #ab47bc !default;
         $_prefix: 'on-';
     }
 
-    @if string.index($prop, '_') == 1 {
+    @if string.starts-with($prop, '_') {
         $_prefix: 'on-';
         $prop: string.slice($prop, 2);
     }
-
-    // @if (string.index($prop, '--') != null) {
-    //     $index: string.index($prop, '--');
-    //     $_postfix: '-#{string.slice($prop, $index + 2, string.length($prop))}';
-    //     $prop: string.slice($prop, 0, $index - 1);
-    // }
 
     @if type.is-string($color) {
         @if $_prefix {
@@ -51,69 +44,14 @@ $purple: #ab47bc !default;
             $color: #{$color}-color;
         }
 
-        $color: var($color);
+        $color: base.var($color);
     }
 
-    @include var(#{$prefix}#{$prop}, $color);
+    @include base.var(#{$prefix}#{$prop}, $color);
 }
 
-@mixin color-state-vars(
-    $props,
-    $color: null,
-    $override: (),
-    $prefix: ''
-) {
-    @if type.is-list($props) {
-        @each $prop in $props {
-            @include _color-state-vars(
-                $prop,
-                $color,
-                $override,
-                $prefix
-            );
-        }
-    } @else if type.is-map($props) {
-        @each $prop, $value in $props {
-            @include _color-state-vars(
-                $prop,
-                #{if($value == '_', $color, $value)},
-                $override,
-                $prefix
-            );
-        }
-    } @else {
-        @include _color-state-vars(
-            $props,
-            $color,
-            $override,
-            $prefix
-        );
+@mixin vars($vars, $prefix: null) {
+    @each $name, $value in $vars {
+        @include var($name, $value, $prefix: $prefix);
     }
-}
-
-@mixin _color-state-vars(
-    $name,
-    $color: null,
-    $override: (),
-    $prefix: ''
-) {
-    $colors: ();
-
-    @if type.is-color($color) {
-        $colors: map.merge(('base': $color), state-colors($value));
-    } @else if type.is-string($color) {
-        $colors: (
-            'base': #{$color}-color,
-            'hover': #{$color}-color-hover,
-            'active': #{$color}-color-active
-        );
-    } @else if type.is-map($color) {
-        $colors: $color
-    }
-
-    $colors: map.merge($colors, $override);
-
-    @include color-var($name, map.get($colors, 'base'), $prefix: $prefix);
-    @include color-var(#{$name}-hover, map.get($colors, 'hover'), $prefix: $prefix);
-    @include color-var(#{$name}-active, map.get($colors, 'active'), $prefix: $prefix);
 }

@@ -10,3 +10,9 @@
 
     @return $result;
 }
+
+@mixin each($list) {
+    @each $item in $list {
+        @content($item);
+    }
+}

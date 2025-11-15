@@ -1,0 +1,118 @@
+@use 'sass:map';
+
+@use '../base';
+@use '../colors';
+@use '../colors/palettes';
+@use 'utils/css';
+@use 'utils/type';
+
+@use './base' as *;
+
+$-name: '';
+$-vars: ();
+
+@mixin define($name, $vars) {
+    $-name: $name !global;
+    $-vars: $vars !global;
+
+    #{if(&, '&', '.root')} {
+        @include vars($vars);
+    }
+}
+
+@function vars($component, $vars) {
+    $_vars: ();
+
+    @each $name, $value in $vars {
+        $_vars: map.merge($_vars, (
+            $name: get-value($value, $component)
+        ));
+    }
+
+    @return $_vars;
+}
+
+@function var($name) {
+    @if not map.has-key($-vars, $name) {
+        @error 'No variable "#{$name}"';
+    }
+
+    $value: map.get($-vars, $name);
+
+    @if is-private-var($name) {
+        @return css.var($name, $value);
+    } @else {
+        @return base.var('#{$-name}-#{$name}', $value);
+    }
+}
+
+@mixin vars($vars) {
+    @each $name, $value in $vars {
+        @include var($name, $value);
+    }
+}
+
+@mixin var($name, $value) {
+    $_value: get-value($value);
+
+    @if is-private-var($name) {
+        @include css.var($name, $_value);
+    } @else {
+        @include base.var('#{$-name}-#{$name}', $_value);
+    }
+}
+
+@mixin declare($vars) {
+    @each $name, $value in $vars {
+        @if type.is-map($value) {
+            #{if(&, '&', '')}#{$name} {
+                @include declare($value);
+            }
+        } @else {
+            @include var($name, $value);
+        }
+    }
+}
+
+@mixin classes($map) {
+    @each $class, $vars in $map {
+        #{if(&, '&', '')}.#{$class} {
+            @include vars($vars);
+        }
+    }
+}
+
+@mixin states($map) {
+    @each $state, $vars in $map {
+        &:#{$state} {
+            @include vars($vars);
+        }
+    }
+}
+
+@mixin color-state-vars($args...) {
+    @include colors.state-vars(
+        $prefix: '#{$-name}-',
+        $args...
+    );
+}
+
+@mixin palette-vars($args...) {
+    @include palettes.each using ($palette) {
+        @include palettes.vars(
+            $palette,
+            $prefix: '#{$-name}-',
+            $args...
+        );
+    }
+}
+
+@mixin palette-state-vars($args...) {
+    @include palettes.each using ($palette) {
+        @include palettes.state-vars(
+            $palette,
+            $prefix: '#{$-name}-',
+            $args...
+        );
+    }
+}

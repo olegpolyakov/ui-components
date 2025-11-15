@@ -1,8 +1,8 @@
 @use 'sass:meta';
 
-@use '../src' as lib;
+@use 'index' as styles;
 
-@include lib.init();
+@include styles.init();
 
 // @debug 'color-var';
 // .selector {

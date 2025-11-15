@@ -1,0 +1,40 @@
+@use 'colors';
+@use 'colors/palettes';
+
+:root {
+    @include colors.define;
+}
+
+.class {
+    @include colors.var(background-color, #fff); 
+    @include colors.var(background-color, plain);
+    @include colors.var(text-color, on-plain);
+    @include colors.var(text-color, plain, $on: true);
+    @include colors.var(text-color, plain, $prefix: 'custom-');
+}
+
+.class {
+    $palette: palettes.generate(blue);
+
+    @each $i, $color in $palette {
+        @include colors.var(color-#{$i}, $color);
+    }
+
+    @each $i, $color in palettes.contrast($palette) {
+        @include colors.var(on-color-#{$i}, $color);
+    }
+}
+
+@include palettes.each using ($palette) {
+    @include colors.vars((
+        background-color: $palette,
+        text-color: on-#{$palette}
+    ));
+}
+
+@include palettes.each using ($palette) {
+    @include colors.state-vars((
+        background-color: $palette,
+        text-color: on-#{$palette}
+    ));
+}

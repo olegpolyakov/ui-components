@@ -1,17 +1,9 @@
 @forward './base';
-@forward './palettes';
-@forward './dark' as dark-*;
-@forward './light' as light-*;
-@forward './scheme';
-@forward './states';
+@forward './palettes' as palette-*;
+@forward './states' as state-*;
 
-@use './scheme';
+@use './palettes';
 
-@mixin define($theme: null) {
-    @if ($theme == null) {
-        @include scheme.define(light);
-        @include scheme.define(dark);
-    } @else {
-        @include scheme.define($theme);
-    }
+@mixin define {
+    @include palettes.define;
 }

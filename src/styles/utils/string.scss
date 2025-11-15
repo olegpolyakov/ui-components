@@ -2,6 +2,10 @@
 
 @use './type' as *;
 
+@function index($args...) {
+    @return string.index($args...);
+}
+
 @function slice($args...) {
     @return string.slice($args...);
 }

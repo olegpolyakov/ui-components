@@ -1,0 +1,77 @@
+@use 'colors';
+@use 'colors/palettes';
+@use 'utils/color';
+
+@use './base' as theme;
+
+$neutral-color: palettes.$neutral-5 !default;
+$primary-color: palettes.$primary-5 !default;
+$secondary-color: palettes.$secondary-5 !default;
+$danger-color: palettes.$danger-5 !default;
+$info-color: palettes.$info-5 !default;
+$success-color: palettes.$success-5 !default;
+$warning-color: palettes.$warning-5 !default;
+
+$theme-colors: (
+    neutral: $neutral-color,
+    primary: $primary-color,
+    secondary: $secondary-color,
+    danger: $danger-color,
+    info: $info-color,
+    success: $success-color,
+    warning: $warning-color
+) !default;
+
+$backdrop-color: rgba(0, 0, 0, .25) !default;
+$background-color: palettes.$neutral-0 !default;
+$border-color: palettes.$neutral-2 !default;
+$border-muted-color: palettes.$neutral-1 !default;
+$icon-color: palettes.$neutral-3 !default;
+$icon-muted-color: palettes.$neutral-2 !default;
+$text-color: palettes.$neutral-10 !default;
+$text-inverted-color: palettes.$neutral-0 !default;
+$text-primary-color: palettes.$neutral-10 !default;
+$text-secondary-color: palettes.$neutral-9 !default;
+$text-tertiary-color: palettes.$neutral-8 !default;
+$surface-color: colors.$white !default;
+$surface-primary-color: palettes.$neutral-1 !default;
+$surface-secondary-color: palettes.$neutral-2 !default;
+$surface-tertiary-color: palettes.$neutral-3 !default;
+$surface-inverted-color: palettes.$neutral-10 !default;
+
+$element-colors: (
+    backdrop: $backdrop-color,
+    background: $background-color,
+    border: $border-color,
+    border-muted: $border-muted-color,
+    icon: $icon-color,
+    icon-muted: $icon-muted-color,
+    text: $text-color,
+    text-inverted: $text-inverted-color,
+    text-primary: $text-primary-color,
+    text-secondary: $text-secondary-color,
+    text-tertiary: $text-tertiary-color,
+    surface: $surface-color,
+    surface-primary: $surface-primary-color,
+    surface-secondary: $surface-secondary-color,
+    surface-tertiary: $surface-tertiary-color,
+    surface-inverted: $surface-inverted-color
+) !default;
+
+$plain-color: color.change($surface-inverted-color, $alpha: 0) !default;
+$filled-color: $surface-primary-color !default;
+$tinted-color: color.change($surface-inverted-color, $alpha: 0.125) !default;
+
+$variant-colors: (
+    plain: $plain-color,
+    filled: $filled-color,
+    tinted: $tinted-color
+) !default;
+
+@mixin vars {
+    @include theme.vars(
+        $element-colors,
+        $theme-colors,
+        $variant-colors
+    );
+}

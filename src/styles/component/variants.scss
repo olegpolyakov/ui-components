@@ -1,0 +1,85 @@
+@use '../colors/states';
+
+@mixin variants(
+    $plain: true,
+    $filled: true,
+    $outlined: true,
+    $tinted: true
+) {
+    @if ($plain) {
+        @include plain;
+    }
+
+    @if ($filled) {
+        @include filled;
+    }
+
+    @if ($outlined) {
+        @include outlined;
+    }
+
+    @if ($tinted) {
+        @include tinted;
+    }
+}
+
+@mixin plain {
+    .plain {
+        @include states.vars((
+            'background-color': plain,
+            'text-color': on-plain
+        ));
+        @include palettes-color-state-vars((
+            'background-color': plain,
+            'text-color': on-plain
+        ));
+    }
+}
+
+@mixin filled {
+    .filled {
+        @include color-state-vars((
+            'background-color': filled,
+            'text-color': on-filled
+        ));
+        @include palettes-color-state-vars((
+            'background-color': filled,
+            'text-color': on-filled
+        ));
+    }
+}
+
+@mixin outlined {
+    .outlined {
+        @include vars((
+            border-width: 1px
+        ));
+
+        @include color-state-vars((
+            'border-color': border,
+            'background-color': plain,
+            'text-color': primary
+        ));
+
+        @include palettes-color-state-vars((
+            'border-color': '$',
+            'background-color': plain,
+            'text-color': '$'
+        ));
+
+        border: var(border-width) solid var(border-color);
+    }
+}
+
+@mixin tinted {
+    .tinted {
+        @include color-state-vars((
+            'background-color': tinted,
+            'text-color': on-tinted
+        ));
+        @include palettes-color-state-vars((
+            'background-color': tinted,
+            'text-color': on-tinted
+        ));
+    }
+}

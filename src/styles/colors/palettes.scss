@@ -1,9 +1,13 @@
 @use 'sass:map';
+@use 'sass:math';
 
-@use 'base' as *;
+@use '../base';
 @use 'utils/color';
 @use 'utils/string';
 @use 'utils/type';
+
+@use './base' as *;
+@use './states';
 
 $neutral: (
     0: #fafafa,
@@ -20,87 +24,87 @@ $neutral: (
 ) !default;
 
 $primary: (
-    0: #F1F6FE,
-    1: #E2EDFD,
-    2: #C5DAFC,
-    3: #A3C4FA,
-    4: #7DACF7,
-    5: #4285F4,
-    6: #2B77F3,
-    7: #0E63EC,
-    8: #0B51C1,
-    9: #083B8C,
+    0: #f1f6fe,
+    1: #e2edfd,
+    2: #c5dafc,
+    3: #a3c4fa,
+    4: #7dacf7,
+    5: #4285f4,
+    6: #2b77f3,
+    7: #0e63ec,
+    8: #0b51c1,
+    9: #083b8c,
     10: #052457
 ) !default;
 
 $secondary: (
-    0: #FEF6F6,
-    1: #FDE8E8,
-    2: #FBCDCB,
-    3: #F8ADAA,
-    4: #F48480,
-    5: #EE3F39,
-    6: #E61B14,
-    7: #CA1711,
-    8: #A9140F,
-    9: #750E0A,
+    0: #fef6f6,
+    1: #fde8e8,
+    2: #fbcdcb,
+    3: #f8adaa,
+    4: #f48480,
+    5: #ee3f39,
+    6: #e61b14,
+    7: #ca1711,
+    8: #a9140f,
+    9: #750e0a,
     10: #500907
 ) !default;
 
 $danger: (
-    0: #FDF3F2,
-    1: #FAE7E5,
-    2: #F6CFCB,
-    3: #EFAEA9,
-    4: #E8867D,
-    5: #DB4437,
-    6: #CF3425,
-    7: #B62D21,
-    8: #97261B,
-    9: #6C1B13,
-    10: #4E130E
+    0: #fdf3f2,
+    1: #fae7e5,
+    2: #f6cfcb,
+    3: #efaea9,
+    4: #e8867d,
+    5: #db4437,
+    6: #cf3425,
+    7: #b62d21,
+    8: #97261b,
+    9: #6c1b13,
+    10: #4e130e
 ) !default;
 
 $info: (
-    0: #FAF4FB,
-    1: #F3E5F5,
-    2: #E9CEED,
-    3: #D9ADE1,
-    4: #C684D2,
-    5: #AB47BC,
-    6: #983DA8,
+    0: #faf4fb,
+    1: #f3e5f5,
+    2: #e9ceed,
+    3: #d9ade1,
+    4: #c684d2,
+    5: #ab47bc,
+    6: #983da8,
     7: #873696,
-    8: #732E7F,
-    9: #4A1E52,
-    10: #3D1943
+    8: #732e7f,
+    9: #4a1e52,
+    10: #3d1943
 ) !default;
 
 $success: (
-    0: #E3FCF0,
-    1: #C2F9DF,
-    2: #73F2B5,
-    3: #15E07E,
-    4: #13C46E,
-    5: #0F9D58,
-    6: #0D8C4F,
-    7: #0C7E47,
-    8: #0A663A,
-    9: #074B2A,
-    10: #042F1A
+    0: #e3fcf0,
+    1: #c2f9df,
+    2: #73f2b5,
+    3: #15e07e,
+    4: #13c46e,
+    5: #0f9d58,
+    6: #0d8c4f,
+    7: #0c7e47,
+    8: #0a663a,
+    9: #074b2a,
+    10: #042f1a
 ) !default;
 
 $warning: (
-    0: #FFFAEB,
-    1: #FFF3D1,
-    2: #FFE7A3,
-    3: #FFD86B,
-    4: #FFC629,
-    5: #F4B400,
-    6: #E0A500,
-    7: #C28E00,
-    8: #A37800,
+    0: #fffaeb,
+    1: #fff3d1,
+    2: #ffe7a3,
+    3: #ffd86b,
+    4: #ffc629,
+    5: #f4b400,
+    6: #e0a500,
+    7: #c28e00,
+    8: #a37800,
     9: #755600,
-    10: #523C00
+    10: #523c00
 ) !default;
 
 $map: (
@@ -199,6 +203,18 @@ $warning-8: map.get($warning, 8);
 $warning-9: map.get($warning, 9);
 $warning-10: map.get($warning, 10);
 
+@mixin define() {
+    @each $name, $palette in $map {
+        @each $level, $color in $palette {
+            @include base.var(#{$name}-#{$level}-color, $color);
+        }
+        
+        @each $level, $color in contrast($palette) {
+            @include base.var(on-#{$name}-#{$level}-color, $color);
+        }
+    }
+}
+
 @function generate($color, $steps: 11) { 
     $map: ();
     @for $i from 0 through $steps - 1 {
@@ -219,104 +235,99 @@ $warning-10: map.get($warning, 10);
     @return $map;
 }
 
-@mixin palette-vars(
+@mixin each {
+    @each $palette in $names {
+        #{if(&, '&.#{$palette}', '.#{$palette}')} {
+            @content($palette);
+        }
+    }
+}
+
+@mixin vars(
     $palette,
     $props,
     $color: null,
     $on: false,
     $prefix: ''
 ) {
-    @if type.is-number($color) or type.is-string($color) {
-        $color: '#{$palette}-#{$color}';
-    }
-
-    #{if(&, '&.#{$palette}', '.#{$palette}')} {
-        @if type.is-list($props) {
-            @each $prop in $props {
-                @include color-var(
-                    $prop,
-                    if($color, $color, $palette),
-                    $on,
-                    $prefix
-                );
-            }
-        } @else {
-            @include color-var(
-                $props,
-                if($color, $color, $palette),
+    @if type.is-list($props) {
+        @each $prop in $props {
+            @include vars(
+                $palette,
+                $prop,
+                $color,
                 $on,
                 $prefix
             );
         }
-    }
-}
+    } @else if type.is-map($props) {
+        @each $prop, $value in $props {
+            @include vars(
+                $palette,
+                $prop,
+                $value,
+                $on,
+                $prefix
+            );
+        }
+    } @else {
+        @if type.is-string($color) and string.contains($color, '$') {
+            $color: string.replace($color, '$', $palette);
+        } @else if type.is-number($color) or type.is-string($color) {
+            $color: '#{$palette}-#{$color}';
+        } @else {
+            $color: $palette;
+        }
 
-@mixin palettes-vars(
-    $props,
-    $color: null,
-    $on: false,
-    $override: (),
-    $palettes: colors.$palette-names,
-    $prefix: '',
-) {
-    @each $palette in $palettes {
-        @include palette-vars(
-            $palette,
+        @include var(
             $props,
-            if(map.has-key($override, $palette),
-                map.get($override, $palette),
-                $color
-            ),
+            $color,
             $on,
             $prefix
         );
     }
 }
 
-@mixin palette-color-state-vars(
+@mixin state-vars(
     $palette,
     $props,
     $color: null,
     $on: false,
-    $override: (),
     $prefix: ''
 ) {
-    #{if(&, '&-#{$palette}', '.#{$palette}')} {
-        @if $color == null {
-            $color: $palette;
-        } @else {
+    @if type.is-list($props) {
+        @each $prop in $props {
+            @include state-vars(
+                $palette,
+                $prop,
+                $color,
+                $on,
+                $prefix
+            );
+        }
+    } @else if type.is-map($props) {
+        @each $prop, $value in $props {
+            @include state-vars(
+                $palette,
+                $prop,
+                $value,
+                $on,
+                $prefix
+            );
+        }
+    } @else {
+        @if type.is-string($color) and string.contains($color, '$') {
+            $color: string.replace($color, '$', $palette);
+        } @else if type.is-number($color) or type.is-string($color) {
             $color: '#{$palette}-#{$color}';
+        } @else {
+            $color: $palette;
         }
 
-        @if type.is-map($props) {
-            @each $prop, $value in $props {
-                @if string.contains($value, '$') {
-                    $props: map.set($props, $prop, string.replace($value, '$', $color));
-                } @else {
-                    $props: map.set($props, $prop, '#{$value}-#{$palette}');
-                }
-            }
-        }
-
-        @include color-state-vars($props, $color, $override, $prefix);
-    }
-}
-
-@mixin palettes-color-state-vars(
-    $props,
-    $color: null,
-    $on: false,
-    $override: (),
-    $palettes: colors.$palette-names,
-    $prefix: '',
-) {
-    @each $palette in $palettes {
-        @include palette-color-state-vars(
-            $palette,
+        @include states.vars(
             $props,
             $color,
-            $on,
-            $override,
+            (),
             $prefix
         );
     }

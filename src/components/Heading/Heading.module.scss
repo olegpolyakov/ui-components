@@ -42,7 +42,7 @@
 
 // Sizes
 
-@each $size, $values in base.$heading-sizes {
+@each $size, $values in Heading.$sizes {
     $font-size: list.nth($values, 1);
     $line-height: list.nth($values, 2);
 

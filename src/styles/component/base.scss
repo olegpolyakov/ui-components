@@ -1,0 +1,45 @@
+@use 'sass:map';
+@use 'sass:meta';
+
+@use '../base';
+
+@use './utils/css';
+@use './utils/list';
+@use './utils/string';
+@use './utils/type';
+
+@function get-value($value: null, $prefix: null) {
+    @if type.is-list($value) {
+        @return list.map(
+            $value,
+            meta.get-function('get-value'),
+            $prefix
+        );
+    }
+
+    @if is-private-var-value($value) {
+        @return css.var(string.slice($value, 3));
+    }
+
+    @if is-public-var-value($value) {
+        @return base.var('#{$prefix}-#{string.slice($value, 3)}');
+    }
+
+    @return $value;
+}
+
+@function is-private-var($name) {
+    @return string.starts-with($name, '_');
+}
+
+@function is-private-var-value($value) {
+    @return string.starts-with($value, '--_');
+}
+
+@function is-public-var($name) {
+    @return string.starts-with($name, '--');
+}
+
+@function is-public-var-value($value) {
+    @return string.starts-with($value, '--');
+}

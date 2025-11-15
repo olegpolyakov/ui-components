@@ -1,0 +1,151 @@
+@use 'base';
+@use 'component';
+
+$vars: component.vars(Component, (
+    background-color: base.var(background-color),
+    text-color: base.var(text-color),
+    padding-x: base.var(padding),
+    padding-y: base.var(padding),
+    padding: --padding-x --padding-y,
+    _width: auto,
+    _height: auto,
+    _size: --_width --_height
+));
+
+// Definition
+
+@include component.define(Component, $vars);
+
+.component {
+    @include component.define(Component, $vars);
+}
+
+
+// Vars
+
+.component {
+    @include component.vars((
+        background-color: red,
+        text-color: white
+    ));
+    background-color: component.var(background-color);
+    color: component.var(text-color);
+}
+
+
+// Declarations
+
+@include component.declare((
+    '.small': (
+        padding-x: base.var(padding-s),
+        padding-y: base.var(padding-s),
+
+        '.rounded': (
+            border-radius: base.var(border-radius-s)
+        )
+    ),
+    '.small.rounded:hover': (
+        border-radius: base.var(border-radius-s)
+    )
+));
+
+
+// Classes
+
+@include component.classes((
+    small: (
+        padding-x: base.var(padding-s),
+        padding-y: base.var(padding-s)
+    ),
+    large: (
+        padding-x: base.var(padding-l),
+        padding-y: base.var(padding-l)
+    )
+));
+
+
+// States
+
+.component {
+    @include component.states((
+        hover: (
+            padding-x: base.var(padding-s),
+            padding-y: base.var(padding-s)
+        ),
+        active: (
+            padding-x: base.var(padding-l),
+            padding-y: base.var(padding-l)
+        )
+    ));
+}
+
+
+// Color State Vars
+
+// 1. List usage
+.component {
+    @include component.color-state-vars((
+        background-color,
+        _text-color
+    ), plain);
+}
+
+// 2. Map usage
+.component {
+    @include component.color-state-vars((
+        background-color: plain,
+        text-color: on-plain
+    ));
+}
+
+
+// Palette Vars
+
+@include component.palette-vars((
+    background-color, _text-color
+), plain);
+
+@include component.palette-vars((
+    background-color, _text-color
+), 'plain-$');
+
+@include component.palette-vars((
+    background-color, _text-color
+), 5);
+
+@include component.palette-vars((
+    background-color: plain,
+    text-color: on-plain
+));
+
+@include component.palette-vars((
+    background-color: 5,
+    _text-color: 5
+));
+
+@include component.palette-vars((
+    background-color: '$',
+    text-color: 'on-$'
+));
+
+
+// Palette State Vars
+
+@include component.palette-state-vars((
+    background-color, _text-color
+), plain);
+
+@include component.palette-state-vars((
+    background-color: plain, 
+    text-color: on-plain
+));
+
+@include component.palette-state-vars((
+    background-color: '$', 
+    text-color: 'on-$'
+));
+
+
+// Variants
+
+@include component.plain;
