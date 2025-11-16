@@ -1,3 +1,4 @@
+@use '../colors/palettes';
 @use '../colors/states';
 
 @mixin variants(
@@ -29,10 +30,15 @@
             'background-color': plain,
             'text-color': on-plain
         ));
-        @include palettes-color-state-vars((
-            'background-color': plain,
-            'text-color': on-plain
-        ));
+
+        @each $palette in palettes.$names {
+            #{$palette}-#{&} {
+                @include palettes.state-vars($palette, (
+                    'background-color': plain,
+                    'text-color': on-plain
+                ));
+            }
+        }
     }
 }
 

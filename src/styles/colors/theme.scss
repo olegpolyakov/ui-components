@@ -1,0 +1,40 @@
+@use 'sass:map';
+
+@use '../base' as *;
+@use 'colors';
+@use 'utils/color';
+@use 'utils/css';
+
+@use './states';
+@use './variants';
+
+@mixin define(
+    $base-colors,
+    $element-colors,
+    $variant-colors
+) {
+    // Base colors
+    @each $name, $color in $base-colors {
+        @include var(#{$name}-color, $color);
+        @include var(on-#{$name}-color, color.contrast-color($color));
+    }
+
+    // Element colors
+    @each $element, $color in $element-colors {
+        @include var(#{$element}-color, $color);
+    }
+
+    // Variant colors
+    @include variants.define($variant-colors, $theme-colors);
+}
+
+@mixin use($theme) {
+    #{if(&, '&', '')}[data-theme="#{$theme}"] {
+        color-scheme: #{$theme};
+        @content;
+    }
+
+    @media (prefers-color-scheme: #{$theme}) {
+        @content;
+    }
+}

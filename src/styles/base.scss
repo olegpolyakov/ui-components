@@ -76,20 +76,6 @@ $breakpoints: (
     l: map.get($screen-sizes, l)
 ) !default;
 
-@function var($name, $default-value: null) {
-    @return css.var(#{$prefix}-#{$name});
-}
-
-@mixin var($name, $value: null) {
-    --#{$prefix}-#{$name}: #{$value};
-}
-
-@mixin vars($vars, $prefix: '') {
-    @each $name, $value in $vars {
-        @include var('#{$prefix}#{$name}', $value);
-    }
-}
-
 @mixin define {
     @include vars((
         font-family: $font-family,
@@ -123,5 +109,19 @@ $breakpoints: (
 
     @each $size, $value in $screen-sizes {
         @include var(screen-#{$size}, $value);
+    }
+}
+
+@function var($name, $default-value: null) {
+    @return css.var(#{$prefix}-#{$name});
+}
+
+@mixin var($name, $value: null) {
+    --#{$prefix}-#{$name}: #{$value};
+}
+
+@mixin vars($vars, $prefix: '') {
+    @each $name, $value in $vars {
+        @include var('#{$prefix}#{$name}', $value);
     }
 }

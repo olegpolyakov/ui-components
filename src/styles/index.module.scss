@@ -1,7 +1,6 @@
 @use 'sass:string';
 
 @use 'base';
-@use 'colors';
 
 :export {
     prefix: string.unquote(base.$prefix);

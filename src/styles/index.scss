@@ -1,14 +1,13 @@
 @forward './base';
+@forward './animation' as animation-*;
 @forward './media' as media-*;
 
 @use './base';
 @use './colors';
-@use './themes';
 
 @mixin init($theme: null) {
     #{if(&, &, ':root')} {
         @include base.define();
         @include colors.define($theme);
-        @include themes.define($theme);
     }
 }

@@ -5,7 +5,7 @@
 @use 'utils/color';
 @use 'utils/css';
 
-@mixin define($variant-colors, $theme-colors) {
+@mixin define($variant-colors, $base-colors) {
     // Plain
     $plain-color: map.get($variant-colors, plain);
     @include vars((
@@ -44,22 +44,22 @@
         color-active: color.adjust($tinted-color, $alpha: 0.2)
     ), 'tinted-');
 
-    // Theme colors
-    @each $name, $color in $theme-colors {
+    // Base colors
+    @each $name, $color in $base-colors {
         // Plain
         $plain-color: color.change($color, $alpha: 0);
         @include vars((
             color: $plain-color,
             color-hover: color.change($color, $alpha: 0.1),
             color-active: color.change($color, $alpha: 0.15)
-        ), 'plain-#{$name}-');
+        ), '#{$name}-plain-');
 
         $on-plain-color: $color;
         @include vars((
             color: $on-plain-color,
             color-hover: hover-color($on-plain-color),
             color-active: active-color($on-plain-color)
-        ), 'on-plain-#{$name}-');
+        ), '#{$name}-on-plain-');
 
         // Filled
         $filled-color: $color;
@@ -67,14 +67,14 @@
             color: $filled-color,
             color-hover: hover-color($filled-color),
             color-active: active-color($filled-color)
-        ), 'filled-#{$name}-');
+        ), '#{$name}-filled-');
         
         $on-filled-color: color.contrast-color($color);
         @include vars((
             color: $on-filled-color,
             color-hover: hover-color($on-filled-color),
             color-active: active-color($on-filled-color)
-        ), 'on-filled-#{$name}-');
+        ), '#{$name}-on-filled-');
 
         // Tinted
         $tinted-color: color.change($color, $alpha: 0.2);
@@ -82,13 +82,13 @@
             color: $tinted-color,
             color-hover: color.change($color, $alpha: 0.25),
             color-active: color.change($color, $alpha: 0.3)
-        ), 'tinted-#{$name}-');
+        ), '#{$name}-tinted-');
         
         $on-tinted-color: $color;
         @include vars((
             color: $on-tinted-color,
             color-hover: color.scale($on-tinted-color, $lightness: -5%),
             color-active: color.scale($on-tinted-color, $lightness: -10%)
-        ), 'on-tinted-#{$name}-');
+        ), '#{$name}-on-tinted-');
     }
 }
