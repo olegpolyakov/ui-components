@@ -11,7 +11,7 @@
 @use './Grid';
 @use './GridItem';
 
-@include component.init(GridItem, GridItem.$vars);
+@include component.define(GridItem, GridItem.$vars);
 
 @mixin _cell-span($size, $span, $gutter) {
     $percent: math.percentage(

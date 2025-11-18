@@ -7,6 +7,6 @@
 
 $menu-shadow: base.var(shadow-m) !default;
 
-$vars: component.define(Checkbox, map.merge(Input.$vars, (
+$vars: component.vars(Checkbox, map.merge(Input.$vars, (
     menu-shadow: $menu-shadow
 )));

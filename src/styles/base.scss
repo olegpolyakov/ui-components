@@ -3,6 +3,8 @@
 @use 'utils/css';
 
 $prefix: 'kui' !default;
+$root: ':root' !default;
+$theme: null !default;
 
 $font-family: 'Fira Sans', Roboto, 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif !default;
 $font-size: 16px !default;
@@ -21,8 +23,6 @@ $opacity: (
     inactive: .75,
     disabled: .5
 ) !default;
-
-$sizes: (xxs, xs, s, m, l, xl, xxl);
 
 $font-sizes: (
     xxs: 10px,
@@ -76,39 +76,23 @@ $breakpoints: (
     l: map.get($screen-sizes, l)
 ) !default;
 
+$sizes: (xxs, xs, s, m, l, xl, xxl);
+
 @mixin define {
-    @include vars((
-        font-family: $font-family,
-        font-size: $font-size,
-        line-height: $line-height
-    ));
+    #{$root} {
+        @content;
+    }
+}
 
-    @each $size, $value in $font-sizes {
-        @include var(font-size-#{$size}, $value);
+@mixin theme($theme) {
+    [data-theme="#{$theme}"] {
+        @content;
     }
 
-    @each $weight, $value in $font-weights {
-        @include var(font-weight-#{$weight}, $value);
-    }
-
-    @each $name, $value in $opacity {
-        @include var(opacity-#{$name}, $value);
-    }
-
-    @each $size, $value in $border-radii {
-        @include var(border-radius-#{$size}, $value);
-    }
-
-    @each $size, $value in $space-sizes {
-        @include var(space-#{$size}, $value);
-    }
-
-    @each $size, $value in $shadows {
-        @include var(shadow-#{$size}, $value);
-    }
-
-    @each $size, $value in $screen-sizes {
-        @include var(screen-#{$size}, $value);
+    @include define {
+        @media (prefers-color-scheme: #{$theme}) {
+            @content;
+        }
     }
 }
 

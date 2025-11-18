@@ -2,6 +2,6 @@
 
 $gap: 8px !default;
 
-$vars: component.define(Breadcrumbs, (
+$vars: component.vars(Breadcrumbs, (
     gap: $gap
 ));

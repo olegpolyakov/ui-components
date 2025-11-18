@@ -1,13 +1,11 @@
-@use '../../src/styles/index' as styles;
+@use '../../src/styles/colors/theme';
 
-@include styles.init;
-
-@include styles.light {
-    @import 'highlight.js/scss/github.scss';
+@include theme.dark {
+    @import 'highlight.js/scss/github-dark.scss';
 }
 
-@include styles.dark {
-    @import 'highlight.js/scss/github-dark.scss';
+@include theme.light {
+    @import 'highlight.js/scss/github.scss';
 }
 
 body {

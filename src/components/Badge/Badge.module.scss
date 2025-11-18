@@ -3,7 +3,7 @@
 
 @use './Badge';
 
-@include component.init(Badge, Badge.$vars);
+@include component.define(Badge, Badge.$vars);
 
 .root {
     box-sizing: border-box;

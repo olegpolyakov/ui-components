@@ -9,7 +9,7 @@ $border-radius: base.var(border-radius-m) !default;
 $shadow: base.var(shadow-m) !default;
 $z-index: 100 !default;
 
-$vars: component.define(Dialog, (
+$vars: component.vars(Dialog, (
     padding: $padding,
     padding-x: $padding-x,
     padding-y: $padding-y,

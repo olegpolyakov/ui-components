@@ -8,7 +8,7 @@ $border-radius: 4px !default;
 $background-color: transparent !default;
 $gap: base.var(space-s) !default;
 
-$vars: component.define(Checkbox, (
+$vars: component.vars(Checkbox, (
     size: $size,
     border-color: $border-color,
     border-width: $border-width,

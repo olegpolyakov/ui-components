@@ -3,7 +3,7 @@
 
 @use './Label';
 
-@include component.init(Label, Label.$vars);
+@include component.define(Label, Label.$vars);
 
 .root {
     display: flex;

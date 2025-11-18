@@ -9,7 +9,7 @@
 
 $_value-indicator-caret-width: 6px;
 
-@include component.init(SliderThumb, SliderThumb.$vars);
+@include component.define(SliderThumb, SliderThumb.$vars);
 
 .root {
     display: flex;

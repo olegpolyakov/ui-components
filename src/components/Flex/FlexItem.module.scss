@@ -3,7 +3,7 @@
 
 @use './FlexItem';
 
-@include component.init(FlexItem, FlexItem.$vars);
+@include component.define(FlexItem, FlexItem.$vars);
 
 .root {
     flex-grow: 0;

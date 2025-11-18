@@ -22,7 +22,7 @@ $sizes: (
     xxl: (68px, 92px)
 ) !default;
 
-$vars: component.define(Heading, (
+$vars: component.vars(Heading, (
     color: $color,
     font-family: $font-family,
     font-size: $font-size,

@@ -6,7 +6,7 @@ $border-radius: --thickness !default;
 $track-color: base.var(border-color) !default;
 $bar-color: base.var(primary-color) !default;
 
-$vars: component.define(ProgressBar, (
+$vars: component.vars(ProgressBar, (
     thickness: $thickness,
     border-radius: $border-radius,
     track-color: $track-color,

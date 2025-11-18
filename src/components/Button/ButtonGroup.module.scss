@@ -6,7 +6,7 @@
 @use './Button';
 @use './ButtonGroup';
 
-@include component.init(ButtonGroup, ButtonGroup.$vars);
+@include component.define(ButtonGroup, ButtonGroup.$vars);
 
 .root {
     position: relative;

@@ -2,7 +2,7 @@
 
 @use './MenuItem';
 
-@include component.init(MenuItem, MenuItem.$vars);
+@include component.define(MenuItem, MenuItem.$vars);
 
 .root {
     min-height: component.var(height);

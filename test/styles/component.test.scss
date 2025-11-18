@@ -23,7 +23,7 @@ $vars: component.vars(Component, (
 
 // Vars
 
-.component {
+.vars {
     @include component.vars((
         background-color: red,
         text-color: white
@@ -35,38 +35,42 @@ $vars: component.vars(Component, (
 
 // Declarations
 
-@include component.declare((
-    '.small': (
-        padding-x: base.var(padding-s),
-        padding-y: base.var(padding-s),
+.declarations {
+    @include component.declare((
+        '.small': (
+            padding-x: base.var(padding-s),
+            padding-y: base.var(padding-s),
 
-        '.rounded': (
+            '.rounded': (
+                border-radius: base.var(border-radius-s)
+            )
+        ),
+        '.small.rounded:hover': (
             border-radius: base.var(border-radius-s)
         )
-    ),
-    '.small.rounded:hover': (
-        border-radius: base.var(border-radius-s)
-    )
-));
+    ));
+}
 
 
 // Classes
 
-@include component.classes((
-    small: (
-        padding-x: base.var(padding-s),
-        padding-y: base.var(padding-s)
-    ),
-    large: (
-        padding-x: base.var(padding-l),
-        padding-y: base.var(padding-l)
-    )
-));
+.classes {
+    @include component.classes((
+        small: (
+            padding-x: base.var(padding-s),
+            padding-y: base.var(padding-s)
+        ),
+        large: (
+            padding-x: base.var(padding-l),
+            padding-y: base.var(padding-l)
+        )
+    ));
+}
 
 
 // States
 
-.component {
+.states {
     @include component.states((
         hover: (
             padding-x: base.var(padding-s),
@@ -83,69 +87,93 @@ $vars: component.vars(Component, (
 // Color State Vars
 
 // 1. List usage
-.component {
+.color-state-vars-list {
     @include component.color-state-vars((
         background-color,
-        _text-color
+        border-color
     ), plain);
 }
 
 // 2. Map usage
-.component {
+.color-state-vars-map {
     @include component.color-state-vars((
         background-color: plain,
-        text-color: on-plain
+        text-color: -plain
     ));
 }
 
 
 // Palette Vars
 
-@include component.palette-vars((
-    background-color, _text-color
-), plain);
+.palettes-vars-list-with-number {
+    @include component.palette-vars((
+        background-color, border-color
+    ), 5);
+}
 
-@include component.palette-vars((
-    background-color, _text-color
-), 'plain-$');
+.palettes-vars-list-with-string {
+    @include component.palette-vars((
+        background-color, border-color
+    ), plain);
+}
 
-@include component.palette-vars((
-    background-color, _text-color
-), 5);
+.palettes-vars-list-with-placeholder {
+    @include component.palette-vars((
+        background-color, border-color
+    ), 'plain-$');
+}
 
-@include component.palette-vars((
-    background-color: plain,
-    text-color: on-plain
-));
+.palettes-vars-map-with-number{
+    @include component.palette-vars((
+        background-color: 5,
+        border-color: 5
+    ));
+}
 
-@include component.palette-vars((
-    background-color: 5,
-    _text-color: 5
-));
+.palettes-vars-map-with-string {
+    @include component.palette-vars((
+        background-color: plain,
+        text-color: -plain
+    ));
+}
 
-@include component.palette-vars((
-    background-color: '$',
-    text-color: 'on-$'
-));
+.palettes-vars-map-with-placeholder {
+    @include component.palette-vars((
+        background-color: 'plain-$',
+        text-color: '-plain-$'
+    ));
+}
 
 
 // Palette State Vars
 
-@include component.palette-state-vars((
-    background-color, _text-color
-), plain);
+.palette-state-vars-list-with-string {
+    @include component.palette-state-vars((
+        background-color, border-color
+    ), plain);
+}
 
-@include component.palette-state-vars((
-    background-color: plain, 
-    text-color: on-plain
-));
+.palette-state-vars-map-with-string {
+    @include component.palette-state-vars((
+        background-color: plain, 
+        border-color: plain
+    ));
+}
 
-@include component.palette-state-vars((
-    background-color: '$', 
-    text-color: 'on-$'
-));
+.palette-state-vars-map-with-placeholder {
+    @include component.palette-state-vars((
+        background-color: '$', 
+        text-color: '-$'
+    ));
+}
 
 
 // Variants
 
-@include component.plain;
+.variants {
+    @include component.plain;
+    @include component.filled;
+    @include component.outlined;
+    @include component.tinted;
+    @include component.outlined-tinted;
+}

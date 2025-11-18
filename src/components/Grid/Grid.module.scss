@@ -9,7 +9,7 @@
 @use './variables';
 @use './Grid';
 
-@include component.init(Grid, Grid.$vars);
+@include component.define(Grid, Grid.$vars);
 
 .root {
     @each $size in map.keys(variables.$columns) {

@@ -6,7 +6,7 @@
 @use '../Select';
 @use './Combobox';
 
-@include component.init(Combobox, Combobox.$vars);
+@include component.define(Combobox, Combobox.$vars);
 
 .root {
     box-sizing: border-box;

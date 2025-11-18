@@ -3,7 +3,7 @@
 
 @use './Radio';
 
-@include component.init(Radio, Radio.$vars);
+@include component.define(Radio, Radio.$vars);
 
 .root {
     display: flex;

@@ -3,7 +3,7 @@
 
 @use './Textarea';
 
-@include component.init(Textarea, Textarea.$vars);
+@include component.define(Textarea, Textarea.$vars);
 
 .root {
     box-sizing: border-box;

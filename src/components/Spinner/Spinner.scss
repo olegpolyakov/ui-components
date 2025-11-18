@@ -5,7 +5,7 @@ $size: base.var(size-m) !default;
 $color: base.var(primary-color) !default;
 $animation-speed: 0.75s !default;
 
-$vars: component.define(Spinner, (
+$vars: component.vars(Spinner, (
     size: $size,
     color: $color,
     animation-speed: $animation-speed

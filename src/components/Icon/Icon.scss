@@ -12,7 +12,7 @@ $sizes: (
 $font: 'Material Symbols Outlined' !default;
 $size: map.get($sizes, m) !default;
 
-$vars: component.define(Icon, (
+$vars: component.vars(Icon, (
     font: $font,
     size: $size
 ));

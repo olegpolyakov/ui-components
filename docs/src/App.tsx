@@ -1,18 +1,18 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, useLocation } from 'react-router-dom';
 
 import { Button, Heading, List, Provider } from '~/components';
-import { useTheme } from '~/hooks/theme';
 
 import styles from './App.module.scss';
 
 import routes from './routes';
+import type { Theme } from '~/types';
 
 export default function App() {
-    const [theme, setTheme] = useTheme();
+    const [theme, setTheme] = useState<Theme>('dark');
 
     return (
-        <Provider>
+        <Provider theme={theme}>
             <Router basename={import.meta.env.BASE_URL}>
                 <div className={styles.root}>
                     <aside className={styles.aside}>

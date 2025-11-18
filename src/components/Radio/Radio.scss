@@ -6,7 +6,7 @@ $border-color: base.var(border-color) !default;
 $background-color: base.var(surface-color) !default;
 $gap: base.var(space-s) !default;
 
-$vars: component.define(Radio, (
+$vars: component.vars(Radio, (
     size: $size,
     border-color: $border-color,
     background-color: $background-color,

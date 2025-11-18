@@ -3,6 +3,6 @@
 
 $color: base.var(border-color) !default;
 
-$vars: component.define(Divider, (
+$vars: component.vars(Divider, (
     color: $color,
 ));

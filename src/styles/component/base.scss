@@ -2,44 +2,155 @@
 @use 'sass:meta';
 
 @use '../base';
+@use 'colors';
+@use 'colors/palettes';
+@use 'colors/states';
+@use 'utils/css';
+@use 'utils/list';
+@use 'utils/string';
+@use 'utils/type';
 
-@use './utils/css';
-@use './utils/list';
-@use './utils/string';
-@use './utils/type';
+$-name: '';
+$-vars: ();
 
-@function get-value($value: null, $prefix: null) {
+@mixin define($name, $vars) {
+    $-name: $name !global;
+    $-vars: $vars !global;
+
+    #{if(&, '&', '.root')} {
+        @include vars($vars);
+    }
+}
+
+@function vars($component, $vars) {
+    $_vars: ();
+
+    @each $name, $value in $vars {
+        $_vars: map.merge($_vars, (
+            $name: _get-value($value, $component)
+        ));
+    }
+
+    @return $_vars;
+}
+
+@function var($name) {
+    @if not map.has-key($-vars, $name) {
+        @error 'No variable "#{$name}"';
+    }
+
+    $value: map.get($-vars, $name);
+
+    @if _is-private-var($name) {
+        @return css.var($name, $value);
+    } @else {
+        @return base.var('#{$-name}-#{$name}', $value);
+    }
+}
+
+@mixin vars($vars) {
+    @each $name, $value in $vars {
+        @include var($name, $value);
+    }
+}
+
+@mixin var($name, $value) {
+    $_value: _get-value($value);
+
+    @if _is-private-var($name) {
+        @include css.var($name, $_value);
+    } @else {
+        @include base.var('#{$-name}-#{$name}', $_value);
+    }
+}
+
+@mixin declare($vars) {
+    @each $name, $value in $vars {
+        @if type.is-map($value) {
+            #{if(&, '&', '')}#{$name} {
+                @include declare($value);
+            }
+        } @else {
+            @include var($name, $value);
+        }
+    }
+}
+
+@mixin classes($map) {
+    @each $class, $vars in $map {
+        #{if(&, '&', '')}.#{$class} {
+            @include vars($vars);
+        }
+    }
+}
+
+@mixin states($map) {
+    @each $state, $vars in $map {
+        &:#{$state} {
+            @include vars($vars);
+        }
+    }
+}
+
+@mixin color-state-vars($args...) {
+    @include states.vars(
+        $prefix: '#{$-name}-',
+        $args...
+    );
+}
+
+@mixin palettes-vars($args...) {
+    @include palettes.define using ($palette) {
+        @include palettes.vars(
+            $palette,
+            $prefix: '#{$-name}-',
+            $args...
+        );
+    }
+}
+
+@mixin palettes-state-vars($args...) {
+    @include palettes.define using ($palette) {
+        @include palettes.state-vars(
+            $palette,
+            $prefix: '#{$-name}-',
+            $args...
+        );
+    }
+}
+
+@function _get-value($value: null, $prefix: null) {
     @if type.is-list($value) {
         @return list.map(
             $value,
-            meta.get-function('get-value'),
+            meta.get-function('_get-value'),
             $prefix
         );
     }
 
-    @if is-private-var-value($value) {
+    @if _is-private-var-value($value) {
         @return css.var(string.slice($value, 3));
     }
 
-    @if is-public-var-value($value) {
+    @if _is-public-var-value($value) {
         @return base.var('#{$prefix}-#{string.slice($value, 3)}');
     }
 
     @return $value;
 }
 
-@function is-private-var($name) {
+@function _is-private-var($name) {
     @return string.starts-with($name, '_');
 }
 
-@function is-private-var-value($value) {
+@function _is-private-var-value($value) {
     @return string.starts-with($value, '--_');
 }
 
-@function is-public-var($name) {
+@function _is-public-var($name) {
     @return string.starts-with($name, '--');
 }
 
-@function is-public-var-value($value) {
+@function _is-public-var-value($value) {
     @return string.starts-with($value, '--');
 }

@@ -9,7 +9,7 @@ $border-width: 0px !default;
 $text-color: base.var(text-secondary-color) !default;
 $indicator-width: 2px !default;
 
-$vars: component.define(Tab, (
+$vars: component.vars(Tab, (
     height: $height,
     gap: $gap,
     border-color: $border-color,

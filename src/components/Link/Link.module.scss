@@ -7,7 +7,7 @@
 
 @use './Link';
 
-@include component.init(Link, Link.$vars);
+@include component.define(Link, Link.$vars);
 
 .root {
     background-color: transparent;

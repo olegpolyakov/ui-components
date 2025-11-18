@@ -9,7 +9,7 @@
 @forward 'component' show var, vars;
 
 .common {
-    @include component.init(Select, Select.$vars);
+    @include component.define(Select, Select.$vars);
     box-sizing: border-box;
     border-radius: component.var(border-radius);
     transition:

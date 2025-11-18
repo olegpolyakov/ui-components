@@ -7,7 +7,7 @@
 
 @use './Text';
 
-@include component.init(Text, Text.$vars);
+@include component.define(Text, Text.$vars);
 
 .root {
     margin: 0;
@@ -46,7 +46,7 @@
 
 // Sizes
 
-@each $size, $values in base.$text-sizes {
+@each $size, $values in Text.$sizes {
     $font-size: list.nth($values, 1);
     $line-height: list.nth($values, 2);
 
@@ -119,7 +119,7 @@
     opacity: base.var(opacity-muted);
 }
 
-@include component.declare((
+@include component.classes((
     mt: 1em,
     mt-s: (margin-top: base.var(space-s)),
     mt-m: (margin-top: base.var(space-m)),

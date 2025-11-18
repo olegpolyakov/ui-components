@@ -10,7 +10,7 @@ $background-color: transparent !default;
 $text-color: base.var(text-primary-color) !default;
 $font-size: base.var(font-size-xs) !default;
 
-$vars: component.define(Badge, (
+$vars: component.vars(Badge, (
     size: $size,
     padding-x: $padding-x,
     border-color: $border-color,

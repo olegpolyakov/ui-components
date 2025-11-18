@@ -2,7 +2,7 @@
 
 @use './Table';
 
-@include component.init(Table, Table.$vars);
+@include component.define(Table, Table.$vars);
 
 .root {
     width: 100%;

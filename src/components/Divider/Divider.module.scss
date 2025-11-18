@@ -3,7 +3,7 @@
 
 @use './Divider';
 
-@include component.init(Divider, Divider.$vars);
+@include component.define(Divider, Divider.$vars);
 
 .root {
     display: block;

@@ -5,7 +5,7 @@ $height: auto !default;
 $padding: (base.var(space-xs) 0) !default;
 $background-color: base.var(surface-color) !default;
 
-$vars: component.define(Menu, (
+$vars: component.vars(Menu, (
     height: $height,
     padding: $padding,
     background-color: $background-color

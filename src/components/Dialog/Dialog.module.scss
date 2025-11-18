@@ -1,9 +1,9 @@
+@use 'base';
 @use 'component';
-@use 'theme';
 
 @use './Dialog';
 
-@include component.init(Dialog, Dialog.$vars);
+@include component.define(Dialog, Dialog.$vars);
 
 .root {
     position: relative;

@@ -3,7 +3,7 @@
 $enter-duration: 150ms !default;
 $exit-duration: 75ms !default;
 
-$vars: component.define(Toast, (
+$vars: component.vars(Toast, (
     enter-duration: $enter-duration,
     exit-duration: $exit-duration
 ));

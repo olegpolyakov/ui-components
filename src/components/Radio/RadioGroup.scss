@@ -3,6 +3,6 @@
 
 $gap: base.var(space-s) !default;
 
-$vars: component.define(RadioGroup, (
+$vars: component.vars(RadioGroup, (
     gap: $gap,
 ));

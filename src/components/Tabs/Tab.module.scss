@@ -3,7 +3,7 @@
 
 @use './Tab';
 
-@include component.init(Tab, Tab.$vars);
+@include component.define(Tab, Tab.$vars);
 
 .root {
     box-sizing: border-box;

@@ -4,7 +4,7 @@
 
 @use './ProgressCircle';
 
-@include component.init(ProgressCircle, ProgressCircle.$vars);
+@include component.define(ProgressCircle, ProgressCircle.$vars);
 
 .root {
     display: inline-flex;

@@ -1,3 +1,7 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:math';
+
 @use 'base';
 @use 'component';
 
@@ -23,7 +27,7 @@ $sizes: (
     xxl: (28px, 34px)
 ) !default;
 
-$vars: component.define(Text, (
+$vars: component.vars(Text, (
     color: $color,
     hover-color: $hover-color,
     active-color: $active-color,

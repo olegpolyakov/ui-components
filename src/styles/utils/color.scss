@@ -21,12 +21,21 @@
     @return red($color), green($color), blue($color);
 }
 
-@function hex($color, $alpha: false) {
+@function is-rgb($args...) {
+    @return color.space($args...) == rgb;
+}
+
+@function hex($color) {
     $hex: color.ie-hex-str($color); // returns #AARRGGBB
-    @return if($alpha,
+    $has-alpha: color.alpha($color) < 1;
+    @return string.to-lower-case(if($has-alpha,
         string.unquote("##{string.slice($hex, 4)}#{string.slice($hex, 2, 3)}"), // #RRGGBBAA
         string.unquote("##{string.slice($hex, 4)}") // #RRGGBB
-    );
+    ));
+}
+
+@function is-hex($color) {
+    @return string.starts-with($color, '#');
 }
 
 @function red($color) {
@@ -47,6 +56,10 @@
 
 @function hsl($color) {
     @return color.hue($color), color.saturation($color), color.lightness($color);
+}
+
+@function lightness($color) {
+    @return color.channel($color, 'lightness', $space: hsl);
 }
 
 @function contrast-color($color, $dark-color: #000, $light-color: #fff, $invert: false) {

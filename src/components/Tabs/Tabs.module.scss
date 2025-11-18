@@ -2,4 +2,4 @@
 
 @use './Tabs';
 
-@include component.init(Tabs, Tabs.$vars);
+@include component.define(Tabs, Tabs.$vars);

@@ -3,7 +3,7 @@
 
 @use './Flex';
 
-@include component.init(Flex, Flex.$vars);
+@include component.define(Flex, Flex.$vars);
 
 .root {
     display: flex;

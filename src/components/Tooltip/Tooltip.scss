@@ -11,7 +11,7 @@ $font-size: base.var(font-size-s) !default;
 $shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.10) !default;
 $arrow-offset: -3px !default;
 
-$vars: component.define(Tooltip, (
+$vars: component.vars(Tooltip, (
     max-width: $max-width,
     gap: $gap,
     padding: $padding,

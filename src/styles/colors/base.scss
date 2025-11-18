@@ -5,8 +5,8 @@
 @use 'utils/string';
 @use 'utils/type';
 
-$black: #000 !default;
-$white: #fff !default;
+$black: #000000 !default;
+$white: #ffffff !default;
 $gray: #98979d !default;
 $red: #db4437 !default;
 $orange: #f4b400 !default;
@@ -15,30 +15,14 @@ $blue: #4285f4 !default;
 $purple: #ab47bc !default;
 
 @mixin var(
-    $prop,
+    $name,
     $color,
-    $on: false,
-    $prefix: ''
+    $prefix: '',
+    $postfix: ''
 ) {
-    $_prefix: null;
-    $_postfix: null;
-
-    @if $on {
-        $_prefix: 'on-';
-    }
-
-    @if string.starts-with($prop, '_') {
-        $_prefix: 'on-';
-        $prop: string.slice($prop, 2);
-    }
-
     @if type.is-string($color) {
-        @if $_prefix {
-            $color: #{$_prefix}#{$color};
-        }
-
-        @if $_postfix {
-            $color: #{$color}#{$_postfix};
+        @if string.starts-with($color, '-') {
+            $color: #{string.slice($color, 2)}-contrast;
         }
 
         @if not string.contains($color, '-color') {
@@ -46,13 +30,21 @@ $purple: #ab47bc !default;
         }
 
         $color: base.var($color);
+    } @else if type.is-color($color) {
+        $color: color.hex($color);
     }
 
-    @include base.var(#{$prefix}#{$prop}, $color);
+    @include base.var(#{$prefix}#{$name}#{$postfix}, $color);
 }
 
-@mixin vars($vars, $prefix: null) {
+@mixin vars($vars, $args...) {
     @each $name, $value in $vars {
-        @include var($name, $value, $prefix: $prefix);
+        @if type.is-map($value) {
+            @each $-name, $-value in $value {
+                @include var($-name, $-value, $args...);
+            }
+        } @else {
+            @include var($name, $value, $args...);
+        }
     }
 }

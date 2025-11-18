@@ -2,7 +2,7 @@
 
 @use './TabsList';
 
-@include component.init(TabsList, TabsList.$vars);
+@include component.define(TabsList, TabsList.$vars);
 
 .root {
     display: flex;

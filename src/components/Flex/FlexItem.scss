@@ -1,3 +1,3 @@
 @use 'component';
 
-$vars: component.define(FlexItem, ());
+$vars: component.vars(FlexItem, ());

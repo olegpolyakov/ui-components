@@ -3,7 +3,7 @@
 
 @use './Button';
 
-@include component.init(Button, Button.$vars);
+@include component.define(Button, Button.$vars);
 
 .root {
     box-sizing: border-box;
@@ -42,21 +42,21 @@
     }
 
     &:hover {
-        border-color: component.var(border-color-hover);
-        background-color: component.var(background-color-hover);
-        color: component.var(text-color-hover);
+        border-color: component.var(border-hover-color);
+        background-color: component.var(background-hover-color);
+        color: component.var(text-hover-color);
     }
     
     &.active,
     &:active {
-        border-color: component.var(border-color-active);
-        background-color: component.var(background-color-active);
-        color: component.var(text-color-active);
+        border-color: component.var(border-active-color);
+        background-color: component.var(background-active-color);
+        color: component.var(text-active-color);
     }
     
     &.loading,
     &:disabled {
-        opacity: base.var(disabled-opacity);
+        opacity: base.var(opacity-disabled);
         cursor: default;
     }
 }
@@ -78,22 +78,10 @@
     width: 100%;
 }
 
-.icon-before {
-    .icon {
-        order: 0;
-    }
-}
-
-.icon-after {
-    .icon {
-        order: 1;
-    }
-}
-
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     xs: (
         height: 24px,
         padding: 8px,
@@ -141,23 +129,36 @@
 @include component.variants;
 
 .text {
+    @include component.vars((
+        height: auto,
+        padding: 0,
+        background-color: transparent,
+        line-height: inherit
+    ));
+
     @include component.color-state-vars((
         'text-color': primary
     ));
-    @include component.palettes-color-state-vars('text-color');
-
-    @include component.vars((
-        height: auto,
-        line-height: inherit,
-        background-color: transparent,
-        padding: 0
-    ));
 
     justify-content: flex-start;
+
+    @include component.palettes-state-vars('text-color');
 }
 
 
 // Icon
+
+.icon-before {
+    .icon {
+        order: 0;
+    }
+}
+
+.icon-after {
+    .icon {
+        order: 1;
+    }
+}
 
 .icon-button {
     @include component.vars((
@@ -169,21 +170,21 @@
     min-height: auto;
 
     @include component.declare((
-        xs: (
+        -xs: (
             height: 16px,
             border-radius: base.var(border-radius-xs)
         ),
-        s: (
+        -s: (
             height: 24px,
             border-radius: base.var(border-radius-s)
         ),
-        m: (
+        -m: (
             height: 32px
         ),
-        l: (
+        -l: (
             height: 40px
         ),
-        xl: (
+        -xl: (
             height: 48px
         )
     ));

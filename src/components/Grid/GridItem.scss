@@ -10,7 +10,7 @@ $gutter-desktop: null !default;
 $gutter-tablet: null !default;
 $gutter-phone: null !default;
 
-$vars: component.define(GridItem, (
+$vars: component.vars(GridItem, (
     columns-desktop: $columns-desktop,
     columns-tablet: $columns-tablet,
     columns-phone: $columns-phone,

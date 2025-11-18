@@ -7,7 +7,7 @@
 
 $menu-shadow: base.var(shadow-m) !default;
 
-$vars: component.define(Select, map.merge(Input.$vars, (
+$vars: component.vars(Select, map.merge(Input.$vars, (
     menu-shadow: $menu-shadow
 )));
 

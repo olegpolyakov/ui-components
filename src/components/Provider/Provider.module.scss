@@ -1,19 +1,9 @@
-@use 'base';
-@use 'colors';
-@use 'theme';
+@use 'index' as base with (
+    $root: '.root'
+);
 
 .root {
-    @include theme.base;
-
     background-color: base.var(background-color);
     color: base.var(text-color);
     font-family: base.var(font-family);
-}
-
-.light {
-    @include colors.define(light);
-}
-
-.dark {
-    @include colors.define(dark);
 }

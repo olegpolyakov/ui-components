@@ -3,7 +3,7 @@
 
 @use './Pill';
 
-@include component.init(Pill, Pill.$vars);
+@include component.define(Pill, Pill.$vars);
 
 .root {
     box-sizing: border-box;

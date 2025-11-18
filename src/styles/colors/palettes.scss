@@ -6,7 +6,7 @@
 @use 'utils/string';
 @use 'utils/type';
 
-@use './base' as *;
+@use './base' as colors;
 @use './states';
 
 $neutral: (
@@ -107,18 +107,6 @@ $warning: (
     10: #523c00
 ) !default;
 
-$map: (
-    neutral: $neutral,
-    primary: $primary,
-    secondary: $secondary,
-    danger: $danger,
-    info: $info,
-    success: $success,
-    warning: $warning
-);
-
-$names: map.keys($map);
-
 $neutral-0: map.get($neutral, 0);
 $neutral-1: map.get($neutral, 1);
 $neutral-2: map.get($neutral, 2);
@@ -203,19 +191,19 @@ $warning-8: map.get($warning, 8);
 $warning-9: map.get($warning, 9);
 $warning-10: map.get($warning, 10);
 
-@mixin define() {
-    @each $name, $palette in $map {
-        @each $level, $color in $palette {
-            @include base.var(#{$name}-#{$level}-color, $color);
-        }
-        
-        @each $level, $color in contrast($palette) {
-            @include base.var(on-#{$name}-#{$level}-color, $color);
-        }
-    }
-}
+$map: (
+    neutral: $neutral,
+    primary: $primary,
+    secondary: $secondary,
+    danger: $danger,
+    info: $info,
+    success: $success,
+    warning: $warning
+);
 
-@function generate($color, $steps: 11) { 
+$names: map.keys($map);
+
+@function create($color, $steps: 11) { 
     $map: ();
     @for $i from 0 through $steps - 1 {
       $lightness: 90% - math.div($i * (90% - 10%), ($steps - 1));
@@ -235,7 +223,7 @@ $warning-10: map.get($warning, 10);
     @return $map;
 }
 
-@mixin each {
+@mixin define {
     @each $palette in $names {
         #{if(&, '&.#{$palette}', '.#{$palette}')} {
             @content($palette);
@@ -247,8 +235,7 @@ $warning-10: map.get($warning, 10);
     $palette,
     $props,
     $color: null,
-    $on: false,
-    $prefix: ''
+    $args...
 ) {
     @if type.is-list($props) {
         @each $prop in $props {
@@ -256,34 +243,40 @@ $warning-10: map.get($warning, 10);
                 $palette,
                 $prop,
                 $color,
-                $on,
-                $prefix
+                $args...
             );
         }
     } @else if type.is-map($props) {
-        @each $prop, $value in $props {
+        @each $name, $value in $props {
             @include vars(
                 $palette,
-                $prop,
+                $name,
                 $value,
-                $on,
-                $prefix
+                $args...
+            );
+        }
+    } @else if type.is-map($color) {
+        @each $name, $value in $color {
+            @include vars(
+                $palette,
+                $name,
+                $value,
+                $args...
             );
         }
     } @else {
-        @if type.is-string($color) and string.contains($color, '$') {
-            $color: string.replace($color, '$', $palette);
-        } @else if type.is-number($color) or type.is-string($color) {
+         @if type.is-number($color) {
             $color: '#{$palette}-#{$color}';
-        } @else {
-            $color: $palette;
+        } @else if string.contains($color, '$') {
+            $color: string.replace($color, '$', $palette);
+        } @else if not string.contains($color, $palette) {
+            $color: '#{$color}-#{$palette}';
         }
 
-        @include var(
+        @include colors.var(
             $props,
             $color,
-            $on,
-            $prefix
+            $args...
         );
     }
 }
@@ -292,8 +285,7 @@ $warning-10: map.get($warning, 10);
     $palette,
     $props,
     $color: null,
-    $on: false,
-    $prefix: ''
+    $args...
 ) {
     @if type.is-list($props) {
         @each $prop in $props {
@@ -301,8 +293,7 @@ $warning-10: map.get($warning, 10);
                 $palette,
                 $prop,
                 $color,
-                $on,
-                $prefix
+                $args...
             );
         }
     } @else if type.is-map($props) {
@@ -311,15 +302,14 @@ $warning-10: map.get($warning, 10);
                 $palette,
                 $prop,
                 $value,
-                $on,
-                $prefix
+                $args...
             );
         }
     } @else {
-        @if type.is-string($color) and string.contains($color, '$') {
+        @if string.contains($color, '$') {
             $color: string.replace($color, '$', $palette);
-        } @else if type.is-number($color) or type.is-string($color) {
-            $color: '#{$palette}-#{$color}';
+        } @else if $color {
+            $color: '#{$color}-#{$palette}';
         } @else {
             $color: $palette;
         }
@@ -327,8 +317,7 @@ $warning-10: map.get($warning, 10);
         @include states.vars(
             $props,
             $color,
-            (),
-            $prefix
+            $args...
         );
     }
 }

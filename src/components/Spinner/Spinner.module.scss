@@ -3,7 +3,7 @@
 
 @use './Spinner';
 
-@include component.init(Spinner, Spinner.$vars);
+@include component.define(Spinner, Spinner.$vars);
 
 .root {
     display: inline-block;

@@ -11,7 +11,7 @@ $background-active-color: base.var(plain-active-color) !default;
 $border-color: base.var(border-color) !default;
 $font-size: base.var(font-size-m) !default;
 
-$vars: component.define(AccordionItem, (
+$vars: component.vars(AccordionItem, (
     height: $height,
     padding-x: $padding-x,
     padding-y: $padding-y,

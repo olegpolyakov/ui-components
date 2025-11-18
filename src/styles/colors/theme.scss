@@ -1,40 +1,36 @@
 @use 'sass:map';
 
-@use '../base' as *;
-@use 'colors';
+@use '../base';
 @use 'utils/color';
-@use 'utils/css';
 
-@use './states';
-@use './variants';
-
-@mixin define(
-    $base-colors,
-    $element-colors,
-    $variant-colors
-) {
-    // Base colors
-    @each $name, $color in $base-colors {
-        @include var(#{$name}-color, $color);
-        @include var(on-#{$name}-color, color.contrast-color($color));
+@mixin define($theme) {
+    @include base.theme($theme) {
+        @content;
     }
-
-    // Element colors
-    @each $element, $color in $element-colors {
-        @include var(#{$element}-color, $color);
-    }
-
-    // Variant colors
-    @include variants.define($variant-colors, $theme-colors);
 }
 
-@mixin use($theme) {
-    #{if(&, '&', '')}[data-theme="#{$theme}"] {
-        color-scheme: #{$theme};
+@mixin dark {
+    @include base.theme(dark) {
         @content;
     }
+}
 
-    @media (prefers-color-scheme: #{$theme}) {
+@mixin light {
+    @include base.theme(light) {
         @content;
+    }
+}
+
+@mixin vars(
+    $base-colors,
+    $element-colors
+) {
+    @each $name, $color in $base-colors {
+        @include base.var(#{$name}-color, $color);
+        @include base.var(#{$name}-contrast-color, color.contrast-color($color));
+    }
+
+    @each $element, $color in $element-colors {
+        @include base.var(#{$element}-color, $color);
     }
 }

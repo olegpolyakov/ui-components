@@ -4,7 +4,7 @@
 
 @use './ProgressBar';
 
-@include component.init(ProgressBar, ProgressBar.$vars);
+@include component.define(ProgressBar, ProgressBar.$vars);
 
 .root {
     position: relative;

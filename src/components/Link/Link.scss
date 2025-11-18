@@ -6,7 +6,7 @@ $hover-color: base.var(primary-color-hover) !default;
 $active-color: base.var(primary-color-active) !default;
 $disabled-color: base.var(primary-color-disabled) !default;
 
-$vars: component.define(Link, (
+$vars: component.vars(Link, (
     color: $color,
     hover-color: $hover-color,
     active-color: $active-color,

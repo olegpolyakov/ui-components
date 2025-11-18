@@ -8,7 +8,7 @@ $font-size: base.var(font-size-m) !default;
 $font-weight: 400 !default;
 $line-height: 1.5 !default;
 
-$vars: component.define(Option, (
+$vars: component.vars(Option, (
     padding: $padding,
     background-color: $background-color,
     text-color: $text-color,

@@ -3,7 +3,7 @@
 
 @use './Tooltip';
 
-@include component.init(Tooltip, Tooltip.$vars);
+@include component.define(Tooltip, Tooltip.$vars);
 
 .root {
     box-sizing: border-box;

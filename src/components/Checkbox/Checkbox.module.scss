@@ -3,7 +3,7 @@
 
 @use './Checkbox';
 
-@include component.init(Checkbox, Checkbox.$vars);
+@include component.define(Checkbox, Checkbox.$vars);
 
 .root {
     display: flex;

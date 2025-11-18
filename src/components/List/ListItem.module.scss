@@ -3,7 +3,7 @@
 
 @use './ListItem';
 
-@include component.init(ListItem, ListItem.$vars);
+@include component.define(ListItem, ListItem.$vars);
 
 .root {
     box-sizing: border-box;

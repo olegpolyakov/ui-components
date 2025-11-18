@@ -14,7 +14,7 @@ $font-size: base.var(font-size-m) !default;
 $font-weight: base.var(font-weight-normal) !default;
 $line-height: base.var(line-height) !default;
 
-$vars: component.define('Input', (
+$vars: component.vars('Input', (
     height: $height,
     padding: $padding,
     gap: $gap,

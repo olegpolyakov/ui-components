@@ -11,7 +11,7 @@ $background-color: base.var(background-color) !default;
 $text-color: base.var(text-color) !default;
 $_inner-height: auto !default;
 
-$vars: component.define(Textarea, (
+$vars: component.vars(Textarea, (
     height: $height,
     gap: $gap,
     font-size: $font-size,

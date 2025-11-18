@@ -1,7 +1,10 @@
-@use 'colors/palettes';
+@use '../base';
 @use 'utils/color';
 
+@use './base' as colors;
+@use './palettes';
 @use './theme';
+@use './variants';
 
 $neutral-color: palettes.$neutral-5 !default;
 $primary-color: palettes.$primary-5 !default;
@@ -67,12 +70,14 @@ $variant-colors: (
     tinted: $tinted-color
 ) !default;
 
-@mixin define {
-    @include theme.use(light) {
-        @include theme.define(
-            $base-colors,
-            $element-colors,
-            $variant-colors
-        );
-    }
+@mixin vars {
+    @include theme.vars(
+        $base-colors,
+        $element-colors
+    );
+
+    @include variants.vars(
+        $variant-colors,
+        $base-colors
+    );
 }

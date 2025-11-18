@@ -2,7 +2,7 @@
 
 @use './Breadcrumbs';
 
-@include component.init(Breadcrumbs, Breadcrumbs.$vars);
+@include component.define(Breadcrumbs, Breadcrumbs.$vars);
 
 .root {
     display: flex;

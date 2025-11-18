@@ -7,7 +7,7 @@
 
 @use './Heading';
 
-@include component.init(Heading, Heading.$vars);
+@include component.define(Heading, Heading.$vars);
 
 .root {
     margin: component.var(margin-top) 0 component.var(margin-bottom);

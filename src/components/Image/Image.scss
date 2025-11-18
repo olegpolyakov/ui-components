@@ -3,6 +3,6 @@
 
 $border-radius: base.var(border-radius-s) !default;
 
-$vars: component.define(Image, (
+$vars: component.vars(Image, (
     border-radius: $border-radius,
 ));

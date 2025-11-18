@@ -11,7 +11,7 @@ $border-radius: base.var(border-radius-m) !default;
 $border-width: 1px !default;
 $font-size: base.var(font-size) !default;
 
-$vars: component.define(MenuItem, (
+$vars: component.vars(MenuItem, (
     height: $height,
     padding: $padding,
     gap: $gap,

@@ -1,16 +1,25 @@
 @use 'sass:map';
 
 @use 'utils/color';
+@use 'utils/string';
 @use 'utils/type';
 
 @use './base' as *;
 
 @function hover-color($color, $invert: false) {
-    @return color.scale($color, $lightness: if($invert, 5%, -5%));
+    @if color.alpha($color) < 1 {
+        @return color.scale($color, $alpha: if($invert, -0.05, 0.05));
+    } @else {
+        @return color.scale($color, $lightness: if($invert, 5%, -5%));
+    }
 }
 
 @function active-color($color, $invert: false) {
-    @return color.scale($color, $lightness: if($invert, 10%, -10%));
+    @if color.alpha($color) < 1 {
+        @return color.scale($color, $alpha: if($invert, -0.1, 0.1));
+    } @else {
+        @return color.scale($color, $lightness: if($invert, 10%, -10%));
+    }
 }
 
 @function state-colors($color, $override: ()) {
@@ -26,63 +35,80 @@
     );
 }
 
-@mixin vars(
-    $props,
-    $color: null,
-    $override: (),
-    $prefix: ''
-) {
-    @if type.is-list($props) {
-        @each $prop in $props {
-            @include _vars(
-                $prop,
-                $color,
-                $override,
-                $prefix
-            );
+@function get($name, $color) {
+    $colors: ();
+
+    @if type.is-color($color) {
+        $colors: state-colors($color);
+    } @else if type.is-string($color) {
+        @if string.starts-with($color, '-') {
+            $color: #{string.slice($color, 2)}-contrast;
         }
-    } @else if type.is-map($props) {
-        @each $prop, $value in $props {
-            @include _vars(
-                $prop,
-                $value,
-                $override,
-                $prefix
-            );
+        
+        $colors: (
+            'hover': #{$color}-hover,
+            'active': #{$color}-active
+        );
+    } @else if type.is-map($color) {
+        $colors: $color
+    }
+
+    @return (
+        '#{$name}': $color,
+        '#{_get-var-name($name, 'hover')}': map.get($colors, 'hover'),
+        '#{_get-var-name($name, 'active')}': map.get($colors, 'active')
+    );
+}
+
+@mixin vars($arg, $args...) {
+    @if type.is-list($arg) {
+        @each $name in $arg {
+            @include _vars($name, $args...);
+        }
+    } @else if type.is-map($arg) {
+        @each $name, $value in $arg {
+            @include _vars($name, $value, $args...);
         }
     } @else {
-        @include _vars(
-            $props,
-            $color,
-            $override,
-            $prefix
-        );
+        @include _vars($arg, $args...);
     }
 }
 
 @mixin _vars(
     $name,
     $color: null,
-    $override: (),
-    $prefix: ''
+    $override: null,
+    $args...
 ) {
     $colors: ();
 
     @if type.is-color($color) {
-        $colors: map.merge(('base': $color), state-colors($value));
+        $colors: state-colors($color);
     } @else if type.is-string($color) {
+        @if string.starts-with($color, '-') {
+            $color: #{string.slice($color, 2)}-contrast;
+        }
+        
         $colors: (
-            'base': #{$color}-color,
-            'hover': #{$color}-color-hover,
-            'active': #{$color}-color-active
+            'hover': #{$color}-hover,
+            'active': #{$color}-active
         );
     } @else if type.is-map($color) {
         $colors: $color
     }
 
-    $colors: map.merge($colors, $override);
+    @if $override != null {
+        $colors: map.merge($colors, $override);
+    }
 
-    @include var($name, map.get($colors, 'base'), $prefix: $prefix);
-    @include var(#{$name}-hover, map.get($colors, 'hover'), $prefix: $prefix);
-    @include var(#{$name}-active, map.get($colors, 'active'), $prefix: $prefix);
+    @include var(_get-var-name($name, 'hover'), map.get($colors, 'hover'), $args...);
+    @include var(_get-var-name($name, 'active'), map.get($colors, 'active'), $args...);
+}
+
+@function _get-var-name($name, $state) {
+    @if (string.ends-with($name, '-color')) {
+        @return '#{string.replace($name, '-color', '')}-#{$state}-color';
+    } @else {
+        @return '#{$name}-#{$state}';
+    }
 }

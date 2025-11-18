@@ -12,7 +12,7 @@ $text-color: base.var(text-color) !default;
 $font-size: base.var(font-size-medium) !default;
 $shadow: none !default;
 
-$vars: component.define(Alert, (
+$vars: component.vars(Alert, (
     height: $height,
     padding: $padding,
     gap: $gap,

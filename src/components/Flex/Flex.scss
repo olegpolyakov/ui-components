@@ -3,7 +3,7 @@
 $gap: null !default;
 $padding: null !default;
 
-$vars: component.define(Flex, (
+$vars: component.vars(Flex, (
     gap: $gap,
     padding: $padding,
 ));

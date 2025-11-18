@@ -9,7 +9,7 @@ $border-radius: base.var(border-radius-m) !default;
 $border-width: 1px !default;
 $shadow: base.var(shadow) !default;
 
-$vars: component.define(Popover, (
+$vars: component.vars(Popover, (
     padding: $padding,
     background-color: $background-color,
     text-color: $text-color,

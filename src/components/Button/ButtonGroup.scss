@@ -3,6 +3,6 @@
 
 $gap: base.var(space-xs) !default;
 
-$vars: component.define(ButtonGroup, (
+$vars: component.vars(ButtonGroup, (
     gap: $gap
 ));

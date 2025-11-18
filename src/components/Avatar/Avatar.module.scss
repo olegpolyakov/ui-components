@@ -3,7 +3,7 @@
 
 @use './Avatar';
 
-@include component.init(Avatar, Avatar.$vars);
+@include component.define(Avatar, Avatar.$vars);
 
 .root {
     box-sizing: border-box;

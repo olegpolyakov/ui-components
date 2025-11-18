@@ -3,6 +3,6 @@
 
 $gap: base.var(space-none) !default;
 
-$vars: component.define(AvatarGroup, (
+$vars: component.vars(AvatarGroup, (
     gap: $gap
 ));

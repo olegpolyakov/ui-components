@@ -3,7 +3,7 @@
 
 @use './Image';
 
-@include component.init(Image, Image.$vars);
+@include component.define(Image, Image.$vars);
 
 .root {
     max-width: 100%;

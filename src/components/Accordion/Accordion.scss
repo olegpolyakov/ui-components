@@ -2,6 +2,6 @@
 
 $gap: null !default;
 
-$vars: component.define(Accordion, (
+$vars: component.vars(Accordion, (
     gap: $gap
 ));

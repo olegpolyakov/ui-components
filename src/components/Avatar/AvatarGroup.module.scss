@@ -1,7 +1,7 @@
 @use 'base';
 @use 'component';
 
-@include component.init(AvatarGroup, (
+@include component.define(AvatarGroup, (
     gap: base.var(space-none)
 ));
 

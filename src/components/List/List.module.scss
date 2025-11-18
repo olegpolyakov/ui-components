@@ -3,7 +3,7 @@
 
 @use './List';
 
-@include component.init(List, List.$vars);
+@include component.define(List, List.$vars);
 
 .root {
     list-style: none;

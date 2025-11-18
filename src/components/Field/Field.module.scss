@@ -3,7 +3,7 @@
 
 @use './Field';
 
-@include component.init(Field, Field.$vars);
+@include component.define(Field, Field.$vars);
 
 .root {
     display: flex;

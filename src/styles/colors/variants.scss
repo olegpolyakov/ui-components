@@ -5,90 +5,45 @@
 @use 'utils/color';
 @use 'utils/css';
 
-@mixin define($variant-colors, $base-colors) {
-    // Plain
-    $plain-color: map.get($variant-colors, plain);
-    @include vars((
-        color: css.rgba($plain-color, 0),
-        color-hover: css.rgba($plain-color, .05),
-        color-active: css.rgba($plain-color, .075)
-    ), 'plain-');
+@use './base';
+@use './states';
 
-    $on-plain-color: color.contrast-color($plain-color);
-    @include vars((
-        color: $on-plain-color,
-        color-hover: hover-color($on-plain-color),
-        color-active: active-color($on-plain-color)
-    ), 'on-plain-');
+@mixin vars($variant-colors, $base-colors) {
+    @include plain(map.get($variant-colors, plain));
+    @include filled(map.get($variant-colors, filled));
+    @include tinted(map.get($variant-colors, tinted));
 
-    // Filled
-    $filled-color: map.get($variant-colors, filled);
-    @include vars((
-        color: $filled-color,
-        color-hover: hover-color($filled-color),
-        color-active: active-color($filled-color)
-    ), 'filled-');
-
-    $on-filled-color: color.contrast-color($filled-color);
-    @include vars((
-        color: $on-filled-color,
-        color-hover: hover-color($on-filled-color),
-        color-active: active-color($on-filled-color)
-    ), 'on-filled-');
-
-    // Tinted
-    $tinted-color: map.get($variant-colors, tinted);
-    @include vars((
-        color: $tinted-color,
-        color-hover: color.adjust($tinted-color, $alpha: 0.1),
-        color-active: color.adjust($tinted-color, $alpha: 0.2)
-    ), 'tinted-');
-
-    // Base colors
     @each $name, $color in $base-colors {
-        // Plain
-        $plain-color: color.change($color, $alpha: 0);
-        @include vars((
-            color: $plain-color,
-            color-hover: color.change($color, $alpha: 0.1),
-            color-active: color.change($color, $alpha: 0.15)
-        ), '#{$name}-plain-');
-
-        $on-plain-color: $color;
-        @include vars((
-            color: $on-plain-color,
-            color-hover: hover-color($on-plain-color),
-            color-active: active-color($on-plain-color)
-        ), '#{$name}-on-plain-');
-
-        // Filled
-        $filled-color: $color;
-        @include vars((
-            color: $filled-color,
-            color-hover: hover-color($filled-color),
-            color-active: active-color($filled-color)
-        ), '#{$name}-filled-');
-        
-        $on-filled-color: color.contrast-color($color);
-        @include vars((
-            color: $on-filled-color,
-            color-hover: hover-color($on-filled-color),
-            color-active: active-color($on-filled-color)
-        ), '#{$name}-on-filled-');
-
-        // Tinted
-        $tinted-color: color.change($color, $alpha: 0.2);
-        @include vars((
-            color: $tinted-color,
-            color-hover: color.change($color, $alpha: 0.25),
-            color-active: color.change($color, $alpha: 0.3)
-        ), '#{$name}-tinted-');
-        
-        $on-tinted-color: $color;
-        @include vars((
-            color: $on-tinted-color,
-            color-hover: color.scale($on-tinted-color, $lightness: -5%),
-            color-active: color.scale($on-tinted-color, $lightness: -10%)
-        ), '#{$name}-on-tinted-');
+        @include plain($color, $postfix:'-#{$name}');
+        @include filled($color, $postfix:'-#{$name}');
+        @include tinted($color, $postfix:'-#{$name}');
     }
+}
+
+@mixin plain($color, $postfix: '', $args...) {
+    $base-color: color.change($color, $alpha: 0);
+
+    @include base.var(plain#{$postfix}-color, $base-color);
+    @include base.var(plain#{$postfix}-contrast-color, color.contrast-color($base-color));
+
+    @include states.vars(plain#{$postfix}, (
+        'hover': color.change($color, $alpha: 0.05),
+        'active': color.change($color, $alpha: 0.075)
+    ), $args...);
+}
+
+@mixin filled($color, $postfix: '', $args...) {
+    @include base.var(filled#{$postfix}-color, $color);
+    @include base.var(filled#{$postfix}-contrast-color, color.contrast-color($color));
+    @include states.vars(filled#{$postfix}, $color, $args...);
+
+}
+
+@mixin tinted($color, $postfix: '', $args...) {
+    @include base.var(tinted#{$postfix}-color, $color);
+    @include base.var(tinted#{$postfix}-contrast-color, color.contrast-color($color));
+    @include states.vars(tinted#{$postfix}, (
+        'hover': color.adjust($color, $alpha: 0.1),
+        'active': color.adjust($color, $alpha: 0.2)
+    ), $args...);
 }

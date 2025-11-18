@@ -1,6 +1,6 @@
-import { prefix } from './styles/export.module.scss';
+import vars from './styles/vars.module.scss';
 
-export const THEME_PREFIX = prefix;
+export const THEME_PREFIX = vars.prefix;
 
 export const Key = {
     ARROW_LEFT: 'ArrowLeft',

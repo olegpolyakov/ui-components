@@ -3,7 +3,7 @@
 
 @use './Slider';
 
-@include component.init(Slider, Slider.$vars);
+@include component.define(Slider, Slider.$vars);
 
 .root {
     position: relative;

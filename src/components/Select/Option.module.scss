@@ -5,7 +5,7 @@
 
 @use './Option';
 
-@include component.init(Option, Option.$vars);
+@include component.define(Option, Option.$vars);
 
 .root {
     display: flex;

@@ -10,6 +10,14 @@
     @return string.slice($args...);
 }
 
+@function contains($string, $value) {
+    @if is-string($string) and is-string($value) {
+        @return string.index($string, $value) != null;
+    }
+
+    @return false;
+}
+
 @function replace($string, $search, $replace: '') {
     $index: string.index($string, $search);
 
@@ -22,14 +30,6 @@
     }
 
     @return $string;
-}
-
-@function contains($string, $value) {
-    @if is-string($string) and is-string($value) {
-        @return string.index($string, $value) != null;
-    }
-
-    @return false;
 }
 
 @function starts-with($string, $value) {

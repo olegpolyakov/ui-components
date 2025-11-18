@@ -12,7 +12,7 @@ $padding: (--padding-y, --padding-x) !default;
 $shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !default;
 $z-index: 1000 !default;
 
-$vars: component.define(Drawer, (
+$vars: component.vars(Drawer, (
     width: $width,
     height: $height,
     border-color: $border-color,

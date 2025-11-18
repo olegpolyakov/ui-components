@@ -3,7 +3,7 @@
 
 @use './Drawer';
 
-@include component.init(Drawer, Drawer.$vars);
+@include component.define(Drawer, Drawer.$vars);
 
 .root {
     width: 100%;

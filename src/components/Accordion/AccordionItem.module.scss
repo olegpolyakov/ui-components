@@ -7,7 +7,7 @@
 @use '../Text';
 @use './AccordionItem';
 
-@include component.init(AccordionItem, AccordionItem.$vars);
+@include component.define(AccordionItem, AccordionItem.$vars);
 
 .root + .root {
     border-top: 1px solid component.var(border-color);

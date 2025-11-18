@@ -2,7 +2,7 @@
 
 @use './PillGroup';
 
-@include component.init(PillGroup, PillGroup.$vars);
+@include component.define(PillGroup, PillGroup.$vars);
 
 .root {
     display: flex;

@@ -8,7 +8,7 @@
     exitDuration: #{Toast.$exit-duration};
 }
 
-@include component.init(Toast, Toast.$vars);
+@include component.define(Toast, Toast.$vars);
 
 .root {
     display: none;

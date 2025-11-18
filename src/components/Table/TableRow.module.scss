@@ -3,7 +3,7 @@
 
 @use './TableRow';
 
-@include component.init(TableRow, TableRow.$vars);
+@include component.define(TableRow, TableRow.$vars);
 
 .root {
     background-color: var(--ui-TableRow-background-color);

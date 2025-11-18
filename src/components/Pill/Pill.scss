@@ -20,7 +20,7 @@ $font-weight: base.var(font-weight-normal) !default;
 $line-height: 1 !default;
 $icon-color: currentColor !default;
 
-$vars: component.define(Pill, (
+$vars: component.vars(Pill, (
     height: $height,
     padding: $padding,
     gap: $gap,

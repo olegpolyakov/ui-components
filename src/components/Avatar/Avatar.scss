@@ -9,7 +9,7 @@ $background-color: none !default;
 $text-color: base.var(text-primary-color) !default;
 $font-size: base.var(font-size-m) !default;
 
-$vars: component.define(Avatar, (
+$vars: component.vars(Avatar, (
     size: $size,
     border-color: $border-color,
     border-radius: $border-radius,

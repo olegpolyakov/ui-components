@@ -1,3 +1,3 @@
 @use 'component';
 
-$vars: component.define(TableRow, ());
+$vars: component.vars(TableRow, ());

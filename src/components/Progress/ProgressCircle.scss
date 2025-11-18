@@ -9,7 +9,7 @@ $size: auto !default;
 $track-color: base.var(border-color) !default;
 $circle-color: base.var(primary-color) !default;
 
-$vars: component.define(ProgressCircle, (
+$vars: component.vars(ProgressCircle, (
     size: $size,
     track-color: $track-color,
     circle-color: $circle-color

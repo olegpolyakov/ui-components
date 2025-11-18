@@ -3,7 +3,7 @@
 
 @use './Input';
 
-@include component.init(Input, Input.$vars);
+@include component.define(Input, Input.$vars);
 
 .root {
     box-sizing: border-box;

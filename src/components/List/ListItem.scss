@@ -16,7 +16,7 @@ $text-color: null !default;
 $text-color-hover: null !default;
 $text-color-active: null !default;
 
-$vars: component.define(ListItem, (
+$vars: component.vars(ListItem, (
     height: $height,
     padding: $padding,
     border-color: $border-color,

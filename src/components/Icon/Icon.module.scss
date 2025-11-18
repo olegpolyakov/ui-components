@@ -1,11 +1,11 @@
 @use 'sass:map';
 
-@use 'colors';
+@use 'base';
 @use 'component';
 
 @use './Icon';
 
-@include component.init(Icon, Icon.$vars);
+@include component.define(Icon, Icon.$vars);
 
 .root {
     font-family: component.var(font);
@@ -26,11 +26,11 @@
 // Sizes
 
 @include component.declare((
-    xs: (size: map.get(base.$icon-sizes, xs)),
-    s: (size: map.get(base.$icon-sizes, s)),
-    m: (size: map.get(base.$icon-sizes, m)),
-    l: (size: map.get(base.$icon-sizes, l)),
-    xl: (size: map.get(base.$icon-sizes, xl))
+    xs: (size: map.get(Icon.$sizes, xs)),
+    s: (size: map.get(Icon.$sizes, s)),
+    m: (size: map.get(Icon.$sizes, m)),
+    l: (size: map.get(Icon.$sizes, l)),
+    xl: (size: map.get(Icon.$sizes, xl))
 ));
 
 
@@ -49,7 +49,7 @@
     opacity: base.var(opacity-inactive);
 }
 
-@include colors.dark {
+@include base.theme(dark) {
     .root {
         font-variation-settings: 'GRAD' -25;
     }
@@ -57,10 +57,10 @@
 
 :export {
     size: {
-        xs: map.get(base.$icon-sizes, xs);
-        s: map.get(base.$icon-sizes, s);
-        m: map.get(base.$icon-sizes, m);
-        l: map.get(base.$icon-sizes, l);
-        xl: map.get(base.$icon-sizes, xl);
+        xs: map.get(Icon.$sizes, xs);
+        s: map.get(Icon.$sizes, s);
+        m: map.get(Icon.$sizes, m);
+        l: map.get(Icon.$sizes, l);
+        xl: map.get(Icon.$sizes, xl);
     }
 }

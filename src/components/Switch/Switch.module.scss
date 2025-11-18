@@ -5,7 +5,7 @@
 
 @use './Switch';
 
-@include component.init(Switch, Switch.$vars);
+@include component.define(Switch, Switch.$vars);
 
 .root {
     display: flex;

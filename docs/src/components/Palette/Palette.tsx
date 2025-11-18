@@ -1,6 +1,6 @@
 import { Flex, Heading } from '~/components';
 import { Color as ColorType } from '~/types';
-import styles from '~/styles/export.module.scss';
+import vars from '~/styles/vars.module.scss';
 
 import Color from '@/components/Color';
 
@@ -20,7 +20,7 @@ export default function Palette({
                     <Color
                         key={level}
                         name={level.toString()}
-                        value={styles[`${name}${level}`]}
+                        value={vars[`${name}${level}`]}
                         style={{
                             backgroundColor: `var(--kui-${name}-${level}-color)`,
                             color: `var(--kui-on-${name}-${level}-color)`

@@ -3,7 +3,7 @@
 
 @use './RadioGroup';
 
-@include component.init(RadioGroup, RadioGroup.$vars);
+@include component.define(RadioGroup, RadioGroup.$vars);
 
 .root {
     display: flex;

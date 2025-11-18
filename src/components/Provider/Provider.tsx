@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 
 import type { Props } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
@@ -25,10 +25,14 @@ export default function Provider({
     children,
     className,
     
-    theme,
+    theme = 'dark',
     ...props
 }: Props<ProviderProps>) {
     const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
+
+    useEffect(() => {
+        rootElement?.setAttribute('data-theme', theme);
+    }, [rootElement, theme]);
 
     const classNames = cn(
         className,

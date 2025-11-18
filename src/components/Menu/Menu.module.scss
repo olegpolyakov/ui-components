@@ -2,7 +2,7 @@
 
 @use './Menu';
 
-@include component.init(Menu, Menu.$vars);
+@include component.define(Menu, Menu.$vars);
 
 .root {
     display: flex;

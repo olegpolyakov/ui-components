@@ -12,7 +12,9 @@ export type ButtonProps = {
     content?: ReactNode;
     icon?: ReactNode;
     start?: ReactNode;
+    startIcon?: ReactNode;
     end?: ReactNode;
+    endIcon?: ReactNode;
     color?: Color;
     shape?: Shape;
     size?: SizeExtended;
@@ -38,9 +40,11 @@ export default function Button<T extends ElementType = 'button'>({
     children,
 
     content = children,
-    icon,
     start,
+    startIcon,
     end,
+    endIcon,
+    icon,
     color,
     shape = 'rounded',
     size = 'm',
@@ -48,7 +52,6 @@ export default function Button<T extends ElementType = 'button'>({
     active,
     fluid,
     loading,
-    iconPosition,
     iconProps,
     ...props
 }: ComponentProps<ButtonProps, T>) {
@@ -62,10 +65,22 @@ export default function Button<T extends ElementType = 'button'>({
         cssClasses[variant],
         cssClasses[color ? `${variant}-${color}` : variant],
         !!icon && !content && cssClasses.iconButton,
-        iconPosition && cssClasses[`icon-${iconPosition}`],
+        !!startIcon && cssClasses.iconBefore,
+        !!endIcon && cssClasses.iconAfter,
         active && cssClasses.active,
         fluid && cssClasses.fluid,
         loading && cssClasses.loading
+    );
+    
+    const iconContent = icon || startIcon || endIcon;
+    const iconElement = iconContent && (
+        <Icon
+            className={cn(elementClassNames.icon, cssClasses.icon)}
+            size={size}
+            {...iconProps}
+        >
+            {iconContent}
+        </Icon>
     );
 
     return (
@@ -73,21 +88,13 @@ export default function Button<T extends ElementType = 'button'>({
             className={classNames}
             {...props}
         >
-            {start &&
+            {(start || startIcon) &&
                 <span className={cn(elementClassNames.start, cssClasses.start)}>
-                    {start}
+                    {start || iconElement}
                 </span>
             }
 
-            {icon &&
-                <Icon
-                    className={cn(elementClassNames.icon, cssClasses.icon)}
-                    size={size}
-                    {...iconProps}
-                >
-                    {icon}
-                </Icon>
-            }
+            {!startIcon && !endIcon && iconElement}
 
             {content &&
                 <span className={cn(elementClassNames.content, cssClasses.content)}>
@@ -102,9 +109,9 @@ export default function Button<T extends ElementType = 'button'>({
                 />
             } */}
 
-            {end &&
+            {(end || endIcon) &&
                 <span className={cn(elementClassNames.end, cssClasses.end)}>
-                    {end}
+                    {end || iconElement}
                 </span>
             }
         </Component>

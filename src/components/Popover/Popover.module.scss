@@ -3,7 +3,7 @@
 
 @use './Popover';
 
-@include component.init(Popover, Popover.$vars);
+@include component.define(Popover, Popover.$vars);
 
 .root {
     position: fixed;

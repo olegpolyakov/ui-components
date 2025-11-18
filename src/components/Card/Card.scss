@@ -8,7 +8,7 @@ $background-color: base.var(surface-color) !default;
 $padding: base.var(space-m) !default;
 $shadow: none !default;
 
-$vars: component.define(Card, (
+$vars: component.vars(Card, (
     border-width: $border-width,
     border-color: $border-color,
     border-radius: $border-radius,

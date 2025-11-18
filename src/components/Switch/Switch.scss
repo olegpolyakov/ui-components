@@ -6,7 +6,7 @@ $input-height: null !default;
 $background-color: base.var(tinted-color) !default;
 $thumb-background-color: base.var(surface-tertiary-color) !default;
 
-$vars: component.define(Switch, (
+$vars: component.vars(Switch, (
     input-width: $input-width,
     input-height: $input-height,
     background-color: $background-color,

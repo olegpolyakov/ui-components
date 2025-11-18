@@ -3,7 +3,7 @@
 
 @use './Card';
 
-@include component.init(Card, Card.$vars);
+@include component.define(Card, Card.$vars);
 
 .root {
     box-sizing: border-box;
