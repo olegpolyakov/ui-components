@@ -40,9 +40,11 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
                 ? (children.props as T)
                 : {} as T;
 
+            
+
         return filteredSettings
             .reduce((acc, setting) => {
-                acc[setting.name] = setting.defaultValue?.value ?? initialData?.[setting.name] ?? undefined;
+                acc[setting.name] = initialData?.[setting.name] ?? setting.defaultValue?.value ?? undefined;
                 return acc;
             }, {} as Record<string, any>) as T;
     });

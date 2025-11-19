@@ -82,36 +82,68 @@ function Setting<T extends Record<string, any> = Record<string, any>>({ setting,
                 />
             )}
 
-            {type === 'enum' && (Array.isArray(setting.type.value)
-                ? setting.type.value.length > 5 ? (
-                    <Select
-                        name={setting.name}
-                        value={data[setting.name]}
-                        options={setting.type.value?.map(option => ({
-                            key: option.value,
-                            label: option.value.replaceAll('"', ''),
-                            value: option.value.replaceAll('"', '')
-                        }))}
-                        onChange={({ value }) => onChange({
-                            ...data,
-                            [setting.name]: value
-                        })}
-                    />
-                ) : (
-                    <RadioGroup
-                        name={setting.name}
-                        radios={setting.type.value?.map(option => ({
-                            key: option.value,
-                            label: option.value.replaceAll('"', ''),
-                            value: option.value.replaceAll('"', ''),
-                            checked: data[setting.name] === option.value.replaceAll('"', ''),
-                            onChange: ({ value }) => onChange({
-                                ...data,
-                                [setting.name]: value
-                            })
-                        }))}
-                    />
-                ) : null)}
+            {type === 'enum' &&
+                <Enum 
+                    setting={setting}
+                    data={data}
+                    onChange={onChange}
+                />
+            }
         </Field>
     );
+}
+
+function Enum<T extends Record<string, any> = Record<string, any>>({
+    setting,
+    data,
+    onChange
+}: {
+    setting: Setting;
+    data: T;
+    onChange: (data: T) => void
+}) {
+    const options = Array.isArray(setting.type.value)
+        ? (setting.type.raw?.toLowerCase().includes('size')
+            ? setting.type.value?.toSorted(sortSizeOptions)
+            : setting.type.value
+        ).map(option => ({
+            key: option.value,
+            label: option.value.replaceAll('"', ''),
+            value: option.value.replaceAll('"', '')
+        }))
+        : [];
+
+    return (setting.type.value?.length ?? 0) > 5 ? (
+        <Select
+            name={setting.name}
+            value={data[setting.name]}
+            options={options}
+            onChange={({ value }) => onChange({
+                ...data,
+                [setting.name]: value
+            })}
+        />
+    ) : (
+        <RadioGroup
+            name={setting.name}
+            radios={options.map(option => ({
+                ...option,
+                key: option.key,
+                checked: data[setting.name] === option.value,
+                onChange: ({ value }) => onChange({
+                    ...data,
+                    [setting.name]: value
+                })
+            }))}
+        />
+    );
+}
+
+const sizeOrder = ['xxs', 'xs', 's', 'm', 'l', 'xl', 'xxl', 'auto'];
+
+function sortSizeOptions(a: {value: string}, b: {value: string}) {
+    const aIndex = sizeOrder.indexOf(a.value.replaceAll('"', ''));
+    const bIndex = sizeOrder.indexOf(b.value.replaceAll('"', ''));
+
+    return aIndex - bIndex;
 }
