@@ -4,7 +4,10 @@ import {
     useEffect,
     useRef,
     useState,
-    useCallback
+    useCallback,
+    Children,
+    isValidElement,
+    cloneElement
 } from 'react';
 
 import { flip, size as popoverSize, type Placement } from '@floating-ui/react';
@@ -19,6 +22,8 @@ import Option, { type OptionProps } from './Option';
 import styles from './Select.module.scss';
 
 export type SelectProps = {
+    name?: string;
+    value?: string | string[];
     options?: PropsWithKey<OptionProps>[];
     label?: string;
     placeholder?: string;
@@ -61,7 +66,7 @@ export default function Select({
     maxMenuHeight,
     onChange,
     ...props
-}: ComponentProps<SelectProps, 'select'>) {
+}: ComponentProps<SelectProps, 'div'>) {
     const listRef = useRef<HTMLUListElement>(null);
 
     const [open, setOpen] = useState(false);
@@ -163,15 +168,20 @@ export default function Select({
             onClose={() => setOpen(false)}
         >
             <ul ref={listRef} className={menuClassNames}>
-                {options?.map(option =>
+                {options?.map(({ key, ...rest }) =>
                     <Option
-                        key={option.value}
+                        key={key}
                         onClick={handleOptionClick}
-                        {...option}
+                        {...rest}
                     />
                 )}
 
-                {children}
+                {Children.map(children, child =>
+                    isValidElement<OptionProps>(child) &&
+                    cloneElement<OptionProps>(child, {
+                        onClick: handleOptionClick
+                    })
+                )}
             </ul>
         </Popover>
     );
