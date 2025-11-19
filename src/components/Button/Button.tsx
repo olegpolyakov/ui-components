@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-import type { Color, ComponentProps, ElementType, IconPosition, Shape, SizeExtended, Variant } from '../../types';
+import type { Color, ComponentProps, ElementType, Shape, SizeExtended, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
@@ -23,7 +23,6 @@ export type ButtonProps = {
     fluid?: boolean;
     disabled?: boolean;
     loading?: boolean;
-    iconPosition?: IconPosition;
     iconProps?: IconProps;
 };
 
