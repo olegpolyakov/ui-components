@@ -28,7 +28,7 @@
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     s: (
         size: base.var(font-size-xs),
         gap: base.var(space-xxs)
