@@ -25,7 +25,7 @@
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     xs: (size: map.get(Icon.$sizes, xs)),
     s: (size: map.get(Icon.$sizes, s)),
     m: (size: map.get(Icon.$sizes, m)),
@@ -36,7 +36,7 @@
 
 // Types
 
-@include component.declare((
+@include component.classes((
     outlined: (font: 'Material Symbols Outlined'),
     rounded: (font: 'Material Symbols Rounded'),
     sharp: (font: 'Material Symbols Sharp')

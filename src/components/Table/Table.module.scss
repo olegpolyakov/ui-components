@@ -15,7 +15,7 @@
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     s: (
         cell-padding: .5rem .75rem,
         font-size: 12px,

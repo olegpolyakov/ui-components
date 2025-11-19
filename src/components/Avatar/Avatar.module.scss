@@ -43,7 +43,7 @@
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     s: (
         size: 24px,
         font-size: 10px,
@@ -64,7 +64,7 @@
 
 // Shapes
 
-@include component.declare((
+@include component.classes((
     circular: (border-radius: 50%),
     rectangular: (border-radius: 0),
     rounded-s: (border-radius: base.var(border-radius-s)),

@@ -19,7 +19,7 @@
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     s: (padding: base.var(space-s)),
     m: (padding: base.var(space-m)),
     l: (padding: base.var(space-l))
@@ -33,7 +33,7 @@
 
 // Shadow
 
-@include component.declare((
+@include component.classes((
     shadow-s: (shadow: base.var(shadow-s)),
     shadow-m: (shadow: base.var(shadow-m)),
     shadow-l: (shadow: base.var(shadow-l))

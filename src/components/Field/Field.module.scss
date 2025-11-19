@@ -25,7 +25,7 @@
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     s: (gap: base.var(space-xxs)),
     m: (gap: base.var(space-xs)),
     l: (gap: base.var(space-s))

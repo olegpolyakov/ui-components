@@ -56,7 +56,7 @@
 
 // Shapes
 
-@include component.declare((
+@include component.classes((
     rounded: (border-radius: base.var(border-radius-s)),
     circular: (border-radius: component.var(height)),
     rectangular: (border-radius: 0)

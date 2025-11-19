@@ -61,7 +61,7 @@
 
 // Weight
 
-@include component.declare((
+@include component.classes((
     light: (font-weight: base.var(font-weight-light)),
     normal: (font-weight: base.var(font-weight-normal)),
     semibold: (font-weight: base.var(font-weight-semibold)),

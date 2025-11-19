@@ -30,7 +30,7 @@
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     xs: (size: 16px),
     sm: (size: 24px),
     m: (size: 32px),

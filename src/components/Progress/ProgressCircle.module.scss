@@ -34,7 +34,7 @@
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     s: (size: ProgressCircle.$size-s),
     m: (size: ProgressCircle.$size-m),
     l: (size: ProgressCircle.$size-l)

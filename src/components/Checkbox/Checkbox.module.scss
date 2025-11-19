@@ -76,7 +76,7 @@
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     s: (
         size: 16px,
         gap: base.var(space-xs)

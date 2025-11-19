@@ -53,7 +53,7 @@
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     s: (padding: base.var(space-s)),
     m: (padding: base.var(space-m)),
     l: (padding: base.var(space-l))
