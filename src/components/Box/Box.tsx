@@ -1,20 +1,23 @@
-import { forwardRef } from 'react';
-
+import type {
+    Color,
+    ComponentProps,
+    ElementType,
+    Shadow,
+    SizeFull as Size,
+    Variant
+} from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Surface.scss';
-import type { Color, PropsWithChildren, Shadow, Variant } from '../../types';
+import styles from './Box.module.scss';
 
-// TODO Move to types
-type Size = 'xxs' | 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
+Box.displayName = 'Box';
+const elementClassNames = getElementClassNames(Box.displayName);
+
 type Padding = Size
     | { x: Size; y: Size }
     | { top?: Size; right?: Size; bottom?: Size; left?: Size };
 
-const displayName = 'Surface';
-const elementClassNames = getElementClassNames(displayName);
-
-export type SurfaceProps = PropsWithChildren<{
+export type BoxProps = {
   as?: 'div';
   color?: Color;
   roundness?: Size;
@@ -35,14 +38,16 @@ export type SurfaceProps = PropsWithChildren<{
   pr?: Size;
   pb?: Size;
   pl?: Size;
-}>;
+};
 
-const Surface = forwardRef<HTMLDivElement, SurfaceProps>(({
-    as: As = 'div',
+export default function Box<T extends ElementType = 'div'>({
+    as,
+    className,
+
     color,
     roundness,
     shadow,
-    variant = 'filled',
+    variant = 'plain',
     interactive,
     padding,
     paddingX,
@@ -58,10 +63,8 @@ const Surface = forwardRef<HTMLDivElement, SurfaceProps>(({
     pr = paddingRight,
     pb = paddingBottom,
     pl = paddingLeft,
-    className,
-    children,
     ...props
-}, ref) => {
+}: ComponentProps<BoxProps, T>) {
     const {
         x = px,
         y = py,
@@ -83,28 +86,26 @@ const Surface = forwardRef<HTMLDivElement, SurfaceProps>(({
         left: Size;
       });
 
+    const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[variant],
-        color && cssClasses[color],
-        roundness && cssClasses.roundness,
-        roundness && cssClasses[`roundness-${roundness}`],
-        shadow && cssClasses[`shadow-${shadow}`],
-        interactive && cssClasses.interactive,
-        typeof p === 'string' && cssClasses[`p-${p}`],
-        x && cssClasses[`px-${x}`],
-        y && cssClasses[`py-${y}`],
-        t && cssClasses[`pt-${t}`],
-        r && cssClasses[`pr-${r}`],
-        b && cssClasses[`pb-${b}`],
-        l && cssClasses[`pl-${l}`]
+        styles.root,
+        styles[variant],
+        color && styles[color],
+        styles[color ? `${variant}-${color}` : variant],
+        roundness && styles.roundness,
+        roundness && styles[`roundness-${roundness}`],
+        shadow && styles[`shadow-${shadow}`],
+        interactive && styles.interactive,
+        typeof p === 'string' && styles[`p-${p}`],
+        x && styles[`px-${x}`],
+        y && styles[`py-${y}`],
+        t && styles[`pt-${t}`],
+        r && styles[`pr-${r}`],
+        b && styles[`pb-${b}`],
+        l && styles[`pl-${l}`]
     );
 
-    return <As ref={ref} className={classNames} {...props}>{children}</As>;
-});
-
-Surface.displayName = displayName;
-
-export default Surface;
+    return <Component className={classNames} {...props} />;
+}

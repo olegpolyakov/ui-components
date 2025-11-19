@@ -22,6 +22,10 @@
         @include var(opacity-#{$name}, $value);
     }
 
+    @each $name, $value in $emphasis {
+        @include var(emphasis-#{$name}, $value);
+    }
+
     @each $size, $value in $border-radii {
         @include var(border-radius-#{$size}, $value);
     }

@@ -15,15 +15,16 @@
 }
 
 .surface {
+    display: flex;
     border-radius: component.var(border-radius);
     background-color: component.var(background-color);
     box-shadow: component.var(shadow);
+    overflow: hidden;
     z-index: 10;
 }
 
 .content {
-    color: component.var(text-color);
-    font-family: base.var(font-family);
+    width: 100%;
     overflow: hidden;
 }
 
@@ -50,6 +51,17 @@
     }
 }
 
+.unstyled {
+    .arrow {
+        display: none;
+    }
+
+    .surface {
+        box-shadow: unset;
+        border-radius: unset;
+        background-color: unset;
+    }
+}
 
 // Sizes
 

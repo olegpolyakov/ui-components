@@ -79,7 +79,7 @@ function Nav() {
                         className={styles.subtitle}
                         content={route}
                         size="xxs"
-                        muted
+                        emphasis="low"
                         uppercase
                     />
                 ) : (

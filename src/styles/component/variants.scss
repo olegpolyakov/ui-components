@@ -17,6 +17,8 @@
             text-color: -plain
         ), $args...);
 
+        @content;
+
         @each $palette in palettes.$names {
             &-#{$palette} {
                 @include colors.vars((
@@ -49,6 +51,8 @@
             text-color: -filled
         ), $args...);
 
+        @content;
+
         @each $palette in palettes.$names {
             &-#{$palette} {
                 @include colors.vars((
@@ -76,17 +80,21 @@
         ), $args...);
         
         @include colors.vars((
-            border-color: states.get(border-color, plain-primary),
-            background-color: states.get(background-color, plain),
-            text-color: primary
+            border-color: states.get(border-color, tinted),
+            background-color: states.get(background-color, plain)
         ), $args...);
                 
-        border: var(border-width) solid var(border-color);
+        @content;
 
         @each $palette in palettes.$names {
             &-#{$palette} {
+                @include palettes.vars($palette, (
+                    border-color: '$',
+                    background-color: 'plain-$'
+                ), $args...);
+
                 @include palettes.state-vars($palette, (
-                    border-color: $palette
+                    border-color: '$'
                 ), $args...);
             }
         }
@@ -96,9 +104,10 @@
 @mixin tinted($args...) {
     .tinted {
         @include colors.vars((
-            background-color: states.get(background-color, tinted),
-            text-color: text-color
+            background-color: states.get(background-color, tinted)
         ), $args...);
+
+        @content;
         
         @each $palette in palettes.$names {
             &-#{$palette} {
@@ -121,19 +130,22 @@
         ), $args...);
 
         @include colors.vars((
-            border-color: states.get(border-color, plain-primary),
-            background-color: states.get(background-color, tinted),
-            text-color: text-color
+            border-color: states.get(border-color, tinted),
+            background-color: states.get(background-color, tinted)
         ), $args...);
+                
+        @content;
 
-        border: var(border-width) solid var(border-color);
-        
         @each $palette in palettes.$names {
             &-#{$palette} {
                 @include palettes.vars($palette, (
-                    border-color: states.get(border-color, plain),
-                    background-color: states.get(background-color, tinted),
-                    text-color: '$'
+                    border-color: 'tinted-$',
+                    background-color: 'tinted-$'
+                ), $args...);
+
+                @include palettes.state-vars($palette, (
+                    border-color: 'tinted-$',
+                    background-color: 'tinted-$'
                 ), $args...);
             }
         }

@@ -1,5 +1,6 @@
-import { Flex, Heading } from '~/components';
+import { Box, Flex, Heading } from '~/components';
 import { Color as ColorType } from '~/types';
+
 import vars from '~/styles/vars.module.scss';
 
 import Color from '@/components/Color';
@@ -15,19 +16,21 @@ export default function Palette({
         <div>
             <Heading content={name} size="xs" />
 
-            <Flex wrap>
-                {levels.map(level =>
-                    <Color
-                        key={level}
-                        name={level.toString()}
-                        value={vars[`${name}${level}`]}
-                        style={{
-                            backgroundColor: `var(--kui-${name}-${level}-color)`,
-                            color: `var(--kui-${name}-${level}-contrast-color)`
-                        }}
-                    />
-                )}
-            </Flex>
+            <Box color={name} variant="tinted" padding="xxs">
+                <Flex gap="xxs" wrap>
+                    {levels.map(level =>
+                        <Color
+                            key={level}
+                            name={level.toString()}
+                            value={vars[`${name}${level}`]}
+                            style={{
+                                backgroundColor: `var(--kui-${name}-${level}-color)`,
+                                color: `var(--kui-${name}-${level}-contrast-color)`
+                            }}
+                        />
+                    )}
+                </Flex>
+            </Box>
         </div>
     );
 }

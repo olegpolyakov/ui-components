@@ -4,15 +4,19 @@
 @use 'component';
 
 $sizes: (
-    m: 24px, // Preferred icon size
+    xs: 12px,
+    s: 16px,
+    m: 24px,
     l: 36px,
     xl: 48px
 ) !default;
 
 $font: 'Material Symbols Outlined' !default;
 $size: map.get($sizes, m) !default;
+$emphasis: base.var(emphasis-high) !default;
 
 $vars: component.vars(Icon, (
     font: $font,
-    size: $size
+    size: $size,
+    emphasis: $emphasis,
 ));

@@ -11,17 +11,20 @@ import styles from './Demo.module.scss';
 export default function Demo<T extends Record<string, any> = Record<string, any>>({
     children,
     settings,
+    align,
     setup,
     wrap,
-    align,
-    ...props
+    props,
+    ...rest
 }: {
     settings?: Record<string, Setting>;
     align?: 'start' | 'center' | 'end';
     setup?: ReactElement | ((data: T, setData: (data: T) => void) => ReactElement);
     wrap?: ReactElement | ((content: ReactElement, data: T) => ReactElement);
+    props?: Record<string, any>;
     children?: ReactElement | ((data: T, setData: (data: T) => void) => ReactElement);
 }) {
+    console.log({ settings });
     const filteredSettings = useMemo(() =>
         settings
             ? Object.values(settings).filter(setting =>
@@ -59,14 +62,17 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
         : isValidElement(children)
             ? cloneElement(children as ReactElement, data)
             : children;
+    const enhancedContent = props
+        ? cloneElement(content as ReactElement, props)
+        : content;
     const wrappedContent = typeof wrap === 'function'
-        ? wrap(content as ReactElement, data)
+        ? wrap(enhancedContent as ReactElement, data)
         : isValidElement(wrap)
-            ? cloneElement(wrap as ReactElement, {}, content as ReactElement)
-            : content;
+            ? cloneElement(wrap as ReactElement, {}, enhancedContent as ReactElement)
+            : enhancedContent;
 
     return (
-        <div className={cn(styles.root, align && styles[`align-${align}`])} {...props}>
+        <div className={cn(styles.root, align && styles[`align-${align}`])} {...rest}>
             <div className={styles.main}>
                 <div className={styles.actions}>
                     <Button
@@ -88,6 +94,7 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
                 
 
                 {setupContent}
+
                 {wrappedContent}
             </div>
 

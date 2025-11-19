@@ -18,6 +18,7 @@
     font-size: component.var(font-size);
     font-weight: component.var(font-weight);
     color: component.var(color);
+    opacity: component.var(emphasis);
 }
 
 .content {
@@ -53,6 +54,15 @@
         ));
     }
 }
+
+
+// Emphasis
+
+@include component.classes((
+    emphasis-high: (emphasis: base.var(emphasis-high)),
+    emphasis-medium: (emphasis: base.var(emphasis-medium)),
+    emphasis-low: (emphasis: base.var(emphasis-low))
+));
 
 
 // Weight

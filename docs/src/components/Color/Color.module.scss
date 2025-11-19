@@ -1,10 +1,9 @@
 .root {
-    width: 100px;
-    height: 100px;
+    flex: 1 100px;
+    aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px solid var(--kui-border-color);
 }
 
 .dark {

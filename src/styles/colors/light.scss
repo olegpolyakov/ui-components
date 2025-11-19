@@ -35,6 +35,7 @@ $text-inverted-color: palettes.$neutral-0 !default;
 $text-primary-color: palettes.$neutral-10 !default;
 $text-secondary-color: palettes.$neutral-9 !default;
 $text-tertiary-color: palettes.$neutral-8 !default;
+$shadow-color: rgba(0, 0, 0, 0.1) !default;
 $surface-color: colors.$white !default;
 $surface-primary-color: palettes.$neutral-1 !default;
 $surface-secondary-color: palettes.$neutral-2 !default;
@@ -53,6 +54,7 @@ $element-colors: (
     text-primary: $text-primary-color,
     text-secondary: $text-secondary-color,
     text-tertiary: $text-tertiary-color,
+    shadow: $shadow-color,
     surface: $surface-color,
     surface-primary: $surface-primary-color,
     surface-secondary: $surface-secondary-color,

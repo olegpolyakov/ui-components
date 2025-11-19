@@ -15,7 +15,7 @@ import {
     useState
 } from 'react';
 
-import { Middleware, Placement, VirtualElement, arrow, useFloating } from '@floating-ui/react';
+import { Middleware, Placement, VirtualElement, autoUpdate, arrow, useFloating } from '@floating-ui/react';
 
 import type { Color, PropsWithChildren, Size, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
@@ -98,7 +98,8 @@ export default function Popover({
                 element: arrowRef
             }),
             ...middleware
-        ].filter(Boolean)
+        ].filter(Boolean),
+        whileElementsMounted: autoUpdate
     });
 
     const isUncontrolled = open === undefined;
@@ -172,7 +173,8 @@ export default function Popover({
         styles.root,
         color && styles[color],
         size && styles[size],
-        variant && styles[variant]
+        variant && styles[variant],
+        unstyled && styles.unstyled
     );
 
     return (
@@ -189,20 +191,22 @@ export default function Popover({
                     <div ref={rootRef} className={classNames}>
                         <div
                             ref={refs.setFloating}
-                            className={!unstyled ? cn(elementClassNames.surface, styles.surface) : undefined}
+                            className={cn(elementClassNames.surface, styles.surface)}
                             style={floatingStyles}
                             onClick={handlePopoverClick}
                         >
-                            <div
-                                ref={arrowRef}
-                                className={cn(elementClassNames.arrow, styles.arrow)}
-                                style={middlewareData.arrow &&{
-                                    left: middlewareData.arrow.x,
-                                    top: middlewareData.arrow.y
-                                }}
-                            />
+                            {unstyled || !showArrow &&
+                                <div
+                                    ref={arrowRef}
+                                    className={cn(elementClassNames.arrow, styles.arrow)}
+                                    style={middlewareData.arrow &&{
+                                        left: middlewareData.arrow.x,
+                                        top: middlewareData.arrow.y
+                                    }}
+                                />
+                            }
 
-                            <div ref={contentRef} className={!unstyled ? cn(elementClassNames.content, styles.content) : undefined}>
+                            <div ref={contentRef} className={cn(elementClassNames.content, styles.content)}>
                                 {content}
                             </div>
                         </div>

@@ -12,9 +12,7 @@
     @include component.define(Select, Select.$vars);
     box-sizing: border-box;
     border-radius: component.var(border-radius);
-    transition:
-        border-color .2s ease-in-out,
-        border-radius .1s;
+    transition: border-color .2s ease-in-out;
 }
 
 .root {
@@ -33,10 +31,12 @@
     font-size: component.var(font-size);
     font-weight: component.var(font-weight);
     line-height: component.var(line-height);
+    cursor: pointer;
 }
 
 .menu {
     list-style: none;
+    height: 100%;
     padding: 4px 0;
     margin: 0;
     outline: none;
@@ -88,6 +88,7 @@
     text-align: left;
     white-space: nowrap;
     z-index: 1;
+    cursor: inherit;
 
     &:empty::before {
         content: attr(data-placeholder);
@@ -244,6 +245,10 @@
     .label + .input {
         padding-top: .75rem;
     }
+}
+
+.disabled {
+    cursor: default;
 }
 
 .invalid {

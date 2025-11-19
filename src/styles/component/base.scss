@@ -137,7 +137,9 @@ $-vars: ();
     }
 
     @if ($outlined) {
-        @include variants.outlined($prefix: '#{$-name}-');
+        @include variants.outlined($prefix: '#{$-name}-') {
+            border: var(border-width) solid var(border-color);
+        }
     }
 
     @if ($tinted) {
@@ -145,7 +147,9 @@ $-vars: ();
     }
 
     @if ($outlined-tinted) {
-        @include variants.outlined-tinted($prefix: '#{$-name}-');
+        @include variants.outlined-tinted($prefix: '#{$-name}-') {
+            border: var(border-width) solid var(border-color);
+        }
     }
 }
 

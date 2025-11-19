@@ -1,1 +1,1 @@
-export { default, default as Surface, type SurfaceProps } from './Surface';
+export { default, default as Box, type BoxProps } from './Box';

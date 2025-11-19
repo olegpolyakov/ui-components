@@ -18,10 +18,17 @@ $font-weights: (
 $line-height: 1.5 !default;
 
 $opacity: (
-    active: 1,
-    muted: .75,
-    inactive: .75,
-    disabled: .5
+    full: 1,
+    high: 0.85,
+    medium: 0.6,
+    low: 0.4,
+    none: 0
+) !default;
+
+$emphasis: (
+    high: 1,
+    medium: .75,
+    low: .5
 ) !default;
 
 $font-sizes: (
@@ -55,9 +62,9 @@ $space-sizes: (
 ) !default;
 
 $shadows: (
-    s: 0 4px 8px 0 rgba(0, 0, 0, 0.1),
-    m: 0 8px 16px 0 rgba(0, 0, 0, 0.1),
-    l: 0 16px 24px 0 rgba(0, 0, 0, 0.1)
+    s: 0 4px 8px 0,
+    m: 0 8px 16px 0,
+    l: 0 16px 24px 0
 ) !default;
 
 $screen-sizes: (

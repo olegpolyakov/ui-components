@@ -20,6 +20,7 @@
     word-wrap: normal;
     white-space: nowrap;
     direction: ltr;
+    opacity: component.var(emphasis);
 }
 
 
@@ -43,24 +44,17 @@
 ));
 
 
-// Colors
+// Emphasis
 
-.inactive {
-    opacity: base.var(opacity-inactive);
-}
+@include component.classes((
+    emphasis-high: (emphasis: base.var(emphasis-high)),
+    emphasis-medium: (emphasis: base.var(emphasis-medium)),
+    emphasis-low: (emphasis: base.var(emphasis-low))
+));
+
 
 @include base.theme(dark) {
     .root {
         font-variation-settings: 'GRAD' -25;
-    }
-}
-
-:export {
-    size: {
-        xs: map.get(Icon.$sizes, xs);
-        s: map.get(Icon.$sizes, s);
-        m: map.get(Icon.$sizes, m);
-        l: map.get(Icon.$sizes, l);
-        xl: map.get(Icon.$sizes, xl);
     }
 }

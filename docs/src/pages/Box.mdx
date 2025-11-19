@@ -1,0 +1,24 @@
+import Demo from '@/components/Demo';
+import Section from '@/components/Section';
+
+import Box from '~/components/Box';
+
+# Box
+
+Box is a versatile container component that can be used to group and style content with customizable padding, background colors, and shadows.
+
+<Demo
+  settings={Box.settings}
+  props={{
+    children: 'Box',
+    style: {
+      width: 200,
+      height: 200,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }}
+>
+  <Box variant="tinted" />
+</Demo>

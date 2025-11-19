@@ -1,6 +1,6 @@
 import { cloneElement, isValidElement } from 'react';
 
-import { ComponentProps, ElementType, SizeExtended } from '../../types';
+import { ComponentProps, ElementType, SizeExtended, Emphasis } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 import { getFontVariationSettings } from './utils';
 
@@ -10,10 +10,10 @@ export type IconProps = {
     name?: string;
     type?: 'filled' | 'outlined' | 'round' | 'sharp' | 'two-tone';
     size?: SizeExtended;
+    emphasis?: Emphasis;
     weight?: number | string;
     grade?: number | string;
     filled?: boolean;
-    inactive?: boolean;
 };
 
 Icon.displayName = 'Icon';
@@ -28,10 +28,10 @@ export default function Icon<T extends ElementType = 'i'>({
     name,
     type = 'outlined',
     size,
+    emphasis,
     weight,
     grade,
     filled = false,
-    inactive = false,
     ...props
 }: ComponentProps<IconProps, T>) {
     const Component = as || 'i';
@@ -41,7 +41,7 @@ export default function Icon<T extends ElementType = 'i'>({
         styles.root,
         styles[type],
         size && styles[size],
-        inactive && styles.inactive
+        emphasis && styles[`emphasis-${emphasis}`]
     );
 
     const fontVariationSettings = getFontVariationSettings(

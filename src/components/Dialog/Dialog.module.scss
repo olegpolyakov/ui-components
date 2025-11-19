@@ -33,7 +33,7 @@
     display: flex;
     flex-direction: column;
     background-color: component.var(background-color);
-    box-shadow: component.var(shadow);
+    box-shadow: component.var(shadow) base.var(shadow-color);
 }
 
 .title {

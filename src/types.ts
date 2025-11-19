@@ -55,10 +55,12 @@ export type HTMLTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement
 
 export type Align = 'start' | 'center' | 'end';
 export type Color = 'primary' | 'secondary' | 'danger' | 'info' | 'success' | 'warning';
+export type Emphasis = 'high' | 'medium' | 'low';
 export type Gender = 'unknown' | 'male' | 'female';
 export type IconPosition = 'before' | 'after';
 export type Intent = 'danger' | 'info' | 'success' | 'warning';
 export type Justify = 'start' | 'center' | 'end' | 'around' | 'between' | 'evenly';
+export type Opacity = 'full' | 'high' | 'medium' | 'low' | 'none';
 export type Orientation = 'horizontal' | 'vertical';
 export type Size = 's' | 'm' | 'l';
 export type SizeExtended = 'xs' | Size | 'xl';
@@ -66,7 +68,7 @@ export type SizeFull = 'xxs' | SizeExtended | 'xxl';
 export type Shadow = Size;
 export type Shape = 'circular' | 'rectangular' | 'rounded';
 export type Space = 'none' | 'auto' | SizeFull;
-export type Variant = 'plain' | 'filled' | 'outlined' | 'tinted';
+export type Variant = 'plain' | 'filled' | 'outlined' | 'tinted' | 'outlined-tinted';
 export type Weight = 'light' | 'normal' | 'semibold' | 'bold';
 
 export type MouseInteractionEvent<T extends HTMLElement = HTMLElement> =

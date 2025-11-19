@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 
-import type { Align, Color, ComponentProps, ElementType, SizeFull, Weight } from '../../types';
+import type { Align, Color, ComponentProps, ElementType, Emphasis, SizeFull, Weight } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Heading.module.scss';
+import styles from './Heading.module.scss';
 
 export type HeadingProps = {
     content?: ReactNode;
@@ -12,6 +12,7 @@ export type HeadingProps = {
     size?: SizeFull; 
     align?: Align;
     color?: Color;
+    emphasis?: Emphasis;
     weight?: Weight;
     block?: boolean;
     muted?: boolean;
@@ -36,6 +37,7 @@ export default function Heading<T extends ElementType = 'h1'>({
     end,
     size = 'm',
     color,
+    emphasis,
     weight = 'semibold',
     align,
     block,
@@ -49,20 +51,21 @@ export default function Heading<T extends ElementType = 'h1'>({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size],
-        color && cssClasses[color],
-        weight && cssClasses[weight],
-        align && cssClasses[`align-${align}`],
-        block && cssClasses.block,
-        bold && cssClasses.bold,
-        muted && cssClasses.muted,
+        styles.root,
+        styles[size],
+        color && styles[color],
+        emphasis && styles[`emphasis-${emphasis}`],
+        weight && styles[weight],
+        align && styles[`align-${align}`],
+        block && styles.block,
+        bold && styles.bold,
+        muted && styles.muted,
         marginTop && marginTop === true
-            ? cssClasses.mt
-            : cssClasses[`mt-${marginTop}`],
+            ? styles.mt
+            : styles[`mt-${marginTop}`],
         marginBottom && marginBottom === true
-            ? cssClasses.mb
-            : cssClasses[`mb-${marginBottom}`]
+            ? styles.mb
+            : styles[`mb-${marginBottom}`]
     );
 
     return (
@@ -71,19 +74,19 @@ export default function Heading<T extends ElementType = 'h1'>({
             {...props}
         >
             {start &&
-                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                <span className={cn(elementClassNames.start, styles.start)}>
                     {start}
                 </span>
             }
 
             {content &&
-                <span className={cn(elementClassNames.content, cssClasses.content)}>
+                <span className={cn(elementClassNames.content, styles.content)}>
                     {content}
                 </span>
             }
 
             {end &&
-                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                <span className={cn(elementClassNames.end, styles.end)}>
                     {end}
                 </span>
             }
