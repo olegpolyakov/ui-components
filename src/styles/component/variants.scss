@@ -3,96 +3,83 @@
 @use 'colors/palettes';
 @use 'colors/states';
 
-@mixin variants(
-    $plain: true,
-    $filled: true,
-    $outlined: true,
-    $tinted: true
-) {
-    @if ($plain) {
-        @include plain;
-    }
-
-    @if ($filled) {
-        @include filled;
-    }
-
-    @if ($outlined) {
-        @include outlined;
-    }
-
-    @if ($tinted) {
-        @include tinted;
-    }
-}
-
-@mixin plain {
+@mixin plain($args...) {
     .plain {
         @include colors.vars((
             background-color: plain
-        ));
+        ), $args...);
+        
         @include states.vars((
             background-color: plain
-        ));
+        ), $args...);
+
         @include colors.vars((
             text-color: -plain
-        ));
+        ), $args...);
 
         @each $palette in palettes.$names {
             &-#{$palette} {
                 @include colors.vars((
                     background-color: plain-#{$palette},
-                ));
+                ), $args...);
+                
                 @include palettes.state-vars($palette, (
                     background-color: plain
-                ));
+                ), $args...);
+                
                 @include colors.vars((
                     text-color: -plain-#{$palette}
-                ));
+                ), $args...);
             }
         }
     }
 }
 
-@mixin filled {
+@mixin filled($args...) {
     .filled {
         @include colors.vars((
             background-color: filled
-        ));
+        ), $args...);
+
         @include states.vars((
             background-color: filled
-        ));
+        ), $args...);
+
         @include colors.vars((
             text-color: -filled
-        ));
+        ), $args...);
 
         @each $palette in palettes.$names {
             &-#{$palette} {
                 @include colors.vars((
                     background-color: filled-#{$palette},
-                ));
+                ), $args...);
+
                 @include palettes.state-vars($palette, (
                     background-color: filled
-                ));
+                ), $args...);
+
                 @include colors.vars((
-                    text-color: -filled-#{$palette}
-                ));
+                    text-color: -filled-#{$palette},
+                    text-hover-color: -filled-#{$palette},
+                    text-active-color: -filled-#{$palette}
+                ), $args...);
             }
         }
     }
 }
 
-@mixin outlined {
+@mixin outlined($args...) {
     .outlined {
         @include vars((
             border-width: 1px
-        ));
+        ), $args...);
         
         @include colors.vars((
             border-color: states.get(border-color, plain-primary),
             background-color: states.get(background-color, plain),
             text-color: primary
-        ));
+        ), $args...);
                 
         border: var(border-width) solid var(border-color);
 
@@ -100,40 +87,44 @@
             &-#{$palette} {
                 @include palettes.state-vars($palette, (
                     border-color: $palette
-                ));
+                ), $args...);
             }
         }
     }
 }
 
-@mixin tinted {
+@mixin tinted($args...) {
     .tinted {
         @include colors.vars((
             background-color: states.get(background-color, tinted),
             text-color: text-color
-        ));
+        ), $args...);
         
         @each $palette in palettes.$names {
             &-#{$palette} {
+                @include palettes.vars($palette, (
+                    background-color: 'tinted-$',
+                ), $args...);
+
                 @include palettes.state-vars($palette, (
                     background-color: 'tinted-$'
-                ));
+                ), $args...);
             }
         }
     }
 }
 
-@mixin outlined-tinted {
+@mixin outlined-tinted($args...) {
     .outlined-tinted {
         @include vars((
             border-width: 1px
-        ));
+        ), $args...);
 
         @include colors.vars((
             border-color: states.get(border-color, plain-primary),
             background-color: states.get(background-color, tinted),
             text-color: text-color
-        ));
+        ), $args...);
 
         border: var(border-width) solid var(border-color);
         
@@ -143,7 +134,7 @@
                     border-color: states.get(border-color, plain),
                     background-color: states.get(background-color, tinted),
                     text-color: '$'
-                ));
+                ), $args...);
             }
         }
     }

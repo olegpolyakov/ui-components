@@ -43,8 +43,10 @@ import Toast from './pages/Toast.mdx';
 import Tooltip from './pages/Tooltip.mdx';
 
 export default [
-    { path: '/', component: Home, title: 'Home', exact: true },
+    { path: '/', component: Home, title: 'Home', exact: true, hidden: true },
+    'Theme',
     { path: '/colors', component: Colors, title: 'Colors' },
+    'Components',
     { path: '/accordion', component: Accordion, title: 'Accordion' },
     { path: '/alert', component: Alert, title: 'Alert' },
     { path: '/avatar', component: Avatar, title: 'Avatar' },

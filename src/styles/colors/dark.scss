@@ -60,7 +60,7 @@ $element-colors: (
 ) !default;
 
 $plain-color: color.change($surface-inverted-color, $alpha: 0) !default;
-$filled-color: $surface-primary-color !default;
+$filled-color: $surface-inverted-color !default;
 $tinted-color: color.change($surface-inverted-color, $alpha: 0.125) !default;
 
 $variant-colors: (

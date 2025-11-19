@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, useLocation } from 'react-router-dom';
 
-import { Button, Heading, List, Provider } from '~/components';
+import { Button, Heading, List, Provider, Text } from '~/components';
 
 import styles from './App.module.scss';
 
@@ -18,6 +18,8 @@ export default function App() {
                     <aside className={styles.aside}>
                         <header className={styles.header}>
                             <Heading
+                                as={Link}
+                                to="/"
                                 className={styles.title}
                                 content="Kantan UI"
                                 size="m"
@@ -39,13 +41,14 @@ export default function App() {
                     <main className={styles.main}>
                         <article className="markdown">
                             <Switch>
-                                {routes.map(route => (
+                                {routes.filter(route => typeof route !== 'string').map(route => (
                                     <Route
                                         key={route.path}
                                         path={route.path}
                                         exact={route.exact}
                                         component={route.component}
                                     />
+                                    
                                 ))}
                             </Switch>
                         </article>
@@ -69,18 +72,29 @@ function Nav() {
 
     return (
         <List ref={ref} className={styles.nav} as="nav">
-            {routes.map(route => (
-                <List.Item
-                    key={route.path}
-                    className={styles.link}
-                    as={Link}
-                    to={route.path}
-                    content={route.title}
-                    shape="rectangular"
-                    active={location.pathname === route.path}
-                    interactive
-                />
-            ))}
+            {routes.filter(route => typeof route === 'object' ? !route.hidden : true).map(route => 
+                typeof route === 'string' ? (
+                    <Text
+                        key={route}
+                        className={styles.subtitle}
+                        content={route}
+                        size="xxs"
+                        muted
+                        uppercase
+                    />
+                ) : (
+                    <List.Item
+                        key={route.path}
+                        className={styles.link}
+                        as={Link}
+                        to={route.path}
+                        content={route.title}
+                        shape="rectangular"
+                        active={location.pathname === route.path}
+                        interactive
+                    />
+                )
+            )}
         </List>
     );
 }

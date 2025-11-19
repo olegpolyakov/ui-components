@@ -24,7 +24,7 @@
     $base-color: color.change($color, $alpha: 0);
 
     @include base.var(plain#{$postfix}-color, $base-color);
-    @include base.var(plain#{$postfix}-contrast-color, color.contrast-color($base-color));
+    @include base.var(plain#{$postfix}-contrast-color, color.contrast-color($base-color, $invert: true));
 
     @include states.vars(plain#{$postfix}, (
         'hover': color.change($color, $alpha: 0.05),
@@ -36,14 +36,15 @@
     @include base.var(filled#{$postfix}-color, $color);
     @include base.var(filled#{$postfix}-contrast-color, color.contrast-color($color));
     @include states.vars(filled#{$postfix}, $color, $args...);
-
 }
 
 @mixin tinted($color, $postfix: '', $args...) {
-    @include base.var(tinted#{$postfix}-color, $color);
-    @include base.var(tinted#{$postfix}-contrast-color, color.contrast-color($color));
+    $base-color: color.change($color, $alpha: 0.1);
+
+    @include base.var(tinted#{$postfix}-color, $base-color);
+    @include base.var(tinted#{$postfix}-contrast-color, color.contrast-color($base-color, $invert: true));
     @include states.vars(tinted#{$postfix}, (
-        'hover': color.adjust($color, $alpha: 0.1),
-        'active': color.adjust($color, $alpha: 0.2)
+        'hover': color.change($color, $alpha: 0.125),
+        'active': color.change($color, $alpha: 0.15)
     ), $args...);
 }

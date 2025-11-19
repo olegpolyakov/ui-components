@@ -26,7 +26,5 @@ $vars: component.vars('Input', (
     text-color: $text-color,
     font-size: $font-size,
     font-weight: $font-weight,
-    line-height: $line-height,
-    foo: --gap,
-    _bar: --foo
+    line-height: $line-height
 ));

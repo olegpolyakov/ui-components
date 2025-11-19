@@ -98,7 +98,7 @@
 
 // Shapes
 
-@include component.declare((
+@include component.classes((
     rounded: (border-radius: base.var(border-radius-m)),
     rectangular: (border-radius: 0),
     circular: (border-radius: component.var(height))
@@ -107,7 +107,7 @@
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     s: (
         height: 32px,
         padding: 0 8px,

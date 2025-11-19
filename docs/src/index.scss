@@ -11,6 +11,11 @@
 body {
     margin: 0;
     padding: 0;
+
+    @media (prefers-color-scheme: dark) {
+        background-color: black;
+        color: white;
+    }
 }
 
 .markdown {
@@ -25,9 +30,5 @@ body {
         border-radius: 8px;
         padding: 8px;
         overflow: auto;
-    
-        code.hljs {
-            background-color: transparent;
-        }
     }
 }

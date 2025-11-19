@@ -106,7 +106,7 @@
 }
 
 @function _get-var-name($name, $state) {
-    @if (string.ends-with($name, '-color')) {
+    @if string.ends-with($name, '-color') {
         @return '#{string.replace($name, '-color', '')}-#{$state}-color';
     } @else {
         @return '#{$name}-#{$state}';

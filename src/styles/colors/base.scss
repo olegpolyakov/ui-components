@@ -20,6 +20,10 @@ $purple: #ab47bc !default;
     $prefix: '',
     $postfix: ''
 ) {
+    @if not string.ends-with($name, '-color') {
+        $name: '#{$name}-color';
+    }
+
     @if type.is-string($color) {
         @if string.starts-with($color, '-') {
             $color: #{string.slice($color, 2)}-contrast;

@@ -10,6 +10,8 @@
 @use 'utils/string';
 @use 'utils/type';
 
+@use './variants';
+
 $-name: '';
 $-vars: ();
 
@@ -116,6 +118,34 @@ $-vars: ();
             $prefix: '#{$-name}-',
             $args...
         );
+    }
+}
+
+@mixin variants(
+    $plain: true,
+    $filled: true,
+    $outlined: true,
+    $tinted: true,
+    $outlined-tinted: true
+) {
+    @if ($plain) {
+        @include variants.plain($prefix: '#{$-name}-');
+    }
+
+    @if ($filled) {
+        @include variants.filled($prefix: '#{$-name}-');
+    }
+
+    @if ($outlined) {
+        @include variants.outlined($prefix: '#{$-name}-');
+    }
+
+    @if ($tinted) {
+        @include variants.tinted($prefix: '#{$-name}-');
+    }
+
+    @if ($outlined-tinted) {
+        @include variants.outlined-tinted($prefix: '#{$-name}-');
     }
 }
 

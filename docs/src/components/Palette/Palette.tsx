@@ -23,7 +23,7 @@ export default function Palette({
                         value={vars[`${name}${level}`]}
                         style={{
                             backgroundColor: `var(--kui-${name}-${level}-color)`,
-                            color: `var(--kui-on-${name}-${level}-color)`
+                            color: `var(--kui-${name}-${level}-contrast-color)`
                         }}
                     />
                 )}
