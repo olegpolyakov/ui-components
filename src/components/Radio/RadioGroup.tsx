@@ -1,15 +1,19 @@
-import type { ComponentProps, ElementType, PropsWithKey } from '../../types';
+import { Children, cloneElement, isValidElement } from 'react';
+import type { Align, ComponentProps, ElementType, Orientation, PropsWithKey } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import Radio, { type RadioProps } from './Radio';
+import Radio from './Radio';
 
 import styles from './RadioGroup.module.scss';
+
+type RadioProps = Parameters<typeof Radio>[0];
 
 export type RadioGroupProps = {
     name?: string;
     radios?: PropsWithKey<RadioProps>[];
     size?: RadioProps['size'];
-    orientation?: 'horizontal' | 'vertical';
+    align?: Align;
+    orientation?: Orientation;
 };
 
 RadioGroup.displayName = 'RadioGroup';
@@ -24,7 +28,8 @@ export default function RadioGroup<T extends ElementType = 'div'>({
     name,
     radios = [],
     size,
-    orientation,
+    align = 'start',
+    orientation = 'horizontal',
     ...props
 }: ComponentProps<RadioGroupProps, T>) {
     const Root = as || 'div';
@@ -32,7 +37,7 @@ export default function RadioGroup<T extends ElementType = 'div'>({
         className,
         elementClassNames.root,
         styles.root,
-        orientation && styles[orientation]
+        styles[`${orientation}-${align}`]
     );
 
     return (
@@ -47,7 +52,14 @@ export default function RadioGroup<T extends ElementType = 'div'>({
                 />
             )}
 
-            {children}
+            {Children.map(children, child =>
+                isValidElement<RadioProps>(child) &&
+                cloneElement<RadioProps>(child, {
+                    className: cn(child.props.className, styles.radio),
+                    name,
+                    size
+                })
+            )}
         </Root>
     );
 }

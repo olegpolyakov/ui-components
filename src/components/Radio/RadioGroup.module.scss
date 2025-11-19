@@ -8,14 +8,37 @@
 .root {
     display: flex;
     gap: component.var(gap);
-    align-items: center;
     flex-wrap: wrap;
 }
 
 .horizontal {
     flex-direction: row;
+
+    &-start {
+        justify-content: flex-start;
+    }
+
+    &-center {
+        justify-content: center;
+    }
+
+    &-end {
+        justify-content: flex-end;
+    }
 }
 
 .vertical {
     flex-direction: column;
+
+    &-start {
+        align-items: flex-start;
+    }
+
+    &-center {
+        align-items: center;
+    }
+
+    &-end {
+        align-items: flex-end;
+    }
 }

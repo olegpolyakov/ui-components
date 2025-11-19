@@ -8,7 +8,6 @@
 .root {
     display: flex;
     align-items: center;
-    gap: component.var(gap);
 }
 
 .input {
@@ -27,6 +26,7 @@
 
 .label {
     cursor: pointer;
+    padding-left: component.var(gap);
 }
 
 
@@ -44,15 +44,15 @@
 
     &:checked {
         border-color: base.var(primary-color);
-        border-width: base.var(checked-border-width);
+        border-width: component.var(_checked-border-width);
 
         &:hover {
-            border-color: var(--ui-primary-color);
+            border-color: base.var(primary-color);
         }
 
         &:active {
-            border-color: var(--ui-primary-active-color);
-            background-color: var(--ui-surface-color);
+            border-color: base.var(primary-color-active);
+            background-color: base.var(surface-color);
         }
     }
 }
@@ -67,20 +67,20 @@
 
 // Sizes
 
-@include component.declare((
+@include component.classes((
     s: (
         size: 16px,
-        checked-border-width: 5px,
-        gap: base.var(space-xs)
+        gap: base.var(space-xs),
+        _checked-border-width: 5px
     ),
     m: (
         size: 20px,
-        checked-border-width: 6px,
-        gap: base.var(space-s)
+        gap: base.var(space-s),
+        _checked-border-width: 6px
     ),
     l: (
         size: 24px,
-        checked-border-width: 7px,
-        gap: base.var(space-m)
+        gap: base.var(space-m),
+        _checked-border-width: 7px
     )
 ));
