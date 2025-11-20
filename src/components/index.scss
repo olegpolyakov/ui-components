@@ -30,7 +30,7 @@
 @forward './Select' as select-*;
 @forward './Slider' as slider-*;
 @forward './Spinner' as spinner-*;
-// @forward './State' as state-*;
+@forward './State' as state-*;
 @forward './Switch' as switch-*;
 @forward './Table' as table-*;
 @forward './Tabs' as tabs-*;

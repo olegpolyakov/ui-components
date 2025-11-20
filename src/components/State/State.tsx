@@ -1,28 +1,26 @@
-import type { ReactNode } from 'react';
-
-import type { PropsWithChildren } from '../../types';
+import type { ComponentProps, Slotted } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Button, { ButtonProps } from '../Button';
-import { HeadingProps } from '../Heading';
+import Heading, { HeadingProps } from '../Heading';
 import Image, { ImageProps } from '../Image';
 import Slot from '../Slot';
-import { TextProps } from '../Text';
+import { Text, TextProps } from '../Text';
 
-import cssClasses from './State.scss';
+import styles from './State.module.scss';
 
 const displayName = 'State';
 const elementClassNames = getElementClassNames(displayName, [
     'image', 'main', 'title', 'subtitle', 'description', 'action'
 ]);
 
-export type StateProps = PropsWithChildren<{
-  image?: ReactNode | ImageProps;
-  title?: ReactNode | HeadingProps;
-  subtitle?: ReactNode | HeadingProps;
-  description?: ReactNode | TextProps;
-  action?: ReactNode | ButtonProps;
-}>;
+export type StateProps = {
+  image?: Slotted<ImageProps>;
+  title?: Slotted<HeadingProps>;
+  subtitle?: Slotted<HeadingProps>;
+  description?: Slotted<TextProps>;
+  action?: Slotted<ButtonProps>;
+};
 
 export default function State({
     image,
@@ -32,36 +30,51 @@ export default function State({
     action,
     className,
     children
-}: StateProps) {
+}: ComponentProps<StateProps, 'div'>) {
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root
+        styles.root
     );
 
     return (
         <div className={classNames}>
             {image && (
-                <Slot as={Image} className={cn(elementClassNames.image, cssClasses.image)}>
+                <Slot
+                    fallback={Image}
+                    className={cn(elementClassNames.image, styles.image)}
+                >
                     {image}
                 </Slot>
             )}
 
-            <div className={cn(elementClassNames.main, cssClasses.main)}>
+            <div className={cn(elementClassNames.main, styles.main)}>
                 {title && (
-                    <Slot className={cn(elementClassNames.title, cssClasses.title)} element="h2">
+                    <Slot
+                        fallback={Heading}
+                        as="h2"
+                        className={cn(elementClassNames.title, styles.title)}
+                    >
                         {title}
                     </Slot>
                 )}
 
                 {subtitle && (
-                    <Slot className={cn(elementClassNames.subtitle, cssClasses.subtitle)} element="h3">
+                    <Slot
+                        fallback={Heading}
+                        as="h3"
+                        size="s"
+                        className={cn(elementClassNames.subtitle, styles.subtitle)}
+                    >
                         {subtitle}
                     </Slot>
                 )}
 
                 {description && (
-                    <Slot className={cn(elementClassNames.description, cssClasses.description)} element="p">
+                    <Slot
+                        fallback={Text}
+                        className={cn(elementClassNames.description, styles.description)}
+                    >
                         {description}
                     </Slot>
                 )}
@@ -69,8 +82,8 @@ export default function State({
 
             {action && (
                 <Slot
-                    className={cn(elementClassNames.action, cssClasses.action)}
-                    element={Button}
+                    fallback={Button}
+                    className={cn(elementClassNames.action, styles.action)}
                     color="primary"
                     variant="filled"
                 >

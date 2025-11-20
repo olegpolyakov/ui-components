@@ -36,6 +36,7 @@ import Radio from './pages/Radio.mdx';
 import Select from './pages/Select.mdx';
 import Slider from './pages/Slider.mdx';
 import Spinner from './pages/Spinner.mdx';
+import State from './pages/State.mdx';
 import Switch from './pages/Switch.mdx';
 import Table from './pages/Table.mdx';
 import Tabs from './pages/Tabs.mdx';
@@ -84,6 +85,7 @@ export default [
     { path: '/select', component: Select, title: 'Select' },
     { path: '/slider', component: Slider, title: 'Slider' },
     { path: '/spinner', component: Spinner, title: 'Spinner' },
+    { path: '/state', component: State, title: 'State' },
     { path: '/switch', component: Switch, title: 'Switch' },
     { path: '/table', component: Table, title: 'Table' },
     { path: '/tabs', component: Tabs, title: 'Tabs' },

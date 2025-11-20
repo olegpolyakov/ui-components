@@ -1,0 +1,8 @@
+@use 'base';
+@use 'component';
+
+$gap: base.var(space-m) !default;
+
+$vars: component.vars(State, (
+    gap: $gap
+));
