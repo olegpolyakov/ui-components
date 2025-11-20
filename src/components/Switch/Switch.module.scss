@@ -16,30 +16,35 @@
 .input {
     appearance: none;
     position: relative;
-    display: inline-flex;
-    align-items: center;
     width: component.var(input-width);
     height: component.var(input-height);
-    background-color: component.var(background-color);
-    border: none;
-    border-radius: component.var(input-height);
     margin: 0;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    background-color: component.var(background-color);
+    border: 2px solid base.var(tinted-color);
+    border-color: base.var(tinted-color);
+    border-radius: component.var(input-height);
     transition: background-color 0.2s ease-in-out;
     cursor: pointer;
 
     // thumb
     &::after {
-        $size: calc(#{component.var(input-height)} - 6px);
+        $size: calc(#{component.var(input-height)} - 8px);
 
         content: '';
         position: absolute;
-        top: 3px;
-        left: 3px;
+        top: 2px;
+        left: 2px;
+        box-sizing: border-box;
         width: $size;
         height: $size;
-        border-radius: 25px;
+        border-radius: 100%;
         background-color: component.var(thumb-background-color);
-        transition: transform 0.2s ease-in-out;
+        transition:
+            background-color 0.2s ease-in-out,
+            transform 0.2s ease-in-out;
     }
 }
 
@@ -51,32 +56,41 @@
 // States
 
 .input {
+    @include component.vars((
+        background-color: base.var(plain-color)
+    ));
+
     &:hover {
-        // --ui-Switch-background-color: var(--ui-light-gray);
+        @include component.vars((
+            background-color: base.var(plain-hover-color)
+        ));
     }
 
     &:active {
-        // --ui-Switch-background-color: var(--ui-gray);
+        @include component.vars((
+            background-color: base.var(plain-active-color)
+        ));
     }
 
     &:disabled {
+
         --ui-Switch-background-color: var(--ui-neutral-disabled-color);
     }
 
     &:checked {
         @include component.vars((
-            thumb-background-color: base.var(primary-color)
+            thumb-background-color: base.var(filled-primary-color)
         ));
 
         &:hover {
             @include component.vars((
-                thumb-background-color: base.var(primary-color-hover)
+                thumb-background-color: base.var(filled-primary-hover-color)
             ));
         }
 
         &:active {
             @include component.vars((
-                thumb-background-color: base.var(primary-color-active)
+                thumb-background-color: base.var(filled-primary-active-color)
             ));
         }
 

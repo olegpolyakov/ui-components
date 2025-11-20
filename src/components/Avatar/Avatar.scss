@@ -6,7 +6,7 @@ $border-color: none !default;
 $border-radius: null !default;
 $border-width: 0 !default;
 $background-color: none !default;
-$text-color: base.var(text-primary-color) !default;
+$text-color: base.var(text-color) !default;
 $font-size: base.var(font-size-m) !default;
 
 $vars: component.vars(Avatar, (

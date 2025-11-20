@@ -13,7 +13,15 @@
     border-radius: component.var(border-radius);
     background-color: component.var(background-color);
     padding: component.var(padding);
-    box-shadow: component.var(shadow);
+    box-shadow: component.var(shadow) base.var(shadow-color);
+}
+
+.interactive {
+    &:hover {
+        @include component.vars((
+            background-color: base.var(surface-hover-color)
+        ));
+    }
 }
 
 
@@ -26,11 +34,6 @@
 ));
 
 
-// Variants
-
-@include component.variants;
-
-
 // Shadow
 
 @include component.classes((
@@ -40,12 +43,6 @@
 ));
 
 
-// Misc
+// Variants
 
-.interactive {
-    &:hover {
-        @include component.vars((
-            background-color: base.var(surface-hover-color)
-        ));
-    }
-}
+@include component.variants;

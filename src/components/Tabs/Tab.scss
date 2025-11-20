@@ -6,7 +6,7 @@ $gap: base.var(space-xs) !default;
 $border-color: null !default;
 $border-radius: 0px !default;
 $border-width: 0px !default;
-$text-color: base.var(text-secondary-color) !default;
+$text-color: base.var(text-color) !default;
 $indicator-width: 2px !default;
 
 $vars: component.vars(Tab, (

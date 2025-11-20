@@ -5,6 +5,7 @@
     background-color: var(--kui-surface-color);
     display: grid;
     grid-template-columns: auto max-content;
+    grid-template-rows: auto 1fr;
     grid-template-areas:
         "main aside"
         "code aside";

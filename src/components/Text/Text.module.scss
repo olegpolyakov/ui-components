@@ -72,10 +72,10 @@
 // Weight
 
 @include component.classes((
-    light: (font-weight: base.var(font-weight-light)),
-    normal: (font-weight: base.var(font-weight-normal)),
-    semibold: (font-weight: base.var(font-weight-semibold)),
-    bold: (font-weight: base.var(font-weight-bold))
+    weight-light: (font-weight: base.var(font-weight-light)),
+    weight-normal: (font-weight: base.var(font-weight-normal)),
+    weight-semibold: (font-weight: base.var(font-weight-semibold)),
+    weight-bold: (font-weight: base.var(font-weight-bold))
 ));
 
 
@@ -123,10 +123,6 @@
         overflow: hidden;
         text-overflow: ellipsis;
     }
-}
-
-.muted {
-    opacity: base.var(opacity-muted);
 }
 
 @include component.classes((

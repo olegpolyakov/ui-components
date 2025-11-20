@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react';
+
 import type { Color, ComponentProps, ElementType, Shadow, Size, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Card.module.scss';
+import styles from './Card.module.scss';
 
 export type CardProps = {
     content?: ReactNode;
@@ -11,7 +12,6 @@ export type CardProps = {
     shadow?: Shadow;
     variant?: Variant;
     interactive?: boolean;
-    raised?: boolean;
 };
 
 Card.displayName = 'Card';
@@ -29,20 +29,19 @@ export default function Card<T extends ElementType = 'div'>({
     shadow,
     variant = 'plain',
     interactive,
-    raised,
     ...props
 }: ComponentProps<CardProps, T>) {
     const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        color && cssClasses[color],
-        size && cssClasses[size],
-        shadow && cssClasses[`shadow-${shadow}`],
-        cssClasses[variant],
-        interactive && cssClasses.interactive,
-        raised && cssClasses.raised
+        styles.root,
+        color && styles[color],
+        size && styles[size],
+        shadow && styles[`shadow-${shadow}`],
+        styles[variant],
+        styles[color ? `${variant}-${color}` : variant],
+        interactive && styles.interactive
     );
 
     return (

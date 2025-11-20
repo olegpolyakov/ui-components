@@ -8,6 +8,7 @@
 .root {
     display: flex;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .input {
@@ -34,24 +35,25 @@
 
 .input {
     &:hover {
-        border-color: base.var(primary-color);
+        border-color: base.var(plain-hover-color);
+        background-color: base.var(plain-hover-color);
     }
 
     &:active {
-        border-color: base.var(primary-color-active);
-        background-color: base.var(primary-color-active);
+        border-color: base.var(plain-active-color);
+        background-color: base.var(plain-active-color);
     }
 
     &:checked {
-        border-color: base.var(primary-color);
+        border-color: base.var(filled-primary-color);
         border-width: component.var(_checked-border-width);
 
         &:hover {
-            border-color: base.var(primary-color);
+            border-color: base.var(filled-primary-hover-color);
         }
 
         &:active {
-            border-color: base.var(primary-color-active);
+            border-color: base.var(filled-primary-active-color);
             background-color: base.var(surface-color);
         }
     }

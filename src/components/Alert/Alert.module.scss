@@ -16,7 +16,7 @@
     border-radius: component.var(border-radius);
     background-color: component.var(background-color);
     color: component.var(text-color);
-    box-shadow: component.var(shadow);
+    box-shadow: component.var(shadow) base.var(shadow-color);
 }
 
 .start,
@@ -44,7 +44,7 @@
 }
 
 .close-button {
-    color: base.var(icon-muted-color);
+    color: base.var(icon-color);
     transition: color .3s;
     opacity: .25;
 
@@ -85,7 +85,7 @@
 
 @include component.classes((
     circular: (
-        border-radius: height
+        border-radius: component.var(height)
     ),
     rectangular: (
         border-radius: 0

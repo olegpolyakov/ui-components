@@ -6,7 +6,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import Icon, { IconProps } from '../Icon';
 // import Spinner from '../Spinner';
 
-import cssClasses from './Button.module.scss';
+import styles from './Button.module.scss';
 
 export type ButtonProps = {
     content?: ReactNode;
@@ -58,23 +58,23 @@ export default function Button<T extends ElementType = 'button'>({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[shape],
-        cssClasses[size],
-        cssClasses[variant],
-        cssClasses[color ? `${variant}-${color}` : variant],
-        !!icon && !content && cssClasses.iconButton,
-        !!startIcon && cssClasses.iconBefore,
-        !!endIcon && cssClasses.iconAfter,
-        active && cssClasses.active,
-        fluid && cssClasses.fluid,
-        loading && cssClasses.loading
+        styles.root,
+        styles[shape],
+        styles[size],
+        styles[variant],
+        styles[color ? `${variant}-${color}` : variant],
+        !!icon && !content && styles.iconButton,
+        !!startIcon && styles.iconBefore,
+        !!endIcon && styles.iconAfter,
+        active && styles.active,
+        fluid && styles.fluid,
+        loading && styles.loading
     );
     
     const iconContent = icon || startIcon || endIcon;
     const iconElement = iconContent && (
         <Icon
-            className={cn(elementClassNames.icon, cssClasses.icon)}
+            className={cn(elementClassNames.icon, styles.icon)}
             size={size}
             {...iconProps}
         >
@@ -88,7 +88,7 @@ export default function Button<T extends ElementType = 'button'>({
             {...props}
         >
             {(start || startIcon) &&
-                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                <span className={cn(elementClassNames.start, styles.start)}>
                     {start || iconElement}
                 </span>
             }
@@ -96,7 +96,7 @@ export default function Button<T extends ElementType = 'button'>({
             {!startIcon && !endIcon && iconElement}
 
             {content &&
-                <span className={cn(elementClassNames.content, cssClasses.content)}>
+                <span className={cn(elementClassNames.content, styles.content)}>
                     {content}
                 </span>
             }
@@ -109,7 +109,7 @@ export default function Button<T extends ElementType = 'button'>({
             } */}
 
             {(end || endIcon) &&
-                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                <span className={cn(elementClassNames.end, styles.end)}>
                     {end || iconElement}
                 </span>
             }

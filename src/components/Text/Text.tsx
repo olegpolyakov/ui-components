@@ -19,7 +19,6 @@ export type TextProps = {
     uppercase?: boolean;
     strikethrough?: boolean;
     ellipsis?: boolean;
-    muted?: boolean;
     disabled?: boolean;
     interactive?: boolean;
     marginTop?: boolean;
@@ -51,7 +50,6 @@ export default function Text<T extends ElementType = 'p'>({
     uppercase,
     strikethrough,
     ellipsis,
-    muted,
     disabled,
     marginTop,
     marginBottom,
@@ -65,14 +63,13 @@ export default function Text<T extends ElementType = 'p'>({
         color && styles[color],
         size && styles[size],
         emphasis && styles[`emphasis-${emphasis}`],
-        weight && styles[weight],
+        weight && styles[`weight-${weight}`],
         align && styles[`align-${align}`],
         inline && styles.inline,
         italic && styles.italic,
         uppercase && styles.uppercase,
         strikethrough && styles.strikethrough,
         ellipsis && styles.ellipsis,
-        muted && styles.muted,
         disabled && styles.disabled,
         marginTop && marginTop === true
             ? styles.mt

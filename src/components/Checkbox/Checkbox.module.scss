@@ -8,11 +8,11 @@
 .root {
     display: flex;
     align-items: center;
-    gap: component.var(gap);
 }
 
 .label {
     cursor: pointer;
+    padding-left: component.var(gap);
 }
 
 .input {
@@ -32,37 +32,49 @@
 
     &:hover {
         @include component.vars((
-            border-color: base.var(primary-color-hover)
+            border-color: base.var(plain-hover-color),
+            background-color: base.var(plain-hover-color)
         ));
     }
 
     &:active {
         @include component.vars((
-            border-color: base.var(primary-color-active)
+            border-color: base.var(plain-active-color),
+            background-color: base.var(plain-active-color)
         ));
     }
 }
 
 .input:checked {
     @include component.vars((
-        border-color: base.var(primary-color),
-        background-color: base.var(primary-color)
+        border-color: base.var(filled-primary-color),
+        background-color: base.var(filled-primary-color)
     ));
-
-    background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjAnIGhlaWdodD0nMjAnIHZpZXdCb3g9JzAgMCAyNCAyNCcgZmlsbD0nbm9uZScgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cGF0aCBkPSdNNSAxM2w0IDRMMTkgNycgc3Ryb2tlPScjZmZmJyBzdHJva2Utd2lkdGg9JzInIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcgc3Ryb2tlLWxpbmVqb2luPSdyb3VuZCc+PC9wYXRoPjwvc3ZnPg==');
 
     &:hover {
         @include component.vars((
-            border-color: base.var(primary-color-hover),
-            background-color: base.var(primary-color-hover)
+            border-color: base.var(filled-primary-hover-color),
+            background-color: base.var(filled-primary-hover-color)
         ));
     }
 
     &:active {
         @include component.vars((
-            border-color: base.var(primary-color-active),
-            background-color: base.var(primary-color-active)
+            border-color: base.var(filled-primary-active-color),
+            background-color: base.var(filled-primary-active-color)
         ));
+    }
+}
+
+@include base.theme(dark) {
+    .input:checked {
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSIyNHB4IiBmaWxsPSJibGFjayI+PHBhdGggZD0iTTM4Mi0yNDAgMTU0LTQ2OGw1Ny01NyAxNzEgMTcxIDM2Ny0zNjcgNTcgNTctNDI0IDQyNFoiLz48L3N2Zz4=');
+    }
+}
+
+@include base.theme(light) {
+    .input:checked {
+        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSIyNHB4IiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTM4Mi0yNDAgMTU0LTQ2OGw1Ny01NyAxNzEgMTcxIDM2Ny0zNjcgNTcgNTctNDI0IDQyNFoiLz48L3N2Zz4=');
     }
 }
 

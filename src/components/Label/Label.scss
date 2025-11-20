@@ -1,7 +1,7 @@
 @use 'base';
 @use 'component';
 
-$color: base.var(text-primary-color) !default;
+$color: base.var(text-color) !default;
 $gap: base.var(space-xs) !default;
 $size: base.var(font-size-m) !default;
 

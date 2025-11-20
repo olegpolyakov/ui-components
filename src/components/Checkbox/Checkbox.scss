@@ -2,10 +2,10 @@
 @use 'component';
 
 $size: 20px !default;
-$border-color: base.var(icon-color) !default;
+$border-color: base.var(border-color) !default;
 $border-width: 2px !default;
 $border-radius: 4px !default;
-$background-color: transparent !default;
+$background-color: base.var(plain-color) !default;
 $gap: base.var(space-s) !default;
 
 $vars: component.vars(Checkbox, (
