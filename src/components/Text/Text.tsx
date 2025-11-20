@@ -20,7 +20,7 @@ export type TextProps = {
     strikethrough?: boolean;
     ellipsis?: boolean;
     disabled?: boolean;
-    interactive?: boolean;
+    decorative?: boolean;
     marginTop?: boolean;
     marginBottom?: boolean;
 };
@@ -50,6 +50,7 @@ export default function Text<T extends ElementType = 'p'>({
     uppercase,
     strikethrough,
     ellipsis,
+    decorative,
     disabled,
     marginTop,
     marginBottom,
@@ -71,6 +72,7 @@ export default function Text<T extends ElementType = 'p'>({
         strikethrough && styles.strikethrough,
         ellipsis && styles.ellipsis,
         disabled && styles.disabled,
+        decorative && styles.decorative,
         marginTop && marginTop === true
             ? styles.mt
             : styles[`mt-${marginTop}`],

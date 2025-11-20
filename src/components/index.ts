@@ -18,6 +18,7 @@ export * from './Heading';
 export * from './Icon';
 export * from './Image';
 export * from './Input';
+export * from './Item';
 export * from './Label';
 export * from './Layer';
 export * from './Link';

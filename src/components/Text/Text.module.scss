@@ -136,6 +136,10 @@
     mb-l: (margin-bottom: base.var(space-l)),
 ));
 
+.decorative {
+    user-select: none;
+}
+
 .link {
     @include component.vars((
         color: base.var(primary-color),

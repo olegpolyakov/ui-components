@@ -1,22 +1,23 @@
-import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
+import { Children, cloneElement, isValidElement } from 'react';
+import type { ComponentProps, ElementType, PropsFor, PropsWithKey, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import ListItem, { type ListItemProps } from './ListItem';
+import Item, { type ItemProps } from '../Item';
 
-import cssClasses from './List.module.scss';
+import styles from './List.module.scss';
 
 export type ListProps = {
-    items?: PropsWithKey<ListItemProps>[];
+    items?: PropsWithKey<ItemProps>[];
     size?: Size;
     gap?: Size;
     interactive?: boolean;
 };
 
 List.displayName = 'List';
-List.Item = ListItem;
 
 const elementClassNames = getElementClassNames(
-    List.displayName
+    List.displayName,
+    ['item']
 );
 
 export default function List<T extends ElementType = 'ul'>({
@@ -25,7 +26,7 @@ export default function List<T extends ElementType = 'ul'>({
     children,
 
     items,
-    size = 'm',
+    size,
     gap,
     interactive,
     ...props
@@ -34,22 +35,33 @@ export default function List<T extends ElementType = 'ul'>({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size],
-        gap && cssClasses[`gap-${gap}`]
+        styles.root,
+        size && styles[size],
+        gap && styles[`gap-${gap}`]
     );
+
+    const itemAs = as === 'ol' || as === 'ul' ? 'li' : undefined;
 
     return (
         <Component className={classNames} {...props}>
             {items?.map(item =>
-                <ListItem
+                <Item
                     key={item.key}
+                    as={itemAs}
+                    size={size}
                     interactive={interactive}
                     {...item}
                 />
             )}
 
-            {children}
+            {Children.map(children, child =>
+                isValidElement<PropsFor<typeof Item>>(child) &&
+                cloneElement(child, {
+                    as: child.props.as || itemAs,
+                    size: child.props.size || size,
+                    interactive: child.props.interactive || interactive
+                })
+            )}
         </Component>
     );
 }

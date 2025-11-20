@@ -1,20 +1,21 @@
 import type { ReactNode } from 'react';
 
-import type { Color, ComponentProps, ElementType, Shape, SizeExtended, Variant } from '../../types';
+import type { Color, ComponentProps, ElementType, Shape, SizeExtended, Slotted, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
+import Slot from '../Slot';
 // import Spinner from '../Spinner';
 
 import styles from './Button.module.scss';
 
 export type ButtonProps = {
     content?: ReactNode;
-    icon?: ReactNode;
+    icon?: Slotted<IconProps>;
     start?: ReactNode;
-    startIcon?: ReactNode;
+    startIcon?: Slotted<IconProps>;
     end?: ReactNode;
-    endIcon?: ReactNode;
+    endIcon?: Slotted<IconProps>;
     color?: Color;
     shape?: Shape;
     size?: SizeExtended;
@@ -23,7 +24,6 @@ export type ButtonProps = {
     fluid?: boolean;
     disabled?: boolean;
     loading?: boolean;
-    iconProps?: IconProps;
 };
 
 Button.displayName = 'Button';
@@ -51,7 +51,6 @@ export default function Button<T extends ElementType = 'button'>({
     active,
     fluid,
     loading,
-    iconProps,
     ...props
 }: ComponentProps<ButtonProps, T>) {
     const Component = as || 'button';
@@ -63,7 +62,7 @@ export default function Button<T extends ElementType = 'button'>({
         styles[size],
         styles[variant],
         styles[color ? `${variant}-${color}` : variant],
-        !!icon && !content && styles.iconButton,
+        (!!icon && !content || icon === true) && styles.iconButton,
         !!startIcon && styles.iconBefore,
         !!endIcon && styles.iconAfter,
         active && styles.active,
@@ -71,15 +70,15 @@ export default function Button<T extends ElementType = 'button'>({
         loading && styles.loading
     );
     
-    const iconContent = icon || startIcon || endIcon;
+    const iconContent = icon !== true && (icon || startIcon || endIcon);
     const iconElement = iconContent && (
-        <Icon
+        <Slot
+            fallback={Icon}
             className={cn(elementClassNames.icon, styles.icon)}
             size={size}
-            {...iconProps}
         >
             {iconContent}
-        </Icon>
+        </Slot>
     );
 
     return (

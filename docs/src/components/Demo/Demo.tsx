@@ -24,7 +24,6 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
     props?: Record<string, any>;
     children?: ReactElement | ((data: T, setData: (data: T) => void) => ReactElement);
 }) {
-    console.log({ settings });
     const filteredSettings = useMemo(() =>
         settings
             ? Object.values(settings).filter(setting =>

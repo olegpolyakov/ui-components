@@ -1,0 +1,98 @@
+@use 'base';
+@use 'component';
+
+@use './Item';
+
+@include component.define(Item, Item.$vars);
+
+.root {
+    box-sizing: border-box;
+    min-height: component.var(height);
+    display: flex;
+    align-items: center;
+    border-radius: component.var(border-radius);
+    padding: component.var(padding);
+    gap: component.var(gap);
+    background-color: component.var(background-color);
+    color: component.var(text-color);
+    font-size: component.var(font-size);
+}
+
+.start,
+.end {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.content {
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+
+// States
+
+.interactive {
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.15s ease-in-out,
+                background-color 0.15s ease-in-out,
+                border-color 0.15s ease-in-out;
+
+    &:hover {
+        border-color: component.var(border-hover-color);
+        background-color: component.var(background-hover-color);
+        color: component.var(text-hover-color);
+    }
+    
+    &.active,
+    &:active {
+        border-color: component.var(border-active-color);
+        background-color: component.var(background-active-color);
+        color: component.var(text-active-color);
+    }
+
+    &.disabled {
+        cursor: default;
+        pointer-events: none;
+    }
+}
+
+
+// Sizes
+
+@include component.classes((
+    s: (
+        height: 36px,
+        padding: base.var(space-xxs) base.var(space-xs),
+        font-size: base.var(font-size-s)
+    ),
+    m: (
+        height: 40px,
+        padding: base.var(space-xs) base.var(space-s),
+        font-size: base.var(font-size-m)
+    ),
+    l: (
+        height: 48px,
+        padding: base.var(space-s) base.var(space-m),
+        font-size: base.var(font-size-l)
+    )
+));
+
+
+// Shapes
+
+@include component.classes((
+    circular: (border-radius: component.var(height)),
+    rectangular: (border-radius: 0),
+    rounded: (border-radius: base.var(border-radius-m)),
+    rounded-s: (border-radius: base.var(border-radius-s)),
+    rounded-m: (border-radius: base.var(border-radius-m)),
+    rounded-l: (border-radius: base.var(border-radius-l))
+));
+
+
+// Variants
+
+@include component.variants;

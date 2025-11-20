@@ -1,5 +1,7 @@
 import * as React from 'react';
 
+export type { ComponentProps as PropsFor } from 'react';
+
 export type Merge<T1, T2> = Omit<T2, keyof T1> & T1;
 
 export type ElementType = React.ElementType;
@@ -66,7 +68,7 @@ export type Size = 's' | 'm' | 'l';
 export type SizeExtended = 'xs' | Size | 'xl';
 export type SizeFull = 'xxs' | SizeExtended | 'xxl';
 export type Shadow = Size;
-export type Shape = 'circular' | 'rectangular' | 'rounded';
+export type Shape = 'circular' | 'rectangular' | 'rounded' | 'rounded-s' | 'rounded-m' | 'rounded-l';
 export type Space = 'none' | 'auto' | SizeFull;
 export type Variant = 'plain' | 'filled' | 'outlined' | 'tinted' | 'outlined-tinted';
 export type Weight = 'light' | 'normal' | 'semibold' | 'bold';

@@ -13,7 +13,8 @@ import type { ComponentProps, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Badge from '../Badge';
-import { List, ListItem } from '../List';
+import { List } from '../List';
+import { Item } from '../Item';
 
 import cssClasses from './Combobox.module.scss';
 import Popover from '../Popover';
@@ -245,8 +246,9 @@ export default function Combobox({
                                     : optionValue === getValue(value);
 
                                 return (
-                                    <ListItem
+                                    <Item
                                         key={index}
+                                        as="li"
                                         color={selected ? 'primary' : undefined}
                                         variant={selected ? 'filled' : undefined}
                                         interactive
@@ -254,13 +256,14 @@ export default function Combobox({
                                         onClick={handleChange}
                                     >
                                         {optionLabel}
-                                    </ListItem>
+                                    </Item>
                                 );
 
                             })}
 
                         {creatable && inputValue && options.length > 0 && !options.find(option => getLabel(option) === inputValue) &&
-                            <ListItem
+                            <Item
+                                as="li"
                                 content={`${createNewLabel} "${inputValue}"`}
                                 interactive
                                 onClick={handleCreateNew}

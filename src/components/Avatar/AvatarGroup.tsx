@@ -37,7 +37,7 @@ export default function AvatarGroup<T extends ElementType>({
     size,
     variant,
     overlap,
-    gap,
+    gap = 'xxs',
     maxCount = 0,
     ...props
 }: ComponentProps<AvatarGroupProps, T>) {

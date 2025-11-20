@@ -148,18 +148,6 @@
 
 // Icon
 
-.icon-before {
-    .icon {
-        order: 0;
-    }
-}
-
-.icon-after {
-    .icon {
-        order: 1;
-    }
-}
-
 .icon-button {
     @include component.vars((
         padding: 0

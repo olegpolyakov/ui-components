@@ -7,17 +7,30 @@
 
 .root {
     display: flex;
+    gap: component.var(gap);
+}
+
+.label {
+    flex-shrink: 0;
+}
+
+.vertical {
     flex-direction: column;
     flex-wrap: wrap;
     align-items: flex-start;
-    gap: component.var(gap);
+}
+
+.horizontal {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 
 .required {
     .label {
         &::after {
             content: '*';
-            color: var(--kui-danger-color);
+            color: base.var(danger-color);
         }
     }
 }
@@ -30,12 +43,3 @@
     m: (gap: base.var(space-xs)),
     l: (gap: base.var(space-s))
 ));
-
-
-// Misc
-
-.inline {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-}

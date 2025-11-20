@@ -11,43 +11,15 @@
     gap: component.var(gap);
 }
 
-.gap {
-    &-none {
-        @include component.var(gap, base.var(space-none));
-    }
-
-    &-auto {
-        justify-content: space-between
-    }
-
-    &-xxs {
-        @include component.var(gap, base.var(space-xxs));
-    }
-
-    &-xs {
-        @include component.var(gap, base.var(space-xs));
-    }
-
-    &-s {
-        @include component.var(gap, base.var(space-s));
-    }
-
-    &-m {
-        @include component.var(gap, base.var(space-m));
-    }
-
-    &-l {
-        @include component.var(gap, base.var(space-l));
-    }
-
-    &-xl {
-        @include component.var(gap, base.var(space-xl));
-    }
-
-    &-xxl {
-        @include component.var(gap, base.var(space-xxl));
-    }
-}
+@include component.classes((
+    gap-xxs: (gap: base.var(space-xxs)),
+    gap-xs: (gap: base.var(space-xs)),
+    gap-s: (gap: base.var(space-s)),
+    gap-m: (gap: base.var(space-m)),
+    gap-l: (gap: base.var(space-l)),
+    gap-xl: (gap: base.var(space-xl)),
+    gap-xxl: (gap: base.var(space-xxl))
+));
 
 .overlap {
     .avatar + .avatar {

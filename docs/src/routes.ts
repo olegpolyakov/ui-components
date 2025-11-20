@@ -24,6 +24,7 @@ import Heading from './pages/Heading.mdx';
 import Icon from './pages/Icon.mdx';
 import Image from './pages/Image.mdx';
 import Input from './pages/Input.mdx';
+import Item from './pages/Item.mdx';
 import Label from './pages/Label.mdx';
 import Link from './pages/Link.mdx';
 import List from './pages/List.mdx';
@@ -46,51 +47,62 @@ import Toast from './pages/Toast.mdx';
 import Tooltip from './pages/Tooltip.mdx';
 
 export default [
-    { path: '/', component: Home, title: 'Home', exact: true, hidden: true },
-    'Base',
-    { path: '/colors', component: Colors, title: 'Colors' },
-    { path: '/palettes', component: Palettes, title: 'Palettes' },
-    'Components',
-    { path: '/accordion', component: Accordion, title: 'Accordion' },
-    { path: '/alert', component: Alert, title: 'Alert' },
-    { path: '/avatar', component: Avatar, title: 'Avatar' },
-    { path: '/avatar-group', component: AvatarGroup, title: 'Avatar Group' },
-    { path: '/badge', component: Badge, title: 'Badge' },
-    { path: '/box', component: Box, title: 'Box' },
-    { path: '/breadcrumbs', component: Breadcrumbs, title: 'Breadcrumbs' },
-    { path: '/button', component: Button, title: 'Button' },
-    { path: '/button-group', component: ButtonGroup, title: 'Button Group' },
-    { path: '/card', component: Card, title: 'Card' },
-    { path: '/checkbox', component: Checkbox, title: 'Checkbox' },
-    { path: '/combobox', component: Combobox, title: 'Combobox' },
-    { path: '/dialog', component: Dialog, title: 'Dialog' },
-    { path: '/divider', component: Divider, title: 'Divider' },
-    { path: '/drawer', component: Drawer, title: 'Drawer' },
-    { path: '/field', component: Field, title: 'Field' },
-    { path: '/flex', component: Flex, title: 'Flex' },
-    { path: '/grid', component: Grid, title: 'Grid' },
-    { path: '/heading', component: Heading, title: 'Heading' },
-    { path: '/icon', component: Icon, title: 'Icon' },
-    { path: '/image', component: Image, title: 'Image' },
-    { path: '/input', component: Input, title: 'Input' },
-    { path: '/label', component: Label, title: 'Label' },
-    { path: '/link', component: Link, title: 'Link' },
-    { path: '/list', component: List, title: 'List' },
-    { path: '/menu', component: Menu, title: 'Menu' },
-    { path: '/pill', component: Pill, title: 'Pill' },
-    { path: '/popover', component: Popover, title: 'Popover' },
-    { path: '/progress-bar', component: ProgressBar, title: 'Progress Bar' },
-    { path: '/progress-circle', component: ProgressCircle, title: 'Progress Circle' },
-    { path: '/radio', component: Radio, title: 'Radio' },
-    { path: '/select', component: Select, title: 'Select' },
-    { path: '/slider', component: Slider, title: 'Slider' },
-    { path: '/spinner', component: Spinner, title: 'Spinner' },
-    { path: '/state', component: State, title: 'State' },
-    { path: '/switch', component: Switch, title: 'Switch' },
-    { path: '/table', component: Table, title: 'Table' },
-    { path: '/tabs', component: Tabs, title: 'Tabs' },
-    { path: '/text', component: Text, title: 'Text' },
-    { path: '/textarea', component: Textarea, title: 'Textarea' },
-    { path: '/toast', component: Toast, title: 'Toast' },
-    { path: '/tooltip', component: Tooltip, title: 'Tooltip' }
+    {
+        type: 'section',
+        name: 'Base',
+        routes: [
+            { path: '/', component: Home, title: 'Home', exact: true, hidden: true },
+            { path: '/colors', component: Colors, title: 'Colors' },
+            { path: '/palettes', component: Palettes, title: 'Palettes' }
+        ]
+    },
+    {
+        type: 'section',
+        name: 'Components',
+        routes: [
+            { path: '/accordion', component: Accordion, title: 'Accordion' },
+            { path: '/alert', component: Alert, title: 'Alert' },
+            { path: '/avatar', component: Avatar, title: 'Avatar' },
+            { path: '/avatar-group', component: AvatarGroup, title: 'Avatar Group' },
+            { path: '/badge', component: Badge, title: 'Badge' },
+            { path: '/box', component: Box, title: 'Box' },
+            { path: '/breadcrumbs', component: Breadcrumbs, title: 'Breadcrumbs' },
+            { path: '/button', component: Button, title: 'Button' },
+            { path: '/button-group', component: ButtonGroup, title: 'Button Group' },
+            { path: '/card', component: Card, title: 'Card' },
+            { path: '/checkbox', component: Checkbox, title: 'Checkbox' },
+            { path: '/combobox', component: Combobox, title: 'Combobox' },
+            { path: '/dialog', component: Dialog, title: 'Dialog' },
+            { path: '/divider', component: Divider, title: 'Divider' },
+            { path: '/drawer', component: Drawer, title: 'Drawer' },
+            { path: '/field', component: Field, title: 'Field' },
+            { path: '/flex', component: Flex, title: 'Flex' },
+            { path: '/grid', component: Grid, title: 'Grid' },
+            { path: '/heading', component: Heading, title: 'Heading' },
+            { path: '/icon', component: Icon, title: 'Icon' },
+            { path: '/image', component: Image, title: 'Image' },
+            { path: '/input', component: Input, title: 'Input' },
+            { path: '/item', component: Item, title: 'Item' },
+            { path: '/label', component: Label, title: 'Label' },
+            { path: '/link', component: Link, title: 'Link' },
+            { path: '/list', component: List, title: 'List' },
+            { path: '/menu', component: Menu, title: 'Menu' },
+            { path: '/pill', component: Pill, title: 'Pill' },
+            { path: '/popover', component: Popover, title: 'Popover' },
+            { path: '/progress-bar', component: ProgressBar, title: 'Progress Bar' },
+            { path: '/progress-circle', component: ProgressCircle, title: 'Progress Circle' },
+            { path: '/radio', component: Radio, title: 'Radio' },
+            { path: '/select', component: Select, title: 'Select' },
+            { path: '/slider', component: Slider, title: 'Slider' },
+            { path: '/spinner', component: Spinner, title: 'Spinner' },
+            { path: '/state', component: State, title: 'State' },
+            { path: '/switch', component: Switch, title: 'Switch' },
+            { path: '/table', component: Table, title: 'Table' },
+            { path: '/tabs', component: Tabs, title: 'Tabs' },
+            { path: '/text', component: Text, title: 'Text' },
+            { path: '/textarea', component: Textarea, title: 'Textarea' },
+            { path: '/toast', component: Toast, title: 'Toast' },
+            { path: '/tooltip', component: Tooltip, title: 'Tooltip' }
+        ]
+    }
 ];

@@ -36,7 +36,10 @@ export default function Slot<
             ? createElement(fallback, {
                 ...children,
                 ...props,
-                className: cn(children.className, className)
+                className: cn(children.className, props.className, className)
             })
-            : createElement(fallback, props, children);
+            : createElement(fallback, {
+                ...props,
+                className: cn(props.className, className)
+            }, children);
 }
