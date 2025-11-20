@@ -2,35 +2,41 @@ import {
     cloneElement,
     createElement,
     isValidElement,
+    ComponentProps,
     type ElementType,
-    type ForwardRefExoticComponent,
     type FunctionComponent,
-    type ReactElement,
     type ReactNode
 } from 'react';
 
 import { classnames as cn, isObject } from '../../utils';
 
-export type SlotProps<P> = {
-  as: FunctionComponent<P> | ForwardRefExoticComponent<P> | ElementType;
-  children: ReactNode | P;
-} & Omit<P, 'children'>
+export type SlotProps<
+    T extends ElementType | FunctionComponent,
+    C extends ReactNode | ComponentProps<T>
+> = {
+    fallback: T;
+    children: C;
+} & (C extends ReactNode ? ComponentProps<T> : C);
 
-export default function Slot<P extends {className?: string}>({
-    as = 'div',
+export default function Slot<
+    T extends ElementType | FunctionComponent,
+    C extends ReactNode | ComponentProps<T>
+>({
+    fallback,
     children,
+    className,
     ...props
-}: SlotProps<P>) {
-    return isValidElement<P>(children)
-        ? cloneElement<P>(children as ReactElement<P>, {
+}: SlotProps<T, C>) {
+    return isValidElement<{className?: string}>(children)
+        ? cloneElement(children, {
             ...props,
-            className: cn(children.props.className, props.className)
+            className: cn(children.props.className, className)
         })
-        : isObject<P>(children)
-            ? createElement(as, {
+        : isObject<{className?: string}>(children)
+            ? createElement(fallback, {
                 ...children,
                 ...props,
-                className: cn(children.className, props.className)
+                className: cn(children.className, className)
             })
-            : createElement(as, props, children);
+            : createElement(fallback, props, children);
 }
