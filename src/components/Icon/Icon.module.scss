@@ -15,12 +15,12 @@
     font-variation-settings: 'OPSZ' component.var(size);
     display: inline-block;
     line-height: 1;
+    color: component.var(color);
     text-transform: none;
     letter-spacing: normal;
     word-wrap: normal;
     white-space: nowrap;
     direction: ltr;
-    opacity: component.var(emphasis);
     user-select: none;
 }
 
@@ -45,12 +45,12 @@
 ));
 
 
-// Emphasis
+// Tones
 
 @include component.classes((
-    emphasis-high: (emphasis: base.var(emphasis-high)),
-    emphasis-medium: (emphasis: base.var(emphasis-medium)),
-    emphasis-low: (emphasis: base.var(emphasis-low))
+    tone-neutral: (color: base.var(icon-color)),
+    tone-muted: (color: base.var(icon-muted-color)),
+    tone-subtle: (color: base.var(icon-subtle-color))
 ));
 
 

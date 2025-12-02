@@ -56,8 +56,7 @@ export type HTMLSpanProps = React.HTMLAttributes<HTMLSpanElement>;
 export type HTMLTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export type Align = 'start' | 'center' | 'end';
-export type Color = 'primary' | 'secondary' | 'danger' | 'info' | 'success' | 'warning';
-export type Emphasis = 'high' | 'medium' | 'low';
+export type Color = 'brand' | 'accent' | 'danger' | 'info' | 'success' | 'warning';
 export type Gender = 'unknown' | 'male' | 'female';
 export type IconPosition = 'before' | 'after';
 export type Intent = 'danger' | 'info' | 'success' | 'warning';
@@ -70,6 +69,7 @@ export type SizeFull = 'xxs' | SizeExtended | 'xxl';
 export type Shadow = Size;
 export type Shape = 'circular' | 'rectangular' | 'rounded' | 'rounded-s' | 'rounded-m' | 'rounded-l';
 export type Space = 'none' | 'auto' | SizeFull;
+export type Tone = 'neutral' | 'muted' | 'subtle';
 export type Variant = 'plain' | 'filled' | 'outlined' | 'tinted' | 'outlined-tinted';
 export type Weight = 'light' | 'normal' | 'semibold' | 'bold';
 

@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import type { Align, Color, ComponentProps, ElementType, Emphasis, SizeFull, Weight } from '../../types';
+import type { Align, Color, ComponentProps, ElementType, SizeFull, Tone, Weight } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import styles from './Text.module.scss';
@@ -10,10 +10,10 @@ export type TextProps = {
     start?: ReactNode;
     end?: ReactNode;
     color?: Color | 'inherit';
+    tone?: Tone;
     size?: SizeFull;
-    align?: Align;
-    emphasis?: Emphasis;
     weight?: Weight;
+    align?: Align;
     inline?: boolean;
     italic?: boolean;
     uppercase?: boolean;
@@ -41,8 +41,8 @@ export default function Text<T extends ElementType = 'p'>({
     start,
     end,
     color,
+    tone,
     size,
-    emphasis,
     weight,
     align,
     inline,
@@ -61,9 +61,9 @@ export default function Text<T extends ElementType = 'p'>({
         className,
         elementClassNames.root,
         styles.root,
-        color && styles[color],
+        (color || tone) && styles[`${color}${tone && tone !== 'neutral' ? `-${tone}` : ''}`],
+        !color && tone && styles[tone],
         size && styles[size],
-        emphasis && styles[`emphasis-${emphasis}`],
         weight && styles[`weight-${weight}`],
         align && styles[`align-${align}`],
         inline && styles.inline,

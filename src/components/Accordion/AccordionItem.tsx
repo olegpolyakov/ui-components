@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useState, useCallback, useRef } from 'react';
+import { ReactElement, ReactNode, useState, useRef } from 'react';
 
 import type { Size,  ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
@@ -6,7 +6,14 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import Icon from '../Icon';
 import Transition from '../Transition';
 
-import cssClasses from './AccordionItem.module.scss';
+import styles from './AccordionItem.module.scss';
+
+AccordionItem.displayName = 'AccordionItem';
+
+const elementClassNames = getElementClassNames(
+    AccordionItem.displayName,
+    ['header', 'icon', 'indicatorIcon', 'openIcon', 'closeIcon', 'content']
+);
 
 export type AccordionItemProps = {
     header?: ReactNode;
@@ -19,13 +26,6 @@ export type AccordionItemProps = {
     open?: boolean;
     disabled?: boolean;
 };
-
-AccordionItem.displayName = 'AccordionItem';
-
-const elementClassNames = getElementClassNames(
-    AccordionItem.displayName,
-    ['header', 'icon', 'indicatorIcon', 'openIcon', 'closeIcon', 'content']
-);
 
 export default function AccordionItem<T extends ElementType = 'div'>({
     as,
@@ -47,18 +47,18 @@ export default function AccordionItem<T extends ElementType = 'div'>({
 
     const [open, setOpen] = useState(initialOpen);
 
-    const handleClick = useCallback(() => {
+    const handleClick = () => {
         setOpen(v => !v);
-    }, []);
+    };
 
     const Component = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        size && cssClasses[size],
-        open && cssClasses.open,
-        disabled && cssClasses.disabled
+        styles.root,
+        size && styles[size],
+        open && styles.open,
+        disabled && styles.disabled
     );
 
     return (
@@ -67,11 +67,11 @@ export default function AccordionItem<T extends ElementType = 'div'>({
             {...props}
         >
             <div
-                className={cn(elementClassNames.header, cssClasses.header)}
+                className={cn(elementClassNames.header, styles.header)}
                 onClick={!disabled ? handleClick : undefined}
             >
                 {icon &&
-                    <Icon className={cn(elementClassNames.icon, cssClasses.icon)}>
+                    <Icon className={cn(elementClassNames.icon, styles.icon)}>
                         {icon}
                     </Icon>
                 }
@@ -79,19 +79,19 @@ export default function AccordionItem<T extends ElementType = 'div'>({
                 {header}
 
                 {!openIcon && !closeIcon && indicatorIcon &&
-                    <Icon className={cn(elementClassNames.indicatorIcon, cssClasses.indicatorIcon)}>
+                    <Icon className={cn(elementClassNames.indicatorIcon, styles.indicatorIcon)}>
                         {indicatorIcon}
                     </Icon>
                 }
 
                 {openIcon &&
-                    <Icon className={cn(elementClassNames.openIcon, elementClassNames.indicatorIcon, cssClasses.indicatorIcon)}>
+                    <Icon className={cn(elementClassNames.openIcon, elementClassNames.indicatorIcon, styles.indicatorIcon)}>
                         {openIcon}
                     </Icon>
                 }
 
                 {closeIcon &&
-                    <Icon className={cn(elementClassNames.closeIcon, elementClassNames.indicatorIcon, cssClasses.indicatorIcon)}>
+                    <Icon className={cn(elementClassNames.closeIcon, elementClassNames.indicatorIcon, styles.indicatorIcon)}>
                         {closeIcon}
                     </Icon>
                 }
@@ -105,7 +105,7 @@ export default function AccordionItem<T extends ElementType = 'div'>({
             >
                 <div
                     ref={contentRef}
-                    className={cn(elementClassNames.content, cssClasses.content)}
+                    className={cn(elementClassNames.content, styles.content)}
                 >
                     {content}
                 </div>

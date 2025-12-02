@@ -3,82 +3,74 @@
 
 @use './palettes';
 @use './theme';
-@use './variants';
 
-$neutral-color: palettes.$neutral-4 !default;
-$primary-color: palettes.$primary-4 !default;
-$secondary-color: palettes.$secondary-4 !default;
-$danger-color: palettes.$danger-4 !default;
-$info-color: palettes.$info-4 !default;
-$success-color: palettes.$success-4 !default;
-$warning-color: palettes.$warning-4 !default;
+$neutral-color: palettes.$neutral-5 !default;
+$brand-color: palettes.$brand-5 !default;
+$accent-color: palettes.$accent-5 !default;
+$danger-color: palettes.$danger-5 !default;
+$info-color: palettes.$info-5 !default;
+$success-color: palettes.$success-5 !default;
+$warning-color: palettes.$warning-5 !default;
 
 $base-colors: (
     neutral: $neutral-color,
-    primary: $primary-color,
-    secondary: $secondary-color,
+    brand: $brand-color,
+    accent: $accent-color,
     danger: $danger-color,
     info: $info-color,
     success: $success-color,
     warning: $warning-color
 ) !default;
 
-$backdrop-color: rgba(0, 0, 0, .5) !default;
+
 $background-color: palettes.$neutral-10 !default;
-$border-color: palettes.$neutral-8 !default;
-$border-muted-color: palettes.$neutral-9 !default;
-$icon-color: palettes.$neutral-6 !default;
-$icon-muted-color: palettes.$neutral-7 !default;
-$text-color: palettes.$neutral-0 !default;
-$text-inverted-color: palettes.$neutral-10 !default;
-$text-primary-color: palettes.$neutral-0 !default;
-$text-secondary-color: palettes.$neutral-1 !default;
-$text-tertiary-color: palettes.$neutral-2 !default;
-$shadow-color: rgba(0, 0, 0, 0.5) !default;
-$surface-color: palettes.$neutral-9 !default;
-$surface-primary-color: palettes.$neutral-9 !default;
-$surface-secondary-color: palettes.$neutral-8 !default;
-$surface-tertiary-color: palettes.$neutral-7 !default;
-$surface-inverted-color: palettes.$neutral-0 !default;
+$background-inverted-color: palettes.$neutral-0 !default;
+$background-primary-color: palettes.$neutral-10 !default;
+$background-secondary-color: palettes.$neutral-9 !default;
+$background-tertiary-color: palettes.$neutral-8 !default;
+
+$border-color: palettes.$neutral-7 !default;
+$border-inverted-color: palettes.$neutral-3 !default;
+$border-primary-color: palettes.$neutral-7 !default;
+$border-secondary-color: palettes.$neutral-8 !default;
+$border-tertiary-color: palettes.$neutral-9 !default;
+
+$foreground-color: palettes.$neutral-0 !default;
+$foreground-inverted-color: palettes.$neutral-9 !default;
+$foreground-primary-color: palettes.$neutral-0 !default;
+$foreground-secondary-color: palettes.$neutral-4 !default;
+$foreground-tertiary-color: palettes.$neutral-5 !default;
+
+$backdrop-color: rgba(0, 0, 0, .5) !default;
+$shadow-color: rgba(0, 0, 0, .5) !default;
 
 $element-colors: (
     backdrop: $backdrop-color,
+
     background: $background-color,
+    background-inverted: $background-inverted-color,
+    background-primary: $background-primary-color,
+    background-secondary: $background-secondary-color,
+    background-tertiary: $background-tertiary-color,
+
     border: $border-color,
-    border-muted: $border-muted-color,
-    icon: $icon-color,
-    icon-muted: $icon-muted-color,
-    text: $text-color,
-    text-inverted: $text-inverted-color,
-    text-primary: $text-primary-color,
-    text-secondary: $text-secondary-color,
-    text-tertiary: $text-tertiary-color,
-    shadow: $shadow-color,
-    surface: $surface-color,
-    surface-primary: $surface-primary-color,
-    surface-secondary: $surface-secondary-color,
-    surface-tertiary: $surface-tertiary-color,
-    surface-inverted: $surface-inverted-color
-) !default;
+    border-inverted: $border-inverted-color,
+    border-primary: $border-primary-color,
+    border-secondary: $border-secondary-color,
+    border-tertiary: $border-tertiary-color,
 
-$plain-color: color.change($surface-inverted-color, $alpha: 0) !default;
-$filled-color: $surface-inverted-color !default;
-$tinted-color: color.change($surface-inverted-color, $alpha: 0.125) !default;
-
-$variant-colors: (
-    plain: $plain-color,
-    filled: $filled-color,
-    tinted: $tinted-color
+    foreground: $foreground-color,
+    foreground-inverted: $foreground-inverted-color,
+    foreground-primary: $foreground-primary-color,
+    foreground-secondary: $foreground-secondary-color,
+    foreground-tertiary: $foreground-tertiary-color,
+    
+    shadow: $shadow-color
 ) !default;
 
 @mixin vars {
     @include theme.vars(
         $base-colors,
         $element-colors
-    );
-
-    @include variants.vars(
-        $variant-colors,
-        $base-colors
     );
 }

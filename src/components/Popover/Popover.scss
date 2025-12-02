@@ -3,7 +3,7 @@
 
 $padding: base.var(space-m) !default;
 $background-color: base.var(surface-color) !default;
-$text-color: base.var(text-color) !default;
+$foreground-color: base.var(foreground-color) !default;
 $border-color: base.var(border-color) !default;
 $border-radius: base.var(border-radius-m) !default;
 $border-width: 1px !default;
@@ -12,7 +12,7 @@ $shadow: base.var(shadow) !default;
 $vars: component.vars(Popover, (
     padding: $padding,
     background-color: $background-color,
-    text-color: $text-color,
+    foreground-color: $foreground-color,
     border-color: $border-color,
     border-radius: $border-radius,
     border-width: $border-width,

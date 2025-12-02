@@ -12,7 +12,7 @@
     gap: 8px;
     border: none;
     background-color: component.var(background-color);
-    color: component.var(text-color);
+    color: component.var(foreground-color);
     font-size: component.var(font-size);
     cursor: pointer;
 }

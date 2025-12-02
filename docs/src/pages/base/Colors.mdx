@@ -1,0 +1,38 @@
+import {
+  neutralColor,
+  brandColor,
+  accentColor,
+  dangerColor,
+  infoColor,
+  successColor,
+  warningColor
+} from '~/styles/vars.module.scss';
+
+import { Box, Flex } from "~/components";
+
+import Color from "@/components/Color";
+import Palette from "@/components/Palette";
+
+# Colors
+
+<Flex gap="xxs" wrap>
+    <Color name="Neutral" value={neutralColor} />
+    <Color name="Brand" value={brandColor} />
+    <Color name="Accent" value={accentColor} />
+    <Color name="Danger" value={dangerColor} />
+    <Color name="Info" value={infoColor} />
+    <Color name="Success" value={successColor} />
+    <Color name="Warning" value={warningColor} />
+</Flex>
+
+## Palettes
+
+<Flex column gap="m">
+  <Palette name="neutral" />
+  <Palette name="brand" />
+  <Palette name="accent" />
+  <Palette name="success" />
+  <Palette name="warning" />
+  <Palette name="danger" />
+  <Palette name="info" />
+</Flex>

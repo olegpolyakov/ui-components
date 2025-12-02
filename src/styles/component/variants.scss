@@ -6,15 +6,15 @@
 @mixin plain($args...) {
     .plain {
         @include colors.vars((
-            background-color: plain
+            background-color: plain-background
         ), $args...);
         
         @include states.vars((
-            background-color: plain
+            background-color: plain-background
         ), $args...);
 
         @include colors.vars((
-            text-color: -plain
+            foreground-color: plain-foreground
         ), $args...);
 
         @content;
@@ -22,15 +22,15 @@
         @each $palette in palettes.$names {
             &-#{$palette} {
                 @include colors.vars((
-                    background-color: plain-#{$palette},
+                    background-color: plain-#{$palette}-background,
                 ), $args...);
                 
                 @include palettes.state-vars($palette, (
-                    background-color: plain
+                    background-color: 'plain-$-background'
                 ), $args...);
                 
                 @include colors.vars((
-                    text-color: -plain-#{$palette}
+                    foreground-color: plain-#{$palette}-foreground
                 ), $args...);
             }
         }
@@ -40,15 +40,15 @@
 @mixin filled($args...) {
     .filled {
         @include colors.vars((
-            background-color: filled
+            background-color: filled-background
         ), $args...);
 
         @include states.vars((
-            background-color: filled
+            background-color: filled-background
         ), $args...);
 
         @include colors.vars((
-            text-color: -filled
+            foreground-color: filled-foreground
         ), $args...);
 
         @content;
@@ -56,17 +56,17 @@
         @each $palette in palettes.$names {
             &-#{$palette} {
                 @include colors.vars((
-                    background-color: filled-#{$palette},
+                    background-color: filled-#{$palette}-background,
                 ), $args...);
 
                 @include palettes.state-vars($palette, (
-                    background-color: filled
+                    background-color: 'filled-$-background'
                 ), $args...);
 
                 @include colors.vars((
-                    text-color: -filled-#{$palette},
-                    text-hover-color: -filled-#{$palette},
-                    text-active-color: -filled-#{$palette}
+                    foreground-color: filled-#{$palette}-foreground,
+                    foreground-hover-color: filled-#{$palette}-foreground,
+                    foreground-active-color: filled-#{$palette}-foreground
                 ), $args...);
             }
         }
@@ -80,8 +80,8 @@
         ), $args...);
         
         @include colors.vars((
-            border-color: states.get(border-color, tinted),
-            background-color: states.get(background-color, plain)
+            border-color: border,
+            background-color: states.get(background-color, plain-background)
         ), $args...);
                 
         @content;
@@ -89,12 +89,13 @@
         @each $palette in palettes.$names {
             &-#{$palette} {
                 @include palettes.vars($palette, (
-                    border-color: '$',
-                    background-color: 'plain-$'
+                    border-color: 'filled-$-background',
+                    background-color: 'plain-$-background'
                 ), $args...);
 
                 @include palettes.state-vars($palette, (
-                    border-color: '$'
+                    border-color: 'filled-$-background',
+                    background-color: 'plain-$-background'
                 ), $args...);
             }
         }
@@ -104,7 +105,7 @@
 @mixin tinted($args...) {
     .tinted {
         @include colors.vars((
-            background-color: states.get(background-color, tinted)
+            background-color: states.get(background-color, tinted-background)
         ), $args...);
 
         @content;
@@ -112,11 +113,11 @@
         @each $palette in palettes.$names {
             &-#{$palette} {
                 @include palettes.vars($palette, (
-                    background-color: 'tinted-$',
+                    background-color: 'tinted-$-background',
                 ), $args...);
 
                 @include palettes.state-vars($palette, (
-                    background-color: 'tinted-$'
+                    background-color: 'tinted-$-background'
                 ), $args...);
             }
         }
@@ -130,8 +131,8 @@
         ), $args...);
 
         @include colors.vars((
-            border-color: states.get(border-color, tinted),
-            background-color: states.get(background-color, tinted)
+            border-color: states.get(border-color, tinted-background),
+            background-color: states.get(background-color, tinted-background)
         ), $args...);
                 
         @content;
@@ -139,13 +140,13 @@
         @each $palette in palettes.$names {
             &-#{$palette} {
                 @include palettes.vars($palette, (
-                    border-color: 'tinted-$',
-                    background-color: 'tinted-$'
+                    border-color: 'tinted-$-background',
+                    background-color: 'tinted-$-background'
                 ), $args...);
 
                 @include palettes.state-vars($palette, (
-                    border-color: 'tinted-$',
-                    background-color: 'tinted-$'
+                    border-color: 'tinted-$-background',
+                    background-color: 'tinted-$-background'
                 ), $args...);
             }
         }

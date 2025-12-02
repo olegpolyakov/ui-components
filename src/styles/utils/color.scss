@@ -1,5 +1,6 @@
 @use 'sass:color';
 @use 'sass:math';
+@use 'sass:map';
 @use 'sass:meta';
 @use 'sass:string';
 
@@ -17,6 +18,10 @@
     @return color.scale($args...);
 }
 
+@function mix($args...) {
+    @return color.mix($args...);
+}
+
 @function rgb($color) {
     @return red($color), green($color), blue($color);
 }
@@ -25,9 +30,25 @@
     @return color.space($args...) == rgb;
 }
 
+@function red($color, $space: rgb) {
+    @return color.channel($color, 'red', $space: $space);
+}
+
+@function green($color, $space: rgb) {
+    @return color.channel($color, 'green', $space: $space);
+}
+
+@function blue($color, $space: rgb) {
+    @return color.channel($color, 'blue', $space: $space);
+}
+
+@function alpha($color, $space: rgb) {
+    @return color.channel($color, 'alpha', $space: $space);
+}
+
 @function hex($color) {
     $hex: color.ie-hex-str($color); // returns #AARRGGBB
-    $has-alpha: color.alpha($color) < 1;
+    $has-alpha: alpha($color) < 1;
     @return string.to-lower-case(if($has-alpha,
         string.unquote("##{string.slice($hex, 4)}#{string.slice($hex, 2, 3)}"), // #RRGGBBAA
         string.unquote("##{string.slice($hex, 4)}") // #RRGGBB
@@ -38,35 +59,20 @@
     @return string.starts-with($color, '#');
 }
 
-@function red($color) {
-    @return color.channel($color, 'red', $space: rgb);
+@function lightness($color, $space: oklch) {
+    @return color.channel($color, 'lightness', $space: $space);
 }
 
-@function green($color) {
-    @return color.channel($color, 'green', $space: rgb);
+@function chroma($color, $space: oklch) {
+    @return color.channel($color, 'chroma', $space: $space);
 }
 
-@function blue($color) {
-    @return color.channel($color, 'blue', $space: rgb);
-}
-
-@function alpha($color) {
-    @return color.channel($color, 'alpha', $space: rgb);
-}
-
-@function hsl($color) {
-    @return color.hue($color), color.saturation($color), color.lightness($color);
-}
-
-@function lightness($color) {
-    @return color.channel($color, 'lightness', $space: hsl);
-}
-
-@function contrast-color($color, $dark-color: #000, $light-color: #fff, $invert: false) {
-    @if $invert {
-        @return if(contrast-tone($color) == 'dark', $light-color, $dark-color);
+@function hue($color, $space: oklch) {
+    $hue: color.channel($color, 'hue', $space: $space);
+    @if $hue == null {
+        @return 0deg;
     } @else {
-        @return if(contrast-tone($color) == 'dark', $dark-color, $light-color);
+        @return color.channel($color, 'hue', $space: $space);
     }
 }
 
@@ -74,7 +80,7 @@
     @return if(tone($color) == 'dark', 'light', 'dark');
 }
 
-@function tone($color) {
+@function tone($color, $background: null) {
     @if $color == 'dark' or $color == 'light' {
         @return $color;
     }
@@ -85,8 +91,8 @@
     }
   
     $minimum-contrast: 3.1;
-    $light-contrast: contrast($color, white);
-    $dark-contrast: contrast($color, rgba(black, 0.87));
+    $light-contrast: contrast($color, white, $background);
+    $dark-contrast: contrast($color, rgba(black, 0.87), $background); // using WCAG's near-black for better readability
   
     @if ($light-contrast < $minimum-contrast) and ($dark-contrast > $light-contrast) {
         @return 'light';
@@ -95,23 +101,43 @@
     }
 }
 
-@function contrast($back, $front) {
-    $back-lum: luminance($back) + 0.05;
-    $fore-lum: luminance($front) + 0.05;
-  
-    @return math.div(math.max($back-lum, $fore-lum), math.min($back-lum, $fore-lum));
+// Contrast ratio between two colors (foreground vs background)
+@function contrast($back, $front, $background: null) {
+  $back-lum: luminance($back, $background) + 0.05;
+  $fore-lum: luminance($front, $back) + 0.05; // foreground blended over background
+
+  @return math.div(math.max($back-lum, $fore-lum), math.min($back-lum, $fore-lum));
 }
 
-// Calculate the luminance for a color.
-// See https://www.w3.org/TR/WCAG20-TECHS/G17.html#G17-tests
-@function luminance($color) {
-    $red: linear-channel-value(red($color));
-    $green: linear-channel-value(green($color));
-    $blue: linear-channel-value(blue($color));
-  
-    @return 0.2126 * $red + 0.7152 * $green + 0.0722 * $blue;
+// Calculate the luminance for a color, with alpha blending
+// Default background is white (#fff), but can be overridden
+@function luminance($color, $background: #fff) {
+  $alpha: alpha($color);
+
+  // Blend with background if alpha < 1
+  $r-srgb: if($alpha < 1,
+    $alpha * math.div(red($color), 255) + (1 - $alpha) * math.div(red($background), 255),
+    math.div(red($color), 255)
+  );
+  $g-srgb: if($alpha < 1,
+    $alpha * math.div(green($color), 255) + (1 - $alpha) * math.div(green($background), 255),
+    math.div(green($color), 255)
+  );
+  $b-srgb: if($alpha < 1,
+    $alpha * math.div(blue($color), 255) + (1 - $alpha) * math.div(blue($background), 255),
+    math.div(blue($color), 255)
+  );
+
+  // Convert to linear light
+  $r: linear-channel-value($r-srgb * 255);
+  $g: linear-channel-value($g-srgb * 255);
+  $b: linear-channel-value($b-srgb * 255);
+
+  // Relative luminance
+  @return 0.2126 * $r + 0.7152 * $g + 0.0722 * $b;
 }
 
+// Convert sRGB channel (0–255) to linear light
 @function linear-channel-value($channel-value) {
     $normalized-channel-value: math.div($channel-value, 255);
 
@@ -120,4 +146,127 @@
     }
 
     @return math.pow(math.div($normalized-channel-value + 0.055, 1.055), 2.4);
+}
+
+@function generate-grayscale($black: #050505, $white: #fafafa, $steps: 10) {
+  $colors: ();
+  $l-min: lightness($black, oklch);
+  $l-max: lightness($white, oklch);
+
+  @for $i from 0 through $steps - 1 {
+    $t: $i / $steps;
+
+    // Interpolate lightness between max and min
+    $l: $l-max + $t * ($l-min - $l-max);
+    $c: 0; // chroma = 0 for grayscale
+    $h: 0; // hue irrelevant when chroma = 0
+
+    $colors: map.merge($colors, ($i: oklch($l $c $h)));
+  }
+
+  @return $colors;
+}
+
+/**
+* Generates a palette of 10 shades for a given base color.
+*
+* The function calculates lighter and darker shades based on the lightness
+* of the base color. It ensures that very light colors have a higher maximum
+* lightness and very dark colors have a lower minimum lightness to maintain
+* contrast across the palette.
+*
+* Adapted from pleisto/oklch-picker implementation.
+* Source: https://github.com/pleisto/oklch-picker/blob/main/lib/palette/palette.ts
+*/
+@function generate-shades($base-color) {
+  $lightness: lightness($base-color);
+  $max-lightness: if($lightness >= 88.5%, 99.5%, 97%); // 97% for most, 99.5% for very light colors
+  $min-lightness: if($lightness <= 33%, 0%, 21%); // 21% for most, 0% for very dark colors
+
+  // step sizes
+  $light-step: math.div(($max-lightness - $lightness), 5);
+  $dark-step:  math.div(-1 * ($lightness - $min-lightness), 8);
+
+  @return (
+    0: shade($base-color, 5 * $light-step, -0.00375 * 5),
+    1: shade($base-color, 4 * $light-step, -0.00375 * 4),
+    2: shade($base-color, 3 * $light-step, -0.00375 * 3),
+    3: shade($base-color, 2 * $light-step, -0.00375 * 2),
+    4: shade($base-color, 1 * $light-step, -0.00375 * 1),
+    5: shade($base-color), // base
+    6: shade($base-color, 1 * $dark-step, 0.0125),
+    7: shade($base-color, 2 * $dark-step, 0.025),
+    8: shade($base-color, 3 * $dark-step, 0.05),
+    9: shade($base-color, 4 * $dark-step, 0.075),
+    10: shade($base-color, 5 * $dark-step, 0.1)
+  );
+}
+
+/** 
+* Shade a color by adjusting its lightness and chroma.
+* Adopted from: https://github.com/pleisto/oklch-picker/blob/main/lib/palette/utils.ts
+*/
+@function shade($color, $lightness-factor: 0, $chroma-factor: 0) {
+  @if $lightness-factor == 0 {
+    @return color.to-space($color, oklch);
+  }
+
+  $l: lightness($color);
+  $c: chroma($color);
+  $h: hue($color);
+
+  $new-l: $l + $lightness-factor;
+  $new-c: $c + $chroma-factor;
+
+  @return to-rgb-gamut(oklch($new-l $new-c $h));
+}
+
+/** 
+* Convert a color to the RGB gamut by reducing its chroma.
+* Adopted from: https://github.com/pleisto/oklch-picker/blob/main/lib/palette/utils.ts
+*/
+@function to-rgb-gamut($color) {
+  $l: lightness($color);
+  $c: chroma($color);
+  $h: hue($color);
+
+  $candidate: oklch($l $c $h);
+
+  @if is-in-rgb-gamut($candidate) {
+    @return $candidate;
+  }
+
+  $hiC: $c;
+  $loC: 0;
+  $e: 0.0001;
+  $c: math.div($c, 2);
+
+  @while ($hiC - $loC) > $e {
+    $candidate: oklch($l $c $h);
+    @if is-in-rgb-gamut($candidate) {
+      $loC: $c;
+    } @else {
+      $hiC: $c;
+    }
+    $c: math.div(($hiC + $loC), 2);
+  }
+
+  @return $candidate;
+}
+
+/** 
+* Check if a color is within the RGB gamut.
+* Adopted from: https://github.com/pleisto/oklch-picker/blob/main/lib/palette/utils.ts
+*/
+@function is-in-rgb-gamut($color) {
+    $r: red($color);
+    $g: green($color);
+    $b: blue($color);
+    $e: 0.0005;
+
+    $in-r: $r >= (0 - $e) and $r <= (255 + $e);
+    $in-g: $g >= (0 - $e) and $g <= (255 + $e);
+    $in-b: $b >= (0 - $e) and $b <= (255 + $e);
+
+    @return $in-r and $in-g and $in-b;
 }

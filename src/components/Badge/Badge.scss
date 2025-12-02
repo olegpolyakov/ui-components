@@ -7,7 +7,7 @@ $border-color: transparent !default;
 $border-radius: --size !default;
 $border-width: 0 !default;
 $background-color: transparent !default;
-$text-color: base.var(text-color) !default;
+$foreground-color: base.var(foreground-color) !default;
 $font-size: base.var(font-size-xs) !default;
 
 $vars: component.vars(Badge, (
@@ -17,6 +17,6 @@ $vars: component.vars(Badge, (
     border-radius: $border-radius,
     border-width: $border-width,
     background-color: $background-color,
-    text-color: $text-color,
+    foreground-color: $foreground-color,
     font-size: $font-size
 ));

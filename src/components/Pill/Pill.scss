@@ -12,9 +12,9 @@ $border-width: null !default;
 $background-color: null !default;
 $background-color-hover: null !default;
 $background-color-active: null !default;
-$text-color: null !default;
-$text-color-hover: null !default;
-$text-color-active: null !default;
+$foreground-color: null !default;
+$foreground-color-hover: null !default;
+$foreground-color-active: null !default;
 $font-size: base.var(font-size) !default;
 $font-weight: base.var(font-weight-normal) !default;
 $line-height: 1 !default;
@@ -32,9 +32,9 @@ $vars: component.vars(Pill, (
     background-color: $background-color,
     background-color-hover: $background-color-hover,
     background-color-active: $background-color-active,
-    text-color: $text-color,
-    text-color-hover: $text-color-hover,
-    text-color-active: $text-color-active,
+    foreground-color: $foreground-color,
+    foreground-color-hover: $foreground-color-hover,
+    foreground-color-active: $foreground-color-active,
     font-size: $font-size,
     font-weight: $font-weight,
     line-height: $line-height,

@@ -3,7 +3,7 @@
 
 $vars: component.vars(Component, (
     background-color: base.var(background-color),
-    text-color: base.var(text-color),
+    foreground-color: base.var(foreground-color),
     padding-x: base.var(padding),
     padding-y: base.var(padding),
     padding: --padding-x --padding-y,
@@ -26,10 +26,10 @@ $vars: component.vars(Component, (
 .vars {
     @include component.vars((
         background-color: red,
-        text-color: white
+        foreground-color: white
     ));
     background-color: component.var(background-color);
-    color: component.var(text-color);
+    color: component.var(foreground-color);
 }
 
 
@@ -98,7 +98,7 @@ $vars: component.vars(Component, (
 .color-state-vars-map {
     @include component.color-state-vars((
         background-color: plain,
-        text-color: -plain
+        foreground-color: -plain
     ));
 }
 
@@ -133,14 +133,14 @@ $vars: component.vars(Component, (
 .palettes-vars-map-with-string {
     @include component.palette-vars((
         background-color: plain,
-        text-color: -plain
+        foreground-color: -plain
     ));
 }
 
 .palettes-vars-map-with-placeholder {
     @include component.palette-vars((
         background-color: 'plain-$',
-        text-color: '-plain-$'
+        foreground-color: '-plain-$'
     ));
 }
 
@@ -163,7 +163,7 @@ $vars: component.vars(Component, (
 .palette-state-vars-map-with-placeholder {
     @include component.palette-state-vars((
         background-color: '$', 
-        text-color: '-$'
+        foreground-color: '-$'
     ));
 }
 

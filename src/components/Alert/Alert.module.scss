@@ -15,7 +15,7 @@
     gap: component.var(gap);
     border-radius: component.var(border-radius);
     background-color: component.var(background-color);
-    color: component.var(text-color);
+    color: component.var(foreground-color);
     box-shadow: component.var(shadow) base.var(shadow-color);
 }
 

@@ -8,7 +8,7 @@ $border-radius: base.var(border-radius-m) !default;
 $border-width: 0 !default;
 $border-color: none !default;
 $background-color: base.var(plain-color) !default;
-$text-color: base.var(text-color) !default;
+$foreground-color: base.var(foreground-color) !default;
 $font-size: base.var(font-size-medium) !default;
 $shadow: none !default;
 
@@ -20,7 +20,7 @@ $vars: component.vars(Alert, (
     border-width: $border-width,
     border-color: $border-color,
     background-color: $background-color,
-    text-color: $text-color,
+    foreground-color: $foreground-color,
     font-size: $font-size,
     shadow: $shadow
 ));

@@ -1,7 +1,7 @@
 @use 'base';
 @use 'component';
 
-$color: base.var(text-color) !default;
+$foreground-color: base.var(foreground-color) !default;
 $emphasis: base.var(emphasis-high) !default;
 $font-family: base.var(font-family) !default;
 $font-size: base.var(font-size-m) !default;
@@ -24,8 +24,7 @@ $sizes: (
 ) !default;
 
 $vars: component.vars(Heading, (
-    color: $color,
-    emphasis: $emphasis,
+    foreground-color: $foreground-color,
     font-family: $font-family,
     font-size: $font-size,
     font-weight: $font-weight,

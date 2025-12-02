@@ -12,7 +12,7 @@
     padding: 8px;
     gap: .8rem;
     background-color: component.var(background-color);
-    color: component.var(text-color);
+    color: component.var(foreground-color);
     cursor: pointer;
     user-select: none;
 }
@@ -44,7 +44,7 @@
 
     &.disabled {
         --ui-Option-background-color: var(--ui-Option-disabled-background-color);
-        --ui-Option-text-color: var(--ui-disabled-color);
+        --ui-Option-foreground-color: var(--ui-disabled-color);
     }
 }
 
@@ -54,5 +54,5 @@
 
 .selected {
     // @include color-state-variables('Option', 'background-color', primary);
-    // @include color-state-variables('Option', 'text-color', on-primary);
+    // @include color-state-variables('Option', 'foreground-color', on-primary);
 }

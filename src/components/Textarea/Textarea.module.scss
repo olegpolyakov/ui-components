@@ -20,7 +20,7 @@
     font-size: component.var(font-size);
     font-family: base.var(font-family);
     line-height: base.var(line-height);
-    color: component.var(text-color);
+    color: component.var(foreground-color);
     overflow: hidden;
     transition: border-color 0.2s ease-in-out;
 }

@@ -4,12 +4,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.dark {
-    color: white;
-}
-
-.light {
-    color: black;
+    background-color: var(--background-color);
+    color: var(--foreground-color);
 }

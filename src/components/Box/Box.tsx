@@ -17,33 +17,39 @@ type Padding = Size
     | { x: Size; y: Size }
     | { top?: Size; right?: Size; bottom?: Size; left?: Size };
 
+type AspectRatio = '16/10' | '16/9' | '4/3' | '3/2' | '2/1' | '1/1';
+
 export type BoxProps = {
-  as?: 'div';
-  color?: Color;
-  roundness?: Size;
-  shadow?: Shadow;
-  variant?: Variant;
-  interactive?: boolean;
-  padding?: Padding;
-  paddingX?: Size;
-  paddingY?: Size;
-  paddingTop?: Size;
-  paddingRight?: Size;
-  paddingBottom?: Size;
-  paddingLeft?: Size;
-  p?: Padding;
-  px?: Size;
-  py?: Size;
-  pt?: Size;
-  pr?: Size;
-  pb?: Size;
-  pl?: Size;
+    as?: 'div';
+    color?: Color;
+    roundness?: Size;
+    shadow?: Shadow;
+    variant?: Variant;
+    interactive?: boolean;
+    padding?: Padding;
+    paddingX?: Size;
+    paddingY?: Size;
+    paddingTop?: Size;
+    paddingRight?: Size;
+    paddingBottom?: Size;
+    paddingLeft?: Size;
+    p?: Padding;
+    px?: Size;
+    py?: Size;
+    pt?: Size;
+    pr?: Size;
+    pb?: Size;
+    pl?: Size;
+    aspectRatio?: AspectRatio;
+    ar?: AspectRatio;
 };
 
 export default function Box<T extends ElementType = 'div'>({
     as,
     className,
+    children,
 
+    content = children,
     color,
     roundness,
     shadow,
@@ -63,6 +69,8 @@ export default function Box<T extends ElementType = 'div'>({
     pr = paddingRight,
     pb = paddingBottom,
     pl = paddingLeft,
+    aspectRatio,
+    ar = aspectRatio,
     ...props
 }: ComponentProps<BoxProps, T>) {
     const {
@@ -104,8 +112,13 @@ export default function Box<T extends ElementType = 'div'>({
         t && styles[`pt-${t}`],
         r && styles[`pr-${r}`],
         b && styles[`pb-${b}`],
-        l && styles[`pl-${l}`]
+        l && styles[`pl-${l}`],
+        ar && styles[`ar-${ar.replace('/', '-')}`]
     );
 
-    return <Component className={classNames} {...props} />;
+    return (
+        <Component className={classNames} {...props}>
+            {content}
+        </Component>
+    );
 }

@@ -5,12 +5,11 @@
 
 :export {
     prefix: string.unquote(base.$prefix);
-    black: colors.$black;
-    white: colors.$white;
-    gray: colors.$gray;
-    red: colors.$red;
-    orange: colors.$orange;
-    green: colors.$green;
-    blue: colors.$blue;
-    purple: colors.$purple;
+    neutralColor: colors.$neutral;
+    brandColor: colors.$brand;
+    accentColor: colors.$accent;
+    dangerColor: colors.$danger;
+    infoColor: colors.$info;
+    successColor: colors.$success;
+    warningColor: colors.$warning;
 }

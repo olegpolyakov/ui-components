@@ -8,7 +8,7 @@ $border-color: base.var(border-color) !default;
 $border-radius: base.var(border-radius-m) !default;
 $border-width: 1px !default;
 $background-color: base.var(background-color) !default;
-$text-color: base.var(text-color) !default;
+$foreground-color: base.var(foreground-color) !default;
 $_inner-height: auto !default;
 
 $vars: component.vars(Textarea, (
@@ -19,6 +19,6 @@ $vars: component.vars(Textarea, (
     border-radius: $border-radius,
     border-width: $border-width,
     background-color: $background-color,
-    text-color: $text-color,
+    foreground-color: $foreground-color,
     _inner-height: $_inner-height
 ));

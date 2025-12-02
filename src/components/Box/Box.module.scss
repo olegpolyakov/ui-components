@@ -8,7 +8,7 @@
 .root {
     border-radius: component.var(border-radius);
     background-color: component.var(background-color);
-    color: component.var(text-color);
+    color: component.var(foreground-color);
     box-shadow: component.var(shadow);
     box-sizing: border-box;
 }
@@ -19,13 +19,38 @@
         border-color 0.15s ease-in-out;
 
     &:hover {
-        border-color: component.var(border-hover-color);
         background-color: component.var(background-hover-color);
     }
 
     &:active {
-        border-color: component.var(border-active-color);
         background-color: component.var(background-active-color);
+    }
+}
+
+.ar {
+    &-16-10 {
+        aspect-ratio: 16 / 10;
+    }
+
+    &-16-9 {
+        aspect-ratio: 16 / 9;
+    }
+
+    &-4-3 {
+        aspect-ratio: 4 / 3;
+    }
+
+    &-3-2 {
+        aspect-ratio: 3 / 2;
+    }
+
+    &-2-1 {
+        aspect-ratio: 2 / 1;
+    }
+
+    &-1-1,
+    &-1 {
+        aspect-ratio: 1 / 1;
     }
 }
 

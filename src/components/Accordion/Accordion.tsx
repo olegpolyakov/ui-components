@@ -3,17 +3,17 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import AccordionItem, { AccordionItemProps } from './AccordionItem';
 
-import cssClasses from './Accordion.module.scss';
-
-export type AccordionProps = {
-    items?: PropsWithKey<AccordionItemProps>[];
-    size?: Size;
-};
+import styles from './Accordion.module.scss';
 
 Accordion.displayName = 'Accordion';
 Accordion.Item = AccordionItem;
 
 const elementClassNames = getElementClassNames(Accordion.displayName);
+
+export type AccordionProps = {
+    items?: PropsWithKey<AccordionItemProps>[];
+    size?: Size;
+};
 
 export default function Accordion<T extends ElementType = 'div'>({
     as,
@@ -28,8 +28,8 @@ export default function Accordion<T extends ElementType = 'div'>({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size]
+        styles.root,
+        styles[size]
     );
 
     return (

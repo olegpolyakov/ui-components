@@ -6,7 +6,7 @@ $gap: base.var(space-xs) !default;
 $border-color: null !default;
 $border-radius: 0px !default;
 $border-width: 0px !default;
-$text-color: base.var(text-color) !default;
+$foreground-color: base.var(foreground-color) !default;
 $indicator-width: 2px !default;
 
 $vars: component.vars(Tab, (
@@ -15,6 +15,6 @@ $vars: component.vars(Tab, (
     border-color: $border-color,
     border-radius: $border-radius,
     border-width: $border-width,
-    text-color: $text-color,
+    foreground-color: $foreground-color,
     indicator-width: $indicator-width
 ));

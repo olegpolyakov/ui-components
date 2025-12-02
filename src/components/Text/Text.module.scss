@@ -17,8 +17,7 @@
     font-family: component.var(font-family);
     font-size: component.var(font-size);
     font-weight: component.var(font-weight);
-    color: component.var(color);
-    opacity: component.var(emphasis);
+    color: component.var(foreground-color);
 }
 
 .content {
@@ -38,7 +37,21 @@
 
 // Colors
 
-@include component.palettes-vars(color);
+@include component.classes((
+    primary: (
+        foreground-color: base.var(foreground-primary-color)
+    ),
+    secondary: (
+        foreground-color: base.var(foreground-secondary-color)
+    ),
+    tertiary: (
+        foreground-color: base.var(foreground-tertiary-color)
+    )
+));
+
+@include component.palettes-vars((
+    foreground-color: '$'
+));
 
 .inherit {
     color: inherit;
@@ -58,15 +71,6 @@
         ));
     }
 }
-
-
-// Emphasis
-
-@include component.classes((
-    emphasis-high: (emphasis: base.var(emphasis-high)),
-    emphasis-medium: (emphasis: base.var(emphasis-medium)),
-    emphasis-low: (emphasis: base.var(emphasis-low))
-));
 
 
 // Weight
@@ -142,25 +146,25 @@
 
 .link {
     @include component.vars((
-        color: base.var(primary-color),
-        hover-color: base.var(primary-color-hover),
-        active-color: base.var(primary-color-active),
-        disabled-color: base.var(primary-color-disabled),
+        foreground-color: base.var(primary-color),
+        foreground-hover-color: base.var(primary-hover-color),
+        foreground-active-color: base.var(primary-active-color),
+        foreground-disabled-color: base.var(primary-disabled-color),
     ));
 
     text-decoration: underline;
     cursor: pointer;
 
     &:hover {
-        color: component.var(hover-color);
+        color: component.var(foreground-hover-color);
     }
     
     &:active {
-        color: component.var(active-color);
+        color: component.var(foreground-active-color);
     }
 
     &.disabled {
-        color: component.var(disabled-color);
+        color: component.var(foreground-disabled-color);
         cursor: default;
     }
 }

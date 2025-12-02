@@ -8,6 +8,7 @@
 
 @use './base' as colors;
 @use './states';
+@use './tones';
 
 $neutral: (
     0: #fafafa,
@@ -23,7 +24,7 @@ $neutral: (
     10: #0a0a0a
 ) !default;
 
-$primary: (
+$brand: (
     0: #f1f6fe,
     1: #e2edfd,
     2: #c5dafc,
@@ -37,7 +38,7 @@ $primary: (
     10: #052457
 ) !default;
 
-$secondary: (
+$accent: (
     0: #fef6f6,
     1: #fde8e8,
     2: #fbcdcb,
@@ -119,29 +120,29 @@ $neutral-8: map.get($neutral, 8);
 $neutral-9: map.get($neutral, 9);
 $neutral-10: map.get($neutral, 10);
 
-$primary-0: map.get($primary, 0);
-$primary-1: map.get($primary, 1);
-$primary-2: map.get($primary, 2);
-$primary-3: map.get($primary, 3);
-$primary-4: map.get($primary, 4);
-$primary-5: map.get($primary, 5);
-$primary-6: map.get($primary, 6);
-$primary-7: map.get($primary, 7);
-$primary-8: map.get($primary, 8);
-$primary-9: map.get($primary, 9);
-$primary-10: map.get($primary, 10);
+$brand-0: map.get($brand, 0);
+$brand-1: map.get($brand, 1);
+$brand-2: map.get($brand, 2);
+$brand-3: map.get($brand, 3);
+$brand-4: map.get($brand, 4);
+$brand-5: map.get($brand, 5);
+$brand-6: map.get($brand, 6);
+$brand-7: map.get($brand, 7);
+$brand-8: map.get($brand, 8);
+$brand-9: map.get($brand, 9);
+$brand-10: map.get($brand, 10);
 
-$secondary-0: map.get($secondary, 0);
-$secondary-1: map.get($secondary, 1);
-$secondary-2: map.get($secondary, 2);
-$secondary-3: map.get($secondary, 3);
-$secondary-4: map.get($secondary, 4);
-$secondary-5: map.get($secondary, 5);
-$secondary-6: map.get($secondary, 6);
-$secondary-7: map.get($secondary, 7);
-$secondary-8: map.get($secondary, 8);
-$secondary-9: map.get($secondary, 9);
-$secondary-10: map.get($secondary, 10);
+$accent-0: map.get($accent, 0);
+$accent-1: map.get($accent, 1);
+$accent-2: map.get($accent, 2);
+$accent-3: map.get($accent, 3);
+$accent-4: map.get($accent, 4);
+$accent-5: map.get($accent, 5);
+$accent-6: map.get($accent, 6);
+$accent-7: map.get($accent, 7);
+$accent-8: map.get($accent, 8);
+$accent-9: map.get($accent, 9);
+$accent-10: map.get($accent, 10);
 
 $danger-0: map.get($danger, 0);
 $danger-1: map.get($danger, 1);
@@ -193,8 +194,8 @@ $warning-10: map.get($warning, 10);
 
 $map: (
     neutral: $neutral,
-    primary: $primary,
-    secondary: $secondary,
+    brand: $brand,
+    accent: $accent,
     danger: $danger,
     info: $info,
     success: $success,
@@ -203,29 +204,34 @@ $map: (
 
 $names: map.keys($map);
 
-@function create($color, $steps: 11) { 
+@function alpha($palette) {
     $map: ();
-    @for $i from 0 through $steps - 1 {
-      $lightness: 90% - math.div($i * (90% - 10%), ($steps - 1));
-      $shade: color.scale($color, $lightness: $lightness);
-      $map: map.merge($map, ($i: $shade));
+    $base-color: map.get($palette, 5);
+
+    @each $key, $color in $palette {
+        $map: map.merge($map, (
+            $key: color.change($base-color, $alpha: if($key == 0, .05, math.div($key, 10)))
+        ));
     }
+
     @return $map;
 }
 
 @function contrast($palette, $invert: false) {
     $map: ();
+
     @each $key, $color in $palette {
         $map: map.merge($map, (
-            $key: color.contrast-color($color, $invert: $invert)
+            $key: tones.contrast-color($color, $invert: $invert)
         ));
     }
+
     @return $map;
 }
 
 @mixin define {
     @each $palette in $names {
-        #{if(&, '&.#{$palette}', '.#{$palette}')} {
+        #{if(&, '&', '')}.#{$palette} {
             @content($palette);
         }
     }
@@ -235,6 +241,7 @@ $names: map.keys($map);
     $palette,
     $props,
     $color: null,
+    $tone: null,
     $args...
 ) {
     @if type.is-list($props) {
@@ -243,6 +250,7 @@ $names: map.keys($map);
                 $palette,
                 $prop,
                 $color,
+                $tone,
                 $args...
             );
         }
@@ -252,6 +260,7 @@ $names: map.keys($map);
                 $palette,
                 $name,
                 $value,
+                $tone,
                 $args...
             );
         }
@@ -261,16 +270,23 @@ $names: map.keys($map);
                 $palette,
                 $name,
                 $value,
+                $tone,
                 $args...
             );
         }
     } @else {
-         @if type.is-number($color) {
+        @if type.is-null($color) {
+            $color: $palette;
+        } @else if type.is-number($color) {
             $color: '#{$palette}-#{$color}';
         } @else if string.contains($color, '$') {
             $color: string.replace($color, '$', $palette);
         } @else if not string.contains($color, $palette) {
             $color: '#{$color}-#{$palette}';
+        }
+
+        @if not type.is-null($tone) {
+            $color: '#{$color}-#{$tone}';
         }
 
         @include colors.var(

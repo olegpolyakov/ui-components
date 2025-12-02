@@ -5,14 +5,15 @@
 @use 'utils/string';
 @use 'utils/type';
 
-$black: #000000 !default;
+$black: #121212 !default;
 $white: #ffffff !default;
-$gray: #98979d !default;
-$red: #db4437 !default;
-$orange: #f4b400 !default;
-$green: #0f9d58 !default;
-$blue: #4285f4 !default;
-$purple: #ab47bc !default;
+$neutral: #9e9e9e !default;
+$brand: #4285f4 !default;
+$accent: #ee3f39 !default;
+$danger: #db4437 !default;
+$info: #ab47bc !default;
+$success: #0f9d58 !default;
+$warning: #f4b400 !default;
 
 @mixin var(
     $name,

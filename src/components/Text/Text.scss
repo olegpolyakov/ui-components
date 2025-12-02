@@ -5,7 +5,7 @@
 @use 'base';
 @use 'component';
 
-$color: base.var(text-color) !default;
+$color: base.var(foreground-color) !default;
 $hover-color: null !default;
 $active-color: null !default;
 $disabled-color: null !default;
@@ -29,10 +29,10 @@ $sizes: (
 ) !default;
 
 $vars: component.vars(Text, (
-    color: $color,
-    hover-color: $hover-color,
-    active-color: $active-color,
-    disabled-color: $disabled-color,
+    foreground-color: $color,
+    foreground-hover-color: $hover-color,
+    foreground-active-color: $active-color,
+    foreground-disabled-color: $disabled-color,
     emphasis: $emphasis,
     font-family: $font-family,
     font-size: $font-size,

@@ -7,20 +7,20 @@
 .class {
     @include colors.var(background-color, #fff); 
     @include colors.var(background-color, plain);
-    @include colors.var(text-color, plain-contrast);
-    @include colors.var(text-color, -plain);
+    @include colors.var(foreground-color, plain-contrast);
+    @include colors.var(foreground-color, -plain);
 
     @include colors.vars((
         background-color: primary,
-        text-color: -primary
+        foreground-color: -primary
     ), $prefix: 'custom-', $postfix: '-v2');
 }
 
 .palettes {
-    $palette: palettes.create(blue);
+    $palette: color.generate-shades(oklch(55.6% 0 0));
 
     @each $i, $color in $palette {
-        @include colors.var(color-#{$i}, $color);
+        @include colors.var(blue-#{$i}, $color);
     }
 
     @each $i, $color in palettes.contrast($palette) {
@@ -31,6 +31,6 @@
 @include palettes.define using ($palette) {
     @include palettes.vars($palette, (
         background-color: $palette,
-        text-color: -#{$palette}
+        foreground-color: -#{$palette}
     ));
 }

@@ -8,7 +8,7 @@
 
 @function hover-color($color, $invert: false) {
     @if color.alpha($color) < 1 {
-        @return color.scale($color, $alpha: if($invert, -0.05, 0.05));
+        @return color.scale($color, $alpha: if($invert, -5%, 5%));
     } @else {
         @return color.scale($color, $lightness: if($invert, 5%, -5%));
     }
@@ -16,21 +16,21 @@
 
 @function active-color($color, $invert: false) {
     @if color.alpha($color) < 1 {
-        @return color.scale($color, $alpha: if($invert, -0.1, 0.1));
+        @return color.scale($color, $alpha: if($invert, -10%, 10%));
     } @else {
         @return color.scale($color, $lightness: if($invert, 10%, -10%));
     }
 }
 
-@function state-colors($color, $override: ()) {
+@function state-colors($color, $invert: false, $override: ()) {
     @return (
         'hover': if(map.has-key($override, 'hover'),
             map.get($override, 'hover'),
-            hover-color($color)
+            hover-color($color, $invert: $invert)
         ),
         'active': if(map.has-key($override, 'active'),
             map.get($override, 'active'),
-            active-color($color)
+            active-color($color, $invert: $invert)
         )
     );
 }
@@ -77,13 +77,14 @@
 @mixin _vars(
     $name,
     $color: null,
+    $invert: false,
     $override: null,
     $args...
 ) {
     $colors: ();
 
     @if type.is-color($color) {
-        $colors: state-colors($color);
+        $colors: state-colors($color, $invert: $invert);
     } @else if type.is-string($color) {
         @if string.starts-with($color, '-') {
             $color: #{string.slice($color, 2)}-contrast;

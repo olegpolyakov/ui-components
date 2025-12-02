@@ -3,7 +3,7 @@
 
 $padding: (8px, 12px) !default;
 $background-color: base.var(surface-color) !default;
-$text-color: base.var(text-color) !default;
+$foreground-color: base.var(foreground-color) !default;
 $font-size: base.var(font-size-m) !default;
 $font-weight: 400 !default;
 $line-height: 1.5 !default;
@@ -11,7 +11,7 @@ $line-height: 1.5 !default;
 $vars: component.vars(Option, (
     padding: $padding,
     background-color: $background-color,
-    text-color: $text-color,
+    foreground-color: $foreground-color,
     font-size: $font-size,
     font-weight: $font-weight,
     line-height: $line-height

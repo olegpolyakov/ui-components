@@ -15,7 +15,7 @@
     border: none;
     border-radius: component.var(border-radius);
     background-color: component.var(background-color);
-    color: component.var(text-color);
+    color: component.var(foreground-color);
     font-family: base.var(font-family);
     font-size: component.var(font-size);
     font-weight: component.var(font-weight);
@@ -49,13 +49,13 @@
     &:hover {
         border-color: component.var(border-color-hover);
         background-color: component.var(background-color-hover);
-        color: component.var(text-color-hover);
+        color: component.var(foreground-color-hover);
     }
 
     &:active {
         border-color: component.var(border-color-active);
         background-color: component.var(background-color-active);
-        color: component.var(text-color-active);
+        color: component.var(foreground-color-active);
     }
     
     &:disabled {

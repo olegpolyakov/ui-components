@@ -18,17 +18,9 @@ $font-weights: (
 $line-height: 1.5 !default;
 
 $opacity: (
-    full: 1,
-    high: 0.85,
-    medium: 0.6,
-    low: 0.4,
-    none: 0
-) !default;
-
-$emphasis: (
-    high: 1,
-    medium: .75,
-    low: .5
+    high: 0.75,
+    medium: 0.5,
+    low: 0.25
 ) !default;
 
 $font-sizes: (

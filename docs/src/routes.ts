@@ -1,6 +1,8 @@
 import Home from './pages/Home.mdx';
-import Colors from './pages/Colors.mdx';
-import Palettes from './pages/Palettes.mdx';
+
+import Colors from './pages/base/Colors.mdx';
+import Elements from './pages/base/Elements.mdx';
+import Variants from './pages/base/Variants.mdx';
 
 import Accordion from './pages/Accordion.mdx';
 import Alert from './pages/Alert.mdx';
@@ -53,7 +55,8 @@ export default [
         routes: [
             { path: '/', component: Home, title: 'Home', exact: true, hidden: true },
             { path: '/colors', component: Colors, title: 'Colors' },
-            { path: '/palettes', component: Palettes, title: 'Palettes' }
+            { path: '/elements', component: Elements, title: 'Elements' },
+            { path: '/variants', component: Variants, title: 'Variants' }
         ]
     },
     {

@@ -4,6 +4,6 @@
 
 .root {
     background-color: base.var(background-color);
-    color: base.var(text-color);
+    color: base.var(foreground-color);
     font-family: base.var(font-family);
 }

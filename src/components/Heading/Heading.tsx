@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import type { Align, Color, ComponentProps, ElementType, Emphasis, SizeFull, Weight } from '../../types';
+import type { Align, Color, ComponentProps, ElementType, SizeFull, Tone, Weight } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import styles from './Heading.module.scss';
@@ -9,12 +9,14 @@ export type HeadingProps = {
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-    size?: SizeFull; 
-    align?: Align;
     color?: Color;
-    emphasis?: Emphasis;
+    size?: SizeFull; 
+    tone?: Tone;
     weight?: Weight;
+    align?: Align;
     block?: boolean;
+    bold?: boolean;
+    capitalize?: boolean;
     muted?: boolean;
     marginTop?: boolean;
     marginBottom?: boolean;
@@ -35,13 +37,14 @@ export default function Heading<T extends ElementType = 'h1'>({
     content = children,
     start,
     end,
-    size = 'm',
     color,
-    emphasis,
+    size = 'm',
+    tone,
     weight = 'semibold',
     align,
     block,
     bold,
+    capitalize,
     muted,
     marginTop,
     marginBottom,
@@ -54,11 +57,12 @@ export default function Heading<T extends ElementType = 'h1'>({
         styles.root,
         styles[size],
         color && styles[color],
-        emphasis && styles[`emphasis-${emphasis}`],
+        tone && styles[`tone-${tone}`],
         weight && styles[weight],
         align && styles[`align-${align}`],
         block && styles.block,
         bold && styles.bold,
+        capitalize && styles.capitalize,
         muted && styles.muted,
         marginTop && marginTop === true
             ? styles.mt

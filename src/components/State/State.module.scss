@@ -28,16 +28,13 @@
 }
 
 .title {
-    // @include heading(h3, bold);
-    color: var(--fui-text-color);
+    color: base.var(foreground-color);
 }
 
 .subtitle {
-    // @include heading(h4, normal);
-    color: var(--fui-text-color);
+    color: base.var(foreground-color);
 }
 
 .description {
-    // @include text(p2);
-    color: var(--fui-text-color);
+    color: base.var(foreground-color);
 }

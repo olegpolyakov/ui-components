@@ -12,9 +12,9 @@ $border-width: null !default;
 $background-color: null !default;
 $background-hover-color: null !default;
 $background-active-color: null !default;
-$text-color: null !default;
-$text-hover-color: null !default;
-$text-active-color: null !default;
+$foreground-color: null !default;
+$foreground-hover-color: null !default;
+$foreground-active-color: null !default;
 $font-size: base.var(font-size) !default;
 $font-weight: base.var(font-weight-normal) !default;
 $line-height: 1 !default;
@@ -32,9 +32,9 @@ $vars: component.vars(Button, (
     background-color: $background-color,
     background-hover-color: $background-hover-color,
     background-active-color: $background-active-color,
-    text-color: $text-color,
-    text-hover-color: $text-hover-color,
-    text-active-color: $text-active-color,
+    foreground-color: $foreground-color,
+    foreground-hover-color: $foreground-hover-color,
+    foreground-active-color: $foreground-active-color,
     font-size: $font-size,
     font-weight: $font-weight,
     line-height: $line-height,

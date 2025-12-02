@@ -79,7 +79,8 @@
 
     &:checked {
         @include component.vars((
-            thumb-background-color: base.var(filled-primary-color)
+            background-color: base.var(filled-primary-color),
+            thumb-background-color: base.var(surface-color)
         ));
 
         &:hover {

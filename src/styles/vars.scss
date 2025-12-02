@@ -22,10 +22,6 @@
         @include var(opacity-#{$name}, $value);
     }
 
-    @each $name, $value in $emphasis {
-        @include var(emphasis-#{$name}, $value);
-    }
-
     @each $size, $value in $border-radii {
         @include var(border-radius-#{$size}, $value);
     }
@@ -42,12 +38,12 @@
         @include var(screen-#{$size}, $value);
     }
 
-    @each $name, $palette in palettes.$map {
-        @each $level, $color in $palette {
+    @each $name, $colors in palettes.$map {
+        @each $level, $color in $colors {
             @include var(#{$name}-#{$level}-color, $color);
         }
-        
-        @each $level, $color in palettes.contrast($palette) {
+
+        @each $level, $color in palettes.contrast($colors) {
             @include var(#{$name}-#{$level}-contrast-color, $color);
         }
     }
@@ -57,6 +53,16 @@
     @include theme(dark) {
         color-scheme: dark;
         @include dark.vars;
+
+        @each $name, $colors in palettes.$map {
+            @each $level, $color in palettes.alpha($colors) {
+                @include var(#{$name}-a#{$level}-color, $color);
+            }
+
+            @each $level, $color in palettes.contrast(palettes.alpha($colors), $invert: true) {
+                @include var(#{$name}-a#{$level}-contrast-color, $color);
+            }
+        }
     }
 }
 
@@ -64,5 +70,15 @@
     @include theme(light) {
         color-scheme: light;
         @include light.vars;
+
+        @each $name, $colors in palettes.$map {
+            @each $level, $color in palettes.alpha($colors) {
+                @include var(#{$name}-a#{$level}-color, $color);
+            }
+
+            @each $level, $color in palettes.contrast(palettes.alpha($colors)) {
+                @include var(#{$name}-a#{$level}-contrast-color, $color);
+            }
+        }
     }
 }

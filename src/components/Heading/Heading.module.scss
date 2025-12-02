@@ -17,8 +17,7 @@
     font-family: component.var(font-family);
     font-size: component.var(font-size);
     font-weight: component.var(font-weight);
-    color: component.var(color);
-    opacity: component.var(emphasis);
+    color: component.var(foreground-color);
 }
 
 .content {
@@ -56,13 +55,14 @@
 }
 
 
-// Emphasis
+// Tones
 
 @include component.classes((
-    emphasis-high: (emphasis: base.var(emphasis-high)),
-    emphasis-medium: (emphasis: base.var(emphasis-medium)),
-    emphasis-low: (emphasis: base.var(emphasis-low))
+    tone-neutral: (color: base.var(foreground-color)),
+    tone-muted: (color: base.var(foreground-muted-color)),
+    tone-subtle: (color: base.var(foreground-subtle-color))
 ));
+
 
 
 // Weight
@@ -103,6 +103,10 @@
 
 .italic {
     font-style: italic;
+}
+
+.capitalize {
+    text-transform: capitalize;
 }
 
 .uppercase {

@@ -1,0 +1,83 @@
+import { Box, Divider, Flex, Text } from "~/components";
+
+import Color from "@/components/Color";
+import Palette from "@/components/Palette";
+
+# Elements
+
+## Backgrounds
+
+Base/Primary
+
+<Box padding="m" style={{
+  backgroundColor: 'var(--kui-background-color)'
+}} />
+
+Secondary
+
+<Box padding="m" style={{
+  backgroundColor: 'var(--kui-background-secondary-color)'
+}} />
+
+Tertiary
+
+<Box padding="m" style={{
+  backgroundColor: 'var(--kui-background-tertiary-color)'
+}} />
+
+Inverted
+
+<Box padding="m" style={{
+  backgroundColor: 'var(--kui-background-inverted-color)'
+}} />
+
+## Borders
+
+Base/Primary
+
+<Divider 
+  style={{backgroundColor: 'var(--kui-border-color)'}}
+/>
+
+Secondary
+
+<Divider 
+  style={{backgroundColor: 'var(--kui-border-secondary-color)'}}
+/>
+
+Tertiary
+
+<Divider 
+  style={{backgroundColor: 'var(--kui-border-tertiary-color)'}}
+/>
+
+Inverted
+
+<Divider 
+  style={{backgroundColor: 'var(--kui-border-inverted-color)'}}
+/>
+
+## Foreground
+
+<Text
+  content="Base/Primary"
+  style={{color: 'var(--kui-foreground-color)'}}
+/>
+
+<Text
+  content="Secondary"
+  style={{color: 'var(--kui-foreground-secondary-color)'}}
+/>
+
+<Text
+  content="Tertiary"
+  style={{color: 'var(--kui-foreground-tertiary-color)'}}
+/>
+
+<Text
+  content="Inverted"
+  style={{
+    backgroundColor: 'var(--kui-background-inverted-color)',
+    color: 'var(--kui-foreground-inverted-color)'
+  }}
+/>

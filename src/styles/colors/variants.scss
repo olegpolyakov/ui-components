@@ -7,44 +7,85 @@
 
 @use './base';
 @use './states';
+@use './tones';
 
-@mixin vars($variant-colors, $base-colors) {
-    @include plain(map.get($variant-colors, plain));
-    @include filled(map.get($variant-colors, filled));
-    @include tinted(map.get($variant-colors, tinted));
+@mixin vars($base-colors, $element-colors) {
+    $background-color: map.get($element-colors, background);
+    $background-inverted-color: map.get($element-colors, background-inverted);
+    $foreground-color: map.get($element-colors, foreground);
+    $foreground-inverted-color: map.get($element-colors, foreground-inverted);
+
+    @include plain(
+        color.change($background-inverted-color, $alpha: 0),
+        $foreground-color
+    );
+
+    @include filled(
+        $background-color,
+        $foreground-color
+    );
+
+    @include tinted(
+        color.change($background-inverted-color, $alpha: 0.1),
+        $foreground-color
+    );
 
     @each $name, $color in $base-colors {
-        @include plain($color, $postfix:'-#{$name}');
-        @include filled($color, $postfix:'-#{$name}');
-        @include tinted($color, $postfix:'-#{$name}');
+        @include plain(
+            color.change($color, $alpha: 0),
+            $color,
+            $postfix:'-#{$name}'
+        );
+
+        @include filled(
+            $color,
+            tones.contrast-color($color),
+            $postfix:'-#{$name}'
+        );
+        
+        @include tinted(
+            color.change($color, $alpha: 0.1),
+            $color,
+            $postfix:'-#{$name}'
+        );
     }
 }
 
-@mixin plain($color, $postfix: '', $args...) {
-    $base-color: color.change($color, $alpha: 0);
+@mixin plain(
+    $background-color,
+    $foreground-color,
+    $postfix: '',
+    $args...
+) {
+    $name: 'plain#{$postfix}';
 
-    @include base.var(plain#{$postfix}-color, $base-color);
-    @include base.var(plain#{$postfix}-contrast-color, color.contrast-color($base-color, $invert: true));
-
-    @include states.vars(plain#{$postfix}, (
-        'hover': color.change($color, $alpha: 0.05),
-        'active': color.change($color, $alpha: 0.075)
-    ), $args...);
+    @include base.var(#{$name}-background-color, $background-color);
+    @include base.var(#{$name}-foreground-color, $foreground-color);
+    @include states.vars(#{$name}-background-color, $background-color, $args...);
 }
 
-@mixin filled($color, $postfix: '', $args...) {
-    @include base.var(filled#{$postfix}-color, $color);
-    @include base.var(filled#{$postfix}-contrast-color, color.contrast-color($color));
-    @include states.vars(filled#{$postfix}, $color, $args...);
+@mixin filled(
+    $background-color,
+    $foreground-color,
+    $postfix: '',
+    $args...
+) {
+    $name: 'filled#{$postfix}';
+
+    @include base.var(#{$name}-background-color, $background-color);
+    @include base.var(#{$name}-foreground-color, $foreground-color);
+    @include states.vars(#{$name}-background-color, $background-color, $args...);
 }
 
-@mixin tinted($color, $postfix: '', $args...) {
-    $base-color: color.change($color, $alpha: 0.1);
+@mixin tinted(
+    $background-color,
+    $foreground-color,
+    $postfix: '',
+    $args...
+) {
+    $name: 'tinted#{$postfix}';
 
-    @include base.var(tinted#{$postfix}-color, $base-color);
-    @include base.var(tinted#{$postfix}-contrast-color, color.contrast-color($base-color, $invert: true));
-    @include states.vars(tinted#{$postfix}, (
-        'hover': color.change($color, $alpha: 0.125),
-        'active': color.change($color, $alpha: 0.15)
-    ), $args...);
+    @include base.var(#{$name}-background-color, $background-color);
+    @include base.var(#{$name}-foreground-color, $foreground-color);
+    @include states.vars(#{$name}-background-color, $background-color, $args...);
 }

@@ -5,7 +5,7 @@ $height: auto !default;
 $padding: (base.var(space-xs) 0) !default;
 $gap: 8px !default;
 $background-color: base.var(surface-color) !default;
-$text-color: base.var(text-color) !default;
+$foreground-color: base.var(foreground-color) !default;
 $border-color: base.var(border-color) !default;
 $border-radius: base.var(border-radius-m) !default;
 $border-width: 1px !default;
@@ -16,7 +16,7 @@ $vars: component.vars(MenuItem, (
     padding: $padding,
     gap: $gap,
     background-color: $background-color,
-    text-color: $text-color,
+    foreground-color: $foreground-color,
     border-color: $border-color,
     border-radius: $border-radius,
     border-width: $border-width,

@@ -14,7 +14,7 @@
     padding: component.var(padding);
     gap: component.var(gap);
     background-color: component.var(background-color);
-    color: component.var(text-color);
+    color: component.var(foreground-color);
     font-size: component.var(font-size);
 }
 
@@ -43,14 +43,14 @@
     &:hover {
         border-color: component.var(border-hover-color);
         background-color: component.var(background-hover-color);
-        color: component.var(text-hover-color);
+        color: component.var(foreground-hover-color);
     }
     
     &.active,
     &:active {
         border-color: component.var(border-active-color);
         background-color: component.var(background-active-color);
-        color: component.var(text-active-color);
+        color: component.var(foreground-active-color);
     }
 
     &.disabled {
