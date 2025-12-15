@@ -1,7 +1,7 @@
 import { MouseEvent, useCallback, useState } from 'react';
 
 import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
-import { classnames as cn, getElementClassNames, noop } from '../../utils';
+import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Divider from '../Divider';
 import Heading from '../Heading';
@@ -11,6 +11,7 @@ import Popover, { type PopoverProps } from '../Popover';
 import MenuItem, { type MenuItemProps } from './MenuItem';
 
 import styles from './Menu.module.scss';
+import type { Placement } from '@floating-ui/react';
 
 export type MenuProps = PopoverProps & {
     items?: PropsWithKey<MenuItemProps>[];
@@ -31,9 +32,9 @@ export default function Menu<T extends ElementType = 'div'>({
     items,
     defaultOpen = false,
     size = 'm',
-    onOpen = noop,
-    onClose = noop,
-    onOpenChange = noop,
+    onOpen,
+    onClose,
+    onOpenChange,
     ...props
 }: ComponentProps<MenuProps, T>) {
     const [isOpen, setOpen] = useState<boolean>(defaultOpen);
@@ -46,18 +47,18 @@ export default function Menu<T extends ElementType = 'div'>({
         if (item.items) return;
 
         setOpen(false);
-        onClose();
-        onOpenChange(false, event);
+        onClose?.();
+        onOpenChange?.(false, event);
     }, [onOpenChange, onClose]);
 
-    const handlePopoverOpen = useCallback(() => {
+    const handlePopoverOpen = useCallback((placement: Placement) => {
         setOpen(true);
-        onOpen();
+        onOpen?.(placement);
     }, [onOpen]);
 
     const handlePopoverClose = useCallback(() => {
         setOpen(false);
-        onClose();
+        onClose?.();
     }, [onClose]);
 
     const Component = as || 'div';

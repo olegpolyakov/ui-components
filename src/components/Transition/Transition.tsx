@@ -11,6 +11,7 @@ Transition.displayName = 'Transition';
 export type TransitionProps = CSSTransitionProps<HTMLDivElement> & {
     children: ReactElement;
     type?:
+        | 'blur'
         | 'collapse'
         | 'fade'
         | 'scale'
@@ -20,6 +21,15 @@ export type TransitionProps = CSSTransitionProps<HTMLDivElement> & {
         | 'slide-bottom'
         | 'zoom';
     disabled?: boolean;
+};
+
+const blurClassNames: CSSTransitionClassNames = {
+    enter: styles.blurEnter,
+    enterActive: styles.blurEnterActive,
+    enterDone: styles.blurEnterDone,
+    exit: styles.blurExit,
+    exitActive: styles.blurExitActive,
+    exitDone: styles.blurExitDone
 };
 
 const collapseClassNames: CSSTransitionClassNames = {
@@ -111,6 +121,7 @@ const zoomClassNames: CSSTransitionClassNames = {
 };
 
 const typeToClassNames: Record<string, CSSTransitionClassNames> = {
+    blur: blurClassNames,
     collapse: collapseClassNames,
     fade: fadeClassNames,
     scale: scaleClassNames,

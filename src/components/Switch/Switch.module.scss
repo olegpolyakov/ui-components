@@ -23,28 +23,27 @@
     display: inline-flex;
     align-items: center;
     background-color: component.var(background-color);
-    border: 2px solid base.var(tinted-color);
-    border-color: base.var(tinted-color);
+    border: 1px solid component.var(border-color);
     border-radius: component.var(input-height);
-    transition: background-color 0.2s ease-in-out;
+    transition: background-color component.var(thumb-transition-speed) ease-in-out;
     cursor: pointer;
 
     // thumb
     &::after {
-        $size: calc(#{component.var(input-height)} - 8px);
-
         content: '';
         position: absolute;
-        top: 2px;
-        left: 2px;
+        top: -1px;
+        left: -1px;
         box-sizing: border-box;
-        width: $size;
-        height: $size;
+        width: component.var(input-height);
+        height: component.var(input-height);
+        border: 3px solid transparent;
         border-radius: 100%;
         background-color: component.var(thumb-background-color);
+        background-clip: padding-box;
         transition:
-            background-color 0.2s ease-in-out,
-            transform 0.2s ease-in-out;
+            background-color component.var(thumb-transition-speed) ease-in-out,
+            transform component.var(thumb-transition-speed) ease-in-out;
     }
 }
 
@@ -56,54 +55,46 @@
 // States
 
 .input {
-    @include component.vars((
-        background-color: base.var(plain-color)
-    ));
-
     &:hover {
         @include component.vars((
-            background-color: base.var(plain-hover-color)
+            background-color: base.var(plain-background-hover-color)
         ));
     }
 
     &:active {
         @include component.vars((
-            background-color: base.var(plain-active-color)
+            background-color: base.var(plain-background-active-color)
         ));
     }
 
-    &:disabled {
-
-        --ui-Switch-background-color: var(--ui-neutral-disabled-color);
-    }
-
     &:checked {
+        border-color: transparent;
+
         @include component.vars((
-            background-color: base.var(filled-primary-color),
-            thumb-background-color: base.var(surface-color)
+            background-color: base.var(filled-brand-background-color),
+            thumb-background-color: base.var(filled-background-color)
         ));
 
         &:hover {
             @include component.vars((
-                thumb-background-color: base.var(filled-primary-hover-color)
+                background-color: base.var(filled-brand-background-hover-color)
             ));
         }
 
         &:active {
             @include component.vars((
-                thumb-background-color: base.var(filled-primary-active-color)
-            ));
-        }
-
-        &:disabled {
-            @include component.vars((
-                thumb-background-color: base.var(primary-color-disabled)
+                background-color: base.var(filled-brand-background-active-color)
             ));
         }
 
         &::after {
             transform: translateX(calc(#{component.var(input-width)} - #{component.var(input-height)}));
         }
+    }
+
+    &:disabled {
+        opacity: base.var(opacity-medium);
+        pointer-events: none;
     }
 }
 

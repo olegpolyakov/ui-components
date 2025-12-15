@@ -17,7 +17,7 @@ export type SliderThumbProps = {
     onKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void;
 };
 
-const THUMB_WIDTH = 48;
+const THUMB_WIDTH = 32;
 
 SliderThumb.displayName = 'SliderThumb';
 
@@ -41,7 +41,7 @@ export default function SliderThumb({
         setFocused(false);
     }, []);
 
-    const classNames = cn(styles.thumb, {
+    const classNames = cn(styles.root, {
         [styles.THUMB_FOCUSED]: focused,
         [styles.THUMB_WITH_INDICATOR]: discrete && focused
     });
@@ -65,15 +65,7 @@ export default function SliderThumb({
             onTouchEnd={onEndInteraction}
             {...props}
         >
-            {discrete &&
-                <div className={styles.VALUE_INDICATOR_CONTAINER}>
-                    <div className={styles.VALUE_INDICATOR}>
-                        <span className={styles.VALUE_INDICATOR_TEXT}>{value}</span>
-                    </div>
-                </div>
-            }
-
-            <div className={styles.THUMB_KNOB} />
+            <div className={styles.knob} data-value={Math.round(value)} />
         </div>
     );
 }

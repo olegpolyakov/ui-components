@@ -1,59 +1,56 @@
-$_track-active-height: 6px;
-$_track-inactive-height: 4px;
+@use 'base';
+@use 'component';
+
+
+@use './SliderTrack';
+
+@include component.define(SliderTrack, SliderTrack.$vars);
 
 .root {
     position: absolute;
     top: 50%;
     width: 100%;
+    height: component.var(height);
+    border-radius: component.var(height);
+    background-color: component.var(background-color);
     transform: translateY(-50%);
-}
-
-.active,
-.inactive {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-}
-
-.active {
     overflow: hidden;
 }
 
-.inactive {
-    left: 0;
-    top: 0;
-}
-
-.active-fill {
-    position: relative;
-    width: 100%;
+.active {
     height: 100%;
-    // Use border rather than background-color to fill track, for HCM.
-    border-top-style: solid;
-    box-sizing: border-box;
+    background-color: component.var(foreground-color);
     transform-origin: left;
 }
 
 .marks {
     box-sizing: border-box;
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 1px;
 }
 
 .mark {
+    width: 2px;
+    height: 2px;
+    margin: 0 1px;
+    border-radius: 100%;
+    background-color: base.var(brand-foreground-color);
+
     &-active {}
 
-    &-inactive {}
+    &-inactive {
+        opacity: base.var(opacity-low);
+    }
 }
 
 .discrete {
-    .active-fill {
+    .active {
         transition: transform 80ms ease;
     }
 }

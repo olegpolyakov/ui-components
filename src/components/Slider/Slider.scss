@@ -1,10 +1,21 @@
 @use 'base';
 @use 'component';
 
-$thumb-size: 20px !default;
-$thumb-ripple-size: 48px !default;
+$color: base.var(filled-brand-background-color);
+
+$track-background-color: base.var(background-secondary-color) !default;
+$track-foreground-color: $color !default;
+$track-height: 4px !default;
+
+$thumb-color: $color !default;
+$thumb-size: 16px !default;
+$thumb-ripple-size: $thumb-size * 2 !default;
 
 $vars: component.vars(Slider, (
+    track-height: $track-height,
+    track-background-color: $track-background-color,
+    track-foreground-color: $track-foreground-color,
+    thumb-color: $color,
     thumb-size: $thumb-size,
     thumb-ripple-size: $thumb-ripple-size
 ));

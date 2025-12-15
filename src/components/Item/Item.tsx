@@ -42,8 +42,8 @@ export default function Item<T extends ElementType = 'div'>({
     size,
     shape = 'rounded',
     variant = 'plain',
-    disabled,
     active,
+    disabled,
     interactive,
     ...props
 }: ComponentProps<ItemProps, T>) {
@@ -57,8 +57,8 @@ export default function Item<T extends ElementType = 'div'>({
         shape && styles[shape],
         styles[variant],
         styles[color ? `${variant}-${color}` : variant],
-        disabled && styles.disabled,
         active && styles.active,
+        disabled && styles.disabled,
         interactive && styles.interactive
     );
 

@@ -70,7 +70,7 @@
 
 .focused {
     @include component.vars((
-        border-color: base.var(primary-color)
+        border-color: base.var(outlined-border-color)
     ));
 }
 
@@ -149,7 +149,7 @@
 
 .tinted {
     @include component.vars((
-        background-color: base.var(surface-color)
+        background-color: base.var(tinted-background-color)
     ));
 }
     
@@ -170,7 +170,7 @@
     &:focus-within,
     &.focused {
         @include component.vars((
-            border-color: base.var(primary-color)
+            border-color: base.var(brand-color)
         ));
     }
 }

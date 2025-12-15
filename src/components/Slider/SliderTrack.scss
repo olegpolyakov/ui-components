@@ -1,3 +1,10 @@
+@use 'base';
 @use 'component';
 
-$vars: component.vars(SliderTrack, ());
+@use './Slider';
+
+$vars: component.vars(SliderTrack, (
+    background-color: Slider.$track-background-color,
+    foreground-color: Slider.$track-foreground-color,
+    height: Slider.$track-height,
+));

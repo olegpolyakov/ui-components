@@ -1,3 +1,9 @@
+@use 'base';
 @use 'component';
 
-$vars: component.vars(SliderThumb, ());
+@use './Slider';
+
+$vars: component.vars(SliderThumb, (
+    color: Slider.$thumb-color,
+    size: Slider.$thumb-size
+));

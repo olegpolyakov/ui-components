@@ -6,34 +6,27 @@
 @include component.define(Dialog, Dialog.$vars);
 
 .root {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: base.var(font-family);
 }
 
-.overlay {
-    position: fixed;
-    top: 0px;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: base.var(backdrop-color);
-    z-index: component.var(z-index);
-}
-
 .surface {
-    position: relative;
+    box-sizing: border-box;
     min-height: 100px;
     min-width: 300px;
     border-radius: component.var(border-radius);
     padding: component.var(padding-x) component.var(padding-y);
-    display: flex;
-    flex-direction: column;
     background-color: component.var(background-color);
     box-shadow: component.var(shadow) base.var(shadow-color);
+    display: flex;
+    flex-direction: column;
 }
 
 .title {

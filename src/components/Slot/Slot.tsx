@@ -34,8 +34,8 @@ export default function Slot<
         })
         : isObject<{className?: string}>(children)
             ? createElement(fallback, {
-                ...children,
                 ...props,
+                ...children,
                 className: cn(children.className, props.className, className)
             })
             : createElement(fallback, {

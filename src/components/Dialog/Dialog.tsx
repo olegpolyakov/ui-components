@@ -1,19 +1,22 @@
 import { MouseEvent, ReactNode, useCallback, useEffect, useRef } from 'react';
 
-import type { ComponentProps } from '../../types';
+import type { ComponentProps, Slotted } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import Button from '../Button';
+import Button, { type ButtonProps } from '../Button';
+import Heading, { HeadingProps } from '../Heading';
 import Modal from '../Modal';
+import Slot from '../Slot';
 import Transition from '../Transition';
 
 import cssClasses from './Dialog.module.scss';
 
 export type DialogProps = {
-    title?: ReactNode;
+    title?: Slotted<HeadingProps>;
     content?: ReactNode;
+    closeButton?: Slotted<ButtonProps>;
     open?: boolean;
-    closeButton?: boolean;
+    noCloseButton?: boolean;
     closeOnClickOutside?: boolean;
     disableScroll?: boolean;
     onClose: () => void;
@@ -32,8 +35,9 @@ export default function Dialog({
 
     title,
     content = children,
+    closeButton,
     open,
-    closeButton = true,
+    noCloseButton,
     closeOnClickOutside = false,
     disableScroll,
     onClose,
@@ -55,7 +59,7 @@ export default function Dialog({
         };
     }, [onClose]);
 
-    const handleOverlayClick = useCallback(() => {
+    const handleRootClick = useCallback(() => {
         if (closeOnClickOutside) {
             onClose();
         }
@@ -74,51 +78,61 @@ export default function Dialog({
     );
 
     return (
-        <Modal open={open} disableScroll={disableScroll}>
+        <Modal
+            open={open}
+            backdrop
+            fixed
+            disableScroll={disableScroll}
+        >
             <div
                 className={classNames}
                 role="dialog"
                 data-open={open ? true : undefined}
+                tabIndex={-1}
+                onClick={handleRootClick}
                 {...props}
             >
-                <div
-                    className={cn(elementClassNames.overlay, cssClasses.overlay)}
-                    tabIndex={-1}
-                    onClick={handleOverlayClick}
+                <Transition
+                    nodeRef={surfaceRef}
+                    in={open}
+                    type="scale"
+                    timeout={200}
+                    appear
+                    onExited={onClose}
                 >
-                    <Transition
-                        nodeRef={surfaceRef}
-                        in={open}
-                        type="scale"
-                        timeout={200}
-                        appear
-                        onExited={onClose}
+                    <div
+                        ref={surfaceRef}
+                        className={cn(elementClassNames.surface, cssClasses.surface)} 
+                        onClick={handleSurfaceClick}
                     >
-                        <div
-                            ref={surfaceRef}
-                            className={cn(elementClassNames.surface, cssClasses.surface)} 
-                            onClick={handleSurfaceClick}
-                        >
-                            {title &&
-                                <h2 className={cn(elementClassNames.title, cssClasses.title)}>{title}</h2>
-                            }
+                        {title &&
+                            <Slot
+                                fallback={Heading}
+                                className={cn(elementClassNames.title, cssClasses.title)}
+                                size="s"
+                            >
+                                {title}
+                            </Slot>
+                        }
 
-                            <div className={cn(elementClassNames.content, cssClasses.content)}>
-                                {content}
-                            </div>
-
-                            {closeButton &&
-                                <Button
-                                    className={cn(elementClassNames.closeButton, cssClasses.closeButton)}
-                                    icon="close"
-                                    size="s"
-                                    aria-label="Close modal"
-                                    onClick={onClose}
-                                />
-                            }
+                        <div className={cn(elementClassNames.content, cssClasses.content)}>
+                            {content}
                         </div>
-                    </Transition>
-                </div>
+
+                        {!noCloseButton && 
+                            <Slot
+                                fallback={Button}
+                                className={cn(elementClassNames.closeButton, cssClasses.closeButton)}
+                                icon="close"
+                                size="s"
+                                aria-label="Close dialog"
+                                onClick={onClose}
+                            >
+                                {closeButton}
+                            </Slot>
+                        }
+                    </div>
+                </Transition>
             </div>
         </Modal>
     );

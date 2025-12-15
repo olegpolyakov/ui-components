@@ -30,7 +30,8 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
                 setting.name !== 'as' &&
                 !setting.name.startsWith('on') &&
                 !setting.type.name.endsWith('Props') &&
-                !setting.type.name.includes('[]')
+                !setting.type.name.includes('[]') &&
+                !setting.name.includes('Ref')
             )
             : [],
     [settings]);

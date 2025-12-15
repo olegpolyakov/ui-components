@@ -20,6 +20,7 @@ import cssClasses from './Slider.module.scss';
 export type SliderProps = {
     name?: string;
     value?: number;
+    defaultValue?: number;
     min?: number;
     max?: number;
     step?: number;
@@ -36,7 +37,8 @@ export default function Slider<T extends ElementType = 'div'>({
     as,
     className,
 
-    value = 0,
+    value,
+    defaultValue,
     min = 0,
     max = 100,
     step,
@@ -49,7 +51,11 @@ export default function Slider<T extends ElementType = 'div'>({
     const inputRef = useRef<HTMLInputElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
 
+    const [internalValue, setInternalValue] = useState(value || defaultValue || 0);
     const [active, setActive] = useState(false);
+
+    const isControlled = value !== undefined;
+    const resolvedValue = isControlled ? value : internalValue;
 
     const updateValue = useCallback((newValue: number) => {
         if (newValue < min) {
@@ -62,8 +68,12 @@ export default function Slider<T extends ElementType = 'div'>({
             newValue = Math.round(newValue / step) * step;
         }
 
-        onChange(newValue);
-    }, [min, max, step, onChange]);
+        if (!isControlled) {
+            setInternalValue(newValue);
+        }
+
+        onChange?.(newValue);
+    }, [min, max, step, onChange, isControlled]);
 
     const handleMove = useCallback((
         event: MouseInteractionEvent
@@ -151,13 +161,14 @@ export default function Slider<T extends ElementType = 'div'>({
                 ref={inputRef}
                 className={cssClasses.input}
                 type="range"
-                value={Math.round(value)}
+                value={Math.round(resolvedValue)}
+                onChange={() => {}}
                 {...props}
             />
 
             <Track
                 ref={trackRef}
-                value={value}
+                value={resolvedValue}
                 min={min}
                 max={max}
                 step={step}
@@ -166,7 +177,7 @@ export default function Slider<T extends ElementType = 'div'>({
             />
 
             <Thumb
-                value={value}
+                value={resolvedValue}
                 min={min}
                 max={max}
                 discrete={discrete}

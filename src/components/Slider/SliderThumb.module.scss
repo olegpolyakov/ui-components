@@ -7,8 +7,6 @@
 @use './Slider';
 @use './SliderThumb';
 
-$_value-indicator-caret-width: 6px;
-
 @include component.define(SliderThumb, SliderThumb.$vars);
 
 .root {
@@ -19,6 +17,17 @@ $_value-indicator-caret-width: 6px;
     user-select: none;
     height: Slider.$thumb-ripple-size;
     width: Slider.$thumb-ripple-size;
+    border-radius: 100%;
+    transition: background-color 200ms ease;
+
+    &:focus,
+    &:hover {
+        background-color: base.var(plain-brand-background-hover-color);
+    }
+
+    &:active {
+        background-color: base.var(plain-brand-background-active-color);
+    }
 }
 
 .knob {
@@ -26,61 +35,34 @@ $_value-indicator-caret-width: 6px;
     position: absolute;
     left: 50%;
     top: 50%;
+    height: component.var(size);
+    width: component.var(size);
+    background-color: component.var(color);
+    border-radius: 50%;
     transform: translate(-50%, -50%);
+}
+
+.knob::after {
+    content: attr(data-value);
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 12px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translate(-50%, -175%);
+    transition: opacity 100ms ease, transform 100ms ease;
+
+    &:hover::after,
+    &:active::after {
+        opacity: 1;
+        transform: translate(-50%, -200%);
+    }
 }
 
 .focused {
     
-}
-
-.top {
-    z-index: 1;
-}
-
-.top .knob,
-.top:hover .knob,
-.top.focused .knob {
-    border-color: base.var(primary-color);
-    box-shadow: base.var(shadow-m);
-}
-
-.value-indicator-container {
-    position: absolute;
-    bottom: math.div(Slider.$thumb-ripple-size, 2) + math.div(Slider.$thumb-size, 2) + $_value-indicator-caret-width + 4px;
-    left: var(--slider-value-indicator-container-left, 50%);
-    right: var(--slider-value-indicator-container-right);
-    transform: var(--slider-value-indicator-container-transform, translateX(-50%));
-    pointer-events: none;
-}
-
-.value-indicator {
-    height: 32px;
-    display: flex;
-    align-items: center;
-    border-radius: 4px;
-    padding: 0 12px;
-    transform: scale(0);
-    transform-origin: bottom;
-    transition: animation.exit-permanent(transform, 100ms);
-
-    // Caret: https://css-tricks.com/snippets/css/css-triangle/
-    &::before {
-        content: '';
-        position: absolute;
-        width: 0;
-        height: 0;
-        border-left: $_value-indicator-caret-width solid transparent;
-        border-right: $_value-indicator-caret-width solid transparent;
-        border-top: $_value-indicator-caret-width solid;
-        bottom: -$_value-indicator-caret-width + 1;
-        left: var(--slider-value-indicator-caret-left, 50%);
-        right: var(--slider-value-indicator-caret-right);
-        transform: var(--slider-value-indicator-caret-transform, translateX(-50%));
-    }
-
-    &-text {
-        
-    }
 }
 
 .with-indicator {

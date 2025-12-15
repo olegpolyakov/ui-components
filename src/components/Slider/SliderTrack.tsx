@@ -29,25 +29,18 @@ export default function SliderTrack({
 
     return (
         <div className={styles.root} {...props}>
-            <div className={styles.active} />
-
-            <div className={styles.inactive}>
-                <div
-                    className={styles.activeFill}
-                    style={style}
-                />
-            </div>
+            <div className={styles.active} style={style} />
 
             {discrete && marks &&
-                <div className={styles.trackMarks}>
-                    {Array.from(new Array((max - min) / step + 1))
+                <div className={styles.marks}>
+                    {Array.from(new Array(Math.trunc((max - min) / step) + 1))
                         .map((_, i) => step * i + Number(min))
                         .map(tickValue =>
                             <div
                                 key={tickValue}
                                 data-value={tickValue}
                                 className={
-                                    cn({
+                                    cn(styles.mark, {
                                         [styles.markActive]: tickValue <= value,
                                         [styles.markInactive]: tickValue > value
                                     })

@@ -11,7 +11,7 @@ $vars: component.vars(Select, map.merge(Input.$vars, (
     menu-shadow: $menu-shadow
 )));
 
-@mixin caret($size: 24px) {
+@mixin caret($size: 18px) {
     &::after {
         content: '';
         display: inline-block;

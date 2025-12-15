@@ -47,22 +47,6 @@
     flex-shrink: 0;
 }
 
-.left .surface {
-    border-right: component.var(border-width) solid component.var(border-color);
-}
-
-.right .surface {
-    border-left: component.var(border-width) solid component.var(border-color);
-}
-
-.top .surface {
-    border-bottom: component.var(border-width) solid component.var(border-color);
-}
-
-.bottom .surface {
-    border-top: component.var(border-width) solid component.var(border-color);
-}
-
 
 // Types
 
@@ -76,6 +60,22 @@
     &.exit-done {
         display: none;
     }
+
+    &.left .surface {
+        border-right: component.var(border-width) solid component.var(border-color);
+    }
+
+    &.right .surface {
+        border-left: component.var(border-width) solid component.var(border-color);
+    }
+
+    &.top .surface {
+        border-bottom: component.var(border-width) solid component.var(border-color);
+    }
+
+    &.bottom .surface {
+        border-top: component.var(border-width) solid component.var(border-color);
+    }
 }
 
 .modal,
@@ -87,6 +87,7 @@
     .surface {
         position: absolute;
         transition: transform 200ms ease-in-out;
+        box-shadow: base.var(shadow-m) base.var(shadow-color);
     }
 
     &.left,

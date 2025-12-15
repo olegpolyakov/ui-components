@@ -2,7 +2,7 @@
 @use 'component';
 
 $padding: (8px, 12px) !default;
-$background-color: base.var(surface-color) !default;
+$background-color: base.var(background-color) !default;
 $foreground-color: base.var(foreground-color) !default;
 $font-size: base.var(font-size-m) !default;
 $font-weight: 400 !default;

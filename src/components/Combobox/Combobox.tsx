@@ -145,6 +145,14 @@ export default function Combobox({
         : !!value;
     const hasLabel = Boolean(label);
 
+    console.log('Combobox render', {
+        value,
+        hasValue,
+        inputValue,
+        open,
+        focused
+    });
+
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -154,7 +162,7 @@ export default function Combobox({
         focused && cssClasses.focused,
         open && cssClasses.open,
         disabled && cssClasses.disabled,
-        hasValue && cssClasses.activated,
+        (hasValue || focused) && cssClasses.activated,
         hasLabel && cssClasses.hasLabel
     );
 
@@ -190,17 +198,17 @@ export default function Combobox({
                                 shape="rounded"
                             />
                         )}
-
-                        <input
-                            className={cn(elementClassNames.input, cssClasses.input)}
-                            placeholder={placeholder}
-                            value={inputValue}
-                            disabled={disabled}
-                            onChange={handleInputChange}
-                            onFocus={handleFocus}
-                            onBlur={handleBlur}
-                        />
                     </div>
+
+                    <input
+                        className={cn(elementClassNames.input, cssClasses.input)}
+                        placeholder={placeholder}
+                        value={inputValue}
+                        disabled={disabled}
+                        onChange={handleInputChange}
+                        onFocus={handleFocus}
+                        onBlur={handleBlur}
+                    />
 
                     {clearable && hasValue && !disabled &&
                         <Button icon="clear" size="xs" />
@@ -249,7 +257,7 @@ export default function Combobox({
                                     <Item
                                         key={index}
                                         as="li"
-                                        color={selected ? 'primary' : undefined}
+                                        color={selected ? 'brand' : undefined}
                                         variant={selected ? 'filled' : undefined}
                                         interactive
                                         data-value={optionValue}

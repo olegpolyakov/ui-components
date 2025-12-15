@@ -41,8 +41,9 @@
     margin: 0;
     outline: none;
     border: 1px solid component.var(border-color);
-    background: base.var(surface-color);
+    background: base.var(background-color);
     overflow: hidden auto;
+    box-shadow: base.var(shadow-m) base.var(shadow-color);
     z-index: 10;
 }
 
@@ -71,7 +72,6 @@
 }
 
 .values {
-    width: 100%;
     display: flex;
     gap: 4px;
 }
@@ -101,7 +101,7 @@
         color: #b8b8b8;
     }
 
-    .label ~ &::before {
+    .label ~ &::placeholder {
         visibility: hidden;
     }
 }
@@ -160,7 +160,7 @@
 
 .tinted {
     @include component.vars((
-        background-color: base.var(surface-color)
+        background-color: base.var(tinted-background-color)
     ));
 }
     
@@ -231,8 +231,13 @@
         transform: scale(.75) translate(0, -35%);
     }
 
-    .label + .input {
+    .label ~ .values,
+    .label ~ .input {
         padding-top: .75rem;
+    }
+
+    .label ~ input::placeholder {
+        visibility: visible;
     }
 }
 

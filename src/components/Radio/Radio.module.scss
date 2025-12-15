@@ -15,7 +15,7 @@
     appearance: none;
     width: component.var(size);
     height: component.var(size);
-    border: 2px solid component.var(border-color);
+    border: component.var(border-width) solid component.var(border-color);
     border-radius: 100%;
     background-color: component.var(background-color);
     outline: none;
@@ -35,27 +35,40 @@
 
 .input {
     &:hover {
-        border-color: base.var(plain-hover-color);
-        background-color: base.var(plain-hover-color);
+        @include component.vars((
+            background-color: base.var(plain-background-hover-color)
+        ));
     }
 
     &:active {
-        border-color: base.var(plain-active-color);
-        background-color: base.var(plain-active-color);
+        @include component.vars((
+            background-color: base.var(plain-background-active-color)
+        ));
     }
 
     &:checked {
-        border-color: base.var(filled-primary-color);
+        @include component.vars((
+            border-color: base.var(filled-brand-background-color)
+        ));
+
         border-width: component.var(_checked-border-width);
 
         &:hover {
-            border-color: base.var(filled-primary-hover-color);
+            @include component.vars((
+                border-color: base.var(filled-brand-background-hover-color)
+            ));
         }
 
         &:active {
-            border-color: base.var(filled-primary-active-color);
-            background-color: base.var(surface-color);
+            @include component.vars((
+                border-color: base.var(filled-brand-background-active-color)
+            ));
         }
+    }
+
+    &:disabled {
+        opacity: base.var(opacity-medium);
+        pointer-events: none;
     }
 }
 

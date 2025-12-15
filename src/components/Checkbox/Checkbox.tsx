@@ -16,6 +16,8 @@ export type CheckboxProps = {
     inputRef?: React.Ref<HTMLInputElement>;
     label?: ReactNode;
     size?: Size;
+    checked?: boolean;
+    disabled?: boolean;
     onChange?: CheckboxChangeHandler;
 };
 

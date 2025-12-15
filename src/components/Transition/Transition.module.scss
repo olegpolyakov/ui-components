@@ -1,3 +1,35 @@
+.blur {
+    backdrop-filter: blur(0);
+    transition: backdrop-filter .2s;
+
+    &-appear,
+    &-enter {
+        backdrop-filter: blur(0);
+    }
+
+    &-appear-active,
+    &-enter-active {
+        backdrop-filter: blur(4px);
+    }
+
+    &-appear-done,
+    &-enter-done {
+        backdrop-filter: blur(4px);
+    }
+
+    &-exit {
+        backdrop-filter: blur(4px);
+    }
+
+    &-exit-active {
+        backdrop-filter: blur(0);
+    }
+
+    &-exit-done {
+        backdrop-filter: blur(0);
+    }
+}
+
 .collapse {
     display: grid;
     grid-template-rows: 0;

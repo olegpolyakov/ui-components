@@ -11,8 +11,9 @@
 }
 
 .label {
-    cursor: pointer;
     padding-left: component.var(gap);
+    cursor: pointer;
+    user-select: none;
 }
 
 .input {
@@ -29,40 +30,47 @@
     padding: 0;
     transition: all .2s;
     cursor: pointer;
-
-    &:hover {
-        @include component.vars((
-            border-color: base.var(plain-hover-color),
-            background-color: base.var(plain-hover-color)
-        ));
-    }
-
-    &:active {
-        @include component.vars((
-            border-color: base.var(plain-active-color),
-            background-color: base.var(plain-active-color)
-        ));
-    }
 }
 
-.input:checked {
-    @include component.vars((
-        border-color: base.var(filled-primary-color),
-        background-color: base.var(filled-primary-color)
-    ));
 
+// States
+
+.input {
     &:hover {
         @include component.vars((
-            border-color: base.var(filled-primary-hover-color),
-            background-color: base.var(filled-primary-hover-color)
+            background-color: base.var(plain-background-hover-color)
         ));
     }
 
     &:active {
         @include component.vars((
-            border-color: base.var(filled-primary-active-color),
-            background-color: base.var(filled-primary-active-color)
+            background-color: base.var(plain-background-active-color)
         ));
+    }
+
+    &:checked {
+        border-color: transparent;
+        
+        @include component.vars((
+            background-color: base.var(filled-brand-background-color)
+        ));
+
+        &:hover {
+            @include component.vars((
+                background-color: base.var(filled-brand-background-hover-color)
+            ));
+        }
+
+        &:active {
+            @include component.vars((
+                background-color: base.var(filled-brand-background-active-color)
+            ));
+        }
+    }
+
+    &:disabled {
+        opacity: base.var(opacity-medium);
+        pointer-events: none;
     }
 }
 

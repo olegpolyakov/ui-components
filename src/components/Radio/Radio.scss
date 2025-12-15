@@ -2,13 +2,15 @@
 @use 'component';
 
 $size: 20px !default;
-$border-color: base.var(border-color) !default;
-$background-color: base.var(surface-color) !default;
+$border-color: base.var(outlined-border-color) !default;
+$border-width: 1px !default;
+$background-color: base.var(plain-background-color) !default;
 $gap: base.var(space-s) !default;
 
 $vars: component.vars(Radio, (
     size: $size,
     border-color: $border-color,
+    border-width: $border-width,
     background-color: $background-color,
     gap: $gap,
     _checked-border-width: 6px

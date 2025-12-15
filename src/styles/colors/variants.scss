@@ -10,6 +10,7 @@
 @use './tones';
 
 @mixin vars($base-colors, $element-colors) {
+    $border-color: map.get($element-colors, border);
     $background-color: map.get($element-colors, background);
     $background-inverted-color: map.get($element-colors, background-inverted);
     $foreground-color: map.get($element-colors, foreground);
@@ -30,6 +31,8 @@
         $foreground-color
     );
 
+    @include outlined($border-color);
+
     @each $name, $color in $base-colors {
         @include plain(
             color.change($color, $alpha: 0),
@@ -48,6 +51,8 @@
             $color,
             $postfix:'-#{$name}'
         );
+
+        @include outlined($color, $postfix:'-#{$name}');
     }
 }
 
@@ -88,4 +93,15 @@
     @include base.var(#{$name}-background-color, $background-color);
     @include base.var(#{$name}-foreground-color, $foreground-color);
     @include states.vars(#{$name}-background-color, $background-color, $args...);
+}
+
+@mixin outlined(
+    $border-color,
+    $postfix: '',
+    $args...
+) {
+    $name: 'outlined#{$postfix}';
+
+    @include base.var(#{$name}-border-color, $border-color);
+    @include states.vars(#{$name}-border-color, $border-color, $args...);
 }

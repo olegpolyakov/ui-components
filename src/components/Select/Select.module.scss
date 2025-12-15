@@ -6,8 +6,6 @@
 @use '../Input';
 @use './Select';
 
-@forward 'component' show var, vars;
-
 .common {
     @include component.define(Select, Select.$vars);
     box-sizing: border-box;
@@ -41,8 +39,9 @@
     margin: 0;
     outline: none;
     border: 1px solid component.var(border-color);
-    background: base.var(surface-color);
+    background: base.var(background-color);
     overflow: hidden auto;
+    box-shadow: base.var(shadow-m) base.var(shadow-color);
     z-index: 10;
 }
 
@@ -59,6 +58,7 @@
     position: relative;
     display: flex;
     align-items: center;
+    gap: base.var(space-xxs);
 
     @include Select.caret;
 }
@@ -73,8 +73,6 @@
 .input {
     height: 100%;
     flex: 1;
-    display: flex;
-    align-items: center;
     margin: 0;
     padding: 0;
     border: none;
@@ -88,6 +86,7 @@
     text-align: left;
     white-space: nowrap;
     z-index: 1;
+    visibility: hidden;
     cursor: inherit;
 
     &:empty::before {
@@ -98,6 +97,13 @@
     .label ~ &::before {
         visibility: hidden;
     }
+}
+
+.value {
+    pointer-events: none;
+    transform: translateY(10%);
+    opacity: 0;
+    transition: opacity .2s, transform .2s;
 }
 
 
@@ -154,7 +160,7 @@
 
 .tinted {
     @include component.vars((
-        background-color: base.var(surface-color)
+        background-color: base.var(background-color)
     ));
 }
     
@@ -172,10 +178,9 @@
 
 .outlined,
 .underlined {
-    &:focus-within,
     &.focused {
         @include component.vars((
-            border-color: base.var(primary-color)
+            border-color: base.var(brand-color)
         ));
     }
 }
@@ -202,7 +207,7 @@
 
 .open {
     @include component.vars((
-        border-color: base.var(primary-color)
+        border-color: base.var(brand-color)
     ));
 
     &.root {
@@ -242,8 +247,14 @@
         transform: scale(.75) translate(0, -35%);
     }
 
-    .label + .input {
+    .label ~ .value,
+    .label ~ .input {
         padding-top: .75rem;
+    }
+
+    .value {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
