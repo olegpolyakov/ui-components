@@ -9,6 +9,7 @@ $border-width: 0 !default;
 $border-color: none !default;
 $background-color: base.var(plain-color) !default;
 $foreground-color: base.var(foreground-color) !default;
+$icon-color: inherit !default;
 $font-size: base.var(font-size-medium) !default;
 $shadow: none !default;
 
@@ -21,6 +22,7 @@ $vars: component.vars(Alert, (
     border-color: $border-color,
     background-color: $background-color,
     foreground-color: $foreground-color,
+    icon-color: $icon-color,
     font-size: $font-size,
     shadow: $shadow
 ));

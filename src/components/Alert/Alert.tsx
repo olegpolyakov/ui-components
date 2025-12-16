@@ -1,18 +1,20 @@
 import { ReactNode } from 'react';
 
-import type { Color, ComponentProps, ElementType, Intent, Shadow, Shape, Size, SizeExtended, Variant } from '../../types';
+import type { Color, ComponentProps, ElementType, Intent, Shadow, Shape, Size, SizeExtended, Slotted, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import Icon from '../Icon';
+import Button, { ButtonProps } from '../Button';
+import Icon, { IconProps } from '../Icon';
+import Slot from '../Slot';
 
-import cssClasses from './Alert.module.scss';
-import Button from '../Button';
+import styles from './Alert.module.scss';
 
 export type AlertProps = {
     content?: ReactNode;
-    icon?: ReactNode;
+    icon?: Slotted<IconProps>;
     start?: ReactNode;
     end?: ReactNode;
+    closeButton?: Slotted<ButtonProps>;
     intent?: Intent;
     color?: Color;
     size?: Size;
@@ -32,7 +34,7 @@ const elementClassNames = getElementClassNames(
 const IntentIcon = {
     danger: 'error',
     info: 'info',
-    success: 'done',
+    success: 'check_circle',
     warning: 'warning'
 };
 
@@ -51,6 +53,7 @@ export default function Alert<T extends ElementType = 'div'>({
     icon,
     start,
     end,
+    closeButton,
     intent,
     color = intent,
     size = 'm',
@@ -60,57 +63,60 @@ export default function Alert<T extends ElementType = 'div'>({
     onClose,
     ...props
 }: ComponentProps<AlertProps, T>) {
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size],
-        cssClasses[shape === 'rounded' ? `rounded-${size}` : shape],
-        cssClasses[variant],
-        cssClasses[color ? `${variant}-${color}` : variant],
-        shadow && cssClasses[`shadow-${shadow}`]
+        styles.root,
+        styles[size],
+        styles[shape === 'rounded' ? `rounded-${size}` : shape],
+        styles[variant],
+        styles[color ? `${variant}-${color}` : variant],
+        shadow && styles[`shadow-${shadow}`]
     );
 
     return (
-        <Component
+        <Root
             className={classNames}
             {...props}
         >
             {start &&
-                <div className={cn(elementClassNames.start, cssClasses.start)}>
+                <div className={cn(elementClassNames.start, styles.start)}>
                     {start}
                 </div>
             }
 
-            {(icon || intent) && 
-                <Icon
-                    className={cn(elementClassNames.icon, cssClasses.icon)}
-                    name={typeof icon === 'string' ? icon : undefined}
+            {(icon || intent) &&
+                <Slot
+                    fallback={Icon}
+                    className={cn(elementClassNames.icon, styles.icon)}
                     size={size}
                 >
                     {icon || (intent && IntentIcon[intent])}
-                </Icon>
+                </Slot>
             }
                 
-            <div className={cn(elementClassNames.content, cssClasses.content)}>
+            <div className={cn(elementClassNames.content, styles.content)}>
                 {content}
             </div>
 
             {end &&
-                <div className={cn(elementClassNames.end, cssClasses.end)}>
+                <div className={cn(elementClassNames.end, styles.end)}>
                     {end}
                 </div>
             }
 
-            {onClose &&
-                <Button
-                    className={cn(elementClassNames['close-button'], cssClasses.closeButton)}
+            {(closeButton || onClose) &&
+                <Slot
+                    fallback={Button}
+                    className={cn(elementClassNames['close-button'], styles.closeButton)}
                     icon="close"
                     size={closeButtonSizeMap[size]}
                     onClick={onClose}
-                />
+                >
+                    {closeButton}
+                </Slot>
             }
-        </Component>
+        </Root>
     );
 }
