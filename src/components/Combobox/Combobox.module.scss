@@ -160,7 +160,7 @@
 
 .tinted {
     @include component.vars((
-        background-color: base.var(tinted-background-color)
+        background-color: base.var(tinted-color)
     ));
 }
     

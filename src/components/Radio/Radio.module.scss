@@ -36,32 +36,32 @@
 .input {
     &:hover {
         @include component.vars((
-            background-color: base.var(plain-background-hover-color)
+            background-color: base.var(plain-hover-color)
         ));
     }
 
     &:active {
         @include component.vars((
-            background-color: base.var(plain-background-active-color)
+            background-color: base.var(plain-active-color)
         ));
     }
 
     &:checked {
         @include component.vars((
-            border-color: base.var(filled-brand-background-color)
+            border-color: base.var(filled-brand-color)
         ));
 
         border-width: component.var(_checked-border-width);
 
         &:hover {
             @include component.vars((
-                border-color: base.var(filled-brand-background-hover-color)
+                border-color: base.var(filled-brand-hover-color)
             ));
         }
 
         &:active {
             @include component.vars((
-                border-color: base.var(filled-brand-background-active-color)
+                border-color: base.var(filled-brand-active-color)
             ));
         }
     }

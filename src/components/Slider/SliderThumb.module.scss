@@ -22,11 +22,11 @@
 
     &:focus,
     &:hover {
-        background-color: base.var(plain-brand-background-hover-color);
+        background-color: base.var(plain-brand-hover-color);
     }
 
     &:active {
-        background-color: base.var(plain-brand-background-active-color);
+        background-color: base.var(plain-brand-active-color);
     }
 }
 

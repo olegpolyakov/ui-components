@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export type { ComponentProps as PropsFor } from 'react';
+export type { ComponentProps as PropsOf } from 'react';
 
 export type Merge<T1, T2> = Omit<T2, keyof T1> & T1;
 
@@ -57,6 +57,7 @@ export type HTMLTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement
 
 export type Align = 'start' | 'center' | 'end';
 export type Color = 'brand' | 'accent' | 'danger' | 'info' | 'success' | 'warning';
+export type Emphasis = 'low' | 'medium' | 'high';
 export type Gender = 'unknown' | 'male' | 'female';
 export type IconPosition = 'before' | 'after';
 export type Intent = 'danger' | 'info' | 'success' | 'warning';

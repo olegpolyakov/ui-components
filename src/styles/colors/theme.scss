@@ -30,15 +30,11 @@
 ) {
     @each $name, $color in $base-colors {
         @include base.var(#{$name}-color, $color);
+        @include base.var(on-#{$name}-color, tones.contrast-color($color));
     }
 
     @each $element, $color in $element-colors {
         @include base.var(#{$element}-color, $color);
-    }
-
-    @each $name, $color in $base-colors {
-        @include base.var(#{$name}-background-color, $color);
-        @include base.var(#{$name}-foreground-color, tones.contrast-color($color));
     }
 
     @include variants.vars(

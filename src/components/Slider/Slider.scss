@@ -1,7 +1,7 @@
 @use 'base';
 @use 'component';
 
-$color: base.var(filled-brand-background-color);
+$color: base.var(filled-brand-color);
 
 $track-background-color: base.var(background-secondary-color) !default;
 $track-foreground-color: $color !default;

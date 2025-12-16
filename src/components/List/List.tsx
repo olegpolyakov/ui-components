@@ -1,5 +1,5 @@
 import { Children, cloneElement, isValidElement } from 'react';
-import type { ComponentProps, ElementType, PropsFor, PropsWithKey, Size } from '../../types';
+import type { ComponentProps, ElementType, PropsOf, PropsWithKey, Size } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Item, { type ItemProps } from '../Item';
@@ -55,7 +55,7 @@ export default function List<T extends ElementType = 'ul'>({
             )}
 
             {Children.map(children, child =>
-                isValidElement<PropsFor<typeof Item>>(child) &&
+                isValidElement<PropsOf<typeof Item>>(child) &&
                 cloneElement(child, {
                     as: child.props.as || itemAs,
                     size: child.props.size || size,

@@ -1,3 +1,4 @@
+@use 'base';
 @use 'component';
 
 @use './Menu';
@@ -8,11 +9,16 @@
     display: flex;
     flex-direction: column;
     padding: component.var(padding);
-    background-color: component.var(background-color);
     overflow-y: auto;
 }
 
 .heading {
     margin: 0;
     padding: 8px 16px;
+}
+
+.divider {
+    width: 100%;
+    margin: 0;
+    opacity: base.var(opacity-low);
 }

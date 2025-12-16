@@ -3,9 +3,9 @@
 
 $input-width: null !default;
 $input-height: null !default;
-$border-color: base.var(outlined-border-color) !default;
-$background-color: base.var(plain-background-color) !default;
-$thumb-background-color: base.var(outlined-border-color) !default;
+$border-color: base.var(outlined-color) !default;
+$background-color: base.var(plain-color) !default;
+$thumb-background-color: base.var(outlined-color) !default;
 $thumb-transition-speed: 0.2s !default;
 
 $vars: component.vars(Switch, (

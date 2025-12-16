@@ -32,7 +32,7 @@ export type PopoverProps = PropsWithChildren<{
     anchorElement?: Element | null;
     placement?: Placement;
     fallbackPlacements?: Placement[];
-    trigger?: ReactElement<RefAttributes<HTMLElement> & HTMLAttributes<HTMLElement>>;
+    trigger?: ReactElement<RefAttributes<HTMLElement> & HTMLAttributes<HTMLElement> & {active?: boolean}>;
     content?: ReactNode;
     open?: boolean;
     defaultOpen?: boolean;
@@ -71,12 +71,11 @@ export default function Popover({
     arrow: showArrow = true,
     color,
     size,
-    variant = 'plain',
+    variant = 'filled',
     middleware = [],
     unstyled,
     onOpen,
-    onClose,
-    ...props
+    onClose
 }: PopoverProps) {
     const rootRef = useRef<HTMLDivElement>(null);
     const surfaceRef = useRef<HTMLDivElement>(null);
@@ -171,10 +170,15 @@ export default function Popover({
         className,
         elementClassNames.root,
         styles.root,
+        unstyled && styles.unstyled
+    );
+
+    const surfaceClassNames = cn(
+        elementClassNames.surface,
+        styles.surface,
+        variant && styles[variant],
         color && styles[color],
         size && styles[size],
-        variant && styles[variant],
-        unstyled && styles.unstyled
     );
 
     return (
@@ -182,6 +186,7 @@ export default function Popover({
             {isValidElement(trigger) &&
                 cloneElement(trigger, {
                     ref: refs.setReference,
+                    active: open || internalOpen,
                     onClick: handleTriggerClick
                 })
             }
@@ -191,7 +196,7 @@ export default function Popover({
                     <div ref={rootRef} className={classNames}>
                         <div
                             ref={refs.setFloating}
-                            className={cn(elementClassNames.surface, styles.surface)}
+                            className={surfaceClassNames}
                             style={floatingStyles}
                             onClick={handlePopoverClick}
                         >

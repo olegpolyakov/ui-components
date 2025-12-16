@@ -1,26 +1,29 @@
-import { MouseEvent, useCallback, useState } from 'react';
+import { Children, isValidElement, MouseEvent, useCallback, useState } from 'react';
 
-import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { Placement, flip } from '@floating-ui/react';
+
+import type { ComponentProps, ElementType, PropsOf, PropsWithKey } from '../../types';
+import { classnames as cn, getElementClassNames, isObject } from '../../utils';
 
 import Divider from '../Divider';
 import Heading from '../Heading';
 import Icon from '../Icon';
+import Item from '../Item';
 import Popover, { type PopoverProps } from '../Popover';
 
-import MenuItem, { type MenuItemProps } from './MenuItem';
-
 import styles from './Menu.module.scss';
-import type { Placement } from '@floating-ui/react';
 
-export type MenuProps = PopoverProps & {
+type MenuItemProps = {
+    type?: string;
     items?: PropsWithKey<MenuItemProps>[];
-    defaultOpen?: boolean;
-    size?: Size;
-};
+    selected?: boolean;
+} & PropsOf<typeof Item>;
+
+export type MenuProps = {
+    items?: PropsWithKey<MenuItemProps>[];
+} & Omit<PopoverProps, 'middleware' | 'unstyled'>;
 
 Menu.displayName = 'Menu';
-Menu.Item = MenuItem;
 
 const elementClassNames = getElementClassNames(Menu.displayName);
 
@@ -30,14 +33,27 @@ export default function Menu<T extends ElementType = 'div'>({
     className,
 
     items,
-    defaultOpen = false,
+    open = false,
+    defaultOpen = open,
+    placement = 'bottom',
     size = 'm',
+    variant,
     onOpen,
     onClose,
     onOpenChange,
     ...props
 }: ComponentProps<MenuProps, T>) {
     const [isOpen, setOpen] = useState<boolean>(defaultOpen);
+
+    const handlePopoverOpen = useCallback((placement: Placement) => {
+        setOpen(true);
+        onOpen?.(placement);
+    }, [onOpen]);
+
+    const handlePopoverClose = useCallback(() => {
+        setOpen(false);
+        onClose?.();
+    }, [onClose]);
 
     const handleItemClick = useCallback((item: MenuItemProps, event: MouseEvent) => {
         if (typeof item?.onClick === 'function') {
@@ -51,17 +67,7 @@ export default function Menu<T extends ElementType = 'div'>({
         onOpenChange?.(false, event);
     }, [onOpenChange, onClose]);
 
-    const handlePopoverOpen = useCallback((placement: Placement) => {
-        setOpen(true);
-        onOpen?.(placement);
-    }, [onOpen]);
-
-    const handlePopoverClose = useCallback(() => {
-        setOpen(false);
-        onClose?.();
-    }, [onClose]);
-
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -69,64 +75,90 @@ export default function Menu<T extends ElementType = 'div'>({
         styles[size]
     );
 
+    const resolvedItems = items ||
+        Children.toArray(children)
+            .map(item => isValidElement<MenuItemProps>(item)
+                ? item.props
+                : isObject<MenuItemProps>(item)
+                    ? item
+                    : null
+            )
+            .filter((item): item is MenuItemProps => item !== null);
+
     return (
         <Popover
             open={isOpen}
+            placement={placement}
+            fallbackPlacements={['top', 'left', 'right']}
+            middleware={[flip()]}
+            size={size}
+            variant={variant}
             onOpen={handlePopoverOpen}
             onClose={handlePopoverClose}
             {...props}
         >
-            <Component className={classNames} {...props}>
-                {items?.map(item => {
-                    if (item.type === 'divider') {
+            <Root className={classNames}>
+                {resolvedItems?.map(item => {
+                    const { key, type, items, selected, ...rest } = item;
+
+                    if (type === 'divider') {
                         return (
-                            <Divider key={item.key} />
+                            <Divider
+                                key={key}
+                                className={cn(styles.divider)}
+                            />
                         );
-                    } else if (item.type === 'heading') {
+                    } else if (type === 'heading') {
                         return (
                             <Heading
-                                key={item.key}
+                                key={key}
                                 className={styles.heading}
                                 content={item.content}
                                 size="s"
                                 muted
                             />
                         );
-                    } else if (item.items) {
+                    } else if (items) {
                         return (
                             <Menu
-                                key={item.key}
-                                placement="right-start"
+                                key={key}
                                 trigger={
-                                    <MenuItem
-                                        {...item}
-                                        items={undefined}
+                                    <Item
+                                        shape="rectangular"
+                                        {...rest}
                                         end={
                                             <Icon
                                                 name="chevron_right"
-                                                size="xs"
+                                                size="s"
                                             />
                                         }
+                                        active={selected}
+                                        interactive
                                     />
                                 }
-                                items={item.items}
-                                disabled={item.disabled}
+                                placement="right-start"
+                                fallbackPlacements={['right-end', 'left-start', 'left-end']}
+                                items={items}
+                                size={size}
+                                variant={variant}
+                                disabled={rest.disabled}
                                 onClose={handlePopoverClose}
                             />
                         );
                     } else {
                         return (
-                            <MenuItem
-                                key={item.key}
-                                {...item}
-                                onClick={event => handleItemClick(item, event)}
+                            <Item
+                                key={key}
+                                shape="rectangular"
+                                {...rest}
+                                interactive
+                                active={selected}
+                                onClick={(event: MouseEvent) => handleItemClick(item, event)}
                             />
                         );
                     }
                 })}
-
-                {children}
-            </Component>
+            </Root>
         </Popover>
     );
 }

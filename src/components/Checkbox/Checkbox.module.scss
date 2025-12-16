@@ -38,13 +38,13 @@
 .input {
     &:hover {
         @include component.vars((
-            background-color: base.var(plain-background-hover-color)
+            background-color: base.var(plain-hover-color)
         ));
     }
 
     &:active {
         @include component.vars((
-            background-color: base.var(plain-background-active-color)
+            background-color: base.var(plain-active-color)
         ));
     }
 
@@ -52,18 +52,18 @@
         border-color: transparent;
         
         @include component.vars((
-            background-color: base.var(filled-brand-background-color)
+            background-color: base.var(filled-brand-color)
         ));
 
         &:hover {
             @include component.vars((
-                background-color: base.var(filled-brand-background-hover-color)
+                background-color: base.var(filled-brand-hover-color)
             ));
         }
 
         &:active {
             @include component.vars((
-                background-color: base.var(filled-brand-background-active-color)
+                background-color: base.var(filled-brand-active-color)
             ));
         }
     }

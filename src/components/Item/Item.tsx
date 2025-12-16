@@ -47,7 +47,7 @@ export default function Item<T extends ElementType = 'div'>({
     interactive,
     ...props
 }: ComponentProps<ItemProps, T>) {
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -63,7 +63,7 @@ export default function Item<T extends ElementType = 'div'>({
     );
 
     return (
-        <Component
+        <Root
             className={classNames}
             data-active={active}
             data-disabled={disabled}
@@ -97,6 +97,6 @@ export default function Item<T extends ElementType = 'div'>({
                     {end}
                 </span>
             }
-        </Component>
+        </Root>
     );
 }

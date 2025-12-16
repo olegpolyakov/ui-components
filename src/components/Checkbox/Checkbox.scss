@@ -2,7 +2,7 @@
 @use 'component';
 
 $size: 20px !default;
-$border-color: base.var(outlined-border-color) !default;
+$border-color: base.var(outlined-color) !default;
 $border-width: 1px !default;
 $border-radius: 4px !default;
 $background-color: base.var(background-primary-color) !default;

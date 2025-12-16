@@ -44,7 +44,7 @@ export default defineConfig(({ command }) => ({
 
 function docgen() {
     const options = {
-        savePropValueAsString: true,
+        savePropValueAsString: false,
         shouldExtractValuesFromUnion: true,
         shouldExtractLiteralValuesFromEnum: true,
         propFilter: prop => {

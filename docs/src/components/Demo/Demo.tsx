@@ -10,7 +10,7 @@ import styles from './Demo.module.scss';
 
 export default function Demo<T extends Record<string, any> = Record<string, any>>({
     children,
-    settings,
+    settings = {},
     align,
     setup,
     wrap,
@@ -25,15 +25,14 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
     children?: ReactElement | ((data: T, setData: (data: T) => void) => ReactElement);
 }) {
     const filteredSettings = useMemo(() =>
-        settings
-            ? Object.values(settings).filter(setting =>
-                setting.name !== 'as' &&
+        Object.values(settings).filter(setting =>
+            setting.name !== 'as' &&
                 !setting.name.startsWith('on') &&
                 !setting.type.name.endsWith('Props') &&
                 !setting.type.name.includes('[]') &&
-                !setting.name.includes('Ref')
-            )
-            : [],
+                !setting.name.includes('Ref') &&
+                !setting.name.includes('Element')
+        ),
     [settings]);
 
     const [data, setData] = useState(() => {
@@ -43,14 +42,15 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
                 ? (children.props as T)
                 : {} as T;
 
-            
-
         return filteredSettings
             .reduce((acc, setting) => {
                 acc[setting.name] = initialData?.[setting.name] ?? setting.defaultValue?.value ?? undefined;
                 return acc;
             }, {} as Record<string, any>) as T;
     });
+
+    console.log({ data });
+    
     const [isSettingsOpen, setSettingsOpen] = useState(true);
     const [isCodeOpen, setCodeOpen] = useState(false);
 

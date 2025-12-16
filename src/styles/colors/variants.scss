@@ -64,9 +64,9 @@
 ) {
     $name: 'plain#{$postfix}';
 
-    @include base.var(#{$name}-background-color, $background-color);
-    @include base.var(#{$name}-foreground-color, $foreground-color);
-    @include states.vars(#{$name}-background-color, $background-color, $args...);
+    @include base.var(#{$name}-color, $background-color);
+    @include states.vars(#{$name}-color, $background-color, $args...);
+    @include base.var(on-#{$name}-color, $foreground-color);
 }
 
 @mixin filled(
@@ -77,9 +77,9 @@
 ) {
     $name: 'filled#{$postfix}';
 
-    @include base.var(#{$name}-background-color, $background-color);
-    @include base.var(#{$name}-foreground-color, $foreground-color);
-    @include states.vars(#{$name}-background-color, $background-color, $args...);
+    @include base.var(#{$name}-color, $background-color);
+    @include states.vars(#{$name}-color, $background-color, $args...);
+    @include base.var(on-#{$name}-color, $foreground-color);
 }
 
 @mixin tinted(
@@ -90,9 +90,9 @@
 ) {
     $name: 'tinted#{$postfix}';
 
-    @include base.var(#{$name}-background-color, $background-color);
-    @include base.var(#{$name}-foreground-color, $foreground-color);
-    @include states.vars(#{$name}-background-color, $background-color, $args...);
+    @include base.var(#{$name}-color, $background-color);
+    @include states.vars(#{$name}-color, $background-color, $args...);
+    @include base.var(on-#{$name}-color, $foreground-color);
 }
 
 @mixin outlined(
@@ -102,6 +102,6 @@
 ) {
     $name: 'outlined#{$postfix}';
 
-    @include base.var(#{$name}-border-color, $border-color);
-    @include states.vars(#{$name}-border-color, $border-color, $args...);
+    @include base.var(#{$name}-color, $border-color);
+    @include states.vars(#{$name}-color, $border-color, $args...);
 }
