@@ -9,8 +9,8 @@
 
 @include component.define(AccordionItem, AccordionItem.$vars);
 
-.root + .root {
-    border-top: 1px solid component.var(border-color);
+.root {
+    overflow: clip;
 }
 
 .header {
@@ -18,6 +18,7 @@
     min-height: component.var(height);
     display: flex;
     align-items: center;
+    gap: component.var(gap);
     padding: component.var(padding);
     background-color: component.var(background-color);
     font-weight: base.var(font-weight-semibold);
@@ -40,11 +41,9 @@
 }
 
 .content {
-    padding: component.var(_content-padding-closed);
-
-    > div {
-        overflow: hidden;
-    }
+    padding: 0 component.var(padding-x);
+    transition: height .2s ease-in-out, padding .2s ease-in-out;
+    will-change: height, padding;
 }
 
 .indicator-icon {
@@ -55,7 +54,7 @@
 
 .open {
     .content {
-        padding: component.var(_content-padding-open);
+        padding: component.var(padding-y) component.var(padding-x);
     }
     
     .indicator-icon {

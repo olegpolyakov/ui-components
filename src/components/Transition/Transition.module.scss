@@ -31,33 +31,32 @@
 }
 
 .collapse {
-    display: grid;
-    grid-template-rows: 0;
-    transition: grid-template-rows 200ms ease-in-out;
+    height: 0;
+    transition: height 200ms ease-in-out;
     overflow: hidden;
 
     &-enter {
-        grid-template-rows: 0;
+        height: 0;
     }
     
     &-enter-active {
-        grid-template-rows: 1fr;
+        height: 100%;
     }
 
     &-enter-done {
-        grid-template-rows: 1fr;
+        height: 100%;
     }
     
     &-exit {
-        grid-template-rows: 1fr;
+        height: 100%;
     }
     
     &-exit-active {
-        grid-template-rows: 0;
+        height: 0;
     }
 
     &-exit-done {
-        grid-template-rows: 0;
+        height: 0;
     }
 }
 

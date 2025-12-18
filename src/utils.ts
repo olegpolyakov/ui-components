@@ -1,11 +1,19 @@
-import * as React from 'react';
+import { Children as ReactChildren, ReactElement, isValidElement } from 'react';
 
 import { THEME_PREFIX, Key, KeyCode } from './constants';
-import { MouseInteractionEvent } from './types';
+import { MouseInteractionEvent, type Children } from './types';
 
 export { default as classnames } from 'classnames';
 
 export function noop() { return; }
+
+export function resolveChildren<T>(children: Children, items: T[]): T[] {
+    return items.length > 0
+        ? items
+        : ReactChildren.toArray(children)
+            .filter((child): child is ReactElement<T> => isValidElement<T>(child))
+            .map(child => child.props);
+}
 
 export function getElementClassNames<T extends readonly string[]>(
     componentName: string,

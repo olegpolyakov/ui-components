@@ -1,5 +1,5 @@
 import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { classnames as cn, getElementClassNames, resolveChildren } from '../../utils';
 
 import AccordionItem, { AccordionItemProps } from './AccordionItem';
 
@@ -24,7 +24,7 @@ export default function Accordion<T extends ElementType = 'div'>({
     size = 'm',
     ...props
 }: ComponentProps<AccordionProps, T>) {
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -33,16 +33,14 @@ export default function Accordion<T extends ElementType = 'div'>({
     );
 
     return (
-        <Component className={classNames} {...props}>
-            {items?.map((item, index) =>
+        <Root className={classNames} {...props}>
+            {resolveChildren(children, items).map((item, index) =>
                 <AccordionItem
                     key={item.key || index}
                     size={size}
                     {...item}
                 />
             )}
-
-            {children}
-        </Component>
+        </Root>
     );
 }

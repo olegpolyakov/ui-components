@@ -1,10 +1,10 @@
-import { ReactElement, ReactNode, useState, useRef } from 'react';
+import { ReactNode, useState, useRef, useEffect, useLayoutEffect } from 'react';
 
-import type { Size,  ComponentProps, ElementType } from '../../types';
+import type { Size,  ComponentProps, ElementType, Slotted } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import Icon from '../Icon';
-import Transition from '../Transition';
+import Icon, { IconProps } from '../Icon';
+import Slot from '../Slot';
 
 import styles from './AccordionItem.module.scss';
 
@@ -18,10 +18,10 @@ const elementClassNames = getElementClassNames(
 export type AccordionItemProps = {
     header?: ReactNode;
     content?: ReactNode;
-    icon?: string | ReactElement;
-    indicatorIcon?: string | ReactElement;
-    openIcon?: string | ReactElement;
-    closeIcon?: string | ReactElement;
+    icon?: Slotted<IconProps>;
+    indicatorIcon?: Slotted<IconProps>;
+    openIcon?: Slotted<IconProps>;
+    closeIcon?: Slotted<IconProps>;
     size?: Size;
     open?: boolean;
     disabled?: boolean;
@@ -47,11 +47,25 @@ export default function AccordionItem<T extends ElementType = 'div'>({
 
     const [open, setOpen] = useState(initialOpen);
 
+    const heightRef = useRef(0);
+
+    useLayoutEffect(() => {
+        if (!contentRef.current) return;
+
+        heightRef.current = contentRef.current.clientHeight || 0;
+    }, []);
+
+    useEffect(() => {
+        if (!contentRef.current) return;
+
+        contentRef.current.style.height = open ? `${heightRef.current}px` : '0px';
+    }, [open]);
+
     const handleClick = () => {
         setOpen(v => !v);
     };
 
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -62,7 +76,7 @@ export default function AccordionItem<T extends ElementType = 'div'>({
     );
 
     return (
-        <Component
+        <Root
             className={classNames}
             {...props}
         >
@@ -71,45 +85,54 @@ export default function AccordionItem<T extends ElementType = 'div'>({
                 onClick={!disabled ? handleClick : undefined}
             >
                 {icon &&
-                    <Icon className={cn(elementClassNames.icon, styles.icon)}>
+                    <Slot
+                        fallback={Icon}
+                        className={cn(elementClassNames.icon, styles.icon)}
+                        size={size}
+                    >
                         {icon}
-                    </Icon>
+                    </Slot>
                 }
 
                 {header}
 
                 {!openIcon && !closeIcon && indicatorIcon &&
-                    <Icon className={cn(elementClassNames.indicatorIcon, styles.indicatorIcon)}>
+                    <Slot
+                        fallback={Icon}
+                        className={cn(elementClassNames.indicatorIcon, styles.indicatorIcon)}
+                        size={size}
+                    >
                         {indicatorIcon}
-                    </Icon>
+                    </Slot>
                 }
 
-                {openIcon &&
-                    <Icon className={cn(elementClassNames.openIcon, elementClassNames.indicatorIcon, styles.indicatorIcon)}>
+                {open && openIcon &&
+                    <Slot
+                        fallback={Icon}
+                        className={cn(elementClassNames.openIcon, elementClassNames.indicatorIcon, styles.indicatorIcon)}
+                        size={size}
+                    >
                         {openIcon}
-                    </Icon>
+                    </Slot>
                 }
 
-                {closeIcon &&
-                    <Icon className={cn(elementClassNames.closeIcon, elementClassNames.indicatorIcon, styles.indicatorIcon)}>
+                {!open && closeIcon &&
+                    <Slot
+                        fallback={Icon}
+                        className={cn(elementClassNames.closeIcon, elementClassNames.indicatorIcon, styles.indicatorIcon)}
+                        size={size}
+                    >
                         {closeIcon}
-                    </Icon>
+                    </Slot>
                 }
             </div>
 
-            <Transition
-                nodeRef={contentRef}
-                in={open}
-                timeout={200}
-                type="collapse"
+            <div
+                ref={contentRef}
+                className={cn(elementClassNames.content, styles.content)}
             >
-                <div
-                    ref={contentRef}
-                    className={cn(elementClassNames.content, styles.content)}
-                >
-                    {content}
-                </div>
-            </Transition>
-        </Component>
+                {content}
+            </div>
+        </Root>
     );
 }
