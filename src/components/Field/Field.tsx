@@ -12,8 +12,6 @@ Field.displayName = 'Field';
 
 const elementClassNames = getElementClassNames(Field.displayName);
 
-console.log('Field styles', styles);
-
 export type FieldProps = {
     label?: ReactNode;
     content?: ReactNode;

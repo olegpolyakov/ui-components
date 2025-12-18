@@ -1,7 +1,5 @@
-import { Children, cloneElement, isValidElement } from 'react';
-
 import type { ComponentProps, ElementType, PropsWithKey, Space } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { classnames as cn, getElementClassNames, resolveChildren } from '../../utils';
 
 import Avatar, { type AvatarProps } from './Avatar';
 import cssClasses from './AvatarGroup.module.scss';
@@ -41,10 +39,11 @@ export default function AvatarGroup<T extends ElementType>({
     maxCount = 0,
     ...props
 }: ComponentProps<AvatarGroupProps, T>) {
-    const shownAvatars = (maxCount > 0 && avatars.length > maxCount)
-        ? avatars.slice(0, maxCount)
-        : avatars;
-    const hiddenAvatarsCount = avatars.length - shownAvatars.length;
+    const resolvedAvatars = resolveChildren(children, avatars);
+    const shownAvatars = (maxCount > 0 && resolvedAvatars.length > maxCount)
+        ? resolvedAvatars.slice(0, maxCount)
+        : resolvedAvatars;
+    const hiddenAvatarsCount = resolvedAvatars.length - shownAvatars.length;
 
     const Component = as || 'div';
     const classNames = cn(
@@ -60,9 +59,9 @@ export default function AvatarGroup<T extends ElementType>({
             className={classNames}
             {...props}
         >
-            {shownAvatars?.map((avatar, index) =>
+            {shownAvatars?.map(({ key, ...avatar }, index) =>
                 <Avatar
-                    key={avatar.key}
+                    key={key ?? index}
                     className={cn(elementClassNames.avatar, cssClasses.avatar)}
                     color={color || colors[index % 3]}
                     shape={shape}
@@ -82,16 +81,6 @@ export default function AvatarGroup<T extends ElementType>({
                     variant={variant}
                 />
             }
-
-            {Children.map(children, child => (
-                isValidElement<AvatarProps>(child) && cloneElement<AvatarProps>(child, {
-                    className: cn(elementClassNames.avatar, cssClasses.avatar, child.props.className),
-                    color,
-                    shape,
-                    size,
-                    variant
-                })
-            ))}
         </Component>
     );
 }

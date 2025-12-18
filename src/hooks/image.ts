@@ -9,10 +9,12 @@ export function useImage(src?: string) {
     useEffect(() => {
         if (!src || !ref.current) return;
     
-        setLoading(true);
-        setLoaded(false);
-    
         const image = ref.current;
+
+        function handleLoadStart() {
+            setLoading(true);
+            setLoaded(false);
+        }
     
         function handleLoad() {
             setLoading(false);
@@ -24,17 +26,15 @@ export function useImage(src?: string) {
             setLoaded(false);
         }
     
-        if (image.complete && image.naturalHeight !== 0) {
-            setLoaded(true);
-        } else {
-            image.addEventListener('load', handleLoad);
-            image.addEventListener('error', handleError);
+        image.addEventListener('loadstart', handleLoadStart);
+        image.addEventListener('load', handleLoad);
+        image.addEventListener('error', handleError);
     
-            return () => {
-                image.removeEventListener('load', handleLoad);
-                image.removeEventListener('error', handleError);
-            };
-        }
+        return () => {
+            image.removeEventListener('loadstart', handleLoadStart);
+            image.removeEventListener('load', handleLoad);
+            image.removeEventListener('error', handleError);
+        };
     }, [src]);
 
     return {

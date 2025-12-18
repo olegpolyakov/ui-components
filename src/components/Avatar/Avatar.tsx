@@ -1,18 +1,18 @@
 import { ReactNode, ElementType } from 'react';
 
 import { useImage } from '../../hooks/image';
-import type { Color, ComponentProps, Shape, Size, Variant } from '../../types';
+import type { Color, ComponentProps, Shape, Size, Slotted, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
+import Slot from '../Slot';
 
-import cssClasses from './Avatar.module.scss';
+import styles from './Avatar.module.scss';
 
 export type AvatarProps = {
-    className?: string;
     src?: string;
     content?: ReactNode;
-    icon?: ReactNode;
+    icon?: Slotted<IconProps>;
     color?: Color;
     shape?: Shape;
     size?: Size;
@@ -41,52 +41,49 @@ export default function Avatar<T extends ElementType = 'div'>({
     shape = 'circular',
     size = 'm',
     variant = 'tinted',
-    iconProps,
     ...props
 }: ComponentProps<AvatarProps, T>) {
-    const { ref: imageRef, isLoaded } = useImage(src);
+    const { ref: imageRef } = useImage(src);
 
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        color && cssClasses[color],
-        cssClasses[size],
-        cssClasses[shape],
-        cssClasses[variant]
+        styles.root,
+        styles[color ? `${variant}-${color}` : variant],
+        styles[size],
+        styles[shape]
     );
 
     return (
-        <Component
+        <Root
             className={classNames}
             {...props}
         >
             {content &&
-                <span className={cn(elementClassNames.content, cssClasses.content)}>
+                <span className={cn(elementClassNames.content, styles.content)}>
                     {content}
                 </span>
             }
 
             {icon &&
-                <Icon
-                    className={cn(elementClassNames.icon, cssClasses.icon)}
-                    name={typeof icon === 'string' ? icon : undefined}
+                <Slot
+                    fallback={Icon}
+                    className={cn(elementClassNames.icon, styles.icon)}
                     size={size}
-                    {...iconProps}
                 >
                     {icon}
-                </Icon>
+                </Slot>
             }
 
-            {src && !isLoaded &&
+            {src &&
                 <img
                     ref={imageRef}
-                    className={cn(elementClassNames.image, cssClasses.image)}
+                    className={cn(elementClassNames.image, styles.image)}
                     src={src}
                     alt={alt}
                 />
             }
-        </Component>
+        </Root>
     );
 }

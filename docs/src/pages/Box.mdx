@@ -12,13 +12,15 @@ Box is a versatile container component that can be used to group and style conte
   props={{
     children: 'Box',
     style: {
-      width: 200,
-      height: 200,
+      width: '100%',
+      height: '100%',
+      maxWidth: 200,
+      maxHeight: 200,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'
     }
   }}
 >
-  <Box variant="tinted" />
+  <Box variant="tinted" aspectRatio="1" />
 </Demo>

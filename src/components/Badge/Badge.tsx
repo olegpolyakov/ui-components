@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import type { Color, ComponentProps, ElementType, Shape, Size, Variant } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Badge.module.scss';
+import styles from './Badge.module.scss';
 
 export type BadgeProps = {
     content?: ReactNode;
@@ -23,26 +23,26 @@ export default function Badge<T extends ElementType = 'span'>({
     children,
 
     content = children,
-    color = 'primary',
+    color = 'brand',
     shape = 'rounded',
     size = 'm',
     variant = 'filled',
     ...props
 }: ComponentProps<BadgeProps, T>) {
-    const Component = as || 'span';
+    const Root = as || 'span';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[shape],
-        cssClasses[size],
-        cssClasses[variant],
-        cssClasses[color ? `${variant}-${color}` : variant]
+        styles.root,
+        styles[shape],
+        styles[size],
+        styles[variant],
+        styles[color ? `${variant}-${color}` : variant]
     );
 
     return (
-        <Component className={classNames} {...props}>
+        <Root className={classNames} {...props}>
             {content}
-        </Component>
+        </Root>
     );
 }

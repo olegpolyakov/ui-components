@@ -13,6 +13,7 @@
     justify-content: center;
     width: component.var(size);
     height: component.var(size);
+    border: component.var(border-width) solid component.var(border-color);
     border-radius: component.var(border-radius);
     background-color: component.var(background-color);
     color: component.var(foreground-color);

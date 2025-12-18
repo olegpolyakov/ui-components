@@ -11,6 +11,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 import styles from './Box.module.scss';
 
 Box.displayName = 'Box';
+
 const elementClassNames = getElementClassNames(Box.displayName);
 
 type Padding = Size
@@ -94,7 +95,7 @@ export default function Box<T extends ElementType = 'div'>({
         left: Size;
       });
 
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -117,8 +118,8 @@ export default function Box<T extends ElementType = 'div'>({
     );
 
     return (
-        <Component className={classNames} {...props}>
+        <Root className={classNames} {...props}>
             {content}
-        </Component>
+        </Root>
     );
 }

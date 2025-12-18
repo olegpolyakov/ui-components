@@ -8,6 +8,12 @@ import Settings, { Setting } from '@/components/Settings';
 
 import styles from './Demo.module.scss';
 
+const filteredOutSettingNames = [
+    'as',
+    'p', 'px', 'py', 'pt', 'pr', 'pb', 'pl',
+    'ar'
+];
+
 export default function Demo<T extends Record<string, any> = Record<string, any>>({
     children,
     settings = {},
@@ -26,12 +32,12 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
 }) {
     const filteredSettings = useMemo(() =>
         Object.values(settings).filter(setting =>
-            setting.name !== 'as' &&
-                !setting.name.startsWith('on') &&
-                !setting.type.name.endsWith('Props') &&
-                !setting.type.name.includes('[]') &&
-                !setting.name.includes('Ref') &&
-                !setting.name.includes('Element')
+            !filteredOutSettingNames.includes(setting.name) &&
+            !setting.name.startsWith('on') &&
+            !setting.type.name.endsWith('Props') &&
+            !setting.type.name.includes('[]') &&
+            !setting.name.includes('Ref') &&
+            !setting.name.includes('Element')
         ),
     [settings]);
 
@@ -48,8 +54,6 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
                 return acc;
             }, {} as Record<string, any>) as T;
     });
-
-    console.log({ data });
     
     const [isSettingsOpen, setSettingsOpen] = useState(true);
     const [isCodeOpen, setCodeOpen] = useState(false);
