@@ -1,5 +1,6 @@
-import { Box, Flex } from "~/components";
+import { Flex } from "~/components";
 
+import Box from "@/components/Box";
 import Color from "@/components/Color";
 import Palette from "@/components/Palette";
 
@@ -8,64 +9,77 @@ import Palette from "@/components/Palette";
 ## Plain
 
 <Flex gap="xxs">
-  <Box content="Base" variant="plain" interactive padding="m" />
-  <Box content="Neutral" color="neutral" variant="plain" interactive padding="m" />
-  <Box content="Brand" color="brand" variant="plain" interactive padding="m" />
-  <Box content="Accent" color="accent" variant="plain" interactive padding="m" />
-  <Box content="Danger" color="danger" variant="plain" interactive padding="m" />
-  <Box content="Info" color="info" variant="plain" interactive padding="m" />
-  <Box content="Success" color="success" variant="plain" interactive padding="m" />
-  <Box content="Warning" color="warning" variant="plain" interactive padding="m" />
+  <Box className="kui-plain">Base</Box>
+  <Box className="kui-plain-neutral">Neutral</Box>
+  <Box className="kui-plain-brand">Brand</Box>
+  <Box className="kui-plain-accent">Accent</Box>
+  <Box className="kui-plain-danger">Danger</Box>
+  <Box className="kui-plain-info">Info</Box>
+  <Box className="kui-plain-success">Success</Box>
+  <Box className="kui-plain-warning">Warning</Box>
 </Flex>
 
 ## Filled
 
 <Flex gap="xxs">
-  <Box content="Base" variant="filled" interactive padding="m" />
-  <Box content="Neutral" color="neutral" variant="filled" interactive padding="m" />
-  <Box content="Brand" color="brand" variant="filled" interactive padding="m" />
-  <Box content="Accent" color="accent" variant="filled" interactive padding="m" />
-  <Box content="Danger" color="danger" variant="filled" interactive padding="m" />
-  <Box content="Info" color="info" variant="filled" interactive padding="m" />
-  <Box content="Success" color="success" variant="filled" interactive padding="m" />
-  <Box content="Warning" color="warning" variant="filled" interactive padding="m" />
+  <Box className="kui-filled">Base</Box>
+  <Box className="kui-filled-neutral">Neutral</Box>
+  <Box className="kui-filled-brand">Brand</Box>
+  <Box className="kui-filled-accent">Accent</Box>
+  <Box className="kui-filled-danger">Danger</Box>
+  <Box className="kui-filled-info">Info</Box>
+  <Box className="kui-filled-success">Success</Box>
+  <Box className="kui-filled-warning">Warning</Box>
 </Flex>
 
 ## Outlined
 
 <Flex gap="xxs">
-  <Box content="Base" variant="outlined" interactive padding="m" />
-  <Box content="Neutral" color="neutral" variant="outlined" interactive padding="m" />
-  <Box content="Brand" color="brand" variant="outlined" interactive padding="m" />
-  <Box content="Accent" color="accent" variant="outlined" interactive padding="m" />
-  <Box content="Danger" color="danger" variant="outlined" interactive padding="m" />
-  <Box content="Info" color="info" variant="outlined" interactive padding="m" />
-  <Box content="Success" color="success" variant="outlined" interactive padding="m" />
-  <Box content="Warning" color="warning" variant="outlined" interactive padding="m" />
+  <Box className="kui-outlined">Base</Box>
+  <Box className="kui-outlined-neutral">Neutral</Box>
+  <Box className="kui-outlined-brand">Brand</Box>
+  <Box className="kui-outlined-accent">Accent</Box>
+  <Box className="kui-outlined-danger">Danger</Box>
+  <Box className="kui-outlined-info">Info</Box>
+  <Box className="kui-outlined-success">Success</Box>
+  <Box className="kui-outlined-warning">Warning</Box>
 </Flex>
 
 ## Tinted
 
 <Flex gap="xxs">
-  <Box content="Base" variant="tinted" interactive padding="m" />
-  <Box content="Neutral" color="neutral" variant="tinted" interactive padding="m" />
-  <Box content="Brand" color="brand" variant="tinted" interactive padding="m" />
-  <Box content="Accent" color="accent" variant="tinted" interactive padding="m" />
-  <Box content="Danger" color="danger" variant="tinted" interactive padding="m" />
-  <Box content="Info" color="info" variant="tinted" interactive padding="m" />
-  <Box content="Success" color="success" variant="tinted" interactive padding="m" />
-  <Box content="Warning" color="warning" variant="tinted" interactive padding="m" />
+  <Box className="kui-tinted">Base</Box>
+  <Box className="kui-tinted-neutral">Neutral</Box>
+  <Box className="kui-tinted-brand">Brand</Box>
+  <Box className="kui-tinted-accent">Accent</Box>
+  <Box className="kui-tinted-danger">Danger</Box>
+  <Box className="kui-tinted-info">Info</Box>
+  <Box className="kui-tinted-success">Success</Box>
+  <Box className="kui-tinted-warning">Warning</Box>
 </Flex>
 
 ## Outlined-tinted
 
 <Flex gap="xxs">
-  <Box content="Base" variant="outlined-tinted" interactive padding="m" />
-  <Box content="Neutral" color="neutral" variant="outlined-tinted" interactive padding="m" />
-  <Box content="Brand" color="brand" variant="outlined-tinted" interactive padding="m" />
-  <Box content="Accent" color="accent" variant="outlined-tinted" interactive padding="m" />
-  <Box content="Danger" color="danger" variant="outlined-tinted" interactive padding="m" />
-  <Box content="Info" color="info" variant="outlined-tinted" interactive padding="m" />
-  <Box content="Success" color="success" variant="outlined-tinted" interactive padding="m" />
-  <Box content="Warning" color="warning" variant="outlined-tinted" interactive padding="m" />
+  <Box className="kui-outlined-tinted">Base</Box>
+  <Box className="kui-outlined-tinted-neutral">Neutral</Box>
+  <Box className="kui-outlined-tinted-brand">Brand</Box>
+  <Box className="kui-outlined-tinted-accent">Accent</Box>
+  <Box className="kui-outlined-tinted-danger">Danger</Box>
+  <Box className="kui-outlined-tinted-info">Info</Box>
+  <Box className="kui-outlined-tinted-success">Success</Box>
+  <Box className="kui-outlined-tinted-warning">Warning</Box>
+</Flex>
+
+## Text
+
+<Flex gap="xs">
+  <span className="kui-text">Base</span>
+  <span className="kui-text-neutral">Neutral</span>
+  <span className="kui-text-brand">Brand</span>
+  <span className="kui-text-accent">Accent</span>
+  <span className="kui-text-danger">Danger</span>
+  <span className="kui-text-info">Info</span>
+  <span className="kui-text-success">Success</span>
+  <span className="kui-text-warning">Warning</span>
 </Flex>

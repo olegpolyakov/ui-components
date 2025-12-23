@@ -8,8 +8,9 @@ import {
   warningColor
 } from '~/styles/vars.module.scss';
 
-import { Box, Flex } from "~/components";
+import { Flex } from "~/components";
 
+import Box from "@/components/Box";
 import Color from "@/components/Color";
 import Palette from "@/components/Palette";
 
@@ -35,4 +36,31 @@ import Palette from "@/components/Palette";
   <Palette name="warning" />
   <Palette name="danger" />
   <Palette name="info" />
+</Flex>
+
+## Borders
+
+<Flex gap="xxs">
+  <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className="kui-border-color">Base/Primary</Box>
+  <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className="kui-border-secondary-color">Secondary</Box>
+  <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className="kui-border-tertiary-color">Tertiary</Box>
+  <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className="kui-border-inverted-color">Inverted</Box>
+</Flex>
+
+## Backgrounds
+
+<Flex gap="xxs">
+  <Box className="kui-background-color">Base/Primary</Box>
+  <Box className="kui-background-secondary-color">Secondary</Box>
+  <Box className="kui-background-tertiary-color">Tertiary</Box>
+  <Box className="kui-background-inverted-color kui-foreground-inverted-color">Inverted</Box>
+</Flex>
+
+## Foreground
+
+<Flex gap="xs">
+  <span className="kui-foreground-color">Base/Primary</span>
+  <span className="kui-foreground-secondary-color">Secondary</span>
+  <span className="kui-foreground-tertiary-color">Tertiary</span>
+  <span className="kui-foreground-tertiary-inverted-color">Inverted</span>
 </Flex>
