@@ -3,6 +3,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import mdx from '@mdx-js/rollup';
 import { parse } from 'react-docgen-typescript';
+import svgr from 'vite-plugin-svgr';
 
 export default defineConfig(({ command }) => ({
     base: command === 'build' ? '/kantanui/' : '/',
@@ -17,13 +18,28 @@ export default defineConfig(({ command }) => ({
             providerImportSource: '@/mdx-components'
         }),
         react(),
-        docgen()
+        docgen(),
+        svgr()
     ],
     css: {
         modules: {
             scopeBehaviour: 'local',
             localsConvention: 'dashes',
-            generateScopedName: '[name]__[local]___[hash:base64:5]'
+            generateScopedName: (name, filename) => {
+                const file = path.basename(filename, '.module.scss');
+
+                if (filename.includes('/docs/src/')) {
+                    return `${file}-${name}`;
+                }
+
+                if (file === 'classes') {
+                    return `kui-${name}`;
+                } else if (name === 'root') {
+                    return `kui-${file}`;
+                } else {
+                    return `kui-${file}-${name}`;
+                }
+            }
         },
         preprocessorOptions: {
             scss: {

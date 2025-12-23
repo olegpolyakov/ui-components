@@ -32,7 +32,7 @@ export default function Field({
     required,
     ...props
 }: ComponentProps<FieldProps, 'div'>) {
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -43,7 +43,7 @@ export default function Field({
     );
 
     return (
-        <Component className={classNames} {...props}>
+        <Root className={classNames} {...props}>
             {label &&
                 <Slot
                     fallback={Label}
@@ -58,6 +58,6 @@ export default function Field({
                 ? cloneElement(content as ReactElement<{size: Size}>, { size })
                 : content
             }
-        </Component>
+        </Root>
     );
 }

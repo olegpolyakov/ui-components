@@ -1,61 +1,66 @@
 import Home from './pages/Home.mdx';
 
 import Colors from './pages/base/Colors.mdx';
-import Elements from './pages/base/Elements.mdx';
+import Shadows from './pages/base/Shadows.mdx';
+import Shapes from './pages/base/Shapes.mdx';
+import TextStyles from './pages/base/TextStyles.mdx';
 import Variants from './pages/base/Variants.mdx';
 
-import Accordion from './pages/Accordion.mdx';
-import Alert from './pages/Alert.mdx';
-import Avatar from './pages/Avatar.mdx';
-import AvatarGroup from './pages/AvatarGroup.mdx';
-import Badge from './pages/Badge.mdx';
-import Box from './pages/Box.mdx';
-import Breadcrumbs from './pages/Breadcrumbs.mdx';
-import Button from './pages/Button.mdx';
-import ButtonGroup from './pages/ButtonGroup.mdx';
-import Card from './pages/Card.mdx';
-import Checkbox from './pages/Checkbox.mdx';
-import Combobox from './pages/Combobox.mdx';
-import Dialog from './pages/Dialog.mdx';
-import Divider from './pages/Divider.mdx';
-import Drawer from './pages/Drawer.mdx';
-import Field from './pages/Field.mdx';
-import Flex from './pages/Flex.mdx';
-import Grid from './pages/Grid.mdx';
-import Heading from './pages/Heading.mdx';
-import Icon from './pages/Icon.mdx';
-import Image from './pages/Image.mdx';
-import Input from './pages/Input.mdx';
-import Item from './pages/Item.mdx';
-import Label from './pages/Label.mdx';
-import Link from './pages/Link.mdx';
-import List from './pages/List.mdx';
-import Menu from './pages/Menu.mdx';
-import Pill from './pages/Pill.mdx';
-import Popover from './pages/Popover.mdx';
-import ProgressBar from './pages/ProgressBar.mdx';
-import ProgressCircle from './pages/ProgressCircle.mdx';
-import Radio from './pages/Radio.mdx';
-import Select from './pages/Select.mdx';
-import Slider from './pages/Slider.mdx';
-import Spinner from './pages/Spinner.mdx';
-import State from './pages/State.mdx';
-import Switch from './pages/Switch.mdx';
-import Table from './pages/Table.mdx';
-import Tabs from './pages/Tabs.mdx';
-import Text from './pages/Text.mdx';
-import Textarea from './pages/Textarea.mdx';
-import Toast from './pages/Toast.mdx';
-import Tooltip from './pages/Tooltip.mdx';
+import Accordion from './pages/components/Accordion.mdx';
+import Alert from './pages/components/Alert.mdx';
+import Avatar from './pages/components/Avatar.mdx';
+import AvatarGroup from './pages/components/AvatarGroup.mdx';
+import Badge from './pages/components/Badge.mdx';
+import Box from './pages/components/Box.mdx';
+import Breadcrumbs from './pages/components/Breadcrumbs.mdx';
+import Button from './pages/components/Button.mdx';
+import ButtonGroup from './pages/components/ButtonGroup.mdx';
+import Card from './pages/components/Card.mdx';
+import Checkbox from './pages/components/Checkbox.mdx';
+import Combobox from './pages/components/Combobox.mdx';
+import Dialog from './pages/components/Dialog.mdx';
+import Divider from './pages/components/Divider.mdx';
+import Drawer from './pages/components/Drawer.mdx';
+import Field from './pages/components/Field.mdx';
+import Flex from './pages/components/Flex.mdx';
+import Grid from './pages/components/Grid.mdx';
+import Heading from './pages/components/Heading.mdx';
+import Icon from './pages/components/Icon.mdx';
+import Image from './pages/components/Image.mdx';
+import Input from './pages/components/Input.mdx';
+import Item from './pages/components/Item.mdx';
+import Label from './pages/components/Label.mdx';
+import Link from './pages/components/Link.mdx';
+import List from './pages/components/List.mdx';
+import Menu from './pages/components/Menu.mdx';
+import Pill from './pages/components/Pill.mdx';
+import Popover from './pages/components/Popover.mdx';
+import ProgressBar from './pages/components/ProgressBar.mdx';
+import ProgressCircle from './pages/components/ProgressCircle.mdx';
+import Radio from './pages/components/Radio.mdx';
+import Select from './pages/components/Select.mdx';
+import Slider from './pages/components/Slider.mdx';
+import Spinner from './pages/components/Spinner.mdx';
+import State from './pages/components/State.mdx';
+import Switch from './pages/components/Switch.mdx';
+import Table from './pages/components/Table.mdx';
+import Tabs from './pages/components/Tabs.mdx';
+import Text from './pages/components/Text.mdx';
+import Textarea from './pages/components/Textarea.mdx';
+import Toast from './pages/components/Toast.mdx';
+import Tooltip from './pages/components/Tooltip.mdx';
 
 export default [
+    { path: '/', component: Home, title: 'Introduction', exact: true, hidden: true },
     {
         type: 'section',
         name: 'Base',
         routes: [
             { path: '/', component: Home, title: 'Home', exact: true, hidden: true },
             { path: '/colors', component: Colors, title: 'Colors' },
-            { path: '/elements', component: Elements, title: 'Elements' },
+            { path: '/shadows', component: Shadows, title: 'Shadows' },
+            { path: '/shapes', component: Shapes, title: 'Shapes' },
+            { path: '/text-styles', component: TextStyles, title: 'Text Styles' },
             { path: '/variants', component: Variants, title: 'Variants' }
         ]
     },

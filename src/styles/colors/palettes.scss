@@ -8,7 +8,6 @@
 
 @use './base' as colors;
 @use './states';
-@use './tones';
 
 $neutral: (
     0: #fafafa,
@@ -222,7 +221,7 @@ $names: map.keys($map);
 
     @each $key, $color in $palette {
         $map: map.merge($map, (
-            $key: tones.contrast-color($color, $invert: $invert)
+            $key: colors.contrast-color($color, $invert: $invert)
         ));
     }
 

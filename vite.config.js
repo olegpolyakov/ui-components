@@ -25,7 +25,13 @@ export default defineConfig({
         modules: {
             scopeBehaviour: 'local',
             localsConvention: 'dashes',
-            generateScopedName: '[name]__[local]___[hash:base64:5]'
+            generateScopedName: '[name]__[local]___[hash:base64:5]',
+            // generateScopedName: (name, filename, css) => {
+            //     console.log({ name, filename, css });
+            //     const file = path.basename(filename, '.css');
+            //     // Example: returns a name like "_file_line_name"
+            //     return `_${file}_${name}`; 
+            // }
         },
         preprocessorOptions: {
             scss: {

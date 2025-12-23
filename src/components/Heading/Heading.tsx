@@ -1,33 +1,32 @@
 import { ReactNode } from 'react';
 
-import type { Align, Color, ComponentProps, ElementType, SizeFull, Tone, Weight } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import type { Align, ComponentProps, ElementType, Opacity, SizeFull, Space, TextColor, Weight } from '../../types';
+import { bcn, classnames as cn } from '../../utils';
 
+import baseStyles from '../../styles/classes.module.scss';
 import styles from './Heading.module.scss';
+
+console.log({ baseStyles });
 
 export type HeadingProps = {
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-    color?: Color;
+    color?: TextColor;
     size?: SizeFull; 
-    tone?: Tone;
     weight?: Weight;
+    opacity?: Opacity;
     align?: Align;
-    block?: boolean;
-    bold?: boolean;
+    gap?: Space;
+    inline?: boolean;
+    italic?: boolean;
     capitalize?: boolean;
-    muted?: boolean;
+    uppercase?: boolean;
     marginTop?: boolean;
     marginBottom?: boolean;
 };
 
 Heading.displayName = 'Heading';
-
-const elementClassNames = getElementClassNames(
-    Heading.displayName,
-    ['start', 'content', 'end']
-);
 
 export default function Heading<T extends ElementType = 'h1'>({
     as,
@@ -39,61 +38,63 @@ export default function Heading<T extends ElementType = 'h1'>({
     end,
     color,
     size = 'm',
-    tone,
     weight = 'semibold',
+    opacity,
     align,
-    block,
-    bold,
+    gap = 'xs',
+    inline,
+    italic,
     capitalize,
-    muted,
+    uppercase,
     marginTop,
     marginBottom,
     ...props
 }: ComponentProps<HeadingProps, T>) {
-    const Component = as || 'h1';
+    const Root = as || 'h1';
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
         styles[size],
         color && styles[color],
-        tone && styles[`tone-${tone}`],
-        weight && styles[weight],
+        color && bcn(`${color}-foreground-color`),
+        gap && bcn(`gap-${gap}`),
+        opacity && bcn(`opacity-${opacity}`),
+        weight && bcn(`weight-${weight}`),
         align && styles[`align-${align}`],
-        block && styles.block,
-        bold && styles.bold,
-        capitalize && styles.capitalize,
-        muted && styles.muted,
-        marginTop && marginTop === true
-            ? styles.mt
-            : styles[`mt-${marginTop}`],
-        marginBottom && marginBottom === true
-            ? styles.mb
-            : styles[`mb-${marginBottom}`]
+        inline && styles.inline,
+        italic && bcn('italic'),
+        capitalize && bcn('capitalize'),
+        uppercase && bcn('uppercase'),
+        marginTop && (marginTop === true
+            ? bcn('mt')
+            : bcn(`mt-${marginTop}`)),
+        marginBottom && (marginBottom === true
+            ? bcn('mb')
+            : bcn(`mb-${marginBottom}`))
     );
 
     return (
-        <Component
+        <Root
             className={classNames}
             {...props}
         >
             {start &&
-                <span className={cn(elementClassNames.start, styles.start)}>
+                <span className={styles.start}>
                     {start}
                 </span>
             }
 
             {content &&
-                <span className={cn(elementClassNames.content, styles.content)}>
+                <span className={styles.content}>
                     {content}
                 </span>
             }
 
             {end &&
-                <span className={cn(elementClassNames.end, styles.end)}>
+                <span className={styles.end}>
                     {end}
                 </span>
             }
-        </Component>
+        </Root>
     );
 }

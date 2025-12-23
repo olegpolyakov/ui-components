@@ -1,6 +1,7 @@
+@use 'base';
 @use 'component';
 
-$gap: 8px !default;
+$gap: base.var(space-xs) !default;
 
 $vars: component.vars(Breadcrumbs, (
     gap: $gap

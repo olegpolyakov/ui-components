@@ -21,7 +21,6 @@
     font-family: base.var(font-family);
     font-size: component.var(font-size);
     font-weight: base.var(font-weight-normal);
-    // line-height: component.var(line-height);
     text-align: center;
     text-decoration: none;
     vertical-align: middle;
@@ -29,7 +28,8 @@
         color 0.15s ease-in-out,
         background-color 0.15s ease-in-out,
         border-color 0.15s ease-in-out,
-        opacity 0.15s ease-in-out;
+        opacity 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
     cursor: pointer;
     user-select: none;
 
@@ -69,13 +69,24 @@
     align-items: center;
 }
 
-.spinner {
-    position: absolute;
-    margin: auto;
-}
-
 .fluid {
     width: 100%;
+}
+
+.loading {
+    pointer-events: none;
+
+    .spinner {
+        position: absolute;
+        margin: auto;
+    }
+
+    .start,
+    .icon,
+    .content,
+    .end {
+        visibility: hidden;
+    }
 }
 
 
@@ -114,36 +125,12 @@
     )
 ));
 
+@include component.shapes(
+    $circular: component.var(height),
+    $rounded: calc(component.var(height) / 4)
+);
 
-// Shapes
-
-@include component.classes((
-    circular: (border-radius: component.var(height)),
-    rectangular: (border-radius: 0),
-    rounded: (border-radius: calc(component.var(height) / 4))
-));
-
-
-// Variants
-
-@include component.variants;
-
-.text {
-    @include component.vars((
-        height: auto,
-        padding: 0,
-        background-color: transparent,
-        line-height: inherit
-    ));
-
-    @include component.color-state-vars((
-        'foreground-color': primary
-    ));
-
-    justify-content: flex-start;
-
-    @include component.palettes-state-vars('foreground-color');
-}
+@include component.variants($text: true);
 
 
 // Icon

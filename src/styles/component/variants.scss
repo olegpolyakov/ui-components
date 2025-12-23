@@ -5,6 +5,17 @@
 
 @mixin plain($args...) {
     .plain {
+        background-color: var(plain-color);
+        color: var(on-plain-color);
+
+        &:hover {
+            background-color: var(plain-hover-color);
+        }
+
+        &:active {
+            background-color: var(plain-active-color);
+        }
+
         @include colors.vars((
             background-color: plain
         ), $args...);
@@ -27,10 +38,6 @@
                 
                 @include palettes.state-vars($palette, (
                     background-color: 'plain-$'
-                ), $args...);
-                
-                @include colors.vars((
-                    foreground-color: on-plain-#{$palette}
                 ), $args...);
             }
         }
@@ -61,10 +68,6 @@
 
                 @include palettes.state-vars($palette, (
                     background-color: 'filled-$'
-                ), $args...);
-
-                @include colors.vars((
-                    foreground-color: on-filled-#{$palette}
                 ), $args...);
             }
         }
@@ -145,6 +148,28 @@
                 @include palettes.state-vars($palette, (
                     border-color: 'tinted-$',
                     background-color: 'tinted-$'
+                ), $args...);
+            }
+        }
+    }
+}
+
+@mixin text($args...) {
+    .text {
+        height: auto;
+        padding: 0;
+        background-color: unset;
+        line-height: inherit;
+        justify-content: flex-start;
+
+        @include states.vars((
+            foreground-color: text
+        ), $args...);
+
+        @each $palette in palettes.$names {
+            &-#{$palette} {
+                @include palettes.vars($palette, (
+                    foreground-color: $palette
                 ), $args...);
             }
         }

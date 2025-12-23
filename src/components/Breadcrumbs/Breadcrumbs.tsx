@@ -1,15 +1,16 @@
-import type { ReactNode } from 'react';
-import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import type { ComponentProps, ElementType, HTMLProps, PropsWithKey, Size, Slotted, Space } from '../../types';
+import { classnames as cn, getElementClassNames, resolveChildren } from '../../utils';
 
 import Link, { LinkProps } from '../Link';
+import Slot from '../Slot';
 
 import styles from './Breadcrumbs.module.scss';
 
 export type BreadcrumbsProps = {
     items?: PropsWithKey<LinkProps>[];
-    separator?: ReactNode;
+    separator?: Slotted<HTMLProps>;
     size?: Size;
+    gap?: Space;
 };
 
 Breadcrumbs.displayName = 'Breadcrumbs';
@@ -23,34 +24,38 @@ export default function Breadcrumbs<T extends ElementType = 'div'>({
     className,
     children,
 
-    items,
+    items = [],
     separator = '/',
     size = 'm',
+    gap = 'xs',
     ...props
 }: ComponentProps<BreadcrumbsProps, T>) {
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
         styles.root,
-        styles[size]
+        styles[size],
+        styles[`gap-${gap}`]
     );
 
+    const resolvedItems = resolveChildren(children, items);
+
     return (
-        <Component className={classNames} {...props}>
-            {items?.map(({ key, ...props }, index) => <>
+        <Root className={classNames} {...props}>
+            {resolvedItems.map(({ key, ...props }, index) => <>
                 <Link
                     key={key}
                     size={size}
                     {...props}
                 />
 
-                {index < items.length - 1 &&
-                    <span className={styles.separator}>{separator}</span>
+                {index < resolvedItems.length - 1 &&
+                    <Slot fallback="span" className={styles.separator}>
+                        {separator}
+                    </Slot>
                 }
             </>)}
-
-            {children}
-        </Component>
+        </Root>
     );
 }

@@ -3,6 +3,7 @@
 
 @use 'base';
 @use 'component';
+@use 'elements';
 @use 'utils/units' as *;
 
 @use './Heading';
@@ -10,19 +11,16 @@
 @include component.define(Heading, Heading.$vars);
 
 .root {
-    margin: component.var(margin-top) 0 component.var(margin-bottom);
     display: flex;
     align-items: center;
-    gap: component.var(gap);
-    font-family: component.var(font-family);
-    font-size: component.var(font-size);
-    font-weight: component.var(font-weight);
-    color: component.var(foreground-color);
+    color: component.var(color);
+    font-family: component.var(font);
+    font-size: component.var(size);
 }
 
 .content {
-    line-height: component.var(line-height);
-    letter-spacing: component.var(letter-spacing);
+    line-height: component.var(height);
+    letter-spacing: component.var(spacing);
 }
 
 .start,
@@ -37,6 +35,12 @@
 
 // Colors
 
+@include component.classes((
+    primary: (color: base.var(foreground-primary-color)),
+    secondary: (color: base.var(foreground-secondary-color)),
+    tertiary: (color: base.var(foreground-tertiary-color))
+));
+
 @include component.palettes-vars(color);
 
 
@@ -48,31 +52,11 @@
 
     .#{$size} {
         @include component.vars((
-            font-size: rem($font-size),
-            line-height: math.div($line-height, $font-size)
+            size: rem($font-size),
+            height: math.div($line-height, $font-size)
         ));
     }
 }
-
-
-// Tones
-
-@include component.classes((
-    tone-neutral: (color: base.var(foreground-color)),
-    tone-muted: (color: base.var(foreground-muted-color)),
-    tone-subtle: (color: base.var(foreground-subtle-color))
-));
-
-
-
-// Weight
-
-@include component.classes((
-    light: (font-weight: base.var(font-weight-light)),
-    normal: (font-weight: base.var(font-weight-normal)),
-    semibold: (font-weight: base.var(font-weight-semibold)),
-    bold: (font-weight: base.var(font-weight-bold))
-));
 
 
 // Align
@@ -101,37 +85,8 @@
     display: inline-flex;
 }
 
-.italic {
-    font-style: italic;
-}
-
-.capitalize {
-    text-transform: capitalize;
-}
-
-.uppercase {
-    text-transform: uppercase;
-}
-
-.strikethrough {
-    text-decoration: line-through;
-}
-
 .ellipsis {
     .content {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        @include elements.ellipsis;
     }
 }
-
-@include component.classes((
-    mt: (margin-top: 1rem),
-    mt-s: (margin-top: base.var(space-s)),
-    mt-m: (margin-top: base.var(space-m)),
-    mt-l: (margin-top: base.var(space-l)),
-    mb: (margin-bottom: 1rem),
-    mb-s: (margin-bottom: base.var(space-s)),
-    mb-m: (margin-bottom: base.var(space-m)),
-    mb-l: (margin-bottom: base.var(space-l)),
-));

@@ -1,13 +1,11 @@
 @use 'sass:map';
 
 @use '../base' as *;
-
 @use 'utils/color';
 @use 'utils/css';
 
 @use './base';
 @use './states';
-@use './tones';
 
 @mixin vars($base-colors, $element-colors) {
     $border-color: map.get($element-colors, border);
@@ -33,6 +31,8 @@
 
     @include outlined($border-color);
 
+    @include text($foreground-color, $background-color);
+
     @each $name, $color in $base-colors {
         @include plain(
             color.change($color, $alpha: 0),
@@ -42,7 +42,7 @@
 
         @include filled(
             $color,
-            tones.contrast-color($color),
+            base.contrast-color($color),
             $postfix:'-#{$name}'
         );
         
@@ -53,6 +53,8 @@
         );
 
         @include outlined($color, $postfix:'-#{$name}');
+
+        @include text($color, $background-color, $postfix:'-#{$name}');
     }
 }
 
@@ -104,4 +106,22 @@
 
     @include base.var(#{$name}-color, $border-color);
     @include states.vars(#{$name}-color, $border-color, $args...);
+}
+
+@mixin text(
+    $color,
+    $background-color,
+    $postfix: '',
+    $args...
+) {
+    $name: 'text#{$postfix}';
+    $invert: color.tone($color, $background-color) == 'dark';
+    $hover-value: if($invert, 20%, 10%);
+    $active-value: if($invert, 30%, 20%);
+
+    @include base.var(#{$name}-color, $color);
+    @include states.vars(#{$name}-color, (
+        hover: states.hover-color($color, $hover-value, $invert),
+        active: states.active-color($color, $active-value, $invert)
+    ), $args...);
 }

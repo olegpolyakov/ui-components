@@ -6,26 +6,17 @@
 @include component.define(Box, Box.$vars);
 
 .root {
+    box-sizing: border-box;
     border-radius: component.var(border-radius);
     background-color: component.var(background-color);
     color: component.var(foreground-color);
-    box-shadow: component.var(shadow);
-    box-sizing: border-box;
+    box-shadow: component.var(shadow) base.var(shadow-color);
 }
 
-.interactive {
-    transition:
-        background-color 0.15s ease-in-out,
-        border-color 0.15s ease-in-out;
-
-    &:hover {
-        background-color: component.var(background-hover-color);
-    }
-
-    &:active {
-        background-color: component.var(background-active-color);
-    }
-}
+@include component.interactive;
+@include component.shapes;
+@include component.shadows($hover: true);
+@include component.variants;
 
 .ar {
     &-16-10 {
@@ -113,28 +104,3 @@
         }
     }
 }
-
-
-// Variants
-@include component.variants;
-
-// Roundness
-
-.roundness {
-    overflow: hidden;
-
-    @each $size in base.$sizes {
-        &-#{$size} {
-            @include component.vars((border-radius: base.var(border-radius-#{$size})));
-        }
-    }
-}
-
-
-// Shadow
-
-@include component.classes((
-    shadow-s: (shadow: base.var(shadow-s) base.var(shadow-color)),
-    shadow-m: (shadow: base.var(shadow-m) base.var(shadow-color)),
-    shadow-l: (shadow: base.var(shadow-l) base.var(shadow-color))
-));

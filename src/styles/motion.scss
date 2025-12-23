@@ -1,0 +1,9 @@
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@mixin reduced {
+    @media (prefers-reduced-motion: reduce) {
+        @content;
+    }
+}

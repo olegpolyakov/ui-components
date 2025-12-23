@@ -25,12 +25,18 @@
 }
 
 @include component.classes((
-    xs: (gap: base.var(space-xxs)),
-    s: (gap: base.var(space-xxs)),
-    m: (gap: base.var(space-xs)),
-    l: (gap: base.var(space-xs)),
-    xl: (gap: base.var(space-s))
+    gap-xxs: (gap: base.var(space-xxs)),
+    gap-xs: (gap: base.var(space-xs)),
+    gap-s: (gap: base.var(space-xs)),
+    gap-m: (gap: base.var(space-m)),
+    gap-l: (gap: base.var(space-l)),
+    gap-xl: (gap: base.var(space-xl)),
+    gap-xxl: (gap: base.var(space-xxl))
 ));
+
+.fluid {
+    width: 100%;
+}
 
 .joined {
     @include component.vars((gap: 0));
@@ -90,18 +96,4 @@
             margin-top: -1px;
         }
     }
-}
-
-@include component.classes((
-    gap-xxs: (gap: base.var(space-xxs)),
-    gap-xs: (gap: base.var(space-xs)),
-    gap-s: (gap: base.var(space-xs)),
-    gap-m: (gap: base.var(space-m)),
-    gap-l: (gap: base.var(space-l)),
-    gap-xl: (gap: base.var(space-xl)),
-    gap-xxl: (gap: base.var(space-xxl))
-));
-
-.fluid {
-    width: 100%;
 }

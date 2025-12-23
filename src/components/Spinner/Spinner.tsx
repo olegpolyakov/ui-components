@@ -1,11 +1,11 @@
-import type { Color, ComponentProps, ElementType, SizeExtended } from '../../types';
+import type { Color, ComponentProps, ElementType, SizeFull } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
 import styles from './Spinner.module.scss';
 
 export type SpinnerProps = {
-    color?: Color;
-    size?: SizeExtended;
+    color?: 'inherit' | Color;
+    size?: SizeFull;
 };
 
 Spinner.displayName = 'Spinner';

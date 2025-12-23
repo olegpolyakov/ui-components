@@ -78,33 +78,12 @@
 // Shapes
 
 @include component.classes((
-    circular: (
-        border-radius: component.var(height)
-    ),
-    rectangular: (
-        border-radius: 0
-    ),
-    rounded-s: (
-        border-radius: base.var(border-radius-xs)
-    ),
-    rounded-m: (
-        border-radius: base.var(border-radius-s)
-    ),
-    rounded-l: (
-        border-radius: base.var(border-radius-m)
-    )
+    circular: (border-radius: component.var(height)),
+    rectangular: (border-radius: 0),
+    rounded-s: (border-radius: base.var(border-radius-xs)),
+    rounded-m: (border-radius: base.var(border-radius-s)),
+    rounded-l: (border-radius: base.var(border-radius-m))
 ));
 
-
-// Shadows
-
-@include component.classes((
-    shadow-s: (shadow: base.var(shadow-s)),
-    shadow-m: (shadow: base.var(shadow-m)),
-    shadow-l: (shadow: base.var(shadow-l))
-));
-
-
-// Variants
-
+@include component.shadows;
 @include component.variants;

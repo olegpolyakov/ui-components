@@ -8,35 +8,37 @@ export default function DialogProvider({
 }: {
     children: ReactNode;
 }) {
-    const [dialogProps, setDialogProps] = useState<Partial<DialogProps> | null>(null);
+    const [props, setProps] = useState<Partial<DialogProps> | null>(null);
 
-    const onClose = useCallback(() => {
-        setDialogProps(null);
+    const closeDialog = useCallback(() => {
+        setProps({
+            open: false
+        });
     }, []);
 
-    const showDialog = useCallback((
-        title: string,
-        getContent: (onClose: () => void) => ReactNode,
-        closeOnClickOutside = false
+    const openDialog = useCallback((
+        props: Partial<DialogProps>,
+        getContent: (onClose: () => void) => ReactNode
     ) => {
-        setDialogProps({
-            title,
-            content: getContent(onClose),
-            closeOnClickOutside
+        setProps({
+            ...props,
+            open: true,
+            content: getContent(closeDialog)
         });
-    }, [onClose]);
+    }, [closeDialog]);
 
     const value = useMemo(() => ({
-        showDialog
-    }), [showDialog]);
+        openDialog,
+        closeDialog
+    }), [openDialog, closeDialog]);
 
     return (
         <DialogContext.Provider value={value}>
             {children}
 
             <Dialog
-                {...dialogProps}
-                onClose={onClose}
+                {...props}
+                onClose={closeDialog}
             />
         </DialogContext.Provider>
     );

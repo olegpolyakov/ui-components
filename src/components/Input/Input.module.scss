@@ -1,4 +1,6 @@
 @use 'base';
+@use 'colors';
+@use 'colors/states';
 @use 'component';
 
 @use './Input';
@@ -23,6 +25,16 @@
     font-weight: component.var(font-weight);
     line-height: component.var(line-height);
     transition: border-color 0.2s ease-in-out;
+
+    &:hover {
+        background-color: component.var(background-hover-color);
+        color: component.var(foreground-hover-color);
+    }
+    
+    &:active {
+        background-color: component.var(background-active-color);
+        color: component.var(foreground-active-color);
+    }
 }
 
 .start,
@@ -130,8 +142,8 @@
 
 .outlined {
     @include component.vars((
-        border-color: base.var(border-color),
-        background-color: transparent
+        border-color: base.var(outlined-color),
+        background-color: base.var(plain-color)
     ));
 
     border: component.var(border-width) solid component.var(border-color);

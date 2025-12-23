@@ -2,8 +2,8 @@
 
 @use '../base';
 
+@use './base' as colors;
 @use './states';
-@use './tones';
 @use './variants';
 
 @mixin define($theme) {
@@ -30,7 +30,7 @@
 ) {
     @each $name, $color in $base-colors {
         @include base.var(#{$name}-color, $color);
-        @include base.var(on-#{$name}-color, tones.contrast-color($color));
+        @include base.var(on-#{$name}-color, colors.contrast-color($color));
     }
 
     @each $element, $color in $element-colors {

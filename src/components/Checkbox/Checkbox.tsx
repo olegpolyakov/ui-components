@@ -66,7 +66,11 @@ export default function Checkbox({
     );
 
     return (
-        <div className={classNames} data-checked={checked ? true : undefined}>
+        <div
+            className={classNames}
+            data-checked={checked ? true : undefined}
+            data-disabled={disabled ? true : undefined}
+        >
             <input
                 id={id}
                 className={cn(elementClassNames.input, cssClasses.input)}

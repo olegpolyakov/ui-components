@@ -1,11 +1,10 @@
 import { classnames as cn, getElementClassNames } from '../../utils';
 import { Orientation, type ComponentProps, type ElementType } from '../../types';
 
-import cssClasses from './Divider.module.scss';
+import styles from './Divider.module.scss';
 
 export type DividerProps = {
     orientation?: Orientation;
-    className?: string;
 };
 
 Divider.displayName = 'Divider';
@@ -19,15 +18,15 @@ export default function Divider<T extends ElementType = 'hr'>({
     orientation = 'horizontal',
     ...props
 }: ComponentProps<DividerProps, T>) {
-    const Component = as || 'hr';
+    const Root = as || 'hr';
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[orientation]
+        styles.root,
+        styles[orientation]
     );
 
     return (
-        <Component className={classNames} {...props} />
+        <Root className={classNames} {...props} />
     );
 }

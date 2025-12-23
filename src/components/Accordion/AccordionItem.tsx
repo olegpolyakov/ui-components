@@ -1,19 +1,12 @@
 import { ReactNode, useState, useRef, useEffect, useLayoutEffect } from 'react';
 
 import type { Size,  ComponentProps, ElementType, Slotted } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { classnames as cn } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
 import Slot from '../Slot';
 
 import styles from './AccordionItem.module.scss';
-
-AccordionItem.displayName = 'AccordionItem';
-
-const elementClassNames = getElementClassNames(
-    AccordionItem.displayName,
-    ['header', 'icon', 'indicatorIcon', 'openIcon', 'closeIcon', 'content']
-);
 
 export type AccordionItemProps = {
     header?: ReactNode;
@@ -26,6 +19,8 @@ export type AccordionItemProps = {
     open?: boolean;
     disabled?: boolean;
 };
+
+AccordionItem.displayName = 'AccordionItem';
 
 export default function AccordionItem<T extends ElementType = 'div'>({
     as,
@@ -68,7 +63,6 @@ export default function AccordionItem<T extends ElementType = 'div'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
         size && styles[size],
         open && styles.open,
@@ -78,16 +72,18 @@ export default function AccordionItem<T extends ElementType = 'div'>({
     return (
         <Root
             className={classNames}
+            data-open={open ? true : undefined}
+            data-disabled={disabled ? true : undefined}
             {...props}
         >
             <div
-                className={cn(elementClassNames.header, styles.header)}
+                className={styles.header}
                 onClick={!disabled ? handleClick : undefined}
             >
                 {icon &&
                     <Slot
                         fallback={Icon}
-                        className={cn(elementClassNames.icon, styles.icon)}
+                        className={styles.icon}
                         size={size}
                     >
                         {icon}
@@ -99,7 +95,7 @@ export default function AccordionItem<T extends ElementType = 'div'>({
                 {!openIcon && !closeIcon && indicatorIcon &&
                     <Slot
                         fallback={Icon}
-                        className={cn(elementClassNames.indicatorIcon, styles.indicatorIcon)}
+                        className={styles.indicatorIcon}
                         size={size}
                     >
                         {indicatorIcon}
@@ -109,7 +105,7 @@ export default function AccordionItem<T extends ElementType = 'div'>({
                 {open && openIcon &&
                     <Slot
                         fallback={Icon}
-                        className={cn(elementClassNames.openIcon, elementClassNames.indicatorIcon, styles.indicatorIcon)}
+                        className={styles.indicatorIcon}
                         size={size}
                     >
                         {openIcon}
@@ -119,7 +115,7 @@ export default function AccordionItem<T extends ElementType = 'div'>({
                 {!open && closeIcon &&
                     <Slot
                         fallback={Icon}
-                        className={cn(elementClassNames.closeIcon, elementClassNames.indicatorIcon, styles.indicatorIcon)}
+                        className={styles.indicatorIcon}
                         size={size}
                     >
                         {closeIcon}
@@ -129,7 +125,7 @@ export default function AccordionItem<T extends ElementType = 'div'>({
 
             <div
                 ref={contentRef}
-                className={cn(elementClassNames.content, styles.content)}
+                className={styles.content}
             >
                 {content}
             </div>

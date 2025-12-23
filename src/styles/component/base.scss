@@ -24,7 +24,7 @@ $-vars: ();
     }
 }
 
-@function vars($component, $vars) {
+@function vars($component, $vars: ()) {
     $_vars: ();
 
     @each $name, $value in $vars {
@@ -37,10 +37,6 @@ $-vars: ();
 }
 
 @function var($name) {
-    @if not map.has-key($-vars, $name) {
-        @error 'No variable "#{$name}"';
-    }
-
     $value: map.get($-vars, $name);
 
     @if _is-private-var($name) {
@@ -121,35 +117,134 @@ $-vars: ();
     }
 }
 
+@mixin gaps($sizes: (xxs, xs, s, m, l, xl, xxl)) {
+    @if type.is-map($sizes) {
+        @each $size, $value in $sizes {
+            #{if(&, '&', '')}.gap-#{$size} {
+                @include vars((
+                    gap: $value
+                ));
+            }
+        }
+    } @else {
+        @each $size in $sizes {
+            #{if(&, '&', '')}.gap-#{$size} {
+                @include vars((
+                    gap: base.var(space-#{$size})
+                ));
+            }
+        }
+    }
+}
+
+@mixin shadows($sizes: (xxs, xs, s, m, l, xl, xxl), $hover: false) {
+    @each $size in $sizes {
+        #{if(&, '&', '')}.shadow-#{$size} {
+            @include vars((
+                shadow: base.var(shadow-#{$size})
+            ));
+        }
+
+        @if $hover {
+            .hover-shadow-#{$size} {
+                transition: box-shadow 0.15s ease-in-out;
+                
+                &:hover {
+                    @include vars((
+                        shadow: base.var(shadow-#{$size})
+                    ));
+                }
+            }
+        }
+    }
+}
+
+@mixin shapes($circular: 100%, $rectangular: 0, $rounded: (xs, s, m, l, xl)) {
+    @if not type.is-null($circular) {
+        .circular {
+            @include vars((
+                border-radius: $circular
+            ));
+        }
+    }
+
+    @if not type.is-null($rectangular) {
+        .rectangular {
+            @include vars((
+                border-radius: $rectangular
+            ));
+        }
+    }
+
+    @if type.is-list($rounded) {
+        @each $size in $rounded {
+            .rounded-#{$size} {
+                @include vars((
+                    border-radius: base.var(border-radius-#{$size})
+                ));
+            }
+        }
+    } @else if not type.is-null($rounded) {
+        .rounded {
+            @include vars((
+                border-radius: $rounded
+            ));
+        }
+    }
+}
+
+@mixin interactive($props: ()) {
+    #{if(&, '&', '.interactive')} {
+        transition:
+            color 0.15s ease-in-out,
+            background-color 0.15s ease-in-out,
+            border-color 0.15s ease-in-out,
+            box-shadow 0.15s ease-in-out;
+
+        &:hover {
+            background-color: var(background-hover-color);
+        }
+
+        &:active {
+            background-color: var(background-active-color);
+        }
+    }
+}
+
 @mixin variants(
     $plain: true,
     $filled: true,
     $outlined: true,
     $tinted: true,
-    $outlined-tinted: true
+    $outlined-tinted: true,
+    $text: false
 ) {
-    @if ($plain) {
+    @if $plain {
         @include variants.plain($prefix: '#{$-name}-');
     }
 
-    @if ($filled) {
+    @if $filled {
         @include variants.filled($prefix: '#{$-name}-');
     }
 
-    @if ($outlined) {
+    @if $outlined {
         @include variants.outlined($prefix: '#{$-name}-') {
             border: var(border-width) solid var(border-color);
         }
     }
 
-    @if ($tinted) {
+    @if $tinted {
         @include variants.tinted($prefix: '#{$-name}-');
     }
 
-    @if ($outlined-tinted) {
+    @if $outlined-tinted {
         @include variants.outlined-tinted($prefix: '#{$-name}-') {
             border: var(border-width) solid var(border-color);
         }
+    }
+
+    @if $text {
+        @include variants.text($prefix: '#{$-name}-');
     }
 }
 

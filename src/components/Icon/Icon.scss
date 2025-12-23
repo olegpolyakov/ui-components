@@ -11,12 +11,12 @@ $sizes: (
     xl: 48px
 ) !default;
 
-$font: 'Material Symbols Outlined' !default;
 $color: base.var(foreground-color) !default;
+$font: 'Material Symbols Outlined' !default;
 $size: map.get($sizes, m) !default;
 
 $vars: component.vars(Icon, (
-    font: $font,
     color: $color,
+    font: $font,
     size: $size
 ));

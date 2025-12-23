@@ -1,19 +1,17 @@
-import { Children as ReactChildren, ReactElement, isValidElement } from 'react';
+import cn from 'classnames';
 
 import { THEME_PREFIX, Key, KeyCode } from './constants';
-import { MouseInteractionEvent, type Children } from './types';
+import type { MouseInteractionEvent } from './types';
 
-export { default as classnames } from 'classnames';
+export { cn, cn as classnames, baseClassName as bcn };
+
+export { resolveChildren, getComponentClassNames } from './component';
+
+export function baseClassName(className: string) {
+    return `${THEME_PREFIX}-${className}`;
+}
 
 export function noop() { return; }
-
-export function resolveChildren<T>(children: Children, items: T[]): T[] {
-    return items.length > 0
-        ? items
-        : ReactChildren.toArray(children)
-            .filter((child): child is ReactElement<T> => isValidElement<T>(child))
-            .map(child => child.props);
-}
 
 export function getElementClassNames<T extends readonly string[]>(
     componentName: string,

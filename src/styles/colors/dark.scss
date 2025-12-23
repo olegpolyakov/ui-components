@@ -22,18 +22,17 @@ $base-colors: (
     warning: $warning-color
 ) !default;
 
+$border-color: palettes.$neutral-6 !default;
+$border-inverted-color: palettes.$neutral-4 !default;
+$border-primary-color: palettes.$neutral-6 !default;
+$border-secondary-color: palettes.$neutral-7 !default;
+$border-tertiary-color: palettes.$neutral-8 !default;
 
 $background-color: palettes.$neutral-9 !default;
 $background-inverted-color: palettes.$neutral-0 !default;
 $background-primary-color: palettes.$neutral-9 !default;
 $background-secondary-color: palettes.$neutral-8 !default;
 $background-tertiary-color: palettes.$neutral-7 !default;
-
-$border-color: palettes.$neutral-6 !default;
-$border-inverted-color: palettes.$neutral-4 !default;
-$border-primary-color: palettes.$neutral-6 !default;
-$border-secondary-color: palettes.$neutral-7 !default;
-$border-tertiary-color: palettes.$neutral-8 !default;
 
 $foreground-color: palettes.$neutral-0 !default;
 $foreground-inverted-color: palettes.$neutral-9 !default;
@@ -47,17 +46,17 @@ $shadow-color: rgba(0, 0, 0, .5) !default;
 $element-colors: (
     backdrop: $backdrop-color,
 
-    background: $background-color,
-    background-inverted: $background-inverted-color,
-    background-primary: $background-primary-color,
-    background-secondary: $background-secondary-color,
-    background-tertiary: $background-tertiary-color,
-
     border: $border-color,
     border-inverted: $border-inverted-color,
     border-primary: $border-primary-color,
     border-secondary: $border-secondary-color,
     border-tertiary: $border-tertiary-color,
+
+    background: $background-color,
+    background-inverted: $background-inverted-color,
+    background-primary: $background-primary-color,
+    background-secondary: $background-secondary-color,
+    background-tertiary: $background-tertiary-color,
 
     foreground: $foreground-color,
     foreground-inverted: $foreground-inverted-color,

@@ -8,6 +8,7 @@ $border-width: 0 !default;
 $background-color: none !default;
 $foreground-color: base.var(foreground-color) !default;
 $font-size: base.var(font-size-m) !default;
+$shadow: null !default;
 
 $vars: component.vars(Avatar, (
     size: $size,
@@ -16,5 +17,6 @@ $vars: component.vars(Avatar, (
     border-width: $border-width,
     background-color: $background-color,
     foreground-color: $foreground-color,
-    font-size: $font-size
+    font-size: $font-size,
+    shadow: $shadow
 ));

@@ -145,14 +145,6 @@ export default function Combobox({
         : !!value;
     const hasLabel = Boolean(label);
 
-    console.log('Combobox render', {
-        value,
-        hasValue,
-        inputValue,
-        open,
-        focused
-    });
-
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -167,7 +159,13 @@ export default function Combobox({
     );
 
     return (
-        <div className={classNames} {...props}>
+        <div
+            className={classNames}
+            data-focused={focused ? true : undefined}
+            data-disabled={disabled ? true : undefined}
+            data-open={open ? true : undefined}
+            {...props}
+        >
             <div
                 ref={containerRef}
                 className={cn(elementClassNames.container, cssClasses.container)}

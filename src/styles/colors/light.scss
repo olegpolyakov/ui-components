@@ -38,11 +38,11 @@ $border-tertiary-color: palettes.$neutral-1 !default;
 $foreground-color: palettes.$neutral-9 !default;
 $foreground-inverted-color: palettes.$neutral-0 !default;
 $foreground-primary-color: palettes.$neutral-9 !default;
-$foreground-secondary-color: palettes.$neutral-6 !default;
-$foreground-tertiary-color: palettes.$neutral-5 !default;
+$foreground-secondary-color: palettes.$neutral-5 !default;
+$foreground-tertiary-color: palettes.$neutral-4 !default;
 
 $backdrop-color: rgba(0, 0, 0, .25) !default;
-$shadow-color: rgba(0, 0, 0, 0.1) !default;
+$shadow-color: rgba(0, 0, 0, 0.25) !default;
 
 $element-colors: (
     backdrop: $backdrop-color,

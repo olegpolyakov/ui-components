@@ -22,6 +22,8 @@
 ));
 
 .overlap {
+    gap: 0;
+    
     .avatar + .avatar {
         margin-left: -8px;
     }

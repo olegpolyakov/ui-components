@@ -56,7 +56,9 @@ export type HTMLSpanProps = React.HTMLAttributes<HTMLSpanElement>;
 export type HTMLTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export type Align = 'start' | 'center' | 'end';
+export type AspectRatio = '16/10' | '16/9' | '4/3' | '3/2' | '2/1' | '1/1';
 export type Color = 'brand' | 'accent' | 'danger' | 'info' | 'success' | 'warning';
+export type TextColor = 'primary' | 'secondary' | 'tertiary' | Color;
 export type Emphasis = 'low' | 'medium' | 'high';
 export type Gender = 'unknown' | 'male' | 'female';
 export type IconPosition = 'before' | 'after';
@@ -64,13 +66,15 @@ export type Intent = 'danger' | 'info' | 'success' | 'warning';
 export type Justify = 'start' | 'center' | 'end' | 'around' | 'between' | 'evenly';
 export type Opacity = 'full' | 'high' | 'medium' | 'low' | 'none';
 export type Orientation = 'horizontal' | 'vertical';
+export type Padding = Size
+    | { x: Size; y: Size }
+    | { top?: Size; right?: Size; bottom?: Size; left?: Size };
 export type Size = 's' | 'm' | 'l';
 export type SizeExtended = 'xs' | Size | 'xl';
 export type SizeFull = 'xxs' | SizeExtended | 'xxl';
-export type Shadow = Size;
-export type Shape = 'circular' | 'rectangular' | 'rounded' | 'rounded-s' | 'rounded-m' | 'rounded-l';
-export type Space = 'none' | 'auto' | SizeFull;
-export type Tone = 'neutral' | 'muted' | 'subtle';
+export type Shadow = SizeFull;
+export type Shape = 'circular' | 'rectangular' | 'rounded' | 'rounded-xs' | 'rounded-s' | 'rounded-m' | 'rounded-l' | 'rounded-xl';
+export type Space = 'none' | SizeFull;
 export type Variant = 'plain' | 'filled' | 'outlined' | 'tinted' | 'outlined-tinted';
 export type Weight = 'light' | 'normal' | 'semibold' | 'bold';
 

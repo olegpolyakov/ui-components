@@ -16,14 +16,6 @@
     box-shadow: component.var(shadow) base.var(shadow-color);
 }
 
-.interactive {
-    &:hover {
-        @include component.vars((
-            background-color: base.var(surface-hover-color)
-        ));
-    }
-}
-
 
 // Sizes
 
@@ -33,16 +25,6 @@
     l: (padding: base.var(space-l))
 ));
 
-
-// Shadow
-
-@include component.classes((
-    shadow-s: (shadow: base.var(shadow-s)),
-    shadow-m: (shadow: base.var(shadow-m)),
-    shadow-l: (shadow: base.var(shadow-l))
-));
-
-
-// Variants
-
+@include component.interactive;
+@include component.shadows($hover: true);
 @include component.variants;

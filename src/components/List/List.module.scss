@@ -14,11 +14,8 @@
     gap: component.var(gap);
 }
 
-
-// Gap
-
-@include component.classes((
-    gap-s: (gap: base.var(gap-xxs)),
-    gap-m: (gap: base.var(gap-xs)),
-    gap-l: (gap: base.var(gap-s))
+@include component.gaps((
+    s: base.var(space-xxs),
+    m: base.var(space-xs),
+    l: base.var(space-s)
 ));

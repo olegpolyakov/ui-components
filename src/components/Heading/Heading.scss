@@ -1,17 +1,6 @@
 @use 'base';
 @use 'component';
 
-$foreground-color: base.var(foreground-color) !default;
-$emphasis: base.var(emphasis-high) !default;
-$font-family: base.var(font-family) !default;
-$font-size: base.var(font-size-m) !default;
-$font-weight: base.var(font-weight-normal) !default;
-$line-height: base.var(line-height) !default;
-$letter-spacing: 0 !default;
-$gap: base.var(space-xs) !default;
-$margin-top: 0 !default;
-$margin-bottom: 0 !default;
-
 $sizes: (
     // type: (font-size, line-height)
     xxs: (16px, 22px),
@@ -23,16 +12,20 @@ $sizes: (
     xxl: (68px, 92px)
 ) !default;
 
+$color: base.var(foreground-color) !default;
+$font: base.var(font-family) !default;
+$size: base.var(font-size-m) !default;
+$weight: base.var(font-weight-normal) !default;
+$height: base.var(line-height) !default;
+$spacing: 0 !default;
+
 $vars: component.vars(Heading, (
-    foreground-color: $foreground-color,
-    font-family: $font-family,
-    font-size: $font-size,
-    font-weight: $font-weight,
-    line-height: $line-height,
-    letter-spacing: $letter-spacing,
-    gap: $gap,
-    margin-top: $margin-top,
-    margin-bottom: $margin-bottom
+    color: $color,
+    font: $font,
+    size: $size,
+    weight: $weight,
+    height: $height,
+    spacing: $spacing
 ));
 
 @mixin heading($type, $weight: null) {

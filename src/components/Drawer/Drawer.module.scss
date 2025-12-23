@@ -16,9 +16,11 @@
     width: component.var(width);
     height: component.var(height);
     background-color: component.var(background-color);
-    background-clip: padding-box;
+    color: base.var(foreground-color);
     display: flex;
     flex-direction: column;
+
+    @include component.shadows;
 }
 
 .header {
@@ -30,9 +32,6 @@
 
 .title {
     margin: 0;
-    line-height: 1.5;
-    font-size: 1.25rem;
-    font-weight: 600;
 }
 
 .content {
@@ -86,8 +85,8 @@
 
     .surface {
         position: absolute;
+        box-shadow: component.var(shadow) base.var(shadow-color);
         transition: transform 200ms ease-in-out;
-        box-shadow: base.var(shadow-m) base.var(shadow-color);
     }
 
     &.left,

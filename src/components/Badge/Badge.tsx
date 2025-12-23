@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import type { Color, ComponentProps, ElementType, Shape, Size, Variant } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { classnames as cn, getComponentClassNames, getElementClassNames } from '../../utils';
 
 import styles from './Badge.module.scss';
 
@@ -34,10 +34,12 @@ export default function Badge<T extends ElementType = 'span'>({
         className,
         elementClassNames.root,
         styles.root,
-        styles[shape],
-        styles[size],
-        styles[variant],
-        styles[color ? `${variant}-${color}` : variant]
+        ...getComponentClassNames(styles, {
+            color,
+            size,
+            shape,
+            variant
+        })
     );
 
     return (

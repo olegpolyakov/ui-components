@@ -11,8 +11,6 @@
     padding: component.var(padding);
 }
 
-// Dir
-
 .row {
     flex-direction: row;
 
@@ -29,9 +27,6 @@
     }
 }
 
-
-// Align
-
 .align {
     &-start {
         align-items: flex-start;
@@ -45,9 +40,6 @@
         align-items: flex-end;
     }
 }
-
-
-// Justify
 
 .justify {
     &-start {
@@ -75,52 +67,7 @@
     }
 }
 
-
-// Gap
-
-.gap {
-    @each $size, $value in base.$space-sizes {
-        &-#{$size} {
-            @include component.var(gap, base.var(space-#{$size}));
-        }
-    }
-}
-
-
-// Padding
-
-.padding {
-    @each $size, $value in base.$space-sizes {
-        &-#{$size} {
-            @include component.var(padding, base.var(space-#{$size}));
-        }
-    }
-
-    &-x {
-        @each $size, $value in base.$space-sizes {
-            &-#{$size} {
-                @include component.vars((
-                    padding-left: base.var(space-#{$size}),
-                    padding-right: base.var(space-#{$size}),
-                ));
-            }
-        }
-    }
-
-    &-y {
-        @each $size, $value in base.$space-sizes {
-            &-#{$size} {
-                @include component.vars((
-                    padding-top: base.var(space-#{$size}),
-                    padding-bottom: base.var(space-#{$size}),
-                ));
-            }
-        }
-    }
-}
-
-
-// Misc
+@include component.gaps;
 
 .inline {
     display: inline-flex;

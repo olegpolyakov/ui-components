@@ -15,19 +15,32 @@ $info: #ab47bc !default;
 $success: #0f9d58 !default;
 $warning: #f4b400 !default;
 
+@function contrast-color(
+    $color,
+    $dark-color: $black,
+    $light-color: $white,
+    $invert: false
+) {
+    @return if(
+        color.tone($color, if($invert, $dark-color, $light-color)) == 'dark',
+        $light-color,
+        $dark-color
+    );
+}
+
 @mixin var(
     $name,
     $color,
     $prefix: '',
     $postfix: ''
 ) {
-    @if not string.ends-with($name, '-color') {
+    @if not string.ends-with($name, 'color') {
         $name: '#{$name}-color';
     }
 
     @if type.is-string($color) {
         @if string.starts-with($color, '-') {
-            $color: #{string.slice($color, 2)}-contrast;
+            $color: on-#{string.slice($color, 2)};
         }
 
         @if not string.contains($color, '-color') {

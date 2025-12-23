@@ -14,7 +14,9 @@ const filteredOutSettingNames = [
     'ar'
 ];
 
-export default function Demo<T extends Record<string, any> = Record<string, any>>({
+type Props = Record<string, any>;
+
+export default function Demo<T extends Props = Props>({
     children,
     settings = {},
     align,
@@ -27,7 +29,7 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
     align?: 'start' | 'center' | 'end';
     setup?: ReactElement | ((data: T, setData: (data: T) => void) => ReactElement);
     wrap?: ReactElement | ((content: ReactElement, data: T) => ReactElement);
-    props?: Record<string, any>;
+    props?: T;
     children?: ReactElement | ((data: T, setData: (data: T) => void) => ReactElement);
 }) {
     const filteredSettings = useMemo(() =>
@@ -76,7 +78,10 @@ export default function Demo<T extends Record<string, any> = Record<string, any>
             : enhancedContent;
 
     return (
-        <div className={cn(styles.root, align && styles[`align-${align}`])} {...rest}>
+        <div
+            className={cn(styles.root, align && styles[`align-${align}`])}
+            {...rest}
+        >
             <div className={styles.main}>
                 <div className={styles.actions}>
                     <Button

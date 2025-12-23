@@ -1,0 +1,510 @@
+@use 'sass:map';
+
+@use 'base' as *;
+@use 'colors';
+@use 'colors/dark';
+@use 'colors/palettes';
+@use 'colors/variants';
+
+// Colors
+
+.border-color {
+    border-color: var(border-color);
+}
+
+.border-inverted-color {
+    border-color: var(border-inverted-color);
+}
+
+@each $color in (primary, secondary, tertiary) {
+    .border-#{$color}-color {
+        border-color: var(border-#{$color}-color);
+    }
+}
+
+@each $color in colors.$palette-names {
+    .#{$color}-border-color {
+        border-color: var(border-#{$color}-color);
+    }
+}
+
+.background-color {
+    background-color: var(background-color);
+}
+
+.background-inverted-color {
+    background-color: var(background-inverted-color);
+}
+
+@each $color in (primary, secondary, tertiary) {
+    .background-#{$color}-color {
+        background-color: var(background-#{$color}-color);
+    }
+}
+
+@each $color in colors.$palette-names {
+    .#{$color}-background-color {
+        background-color: var(#{$color}-color);
+    }
+}
+
+.foreground-color {
+    color: var(foreground-color);
+}
+
+.foreground-inverted-color {
+    color: var(foreground-inverted-color);
+}
+
+@each $color in (primary, secondary, tertiary) {
+    .foreground-#{$color}-color {
+        color: var(foreground-#{$color}-color);
+    }
+}
+
+@each $color in colors.$palette-names {
+    .#{$color}-foreground-color {
+        color: var(#{$color}-color);
+    }
+}
+
+
+// Opacity
+
+@each $level in map.keys($opacity) {
+    .opacity-#{$level} {
+        opacity: #{var(opacity-#{$level})};
+    }
+}
+
+
+// Margin
+
+.m {
+    margin: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            margin: var(space-#{$size});
+        }
+    }
+}
+
+.mx {
+    margin-left: var(space-m);
+    margin-right: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            margin-left: var(space-#{$size});
+            margin-right: var(space-#{$size});
+        }
+    }
+}
+
+.my {
+    margin-top: var(space-m);
+    margin-bottom: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            margin-top: var(space-#{$size});
+            margin-bottom: var(space-#{$size});
+        }
+    }
+}
+
+.mt {
+    margin-top: var(space-m);
+    
+    @each $size in $sizes {
+        &-#{$size} {
+            margin-top: var(space-#{$size});
+        }
+    }
+}
+
+.mr {
+    margin-right: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            margin-right: var(space-#{$size});
+        }
+    }
+}
+
+.mb {
+    margin-bottom: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            margin-bottom: var(space-#{$size});
+        }
+    }
+}
+
+.ml {
+    margin-left: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            margin-left: var(space-#{$size});
+        }
+    }
+}
+
+
+// Padding
+
+.p {
+    padding: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            padding: var(space-#{$size});
+        }
+    }
+}
+
+.px {
+    padding-left: var(space-m);
+    padding-right: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            padding-left: var(space-#{$size});
+            padding-right: var(space-#{$size});
+        }
+    }
+}
+
+.py {
+    padding-top: var(space-m);
+    padding-bottom: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            padding-top: var(space-#{$size});
+            padding-bottom: var(space-#{$size});
+        }
+    }
+}
+
+.pt {
+    padding-top: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            padding-top: var(space-#{$size});
+        }
+    }
+}
+
+.pr {
+    padding-right: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            padding-right: var(space-#{$size});
+        }
+    }
+}
+
+.pb {
+    padding-bottom: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            padding-bottom: var(space-#{$size});
+        }
+    }
+}
+
+.pl {
+    padding-left: var(space-m);
+
+    @each $size in $sizes {
+        &-#{$size} {
+            padding-left: var(space-#{$size});
+        }
+    }
+}
+
+
+// Gaps
+
+@each $size in $sizes {
+    .g-#{$size} {
+        gap: var(space-#{$size})
+    }
+}
+
+
+// Text styles
+
+@each $weight in map.keys($font-weights) {
+    .#{$weight} {
+        font-weight: #{var(font-weight-#{$weight})};
+    }
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.lowercase {
+    text-transform: lowercase;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.strikethrough {
+    text-decoration: line-through;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+// Shapes
+
+.circular {
+    border-radius: 100%;
+}
+
+.rectangular {
+    border-radius: 0;
+}
+
+.rounded {
+    border-radius: var(border-radius-m);
+
+    @each $size in map.keys($border-radii) {
+        &-#{$size} {
+            border-radius: var(border-radius-#{$size});
+        }
+    }
+}
+
+
+// Shadows
+
+@each $size in $sizes {
+    .shadow-#{$size} {
+        box-shadow: var(shadow-#{$size}) var(shadow-color);
+    }
+}
+
+@each $size in $sizes {
+    .hover-shadow-#{$size} {
+        transition: box-shadow 0.15s ease-in-out;
+        
+        &:hover {
+            box-shadow: var(shadow-#{$size}) var(shadow-color);
+            z-index: 1;
+        }
+    }
+}
+
+
+// Variants
+
+.plain {
+    background-color: var(plain-color);
+    color: var(on-plain-color);
+    transition: background-color 0.15s ease-in-out;
+
+    &:hover {
+        background-color: var(plain-hover-color);
+    }
+
+    &:active {
+        background-color: var(plain-active-color);
+    }
+
+    @each $palette in palettes.$names {
+        &-#{$palette} {
+            background-color: var(plain-#{$palette}-color);
+            color: var(on-plain-#{$palette}-color);
+
+            &:hover {
+                background-color: var(plain-#{$palette}-hover-color);
+            }
+
+            &:active {
+                background-color: var(plain-#{$palette}-active-color);
+            }
+        }
+    }
+}
+
+.filled {
+    background-color: var(filled-color);
+    color: var(on-filled-color);
+    transition: background-color 0.15s ease-in-out;
+
+    &:hover {
+        background-color: var(filled-hover-color);
+    }
+
+    &:active {
+        background-color: var(filled-active-color);
+    }
+
+    @each $palette in palettes.$names {
+        &-#{$palette} {
+            background-color: var(filled-#{$palette}-color);
+            color: var(on-filled-#{$palette}-color);
+
+            &:hover {
+                background-color: var(filled-#{$palette}-hover-color);
+            }
+
+            &:active {
+                background-color: var(filled-#{$palette}-active-color);
+            }
+        }
+    }
+}
+
+.outlined {
+    border: 1px solid var(outlined-color);
+    transition: border-color 0.15s ease-in-out;
+
+    &:hover {
+        border-color: var(outlined-hover-color);
+    }
+
+    &:active {
+        border-color: var(outlined-active-color);
+    }
+
+    @each $palette in palettes.$names {
+        &-#{$palette} {
+            border: 1px solid var(outlined-#{$palette}-color);
+
+            &:hover {
+                border-color: var(outlined-#{$palette}-hover-color);
+            }
+
+            &:active {
+                border-color: var(outlined-#{$palette}-active-color);
+            }
+        }
+    }
+}
+
+.tinted {
+    background-color: var(tinted-color);
+    color: var(on-tinted-color);
+    transition: background-color 0.15s ease-in-out;
+
+    &:hover {
+        background-color: var(tinted-hover-color);
+    }
+
+    &:active {
+        background-color: var(tinted-active-color);
+    }
+
+    @each $palette in palettes.$names {
+        &-#{$palette} {
+            background-color: var(tinted-#{$palette}-color);
+            color: var(on-tinted-#{$palette}-color);
+            transition: background-color 0.15s ease-in-out;
+
+            &:hover {
+                background-color: var(tinted-#{$palette}-hover-color);
+            }
+
+            &:active {
+                background-color: var(tinted-#{$palette}-active-color);
+            }
+        }
+    }
+}
+
+.outlined-tinted {
+    border: 1px solid var(outlined-color);
+    background-color: var(tinted-color);
+    color: var(on-tinted-color);
+    transition:
+        border-color 0.15s ease-in-out,
+        background-color 0.15s ease-in-out;
+
+    &:hover {
+        border-color: var(outlined-hover-color);
+        background-color: var(tinted-hover-color);
+    }
+
+    &:active {
+        border-color: var(outlined-active-color);
+        background-color: var(tinted-active-color);
+    }
+
+    @each $palette in palettes.$names {
+        &-#{$palette} {
+            border: 1px solid var(outlined-#{$palette}-color);
+            background-color: var(tinted-#{$palette}-color);
+            color: var(on-tinted-#{$palette}-color);
+            transition:
+                border-color 0.15s ease-in-out,
+                background-color 0.15s ease-in-out;
+
+            &:hover {
+                border-color: var(outlined-#{$palette}-hover-color);
+                background-color: var(tinted-#{$palette}-hover-color);
+            }
+
+            &:active {
+                border-color: var(outlined-#{$palette}-active-color);
+                background-color: var(tinted-#{$palette}-active-color);
+            }
+        }
+    }
+}
+
+.text {
+    color: var(text-color);
+    transition: color 0.15s ease-in-out;
+
+    &:hover {
+        color: var(text-hover-color);
+    }
+
+    &:active {
+        color: var(text-active-color);
+    }
+
+    @each $palette in palettes.$names {
+        &-#{$palette} {
+            color: var(text-#{$palette}-color);
+
+            &:hover {
+                color: var(text-#{$palette}-hover-color);
+            }
+
+            &:active {
+                color: var(text-#{$palette}-active-color);
+            }
+        }
+    }
+}

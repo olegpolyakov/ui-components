@@ -1,21 +1,25 @@
 import { ReactNode, useRef } from 'react';
 
-import type { ComponentProps, ElementType } from '../../types';
+import type { ComponentProps, ElementType, Shadow, Slotted } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import Button from '../Button';
+import Button, { ButtonProps } from '../Button';
+import Heading, { HeadingProps } from '../Heading';
 import Modal from '../Modal';
+import Slot from '../Slot';
 import Transition from '../Transition';
 
-import cssClasses from './Drawer.module.scss';
+import styles from './Drawer.module.scss';
 
 export type DrawerProps = {
-    title?: string;
+    open?: boolean;
+    title?: Slotted<HeadingProps>;
     header?: ReactNode;
     content?: ReactNode;
+    closeButton?: Slotted<ButtonProps>;
     type?: 'inline' | 'overlay' | 'modal';
     position?: 'left' | 'right' | 'top' | 'bottom';
-    open?: boolean;
+    shadow?: Shadow;
     onClose?: () => void;
 };
 
@@ -23,7 +27,7 @@ Drawer.displayName = 'Drawer';
 
 const elementClassNames = getElementClassNames(
     Drawer.displayName,
-    ['backdrop', 'surface', 'header', 'title', 'content', 'closeButton']
+    ['surface', 'header', 'title', 'content', 'closeButton']
 );
 
 export default function Drawer<T extends ElementType = 'div'>({
@@ -31,12 +35,14 @@ export default function Drawer<T extends ElementType = 'div'>({
     className,
     children,
 
+    open,
     content = children,
     header,
     title,
-    open,
-    position = 'left',
+    closeButton = { icon: 'close' },
     type = 'inline',
+    position = 'left',
+    shadow = 'm',
     onClose,
     ...props
 }: ComponentProps<DrawerProps, T>) {
@@ -46,9 +52,9 @@ export default function Drawer<T extends ElementType = 'div'>({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        cssClasses[position],
-        cssClasses[type]
+        styles.root,
+        styles[position],
+        styles[type]
     );
 
     const rootContent = (
@@ -68,32 +74,36 @@ export default function Drawer<T extends ElementType = 'div'>({
             >
                 <div
                     ref={surfaceRef}
-                    className={cn(elementClassNames.surface, cssClasses.surface)}
+                    className={cn(elementClassNames.surface, styles.surface, shadow && styles[`shadow-${shadow}`])}
                 >
                     {(title || header || onClose) &&
-                        <div className={cn(elementClassNames.header, cssClasses.header)}>
+                        <div className={cn(elementClassNames.header, styles.header)}>
                             {title &&
-                                <h5 className={cn(elementClassNames.title, cssClasses.title)}>
+                                <Slot
+                                    fallback={Heading}
+                                    className={cn(elementClassNames.title, styles.title)}
+                                    size="s"
+                                >
                                     {title}
-                                </h5>
+                                </Slot>
                             }
 
                             {header}
 
-                            {onClose &&
-                                <Button
-                                    className={cn(elementClassNames.closeButton, cssClasses.closeButton)}
-                                    type="button"
+                            {closeButton && 
+                                <Slot
+                                    fallback={Button}
+                                    className={cn(elementClassNames.closeButton, styles.closeButton)}
                                     icon="close"
                                     size="s"
-                                    aria-label="Close drawer"
+                                    aria-label="Close dialog"
                                     onClick={onClose}
                                 />
                             }
                         </div>
                     }
 
-                    <div className={cn(elementClassNames.content, cssClasses.content)}>
+                    <div className={cn(elementClassNames.content, styles.content)}>
                         {content}
                     </div>
                 </div>

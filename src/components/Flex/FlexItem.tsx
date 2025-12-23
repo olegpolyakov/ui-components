@@ -1,7 +1,7 @@
 import type { Align, ComponentProps, ElementType } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './FlexItem.module.scss';
+import styles from './FlexItem.module.scss';
 
 export type FlexItemProps = {
     alignX?: Align;
@@ -19,25 +19,25 @@ export default function FlexItem<T extends ElementType = 'div'>({
     as,
     className,
 
+    grow,
+    shrink,
     alignX,
     alignY,
     alignCenter,
-    grow,
-    shrink,
     ...props
 }: ComponentProps<FlexItemProps, T>) {
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
-        alignX && cssClasses.alignX,
-        alignY && cssClasses.alignY,
-        alignCenter && cssClasses.alignCenter,
-        grow && cssClasses.grow,
-        shrink && cssClasses.shrink
+        grow && styles.grow,
+        shrink && styles.shrink,
+        alignX && styles.alignX,
+        alignY && styles.alignY,
+        alignCenter && styles.alignCenter
     );
 
     return (
-        <Component className={classNames} {...props} />
+        <Root className={classNames} {...props} />
     );
 }

@@ -10,7 +10,7 @@ export type AvatarGroupProps = {
     shape?: AvatarProps['shape'];
     size?: AvatarProps['size'];
     variant?: AvatarProps['variant'];
-    raised?: AvatarProps['raised'];
+    shadow?: AvatarProps['shadow'];
     gap?: Space;
     overlap?: boolean;
     maxCount?: number;
@@ -34,8 +34,9 @@ export default function AvatarGroup<T extends ElementType>({
     shape,
     size,
     variant,
-    overlap,
+    shadow,
     gap = 'xxs',
+    overlap,
     maxCount = 0,
     ...props
 }: ComponentProps<AvatarGroupProps, T>) {
@@ -45,7 +46,7 @@ export default function AvatarGroup<T extends ElementType>({
         : resolvedAvatars;
     const hiddenAvatarsCount = resolvedAvatars.length - shownAvatars.length;
 
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -55,7 +56,7 @@ export default function AvatarGroup<T extends ElementType>({
     );
 
     return (
-        <Component
+        <Root
             className={classNames}
             {...props}
         >
@@ -67,6 +68,7 @@ export default function AvatarGroup<T extends ElementType>({
                     shape={shape}
                     size={size}
                     variant={variant}
+                    shadow={shadow}
                     {...avatar}
                 />
             )}
@@ -81,6 +83,6 @@ export default function AvatarGroup<T extends ElementType>({
                     variant={variant}
                 />
             }
-        </Component>
+        </Root>
     );
 }

@@ -1,5 +1,6 @@
 @use 'base';
 @use 'component';
+@use 'motion';
 
 @use './Spinner';
 
@@ -12,12 +13,12 @@
     border: calc(#{component.var(size)} * .1) solid component.var(color);
     border-right-color: transparent;
     border-radius: 50%;
-    animation: component.var(animation-speed) linear infinite spin;
+    animation: component.var(speed) linear infinite spin;
     vertical-align: var(vertical-align, -0.125em);
 
-    @media (prefers-reduced-motion: reduce) {
+    @include motion.reduced {
         @include component.vars((
-            animation-speed: calc(#{component.var(animation-speed)} * 2)
+            speed: calc(#{component.var(speed)} * 2)
         ));
     }
 }
@@ -25,20 +26,23 @@
 
 // Colors
 
+.inherit {
+    color: inherit;
+    border-color: currentColor;
+    border-right-color: transparent;
+}
+
 @include component.palettes-vars(color);
 
 
 // Sizes
 
 @include component.classes((
-    xs: (size: 16px),
-    sm: (size: 24px),
-    m: (size: 32px),
-    lg: (size: 40px),
-    xl: (size: 48px)
+    xxs: (size: 8px),
+    xs: (size: 12px),
+    s: (size: 16px),
+    m: (size: 24px),
+    l: (size: 32px),
+    xl: (size: 40px),
+    xxl: (size: 48px)
 ));
-
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}

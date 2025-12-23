@@ -19,6 +19,7 @@ $font-size: base.var(font-size) !default;
 $font-weight: base.var(font-weight-normal) !default;
 $line-height: 1 !default;
 $icon-color: currentColor !default;
+$shadow: none !default;
 
 $vars: component.vars(Button, (
     height: $height,
@@ -38,5 +39,6 @@ $vars: component.vars(Button, (
     font-size: $font-size,
     font-weight: $font-weight,
     line-height: $line-height,
-    icon-color: $icon-color
+    icon-color: $icon-color,
+    shadow: $shadow
 ));

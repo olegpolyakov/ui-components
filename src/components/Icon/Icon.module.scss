@@ -16,6 +16,7 @@
     display: inline-block;
     line-height: 1;
     color: component.var(color);
+    opacity: component.var(opacity);
     text-transform: none;
     letter-spacing: normal;
     word-wrap: normal;
@@ -23,6 +24,17 @@
     direction: ltr;
     user-select: none;
 }
+
+
+// Colors
+
+@include component.classes((
+    primary: (color: base.var(foreground-primary-color)),
+    secondary: (color: base.var(foreground-secondary-color)),
+    tertiary: (color: base.var(foreground-tertiary-color))
+));
+
+@include component.palettes-vars(color);
 
 
 // Sizes
@@ -36,21 +48,12 @@
 ));
 
 
-// Types
+// Opacity
 
 @include component.classes((
-    outlined: (font: 'Material Symbols Outlined'),
-    rounded: (font: 'Material Symbols Rounded'),
-    sharp: (font: 'Material Symbols Sharp')
-));
-
-
-// Tones
-
-@include component.classes((
-    tone-neutral: (color: base.var(icon-color)),
-    tone-muted: (color: base.var(icon-muted-color)),
-    tone-subtle: (color: base.var(icon-subtle-color))
+    opacity-high: (opacity: base.var(opacity-high)),
+    opacity-medium: (opacity: base.var(opacity-medium)),
+    opacity-low: (opacity: base.var(opacity-low))
 ));
 
 

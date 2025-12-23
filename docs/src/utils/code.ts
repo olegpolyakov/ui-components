@@ -9,7 +9,10 @@ export function jsxToHtml(root: ReactElement): string {
 export function printComponent(component: ReactElement<any>, depth = 0): string {
     const type = typeof component.type === 'string'
         ? component.type
-        : (component.type as FunctionComponent)?.displayName;
+        : typeof component.type === 'function' && (
+            (component.type as FunctionComponent)?.displayName ||
+            (component.type as FunctionComponent)?.name
+        );
     const children = component.props.children;
     const props = Object.entries(component.props).filter(([key, value]) => key !== 'children' && value !== undefined);
     const indent = '  '.repeat(depth);

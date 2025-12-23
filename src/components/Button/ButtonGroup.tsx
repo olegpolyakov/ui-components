@@ -1,12 +1,9 @@
-import { Children, cloneElement, isValidElement } from 'react';
 import type { ComponentProps, ElementType, Orientation, PropsWithKey, SizeFull } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { classnames as cn, getElementClassNames, resolveChildren } from '../../utils';
 
-import Button from './Button';
+import Button, { ButtonProps } from './Button';
 
 import styles from './ButtonGroup.module.scss';
-
-type ButtonProps = Parameters<typeof Button>[0];
 
 export type ButtonGroupProps = {
     buttons?: PropsWithKey<ButtonProps>[];
@@ -15,8 +12,8 @@ export type ButtonGroupProps = {
     fluid?: boolean;
     joined?: boolean;
     color?: ButtonProps['color'];
-    shape?: ButtonProps['shape'];
     size?: ButtonProps['size'];
+    shape?: ButtonProps['shape'];
     variant?: ButtonProps['variant'];
 };
 
@@ -29,7 +26,7 @@ export default function ButtonGroup<T extends ElementType = 'div'>({
     className,
     children,
 
-    buttons,
+    buttons = [],
     orientation = 'horizontal',
     gap,
     fluid,
@@ -40,7 +37,7 @@ export default function ButtonGroup<T extends ElementType = 'div'>({
     variant= 'plain',
     ...props
 }: ComponentProps<ButtonGroupProps, T>) {
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
@@ -54,13 +51,14 @@ export default function ButtonGroup<T extends ElementType = 'div'>({
     );
 
     return (
-        <Component
+        <Root
             className={classNames}
             {...props}
         >
-            {buttons?.map(({ key, ...props }) =>
+            {resolveChildren(children, buttons).map(({ key, ...props }) =>
                 <Button
                     key={key}
+                    className={styles.button}
                     color={color}
                     shape={shape}
                     size={size}
@@ -68,17 +66,6 @@ export default function ButtonGroup<T extends ElementType = 'div'>({
                     {...props}
                 />
             )}
-
-            {Children.map(children, child =>
-                isValidElement<ButtonProps>(child) &&
-                cloneElement<ButtonProps>(child, {
-                    className: cn(child.props.className, styles.button),
-                    color,
-                    shape,
-                    size,
-                    variant
-                })
-            )}
-        </Component>
+        </Root>
     );
 }

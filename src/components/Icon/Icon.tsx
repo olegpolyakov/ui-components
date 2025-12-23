@@ -1,6 +1,6 @@
 import { cloneElement, isValidElement } from 'react';
 
-import type { ComponentProps, ElementType, SizeExtended, Tone } from '../../types';
+import type { ComponentProps, ElementType, Opacity, SizeExtended, TextColor } from '../../types';
 import { classnames as cn, getElementClassNames } from '../../utils';
 import { getFontVariationSettings } from './utils';
 
@@ -8,9 +8,9 @@ import styles from './Icon.module.scss';
 
 export type IconProps = {
     name?: string;
-    type?: 'filled' | 'outlined' | 'round' | 'sharp' | 'two-tone';
+    color?: TextColor;
     size?: SizeExtended;
-    tone?: Tone;
+    opacity?: Opacity;
     weight?: number | string;
     grade?: number | string;
     filled?: boolean;
@@ -26,22 +26,22 @@ export default function Icon<T extends ElementType = 'i'>({
     className,
 
     name,
-    type = 'outlined',
+    color,
     size,
-    tone,
+    opacity,
     weight,
     grade,
     filled = false,
     ...props
 }: ComponentProps<IconProps, T>) {
-    const Component = as || 'i';
+    const Root = as || 'i';
     const classNames = cn(
         className,
         elementClassNames.root,
         styles.root,
-        styles[type],
+        color && styles[color],
         size && styles[size],
-        tone && styles[`tone-${tone}`]
+        opacity && styles[`opacity-${opacity}`]
     );
 
     const fontVariationSettings = getFontVariationSettings(
@@ -55,16 +55,16 @@ export default function Icon<T extends ElementType = 'i'>({
         fontVariationSettings
     } : undefined;
 
-    return isValidElement<IconProps>(children) ?
-        cloneElement<IconProps & { className?: string }>(children, {
+    return isValidElement<IconProps>(children)
+        ? cloneElement<IconProps & { className?: string }>(children, {
             className: classNames
         }) : (
-            <Component
+            <Root
                 style={style}
                 className={classNames}
                 {...props}
             >
                 {name || children}
-            </Component>
+            </Root>
         );
 }

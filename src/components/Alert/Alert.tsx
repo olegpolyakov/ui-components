@@ -1,7 +1,8 @@
 import { ReactNode } from 'react';
 
+import { getComponentClassNames } from '../../component';
 import type { Color, ComponentProps, ElementType, Intent, Shadow, Shape, Size, SizeExtended, Slotted, Variant } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import Button, { ButtonProps } from '../Button';
 import Icon, { IconProps } from '../Icon';
@@ -24,13 +25,6 @@ export type AlertProps = {
     onClose?: () => void;
 };
 
-Alert.displayName = 'Alert';
-
-const elementClassNames = getElementClassNames(
-    Alert.displayName,
-    ['start', 'content', 'icon', 'end', 'close-button']
-);
-
 const IntentIcon = {
     danger: 'error',
     info: 'info',
@@ -43,6 +37,8 @@ const closeButtonSizeMap: Record<Size, SizeExtended> = {
     m: 's',
     l: 'm'
 };
+
+Alert.displayName = 'Alert';
 
 export default function Alert<T extends ElementType = 'div'>({
     as,
@@ -66,13 +62,13 @@ export default function Alert<T extends ElementType = 'div'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        styles.root,
-        styles[color ? `${variant}-${color}` : variant],
-        styles[size],
-        styles[shape === 'rounded' ? `rounded-${size}` : shape],
-        styles[variant],
-        shadow && styles[`shadow-${shadow}`]
+        ...getComponentClassNames(styles, {
+            color,
+            size,
+            shape,
+            variant,
+            shadow
+        })
     );
 
     return (
@@ -81,7 +77,7 @@ export default function Alert<T extends ElementType = 'div'>({
             {...props}
         >
             {start &&
-                <div className={cn(elementClassNames.start, styles.start)}>
+                <div className={styles.start}>
                     {start}
                 </div>
             }
@@ -89,19 +85,19 @@ export default function Alert<T extends ElementType = 'div'>({
             {(icon || intent) &&
                 <Slot
                     fallback={Icon}
-                    className={cn(elementClassNames.icon, styles.icon)}
+                    className={styles.icon}
                     size={size}
                 >
                     {icon || (intent && IntentIcon[intent])}
                 </Slot>
             }
                 
-            <div className={cn(elementClassNames.content, styles.content)}>
+            <div className={styles.content}>
                 {content}
             </div>
 
             {end &&
-                <div className={cn(elementClassNames.end, styles.end)}>
+                <div className={styles.end}>
                     {end}
                 </div>
             }
@@ -109,7 +105,7 @@ export default function Alert<T extends ElementType = 'div'>({
             {(closeButton || onClose) &&
                 <Slot
                     fallback={Button}
-                    className={cn(elementClassNames['close-button'], styles.closeButton)}
+                    className={styles.closeButton}
                     icon="close"
                     size={closeButtonSizeMap[size]}
                     onClick={onClose}

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
-import type { Color, ComponentProps, ElementType, Shadow, Size, Variant } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import type { Color, ComponentProps, ElementType, Shadow, Shape, Size, Variant } from '../../types';
+import { classnames as cn, getComponentClassNames, getElementClassNames } from '../../utils';
 
 import styles from './Card.module.scss';
 
@@ -9,7 +9,9 @@ export type CardProps = {
     content?: ReactNode;
     color?: Color;
     size?: Size;
+    shape?: Omit<Shape, 'circular'>;
     shadow?: Shadow;
+    hoverShadow?: Shadow;
     variant?: Variant;
     interactive?: boolean;
 };
@@ -26,27 +28,32 @@ export default function Card<T extends ElementType = 'div'>({
     content = children,
     color,
     size,
+    shape,
     shadow,
+    hoverShadow,
     variant = 'plain',
     interactive,
     ...props
 }: ComponentProps<CardProps, T>) {
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
         elementClassNames.root,
         styles.root,
-        color && styles[color],
-        size && styles[size],
-        shadow && styles[`shadow-${shadow}`],
-        styles[variant],
-        styles[color ? `${variant}-${color}` : variant],
-        interactive && styles.interactive
+        ...getComponentClassNames(styles, {
+            color,
+            size,
+            shape: shape as Shape,
+            shadow,
+            hoverShadow,
+            variant,
+            interactive
+        })
     );
 
     return (
-        <Component className={classNames} {...props}>
+        <Root className={classNames} {...props}>
             {content}
-        </Component>
+        </Root>
     );
 }

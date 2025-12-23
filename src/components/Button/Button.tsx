@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
 
-import type { Color, ComponentProps, ElementType, Shape, SizeExtended, Slotted, Variant } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { ccn } from '../../component';
+import type { Color, ComponentProps, ElementType, Shadow, Shape, SizeExtended, SizeFull, Slotted, Variant } from '../../types';
+import { classnames as cn } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
 import Slot from '../Slot';
-// import Spinner from '../Spinner';
+import Spinner, { SpinnerProps } from '../Spinner';
 
 import styles from './Button.module.scss';
 
@@ -16,9 +17,12 @@ export type ButtonProps = {
     startIcon?: Slotted<IconProps>;
     end?: ReactNode;
     endIcon?: Slotted<IconProps>;
+    spinner?: Slotted<SpinnerProps>;
     color?: Color;
     shape?: Shape;
     size?: SizeExtended;
+    shadow?: Shadow;
+    hoverShadow?: Shadow;
     variant?: Variant | 'text';
     active?: boolean;
     fluid?: boolean;
@@ -28,10 +32,13 @@ export type ButtonProps = {
 
 Button.displayName = 'Button';
 
-const elementClassNames = getElementClassNames(
-    Button.displayName,
-    ['start', 'icon', 'content', 'spinner', 'end']
-);
+const spinnerSizeMap: Record<SizeExtended, SizeFull> = {
+    xs: 'xxs',
+    s: 'xs',
+    m: 's',
+    l: 'm',
+    xl: 'm'
+};
 
 export default function Button<T extends ElementType = 'button'>({
     as,
@@ -39,14 +46,17 @@ export default function Button<T extends ElementType = 'button'>({
     children,
 
     content = children,
+    icon,
     start,
     startIcon,
     end,
     endIcon,
-    icon,
+    spinner,
     color,
     shape = 'rounded',
     size = 'm',
+    shadow,
+    hoverShadow,
     variant = 'plain',
     active,
     fluid,
@@ -56,12 +66,14 @@ export default function Button<T extends ElementType = 'button'>({
     const Component = as || 'button';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        styles.root,
-        styles[shape],
-        styles[size],
-        styles[variant],
-        styles[color ? `${variant}-${color}` : variant],
+        ...ccn(styles, {
+            color,
+            size,
+            shape,
+            shadow,
+            hoverShadow,
+            variant
+        }),
         (!!icon && !content || icon === true) && styles.iconButton,
         !!startIcon && styles.iconBefore,
         !!endIcon && styles.iconAfter,
@@ -74,7 +86,7 @@ export default function Button<T extends ElementType = 'button'>({
     const iconElement = iconContent && (
         <Slot
             fallback={Icon}
-            className={cn(elementClassNames.icon, styles.icon)}
+            className={styles.icon}
             size={size}
         >
             {iconContent}
@@ -87,28 +99,32 @@ export default function Button<T extends ElementType = 'button'>({
             {...props}
         >
             {(start || startIcon) &&
-                <span className={cn(elementClassNames.start, styles.start)}>
+                <span className={styles.start}>
                     {start || iconElement}
                 </span>
             }
 
             {!startIcon && !endIcon && iconElement}
 
+            {loading &&
+                <Slot
+                    fallback={Spinner}
+                    className={styles.spinner}
+                    color="inherit"
+                    size={spinnerSizeMap[size]}
+                >
+                    {spinner}
+                </Slot>
+            }
+
             {content &&
-                <span className={cn(elementClassNames.content, styles.content)}>
+                <span className={styles.content}>
                     {content}
                 </span>
             }
 
-            {/* {loading &&
-                <Spinner
-                    className={cn(elementClassNames.spinner, cssClasses.spinner)}
-                    size="smaller"
-                />
-            } */}
-
             {(end || endIcon) &&
-                <span className={cn(elementClassNames.end, styles.end)}>
+                <span className={styles.end}>
                     {end || iconElement}
                 </span>
             }

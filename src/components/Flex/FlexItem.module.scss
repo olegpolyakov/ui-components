@@ -10,8 +10,13 @@
     flex-shrink: 0;
 }
 
+.grow {
+    flex-grow: 1;
+}
 
-// Align
+.shrink {
+    flex-shrink: 1;
+}
 
 .align {
     &-x {
@@ -47,15 +52,4 @@
     &-center {
         margin: auto;
     }
-}
-
-
-// Flex
-
-.grow {
-    flex-grow: 1;
-}
-
-.shrink {
-    flex-shrink: 1;
 }

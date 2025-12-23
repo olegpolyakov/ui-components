@@ -5,11 +5,7 @@ $padding: null !default;
 $border-radius: null !default;
 $border-width: null !default;
 $border-color: null !default;
-$border-hover-color: null !default;
-$border-active-color: null !default;
 $background-color: null !default;
-$background-hover-color: null !default;
-$background-active-color: null !default;
 $foreground-color: null !default;
 $shadow: null !default;
 
@@ -18,11 +14,7 @@ $vars: component.vars(Box, (
     border-radius: $border-radius,
     border-width: $border-width,
     border-color: $border-color,
-    border-hover-color: $border-hover-color,
-    border-active-color: $border-active-color,
     background-color: $background-color,
-    background-hover-color: $background-hover-color,
-    background-active-color: $background-active-color,
     foreground-color: $foreground-color,
     shadow: $shadow
 ));

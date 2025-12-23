@@ -15,7 +15,7 @@ export type SlotProps<
     C extends ReactNode | ComponentProps<T>
 > = {
     fallback: T;
-    children: C;
+    children?: C;
 } & (C extends ReactNode ? ComponentProps<T> : C);
 
 export default function Slot<

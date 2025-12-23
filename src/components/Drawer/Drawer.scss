@@ -9,7 +9,7 @@ $background-color: base.var(background-color) !default;
 $padding-x: 0.75rem !default;
 $padding-y: 0.75rem !default;
 $padding: (--padding-y, --padding-x) !default;
-$shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !default;
+$shadow: base.var(shadow-m) !default;
 $z-index: 1000 !default;
 
 $vars: component.vars(Drawer, (

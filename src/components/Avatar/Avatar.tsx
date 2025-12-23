@@ -1,8 +1,8 @@
 import { ReactNode, ElementType } from 'react';
 
 import { useImage } from '../../hooks/image';
-import type { Color, ComponentProps, Shape, Size, Slotted, Variant } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import type { Color, ComponentProps, Shadow, Shape, Size, Slotted, Variant } from '../../types';
+import { classnames as cn, getComponentClassNames, getElementClassNames } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
 import Slot from '../Slot';
@@ -14,11 +14,10 @@ export type AvatarProps = {
     content?: ReactNode;
     icon?: Slotted<IconProps>;
     color?: Color;
-    shape?: Shape;
     size?: Size;
+    shape?: Shape;
+    shadow?: Shadow;
     variant?: Variant;
-    raised?: boolean;
-    iconProps?: IconProps;
 };
 
 Avatar.displayName = 'Avatar';
@@ -40,6 +39,7 @@ export default function Avatar<T extends ElementType = 'div'>({
     color,
     shape = 'circular',
     size = 'm',
+    shadow,
     variant = 'tinted',
     ...props
 }: ComponentProps<AvatarProps, T>) {
@@ -49,10 +49,13 @@ export default function Avatar<T extends ElementType = 'div'>({
     const classNames = cn(
         className,
         elementClassNames.root,
-        styles.root,
-        styles[color ? `${variant}-${color}` : variant],
-        styles[size],
-        styles[shape]
+        ...getComponentClassNames(styles, {
+            color,
+            size,
+            shape,
+            variant,
+            shadow
+        })
     );
 
     return (

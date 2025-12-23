@@ -17,6 +17,7 @@
     border-radius: component.var(border-radius);
     background-color: component.var(background-color);
     color: component.var(foreground-color);
+    box-shadow: component.var(shadow) base.var(shadow-color);
     overflow: hidden;
     user-select: none;
 }
@@ -62,18 +63,6 @@
     )
 ));
 
-
-// Shapes
-
-@include component.classes((
-    circular: (border-radius: 50%),
-    rectangular: (border-radius: 0),
-    rounded-s: (border-radius: base.var(border-radius-s)),
-    rounded-m: (border-radius: base.var(border-radius-m)),
-    rounded-l: (border-radius: base.var(border-radius-l))
-));
-
-
-// Variants
-
+@include component.shapes;
+@include component.shadows;
 @include component.variants;

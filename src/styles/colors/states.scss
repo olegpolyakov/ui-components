@@ -6,19 +6,19 @@
 
 @use './base' as *;
 
-@function hover-color($color, $invert: false) {
+@function hover-color($color, $value: 5%, $invert: false) {
     @if color.alpha($color) < 1 {
-        @return color.scale($color, $alpha: if($invert, -5%, 5%));
+        @return color.scale($color, $alpha: if($invert, -$value, $value));
     } @else {
-        @return color.scale($color, $lightness: if($invert, 5%, -5%));
+        @return color.scale($color, $lightness: if($invert, $value, -$value));
     }
 }
 
-@function active-color($color, $invert: false) {
+@function active-color($color, $value: 10%, $invert: false) {
     @if color.alpha($color) < 1 {
-        @return color.scale($color, $alpha: if($invert, -10%, 10%));
+        @return color.scale($color, $alpha: if($invert, -$value, $value));
     } @else {
-        @return color.scale($color, $lightness: if($invert, 10%, -10%));
+        @return color.scale($color, $lightness: if($invert, $value, -$value));
     }
 }
 

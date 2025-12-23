@@ -3,7 +3,7 @@ import { classnames as cn, getElementClassNames } from '../../utils';
 
 import GridItem from './GridItem';
 
-import cssClasses from './Grid.module.scss';
+import styles from './Grid.module.scss';
 
 export type GridProps = PropsWithChildren<{
     align?: Align;
@@ -29,14 +29,14 @@ export default function Grid<T extends ElementType = 'div'>({
     const classNames = cn(
         className,
         elementClassNames.root,
-        cssClasses.root,
-        align && cssClasses[`align-${align}`],
-        fixedColumnWidth && cssClasses.fixedColumnWidth
+        styles.root,
+        align && styles[`align-${align}`],
+        fixedColumnWidth && styles.fixedColumnWidth
     );
 
     return (
         <Component className={classNames} {...props}>
-            <div className={cn(elementClassNames.inner, cssClasses.inner)}>
+            <div className={cn(elementClassNames.inner, styles.inner)}>
                 {children}
             </div>
         </Component>
