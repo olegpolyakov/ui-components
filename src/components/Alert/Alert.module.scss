@@ -3,7 +3,7 @@
 
 @use './Alert';
 
-@include component.define(Alert, Alert.$vars);
+@include component.define(Alert, Alert.$vars) {
 
 .root {
     position: relative;
@@ -14,9 +14,6 @@
     padding: component.var(padding);
     gap: component.var(gap);
     border-radius: component.var(border-radius);
-    background-color: component.var(background-color);
-    color: component.var(foreground-color);
-    box-shadow: component.var(shadow) base.var(shadow-color);
 }
 
 .start,
@@ -29,13 +26,11 @@
 }
 
 .start,
+.icon,
 .action,
+.close-button,
 .end {
     flex-shrink: 0;
-}
-
-.icon {
-    color: component.var(icon-color);
 }
 
 .content {
@@ -43,47 +38,6 @@
     font-size: component.var(font-size);
 }
 
-.close-button {
-    
+@include component.sizes(Alert.$sizes);
+
 }
-
-
-// Sizes
-
-@include component.classes((
-    s: (
-        height: 32px,
-        gap: base.var(space-xxs),
-        padding: base.var(space-xxs) base.var(space-xs),
-        border-radius: base.var(border-radius-xs),
-        font-size: base.var(font-size-xs)
-    ),
-    m: (
-        height: 40px,
-        gap: base.var(space-xs),
-        padding: base.var(space-xs) base.var(space-s),
-        border-radius: base.var(border-radius-s),
-        font-size: base.var(font-size-s)
-    ),
-    l: (
-        height: 48px,
-        gap: base.var(space-s),
-        padding: base.var(space-s) base.var(space-m),
-        border-radius: base.var(border-radius-m),
-        font-size: base.var(font-size-m)
-    )
-));
-
-
-// Shapes
-
-@include component.classes((
-    circular: (border-radius: component.var(height)),
-    rectangular: (border-radius: 0),
-    rounded-s: (border-radius: base.var(border-radius-xs)),
-    rounded-m: (border-radius: base.var(border-radius-s)),
-    rounded-l: (border-radius: base.var(border-radius-m))
-));
-
-@include component.shadows;
-@include component.variants;

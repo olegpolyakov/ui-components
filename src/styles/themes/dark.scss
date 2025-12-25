@@ -1,8 +1,6 @@
-@use '../base';
-@use 'utils/color';
+@use 'colors/palettes';
 
-@use './palettes';
-@use './theme';
+@use './themes';
 
 $neutral-color: palettes.$neutral-5 !default;
 $brand-color: palettes.$brand-5 !default;
@@ -68,8 +66,9 @@ $element-colors: (
 ) !default;
 
 @mixin vars {
-    @include theme.vars(
+    @include themes.vars(
         $base-colors,
         $element-colors
     );
+    @include palettes.alpha-vars($invert: true);
 }

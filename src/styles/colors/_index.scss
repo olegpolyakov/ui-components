@@ -1,4 +1,3 @@
-@forward './base';
+@forward './colors';
 @forward './palettes' as palette-*;
-@forward './dark' as dark-*;
-@forward './light' as light-*;
+@forward './states' as state-*;

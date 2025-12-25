@@ -3,7 +3,7 @@
 
 @use './FlexItem';
 
-@include component.define(FlexItem, FlexItem.$vars);
+@include component.define(FlexItem, FlexItem.$vars) {
 
 .root {
     flex-grow: 0;
@@ -52,4 +52,6 @@
     &-center {
         margin: auto;
     }
+}
+
 }

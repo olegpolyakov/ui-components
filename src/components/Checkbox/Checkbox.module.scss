@@ -1,5 +1,6 @@
 @use 'base';
 @use 'component';
+@use 'themes';
 
 @use './Checkbox';
 
@@ -74,13 +75,13 @@
     }
 }
 
-@include base.theme(dark) {
+@include themes.dark {
     .input:checked {
         background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSIyNHB4IiBmaWxsPSJibGFjayI+PHBhdGggZD0iTTM4Mi0yNDAgMTU0LTQ2OGw1Ny01NyAxNzEgMTcxIDM2Ny0zNjcgNTcgNTctNDI0IDQyNFoiLz48L3N2Zz4=');
     }
 }
 
-@include base.theme(light) {
+@include themes.light {
     .input:checked {
         background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSIyNHB4IiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTM4Mi0yNDAgMTU0LTQ2OGw1Ny01NyAxNzEgMTcxIDM2Ny0zNjcgNTcgNTctNDI0IDQyNFoiLz48L3N2Zz4=');
     }

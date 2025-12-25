@@ -2,9 +2,11 @@
 
 @use './Accordion';
 
-@include component.define(Accordion, Accordion.$vars);
-
+@include component.define(Accordion, Accordion.$vars) {
+    
 .root {
     display: flex;
     flex-direction: column;
+}
+
 }

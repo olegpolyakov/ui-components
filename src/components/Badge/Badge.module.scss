@@ -3,52 +3,25 @@
 
 @use './Badge';
 
-@include component.define(Badge, Badge.$vars);
+@include component.define(Badge, Badge.$vars) {
+    .root {
+        box-sizing: border-box;
+        min-width: component.var(size);
+        min-height: component.var(size);
+        padding: 0 component.var(padding-x);
+        display: inline-flex;
+        align-items: center;
+        place-content: center;
+        font-family: base.var(font-family);
+        font-size: component.var(font-size);
+        font-weight: base.var(font-weight-semibold);
 
-.root {
-    box-sizing: border-box;
-    min-width: component.var(size);
-    min-height: component.var(size);
-    padding: 0 component.var(padding-x);
-    display: inline-flex;
-    align-items: center;
-    place-content: center;
-    border-radius: component.var(border-radius);
-    background-color: component.var(background-color);
-    color: component.var(foreground-color);
-    font-family: base.var(font-family);
-    font-size: component.var(font-size);
-    font-weight: base.var(font-weight-semibold);
-
-    &:empty {
-        min-width: calc(component.var(size) * 0.5);
-        min-height: calc(component.var(size) * 0.5);
-        padding: 0;
+        &:empty {
+            min-width: calc(#{component.var(size)} * 0.5);
+            min-height: calc(#{component.var(size)} * 0.5);
+            padding: 0;
+        }
     }
+
+    @include component.sizes(Badge.$sizes);
 }
-
-
-// Sizes
-
-@include component.classes((
-    s: (
-        size: 14px,
-        padding-x: base.var(space-xxs),
-        font-size: base.var(font-size-xxs)
-    ),
-    m: (
-        size: 18px,
-        padding-x: base.var(space-xxs),
-        font-size: base.var(font-size-xs)
-    ),
-    l: (
-        size: 24px,
-        padding-x: base.var(space-xs),
-        font-size: base.var(font-size-sm)
-    )
-));
-
-
-// Variants
-
-@include component.variants;

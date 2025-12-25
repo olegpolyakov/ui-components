@@ -84,32 +84,26 @@ $breakpoints: (
 
 $sizes: (xxs, xs, s, m, l, xl, xxl);
 
+@function var($name, $default-value: null) {
+    @return css.var(#{$prefix}-#{$name});
+}
+
 @mixin class($class) {
     .#{$prefix}-#{$class} {
         @content;
     }
 }
 
-@mixin define {
+@mixin layer($name) {
+    @layer #{$name} {
+        @content;
+    }
+}
+
+@mixin root {
     #{$root} {
         @content;
     }
-}
-
-@mixin theme($theme) {
-    @include define {
-        @media (prefers-color-scheme: #{$theme}) {
-            @content;
-        }
-    }
-
-    [data-theme="#{$theme}"] {
-        @content;
-    }
-}
-
-@function var($name, $default-value: null) {
-    @return css.var(#{$prefix}-#{$name});
 }
 
 @mixin var($name, $value: null) {

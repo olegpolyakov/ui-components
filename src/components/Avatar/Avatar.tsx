@@ -1,8 +1,9 @@
 import { ReactNode, ElementType } from 'react';
 
+import { ccn } from '../../component';
 import { useImage } from '../../hooks/image';
 import type { Color, ComponentProps, Shadow, Shape, Size, Slotted, Variant } from '../../types';
-import { classnames as cn, getComponentClassNames, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
 import Slot from '../Slot';
@@ -21,11 +22,6 @@ export type AvatarProps = {
 };
 
 Avatar.displayName = 'Avatar';
-
-const elementClassNames = getElementClassNames(
-    Avatar.displayName,
-    ['content', 'icon', 'image']
-);
 
 export default function Avatar<T extends ElementType = 'div'>({
     as,
@@ -48,14 +44,13 @@ export default function Avatar<T extends ElementType = 'div'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        ...getComponentClassNames(styles, {
+        ccn({
             color,
             size,
             shape,
             variant,
             shadow
-        })
+        }, styles)
     );
 
     return (
@@ -64,7 +59,7 @@ export default function Avatar<T extends ElementType = 'div'>({
             {...props}
         >
             {content &&
-                <span className={cn(elementClassNames.content, styles.content)}>
+                <span className={styles.content}>
                     {content}
                 </span>
             }
@@ -72,7 +67,7 @@ export default function Avatar<T extends ElementType = 'div'>({
             {icon &&
                 <Slot
                     fallback={Icon}
-                    className={cn(elementClassNames.icon, styles.icon)}
+                    className={styles.icon}
                     size={size}
                 >
                     {icon}
@@ -82,7 +77,7 @@ export default function Avatar<T extends ElementType = 'div'>({
             {src &&
                 <img
                     ref={imageRef}
-                    className={cn(elementClassNames.image, styles.image)}
+                    className={styles.image}
                     src={src}
                     alt={alt}
                 />

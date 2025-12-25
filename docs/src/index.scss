@@ -1,10 +1,10 @@
-@use '../../src/styles/colors/theme';
+@use '../../src/styles/themes';
 
-@include theme.dark {
+@include themes.dark {
     @import 'highlight.js/scss/github-dark.scss';
 }
 
-@include theme.light {
+@include themes.light {
     @import 'highlight.js/scss/github.scss';
 }
 

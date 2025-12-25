@@ -15,6 +15,12 @@ $css-var: meta.get-function('var', $css: true);
     --#{$name}: #{$value};
 }
 
+@mixin vars($vars) {
+    @each $name, $value in $vars {
+        @include var($name, $value);
+    }
+}
+
 @function rgb($values...) {
     @return string.unquote('rgb(#{$values})');
 }

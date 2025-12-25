@@ -1,0 +1,73 @@
+@use 'base';
+@use 'colors';
+@use 'colors/palettes';
+@use 'colors/states';
+@use 'utils/css';
+
+@mixin vars(
+    $border-color,
+    $postfix: '',
+    $args...
+) {
+    $name: 'outlined-filled#{$postfix}';
+
+    @include colors.var(#{$name}-color, $border-color);
+    @include states.vars(#{$name}-color, $border-color, $args...);
+    @include colors.var(#{$name}-color, $background-color);
+    @include states.vars(#{$name}-color, $background-color, $args...);
+    @include colors.var(on-#{$name}-color, $foreground-color);
+}
+
+@mixin styles($args...) {
+    %outlined-filled {
+        border: 1px solid css.var(border-color);
+        background-color: css.var(background-color);
+        color: css.var(foreground-color);
+
+        &:hover {
+            border-color: css.var(border-hover-color);
+            background-color: css.var(background-hover-color);
+            color: css.var(foreground-hover-color);
+        }
+
+        &:active {
+            border-color: css.var(border-active-color);
+            background-color: css.var(background-active-color);
+            color: css.var(foreground-active-color);
+        }
+    }
+
+    .outlined-filled {
+        @include css.vars((
+            border-color: base.var(border-color),
+            background-color: base.var(background-color),
+            background-hover-color: base.var(foreground-color),
+            background-active-color: base.var(foreground-color),
+            foreground-color: base.var(foreground-color),
+            foreground-hover-color: base.var(background-color),
+            foreground-active-color: base.var(background-color)
+        ), $args...);
+
+        @extend %outlined-filled;
+                
+        @content;
+
+        @each $palette in palettes.$names {
+            &-#{$palette} {
+                @include css.vars((
+                    border-color: base.var(outlined-#{$palette}-color),
+                    border-active-color: base.var(filled-#{$palette}-color),
+                    border-hover-color: base.var(filled-#{$palette}-color),
+                    background-color: base.var(plain-#{$palette}-color),
+                    background-hover-color: base.var(filled-#{$palette}-color),
+                    background-active-color: base.var(filled-#{$palette}-hover-color),
+                    foreground-color: base.var(on-plain-#{$palette}-color),
+                    foreground-hover-color: base.var(on-filled-#{$palette}-color),
+                    foreground-active-color: base.var(on-filled-#{$palette}-hover-color)
+                ), $args...);
+
+                @extend %outlined-filled;
+            }
+        }
+    }
+}

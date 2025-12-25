@@ -2,9 +2,8 @@
 
 @use 'base' as *;
 @use 'colors';
-@use 'colors/dark';
 @use 'colors/palettes';
-@use 'colors/variants';
+@use 'variants';
 
 // Colors
 
@@ -241,6 +240,36 @@
 }
 
 
+// Aspect Ratios
+
+.ar {
+    &-16-10 {
+        aspect-ratio: 16 / 10;
+    }
+
+    &-16-9 {
+        aspect-ratio: 16 / 9;
+    }
+
+    &-4-3 {
+        aspect-ratio: 4 / 3;
+    }
+
+    &-3-2 {
+        aspect-ratio: 3 / 2;
+    }
+
+    &-2-1 {
+        aspect-ratio: 2 / 1;
+    }
+
+    &-1-1,
+    &-1 {
+        aspect-ratio: 1 / 1;
+    }
+}
+
+
 // Text styles
 
 @each $weight in map.keys($font-weights) {
@@ -314,9 +343,7 @@
 }
 
 @each $size in $sizes {
-    .hover-shadow-#{$size} {
-        transition: box-shadow 0.15s ease-in-out;
-        
+    .shadow-hover-#{$size} {        
         &:hover {
             box-shadow: var(shadow-#{$size}) var(shadow-color);
             z-index: 1;
@@ -327,184 +354,49 @@
 
 // Variants
 
-.plain {
-    background-color: var(plain-color);
-    color: var(on-plain-color);
-    transition: background-color 0.15s ease-in-out;
+@include variants.plain-styles;
+@include variants.filled-styles;
+@include variants.outlined-styles;
+@include variants.tinted-styles;
+@include variants.outlined-tinted-styles;
+@include variants.outlined-filled-styles;
 
+
+// States
+
+.disabled {
+    cursor: default;
+    opacity: var(opacity-medium);
+    pointer-events: none;
+}
+
+.interactive {
+    cursor: pointer;
+    user-select: none;
+    
     &:hover {
-        background-color: var(plain-hover-color);
+        border-color: var(border-hover-color);
+        background-color: var(background-hover-color);
+        color: var(foreground-hover-color);
     }
-
+    
     &:active {
-        background-color: var(plain-active-color);
-    }
-
-    @each $palette in palettes.$names {
-        &-#{$palette} {
-            background-color: var(plain-#{$palette}-color);
-            color: var(on-plain-#{$palette}-color);
-
-            &:hover {
-                background-color: var(plain-#{$palette}-hover-color);
-            }
-
-            &:active {
-                background-color: var(plain-#{$palette}-active-color);
-            }
-        }
+        border-color: var(border-active-color);
+        background-color: var(background-active-color);
+        color: var(foreground-active-color);
     }
 }
 
-.filled {
-    background-color: var(filled-color);
-    color: var(on-filled-color);
-    transition: background-color 0.15s ease-in-out;
-
+.static {
     &:hover {
-        background-color: var(filled-hover-color);
+        border-color: var(border-color);
+        background-color: var(background-color);
+        color: var(foreground-color);
     }
 
     &:active {
-        background-color: var(filled-active-color);
-    }
-
-    @each $palette in palettes.$names {
-        &-#{$palette} {
-            background-color: var(filled-#{$palette}-color);
-            color: var(on-filled-#{$palette}-color);
-
-            &:hover {
-                background-color: var(filled-#{$palette}-hover-color);
-            }
-
-            &:active {
-                background-color: var(filled-#{$palette}-active-color);
-            }
-        }
-    }
-}
-
-.outlined {
-    border: 1px solid var(outlined-color);
-    transition: border-color 0.15s ease-in-out;
-
-    &:hover {
-        border-color: var(outlined-hover-color);
-    }
-
-    &:active {
-        border-color: var(outlined-active-color);
-    }
-
-    @each $palette in palettes.$names {
-        &-#{$palette} {
-            border: 1px solid var(outlined-#{$palette}-color);
-
-            &:hover {
-                border-color: var(outlined-#{$palette}-hover-color);
-            }
-
-            &:active {
-                border-color: var(outlined-#{$palette}-active-color);
-            }
-        }
-    }
-}
-
-.tinted {
-    background-color: var(tinted-color);
-    color: var(on-tinted-color);
-    transition: background-color 0.15s ease-in-out;
-
-    &:hover {
-        background-color: var(tinted-hover-color);
-    }
-
-    &:active {
-        background-color: var(tinted-active-color);
-    }
-
-    @each $palette in palettes.$names {
-        &-#{$palette} {
-            background-color: var(tinted-#{$palette}-color);
-            color: var(on-tinted-#{$palette}-color);
-            transition: background-color 0.15s ease-in-out;
-
-            &:hover {
-                background-color: var(tinted-#{$palette}-hover-color);
-            }
-
-            &:active {
-                background-color: var(tinted-#{$palette}-active-color);
-            }
-        }
-    }
-}
-
-.outlined-tinted {
-    border: 1px solid var(outlined-color);
-    background-color: var(tinted-color);
-    color: var(on-tinted-color);
-    transition:
-        border-color 0.15s ease-in-out,
-        background-color 0.15s ease-in-out;
-
-    &:hover {
-        border-color: var(outlined-hover-color);
-        background-color: var(tinted-hover-color);
-    }
-
-    &:active {
-        border-color: var(outlined-active-color);
-        background-color: var(tinted-active-color);
-    }
-
-    @each $palette in palettes.$names {
-        &-#{$palette} {
-            border: 1px solid var(outlined-#{$palette}-color);
-            background-color: var(tinted-#{$palette}-color);
-            color: var(on-tinted-#{$palette}-color);
-            transition:
-                border-color 0.15s ease-in-out,
-                background-color 0.15s ease-in-out;
-
-            &:hover {
-                border-color: var(outlined-#{$palette}-hover-color);
-                background-color: var(tinted-#{$palette}-hover-color);
-            }
-
-            &:active {
-                border-color: var(outlined-#{$palette}-active-color);
-                background-color: var(tinted-#{$palette}-active-color);
-            }
-        }
-    }
-}
-
-.text {
-    color: var(text-color);
-    transition: color 0.15s ease-in-out;
-
-    &:hover {
-        color: var(text-hover-color);
-    }
-
-    &:active {
-        color: var(text-active-color);
-    }
-
-    @each $palette in palettes.$names {
-        &-#{$palette} {
-            color: var(text-#{$palette}-color);
-
-            &:hover {
-                color: var(text-#{$palette}-hover-color);
-            }
-
-            &:active {
-                color: var(text-#{$palette}-active-color);
-            }
-        }
+        border-color: var(border-color);
+        background-color: var(background-color);
+        color: var(foreground-color);
     }
 }

@@ -1,12 +1,12 @@
 @use 'sass:map';
 @use 'sass:math';
 
-@use '../base';
+@use 'base';
 @use 'utils/color';
 @use 'utils/string';
 @use 'utils/type';
 
-@use './base' as colors;
+@use './colors';
 @use './states';
 
 $neutral: (
@@ -208,8 +208,9 @@ $names: map.keys($map);
     $base-color: map.get($palette, 5);
 
     @each $key, $color in $palette {
+        $alpha: if($key == 0, .05, math.div($key, 10));
         $map: map.merge($map, (
-            $key: color.change($base-color, $alpha: if($key == 0, .05, math.div($key, 10)))
+            $key: color.change($base-color, $alpha: $alpha)
         ));
     }
 
@@ -293,6 +294,21 @@ $names: map.keys($map);
             $color,
             $args...
         );
+    }
+}
+
+@mixin alpha-vars($invert: false) {
+    @each $name, $colors in $map {
+        $alpha: alpha($colors);
+        $alpha-contrast: contrast($alpha, $invert: $invert);
+
+        @each $level, $color in $alpha {
+            @include base.var(#{$name}-a#{$level}-color, $color);
+        }
+
+        @each $level, $color in $alpha-contrast {
+            @include base.var(on-#{$name}-a#{$level}-color, $color);
+        }
     }
 }
 

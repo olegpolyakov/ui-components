@@ -1,6 +1,7 @@
 @use 'sass:map';
 
 @use 'base';
+@use 'themes';
 @use 'component';
 
 @use './Icon';
@@ -57,7 +58,7 @@
 ));
 
 
-@include base.theme(dark) {
+@include themes.dark {
     .root {
         font-variation-settings: 'GRAD' -25;
     }

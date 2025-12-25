@@ -3,11 +3,12 @@
 
 @use 'base';
 @use 'component';
+@use 'elements';
 
 @use '../Text';
 @use './AccordionItem';
 
-@include component.define(AccordionItem, AccordionItem.$vars);
+@include component.define(AccordionItem, AccordionItem.$vars) {
 
 .root {
     overflow: clip;
@@ -22,22 +23,7 @@
     padding: component.var(padding);
     background-color: component.var(background-color);
     font-weight: base.var(font-weight-semibold);
-    transition: background-color 0.15s ease-in-out;
-    cursor: pointer;
-    user-select: none;
-
-    &:hover {
-        background-color: component.var(background-hover-color);
-    }
-    
-    &:active,
-    &.active {
-        background-color: component.var(background-active-color);
-    }
-    
-    &.disabled {
-        opacity: base.var(disabled-opacity);
-    }
+    @include elements.interactive;
 }
 
 .content {
@@ -71,4 +57,6 @@
             @include Text.text($size);
         }
     }
+}
+
 }

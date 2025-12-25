@@ -2,7 +2,9 @@
 @use 'component';
 
 $gap: base.var(space-xs) !default;
+$separator-color: base.var(foreground-tertiary-color) !default;
 
 $vars: component.vars(Breadcrumbs, (
-    gap: $gap
+    gap: $gap,
+    separator-color: $separator-color
 ));

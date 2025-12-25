@@ -1,25 +1,30 @@
 @use 'sass:map';
 
-@use '../base';
-
-@use './base' as colors;
-@use './states';
-@use './variants';
+@use 'base';
+@use 'colors';
+@use 'colors/states';
+@use 'variants';
 
 @mixin define($theme) {
-    @include base.theme($theme) {
+    @include base.root {
+        @media (prefers-color-scheme: #{$theme}) {
+            @content;
+        }
+    }
+
+    [data-theme="#{$theme}"] {
         @content;
     }
 }
 
 @mixin dark {
-    @include base.theme(dark) {
+    @include define(dark) {
         @content;
     }
 }
 
 @mixin light {
-    @include base.theme(light) {
+    @include define(light) {
         @content;
     }
 }

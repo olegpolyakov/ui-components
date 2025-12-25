@@ -4,7 +4,7 @@
 @use 'utils/string';
 @use 'utils/type';
 
-@use './base' as *;
+@use './colors';
 
 @function hover-color($color, $value: 5%, $invert: false) {
     @if color.alpha($color) < 1 {
@@ -35,28 +35,24 @@
     );
 }
 
-@function get($name, $color) {
+@function vars($name, $color) {
     $colors: ();
 
     @if type.is-color($color) {
         $colors: state-colors($color);
-    } @else if type.is-string($color) {
-        @if string.starts-with($color, '-') {
-            $color: #{string.slice($color, 2)}-contrast;
-        }
-        
+    } @else if type.is-string($color) {        
         $colors: (
             'hover': #{$color}-hover,
-            'active': #{$color}-active
+            'active': #{$color}-active,
         );
     } @else if type.is-map($color) {
         $colors: $color
     }
 
     @return (
-        '#{$name}': $color,
-        '#{_get-var-name($name, 'hover')}': map.get($colors, 'hover'),
-        '#{_get-var-name($name, 'active')}': map.get($colors, 'active')
+        #{$name}: $color,
+        #{_get-var-name($name, 'hover')}: map.get($colors, 'hover'),
+        #{_get-var-name($name, 'active')}: map.get($colors, 'active')
     );
 }
 
@@ -92,7 +88,8 @@
         
         $colors: (
             'hover': #{$color}-hover,
-            'active': #{$color}-active
+            'active': #{$color}-active,
+            'active-hover': #{$color}-active-hover
         );
     } @else if type.is-map($color) {
         $colors: $color
@@ -102,8 +99,8 @@
         $colors: map.merge($colors, $override);
     }
 
-    @include var(_get-var-name($name, 'hover'), map.get($colors, 'hover'), $args...);
-    @include var(_get-var-name($name, 'active'), map.get($colors, 'active'), $args...);
+    @include colors.var(_get-var-name($name, 'hover'), map.get($colors, 'hover'), $args...);
+    @include colors.var(_get-var-name($name, 'active'), map.get($colors, 'active'), $args...);
 }
 
 @function _get-var-name($name, $state) {

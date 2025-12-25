@@ -1,9 +1,10 @@
 @use 'base' as *;
 @use 'colors/palettes';
-@use 'colors/dark';
-@use 'colors/light';
+@use 'themes';
+@use 'themes/dark';
+@use 'themes/light';
 
-@include define {
+@include root {
     @include vars((
         font-family: $font-family,
         font-size: $font-size,
@@ -18,12 +19,12 @@
         @include var(font-weight-#{$weight}, $value);
     }
 
-    @each $name, $value in $opacity {
-        @include var(opacity-#{$name}, $value);
-    }
-
     @each $size, $value in $border-radii {
         @include var(border-radius-#{$size}, $value);
+    }
+
+    @each $name, $value in $opacity {
+        @include var(opacity-#{$name}, $value);
     }
 
     @each $size, $value in $space-sizes {
@@ -50,35 +51,15 @@
 }
 
 @if $theme != 'light' {
-    @include theme(dark) {
+    @include themes.dark {
         color-scheme: dark;
         @include dark.vars;
-
-        @each $name, $colors in palettes.$map {
-            @each $level, $color in palettes.alpha($colors) {
-                @include var(#{$name}-a#{$level}-color, $color);
-            }
-
-            @each $level, $color in palettes.contrast(palettes.alpha($colors), $invert: true) {
-                @include var(#{$name}-a#{$level}-contrast-color, $color);
-            }
-        }
     }
 }
 
 @if $theme != 'dark' {
-    @include theme(light) {
+    @include themes.light {
         color-scheme: light;
         @include light.vars;
-
-        @each $name, $colors in palettes.$map {
-            @each $level, $color in palettes.alpha($colors) {
-                @include var(#{$name}-a#{$level}-color, $color);
-            }
-
-            @each $level, $color in palettes.contrast(palettes.alpha($colors)) {
-                @include var(#{$name}-a#{$level}-contrast-color, $color);
-            }
-        }
     }
 }

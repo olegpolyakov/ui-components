@@ -1,0 +1,67 @@
+@use 'base';
+@use 'colors';
+@use 'colors/palettes';
+@use 'colors/states';
+@use 'utils/color';
+
+@mixin vars(
+    $background-color,
+    $foreground-color,
+    $postfix: '',
+    $args...
+) {
+    $name: 'tinted#{$postfix}';
+    $tinted-background-color: color.change($background-color, $alpha: 0.1);
+    $tinted-active-background-color: color.change($background-color, $alpha: 0.2);
+
+    @include colors.var(#{$name}-color, $tinted-background-color);
+    @include states.vars(#{$name}-color, $tinted-background-color, $args...);
+    @include states.vars(#{$name}-active-color, $tinted-active-background-color, $args...);
+    @include colors.var(on-#{$name}-color, $foreground-color);
+}
+
+@mixin styles($args...) {
+    %tinted {
+        background-color: base.var(background-color);
+        color: base.var(foreground-color);
+
+        &:hover {
+            background-color: base.var(background-hover-color);
+        }
+
+        &:active {
+            background-color: base.var(background-active-color);
+        }
+    }
+
+    .tinted {
+        @include colors.vars(
+            states.vars(background-color, tinted),
+            $args...
+        );
+
+        @extend %tinted;
+
+        @content;
+
+        &-active {
+            @include colors.vars(
+                states.vars(background-color, tinted-active),
+                $args...
+            );
+
+            @extend %tinted;
+        }
+        
+        @each $palette in palettes.$names {
+            &-#{$palette} {
+                @include colors.vars(
+                    states.vars(background-color, tinted-#{$palette}),
+                    $args...
+                );
+
+                @extend %tinted;
+            }
+        }
+    }
+}

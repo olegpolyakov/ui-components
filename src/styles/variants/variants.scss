@@ -1,0 +1,69 @@
+@use 'sass:map';
+
+@use 'base' as *;
+@use 'colors';
+@use 'colors/states';
+@use 'utils/color';
+@use 'utils/css';
+
+@use './plain';
+@use './filled';
+@use './outlined';
+@use './tinted';
+@use './outlined-tinted';
+@use './text';
+
+@mixin vars($base-colors, $element-colors) {
+    $border-color: map.get($element-colors, border);
+    $background-color: map.get($element-colors, background);
+    $background-inverted-color: map.get($element-colors, background-inverted);
+    $foreground-color: map.get($element-colors, foreground);
+    $foreground-inverted-color: map.get($element-colors, foreground-inverted);
+
+    @include plain.vars(
+        $background-inverted-color,
+        $foreground-color
+    );
+
+    @include filled.vars(
+        $background-color,
+        $foreground-color
+    );
+
+    @include outlined.vars($border-color);
+
+    @include tinted.vars(
+        $background-inverted-color,
+        $foreground-color
+    );
+
+    @include text.vars($foreground-color, $background-color);
+
+    @each $name, $color in $base-colors {
+        @include plain.vars(
+            $color,
+            $color,
+            $postfix:'-#{$name}'
+        );
+
+        @include filled.vars(
+            $color,
+            colors.contrast-color($color),
+            $postfix:'-#{$name}'
+        );
+
+        @include outlined.vars($color, $postfix:'-#{$name}');
+        
+        @include tinted.vars(
+            $color,
+            $color,
+            $postfix:'-#{$name}'
+        );
+
+        @include text.vars(
+            $color,
+            $background-color,
+            $postfix:'-#{$name}'
+        );
+    }
+}

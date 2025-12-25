@@ -1,28 +1,46 @@
 @use 'base';
 @use 'component';
 
+$s: (
+    height: 32px,
+    border-radius: base.var(border-radius-xs),
+    padding: base.var(space-xxs) base.var(space-xs),
+    gap: base.var(space-xxs),
+    font-size: base.var(font-size-xs)
+) !default;
+
+$m: (
+    height: 40px,
+    border-radius: base.var(border-radius-s),
+    padding: base.var(space-xs) base.var(space-s),
+    gap: base.var(space-xs),
+    font-size: base.var(font-size-s)
+) !default;
+
+$l: (
+    height: 48px,
+    border-radius: base.var(border-radius-m),
+    padding: base.var(space-s) base.var(space-m),
+    gap: base.var(space-s),
+    font-size: base.var(font-size-m)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
 $height: auto !default;
 $padding: base.var(space-xxs) base.var(space-xs) !default;
 $gap: base.var(space-xs) !default;
-$border-radius: base.var(border-radius-m) !default;
-$border-width: 0 !default;
-$border-color: none !default;
-$background-color: base.var(plain-color) !default;
-$foreground-color: base.var(foreground-color) !default;
 $icon-color: inherit !default;
 $font-size: base.var(font-size-medium) !default;
-$shadow: none !default;
 
 $vars: component.vars(Alert, (
     height: $height,
     padding: $padding,
     gap: $gap,
-    border-radius: $border-radius,
-    border-width: $border-width,
-    border-color: $border-color,
-    background-color: $background-color,
-    foreground-color: $foreground-color,
     icon-color: $icon-color,
     font-size: $font-size,
-    shadow: $shadow
 ));

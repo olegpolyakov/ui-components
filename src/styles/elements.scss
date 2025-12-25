@@ -1,5 +1,39 @@
+@use 'base';
+
 @mixin ellipsis {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+@mixin interactive {
+    cursor: pointer;
+    user-select: none;
+    transition:
+        background-color 0.15s ease-in-out,
+        border-color 0.15s ease-in-out,
+        color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
+}
+
+@mixin shadows($sizes: (xxs, xs, s, m, l, xl, xxl), $hover: false) {
+    @each $size in $sizes {
+        #{if(&, '&', '')}.shadow-#{$size} {
+            @include base.vars((
+                shadow: base.var(shadow-#{$size})
+            ));
+        }
+
+        @if $hover {
+            .shadow-hover-#{$size} {
+                transition: box-shadow 0.15s ease-in-out;
+                
+                &:hover {
+                    @include base.vars((
+                        shadow: base.var(shadow-#{$size})
+                    ));
+                }
+            }
+        }
+    }
 }

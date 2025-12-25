@@ -6,10 +6,6 @@ $padding-x: base.var(space-xs) !default;
 $padding-y: base.var(space-xxs) !default;
 $padding: (--padding-y, --padding-x) !default;
 $gap: base.var(space-xs) !default;
-$background-color: base.var(plain-color) !default;
-$background-hover-color: base.var(plain-hover-color) !default;
-$background-active-color: base.var(plain-active-color) !default;
-$border-color: base.var(border-color) !default;
 $font-size: base.var(font-size-m) !default;
 
 $vars: component.vars(AccordionItem, (
@@ -18,9 +14,5 @@ $vars: component.vars(AccordionItem, (
     padding-y: $padding-y,
     padding: $padding,
     gap: $gap,
-    background-color: $background-color,
-    background-hover-color: $background-hover-color,
-    background-active-color: $background-active-color,
-    border-color: $border-color,
     font-size: $font-size
 ));

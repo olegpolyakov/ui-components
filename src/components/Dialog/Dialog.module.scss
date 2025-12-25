@@ -1,5 +1,6 @@
 @use 'base';
 @use 'component';
+@use 'elements';
 
 @use './Dialog';
 
@@ -28,8 +29,6 @@
     box-shadow: component.var(shadow) base.var(shadow-color);
     display: flex;
     flex-direction: column;
-    
-    @include component.shadows;
 }
 
 .title {

@@ -3,7 +3,7 @@
 
 @use './Avatar';
 
-@include component.define(Avatar, Avatar.$vars);
+@include component.define(Avatar, Avatar.$vars) {
 
 .root {
     box-sizing: border-box;
@@ -13,20 +13,9 @@
     justify-content: center;
     width: component.var(size);
     height: component.var(size);
-    border: component.var(border-width) solid component.var(border-color);
-    border-radius: component.var(border-radius);
-    background-color: component.var(background-color);
-    color: component.var(foreground-color);
-    box-shadow: component.var(shadow) base.var(shadow-color);
+    border-width: component.var(border-width);
     overflow: hidden;
     user-select: none;
-}
-
-.image {
-    position: absolute;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
 }
 
 .content {
@@ -39,30 +28,16 @@
 }
 
 .icon {
-    @include base.var(icon-color, currentColor);
+    color: inherit
 }
 
+.image {
+    position: absolute;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
 
-// Sizes
+@include component.sizes(Avatar.$sizes);
 
-@include component.classes((
-    s: (
-        size: 24px,
-        font-size: 10px,
-        border-width: 1px
-    ),
-    m: (
-        size: 40px,
-        font-size: 16px,
-        border-width: 2px
-    ),
-    l: (
-        size: 64px,
-        font-size: 28px,
-        border-width: 2px
-    )
-));
-
-@include component.shapes;
-@include component.shadows;
-@include component.variants;
+}

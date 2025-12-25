@@ -1,7 +1,9 @@
 import { Children as ReactChildren, ReactElement, isValidElement } from 'react';
 
-import { baseClassName } from './base';
 import type {  Children, Color,  Shadow, Shape, Variant, SizeExtended } from './types';
+import { cn } from './utils';
+
+import baseStyles from './styles/classes.module.scss';
 
 export function resolveChildren<T>(children: Children, items: T[]): T[] {
     return items.length > 0
@@ -12,26 +14,32 @@ export function resolveChildren<T>(children: Children, items: T[]): T[] {
 }
 
 export function getComponentClassNames(
-    classNames: Record<string, string>,
     {
         color,
         size,
         shape,
         shadow,
-        hoverShadow,
+        shadowHover,
         variant,
+        active,
+        disabled,
         interactive
     }: {
         color?: Color;
         size?: SizeExtended;
         shape?: Shape;
         shadow?: Shadow;
-        hoverShadow?: Shadow;
+        shadowHover?: Shadow;
         variant?: Variant | 'text';
+        active?: boolean;
+        disabled?: boolean;
         interactive?: boolean;
-    } = {}
+    } = {},
+    ...restClassNames: Record<string, string>[]
 ) {
-    return [
+    const classNames = Object.assign({}, baseStyles, ...restClassNames);
+    
+    return cn(
         classNames.root,
         size && classNames[size],
         variant && color 
@@ -39,17 +47,13 @@ export function getComponentClassNames(
             : variant
                 ? classNames[variant]
                 : color,
-        shape && (shape in classNames
-            ? classNames[shape]
-            : baseClassName(shape)
-        ),
-        shadow && (`shadow-${shadow}` in classNames
-            ? classNames[`shadow-${shadow}`]
-            : baseClassName(`shadow-${shadow}`)
-        ),
-        hoverShadow && baseClassName(`hover-shadow-${hoverShadow}`),
-        interactive && classNames.interactive
-    ].filter(Boolean);
+        active && classNames[joinClasses(variant, 'active')],
+        shape && classNames[shape],
+        shadow && classNames[`shadow-${shadow}`],
+        shadowHover && classNames[`shadow-hover-${shadowHover}`],
+        typeof interactive === 'boolean' && (interactive ? classNames.interactive : classNames.static),
+        disabled && classNames.disabled
+    );
 }
 
 export { getComponentClassNames as ccn };

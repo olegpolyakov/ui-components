@@ -1,0 +1,54 @@
+@use '../base';
+@use '../colors';
+@use '../colors/palettes';
+@use '../colors/states';
+
+@mixin vars(
+    $border-color,
+    $postfix: '',
+    $args...
+) {
+    $name: 'outlined#{$postfix}';
+
+    @include colors.var(#{$name}-color, $border-color);
+    @include states.vars(#{$name}-color, $border-color, $args...);
+}
+
+@mixin styles($args...) {
+    %outlined {
+        border: 1px solid base.var(border-color);
+        background-color: base.var(background-color);
+
+        &:hover {
+            border-color: base.var(border-hover-color);
+            background-color: base.var(background-hover-color);
+        }
+
+        &:active {
+            border-color: base.var(border-active-color);
+            background-color: base.var(background-active-color);
+        }
+    }
+
+    .outlined {
+        @include colors.vars((
+            border-color: states.vars(border-color, outlined),
+            background-color: states.vars(background-color, plain)
+        ), $args...);
+
+        @extend %outlined;
+                
+        @content;
+
+        @each $palette in palettes.$names {
+            &-#{$palette} {
+                @include colors.vars((
+                    border-color: states.vars(border-color, outlined-#{$palette}),
+                    background-color: states.vars(background-color, plain-#{$palette})
+                ), $args...);
+
+                @extend %outlined;
+            }
+        }
+    }
+}

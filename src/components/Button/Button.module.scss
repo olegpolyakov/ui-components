@@ -1,9 +1,10 @@
 @use 'base';
 @use 'component';
+@use 'elements';
 
 @use './Button';
 
-@include component.define(Button, Button.$vars);
+@include component.define(Button, Button.$vars) {
 
 .root {
     box-sizing: border-box;
@@ -16,22 +17,13 @@
     gap: component.var(gap);
     border: none;
     border-radius: component.var(border-radius);
-    background-color: component.var(background-color);
-    color: component.var(foreground-color);
     font-family: base.var(font-family);
     font-size: component.var(font-size);
-    font-weight: base.var(font-weight-normal);
+    font-weight: component.var(font-weight-normal);
     text-align: center;
     text-decoration: none;
     vertical-align: middle;
-    transition:
-        color 0.15s ease-in-out,
-        background-color 0.15s ease-in-out,
-        border-color 0.15s ease-in-out,
-        opacity 0.15s ease-in-out,
-        box-shadow 0.15s ease-in-out;
-    cursor: pointer;
-    user-select: none;
+    @include elements.interactive;
 
     &:has(.start) {
         padding-left: calc(#{component.var(padding)} * 0.625);
@@ -40,33 +32,24 @@
     &:has(.end) {
         padding-right: calc(#{component.var(padding)} * 0.625);
     }
-
-    &:hover {
-        border-color: component.var(border-hover-color);
-        background-color: component.var(background-hover-color);
-        color: component.var(foreground-hover-color);
-    }
     
-    &.active,
-    &:active {
-        border-color: component.var(border-active-color);
-        background-color: component.var(background-active-color);
-        color: component.var(foreground-active-color);
-    }
-    
-    &.loading,
     &:disabled {
-        opacity: base.var(opacity-disabled);
         cursor: default;
+        pointer-events: none;
+        opacity: base.var(opacity-medium);
     }
 }
 
-.content,
-.icon,
 .start,
+.content,
 .end {
     display: inline-flex;
     align-items: center;
+}
+
+.startIcon,
+.endIcon {
+    position: relative;
 }
 
 .fluid {
@@ -76,9 +59,15 @@
 .loading {
     pointer-events: none;
 
-    .spinner {
+    .loader {
         position: absolute;
-        margin: auto;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .start,
@@ -92,45 +81,19 @@
 
 // Sizes
 
-@include component.classes((
-    xs: (
-        height: 24px,
-        padding: 8px,
-        gap: 4px,
-        font-size: base.var(font-size-xs)
-    ),
-    s: (
-        height: 28px,
-        padding: 8px,
-        gap: 4px,
-        font-size: base.var(font-size-s)
-    ),
-    m: (
-        height: 32px,
-        padding: 12px,
-        gap: 4px,
-        font-size: base.var(font-size-m)
-    ),
-    l: (
-        height: 40px,
-        padding: 16px,
-        gap: 8px,
-        font-size: base.var(font-size-l)
-    ),
-    xl: (
-        height: 48px,
-        padding: 16px,
-        gap: 8px,
-        font-size: base.var(font-size-xl)
-    )
-));
+@each $size, $vars in Button.$sizes {
+    .#{$size} {
+        @include component.vars($vars);
+    }
+}
+
+
+// Shapes
 
 @include component.shapes(
     $circular: component.var(height),
     $rounded: calc(component.var(height) / 4)
 );
-
-@include component.variants($text: true);
 
 
 // Icon
@@ -163,10 +126,6 @@
             height: 48px
         )
     ));
+}
 
-    &.text {
-        @include component.vars((
-            size: auto
-        ));
-    }
 }

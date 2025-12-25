@@ -1,33 +1,32 @@
 import { ReactNode } from 'react';
 
-import type { Color, Variant, Shape, ComponentProps, ElementType, Size, Slotted } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { ccn } from '../../component';
+import type { Color, Variant, Shape, ComponentProps, ElementType, Size, Slotted, Shadow } from '../../types';
+import { classnames as cn } from '../../utils';
 
 import { Icon, IconProps } from '../Icon';
-
-import styles from './Item.module.scss';
 import Slot from '../Slot';
 
+import baseStyles from '../../styles/classes.module.scss';
+import styles from './Item.module.scss';
+
 export type ItemProps = {
-    start?: ReactNode;
-    icon?: Slotted<IconProps>;
     content?: ReactNode;
+    icon?: Slotted<IconProps>;
+    start?: ReactNode;
     end?: ReactNode;
     color?: Color;
     size?: Size;
     shape?: Shape;
+    shadow?: Shadow;
+    shadowHover?: Shadow;
     variant?: Variant;
+    active?: boolean;
     disabled?: boolean;
     interactive?: boolean;
-    active?: boolean;
 };
 
 Item.displayName = 'Item';
-
-const elementClassNames = getElementClassNames(
-    Item.displayName,
-    ['start', 'icon', 'content', 'end']
-);
 
 export default function Item<T extends ElementType = 'div'>({
     as,
@@ -42,6 +41,8 @@ export default function Item<T extends ElementType = 'div'>({
     size,
     shape = 'rounded',
     variant = 'plain',
+    shadow,
+    shadowHover,
     active,
     disabled,
     interactive,
@@ -50,16 +51,17 @@ export default function Item<T extends ElementType = 'div'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        styles.root,
-        color && styles[color],
-        size && styles[size],
-        shape && styles[shape],
-        styles[variant],
-        styles[color ? `${variant}-${color}` : variant],
-        active && styles.active,
-        disabled && styles.disabled,
-        interactive && styles.interactive
+        ccn({
+            color,
+            size,
+            shape,
+            variant,
+            shadow,
+            shadowHover,
+            active,
+            disabled,
+            interactive
+        }, baseStyles, styles)
     );
 
     return (
@@ -71,13 +73,13 @@ export default function Item<T extends ElementType = 'div'>({
             {...props}
         >
             {(start || icon) &&
-                <span className={cn(elementClassNames.start, styles.start)}>
+                <span className={styles.start}>
                     {start}
 
                     {icon && 
                         <Slot
                             fallback={Icon}
-                            className={cn(elementClassNames.icon, styles.icon)}
+                            className={styles.icon}
                             size={size}
                         >
                             {icon}
@@ -87,13 +89,13 @@ export default function Item<T extends ElementType = 'div'>({
             }
 
             {content &&
-                <span className={cn(elementClassNames.content, styles.content)}>
+                <span className={styles.content}>
                     {content}
                 </span>
             }
 
             {end &&
-                <span className={cn(elementClassNames.end, styles.end)}>
+                <span className={styles.end}>
                     {end}
                 </span>
             }

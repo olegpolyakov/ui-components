@@ -1,0 +1,54 @@
+@use '../base';
+@use '../colors';
+@use '../colors/palettes';
+@use '../colors/states';
+
+@mixin vars(
+    $background-color,
+    $foreground-color,
+    $postfix: '',
+    $args...
+) {
+    $name: 'filled#{$postfix}';
+
+    @include colors.var(#{$name}-color, $background-color);
+    @include states.vars(#{$name}-color, $background-color, $args...);
+    @include colors.var(on-#{$name}-color, $foreground-color);
+}
+
+@mixin styles($args...) {
+    %filled {
+        background-color: base.var(background-color);
+        color: base.var(foreground-color);
+
+        &:hover {
+            background-color: base.var(background-hover-color);
+        }
+
+        &:active {
+            background-color: base.var(background-active-color);
+        }
+    }
+
+    .filled {
+        @include colors.vars((
+            background-color: states.vars(background-color, filled),
+            foreground-color: on-filled
+        ), $args...);
+
+        @extend %filled;
+
+        @content;
+
+        @each $palette in palettes.$names {
+            &-#{$palette} {
+                @include colors.vars((
+                    background-color: states.vars(background-color, filled-#{$palette}),
+                    foreground-color: on-filled-#{$palette}
+                ), $args...);
+
+                @extend %filled;
+            }
+        }
+    }
+}

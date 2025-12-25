@@ -1,11 +1,13 @@
 import { ReactNode, useState, useRef, useEffect, useLayoutEffect } from 'react';
 
-import type { Size,  ComponentProps, ElementType, Slotted } from '../../types';
+import { ccn } from '../../component';
+import type { Size,  ComponentProps, ElementType, Slotted, Variant } from '../../types';
 import { classnames as cn } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
 import Slot from '../Slot';
 
+import baseStyles from '../../styles/classes.module.scss';
 import styles from './AccordionItem.module.scss';
 
 export type AccordionItemProps = {
@@ -16,6 +18,7 @@ export type AccordionItemProps = {
     openIcon?: Slotted<IconProps>;
     closeIcon?: Slotted<IconProps>;
     size?: Size;
+    variant?: Variant;
     open?: boolean;
     disabled?: boolean;
 };
@@ -34,6 +37,7 @@ export default function AccordionItem<T extends ElementType = 'div'>({
     openIcon,
     closeIcon,
     size,
+    variant = 'plain',
     open: initialOpen = false,
     disabled,
     ...props
@@ -64,9 +68,16 @@ export default function AccordionItem<T extends ElementType = 'div'>({
     const classNames = cn(
         className,
         styles.root,
-        size && styles[size],
-        open && styles.open,
-        disabled && styles.disabled
+        open && styles.open
+    );
+    const headerClassNames = cn(
+        styles.header,
+        ccn({
+            size,
+            variant,
+            active: open,
+            disabled
+        }, baseStyles, styles)
     );
 
     return (
@@ -77,7 +88,7 @@ export default function AccordionItem<T extends ElementType = 'div'>({
             {...props}
         >
             <div
-                className={styles.header}
+                className={headerClassNames}
                 onClick={!disabled ? handleClick : undefined}
             >
                 {icon &&

@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react';
 
+import { ccn } from '../../component';
 import type { Color, ComponentProps, ElementType, Shape, Size, Variant } from '../../types';
-import { classnames as cn, getComponentClassNames, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import styles from './Badge.module.scss';
 
@@ -11,11 +12,10 @@ export type BadgeProps = {
     shape?: Shape;
     size?: Size;
     variant?: Variant;
+    interactive?: boolean;
 };
 
 Badge.displayName = 'Badge';
-
-const elementClassNames = getElementClassNames(Badge.displayName);
 
 export default function Badge<T extends ElementType = 'span'>({
     as,
@@ -24,22 +24,22 @@ export default function Badge<T extends ElementType = 'span'>({
 
     content = children,
     color = 'brand',
-    shape = 'rounded',
+    shape = 'circular',
     size = 'm',
     variant = 'filled',
+    interactive = false,
     ...props
 }: ComponentProps<BadgeProps, T>) {
     const Root = as || 'span';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        styles.root,
-        ...getComponentClassNames(styles, {
+        ccn({
             color,
             size,
             shape,
-            variant
-        })
+            variant,
+            interactive
+        }, styles)
     );
 
     return (

@@ -1,0 +1,67 @@
+@use 'base';
+@use 'colors';
+@use 'colors/palettes';
+@use 'colors/states';
+@use 'utils/color';
+
+@mixin vars(
+    $background-color,
+    $foreground-color,
+    $postfix: '',
+    $args...
+) {
+    $name: 'plain#{$postfix}';
+    $plain-background-color: color.change($background-color, $alpha: 0);
+    $plain-active-background-color: color.change($background-color, $alpha: 0.1);
+
+    @include colors.var(#{$name}-color, $plain-background-color);
+    @include states.vars(#{$name}-color, $plain-background-color, $args...);
+    @include states.vars(#{$name}-active-color, $plain-active-background-color, $args...);
+    @include colors.var(on-#{$name}-color, $foreground-color);
+}
+
+@mixin styles($args...) {
+    %plain {
+        background-color: base.var(background-color);
+        color: base.var(foreground-color);
+
+        &:hover {
+            background-color: base.var(background-hover-color);
+        }
+
+        &:active {
+            background-color: base.var(background-active-color);
+        }
+    }
+
+    .plain {
+        @include colors.vars((
+            background-color: states.vars(background-color, plain),
+            foreground-color: on-plain
+        ), $args...);
+        
+        @extend %plain;
+
+        @content;
+
+        &-active {
+            @include colors.vars((
+                background-color: states.vars(background-color, plain-active),
+                foreground-color: on-plain
+            ), $args...);
+
+            @extend %plain;
+        }
+
+        @each $palette in palettes.$names {
+            &-#{$palette} {
+                @include colors.vars((
+                    background-color: states.vars(background-color, plain-#{$palette}),
+                    foreground-color: on-plain-#{$palette}
+                ), $args...);
+
+                @extend %plain;
+            }
+        }
+    }
+}

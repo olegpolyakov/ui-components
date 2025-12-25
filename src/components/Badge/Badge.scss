@@ -1,22 +1,36 @@
 @use 'base';
 @use 'component';
 
+$s: (
+    size: 14px,
+    padding-x: base.var(space-xxs),
+    font-size: base.var(font-size-xxs)
+) !default;
+
+$m: (
+    size: 18px,
+    padding-x: base.var(space-xs),
+    font-size: base.var(font-size-xs)
+) !default;
+
+$l: (
+    size: 24px,
+    padding-x: base.var(space-s),
+    font-size: base.var(font-size-s)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
 $size: auto !default;
 $padding-x: 0 !default;
-$border-color: transparent !default;
-$border-radius: --size !default;
-$border-width: 0 !default;
-$background-color: transparent !default;
-$foreground-color: base.var(foreground-color) !default;
 $font-size: base.var(font-size-xs) !default;
 
 $vars: component.vars(Badge, (
     size: $size,
     padding-x: $padding-x,
-    border-color: $border-color,
-    border-radius: $border-radius,
-    border-width: $border-width,
-    background-color: $background-color,
-    foreground-color: $foreground-color,
     font-size: $font-size
 ));

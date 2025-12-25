@@ -3,12 +3,14 @@
 
 @use './Flex';
 
-@include component.define(Flex, Flex.$vars);
+@include component.define(Flex, Flex.$vars) {
 
 .root {
     display: flex;
-    gap: component.var(gap);
-    padding: component.var(padding);
+}
+
+.inline {
+    display: inline-flex;
 }
 
 .row {
@@ -25,6 +27,10 @@
     &-reverse {
         flex-direction: column-reverse;
     }
+}
+
+.wrap {
+    flex-wrap: wrap;
 }
 
 .align {
@@ -67,12 +73,4 @@
     }
 }
 
-@include component.gaps;
-
-.inline {
-    display: inline-flex;
-}
-
-.wrap {
-    flex-wrap: wrap;
 }

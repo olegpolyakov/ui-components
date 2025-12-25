@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { getComponentClassNames } from '../../component';
+import { ccn } from '../../component';
 import type { Color, ComponentProps, ElementType, Intent, Shadow, Shape, Size, SizeExtended, Slotted, Variant } from '../../types';
 import { cn } from '../../utils';
 
@@ -62,13 +62,14 @@ export default function Alert<T extends ElementType = 'div'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        ...getComponentClassNames(styles, {
+        ccn({
             color,
             size,
             shape,
             variant,
-            shadow
-        })
+            shadow,
+            interactive: false
+        }, styles)
     );
 
     return (

@@ -21,9 +21,9 @@ export type ButtonProps = {
     color?: Color;
     shape?: Shape;
     size?: SizeExtended;
-    shadow?: Shadow;
-    hoverShadow?: Shadow;
     variant?: Variant | 'text';
+    shadow?: Shadow;
+    shadowHover?: Shadow;
     active?: boolean;
     fluid?: boolean;
     disabled?: boolean;
@@ -55,9 +55,9 @@ export default function Button<T extends ElementType = 'button'>({
     color,
     shape = 'rounded',
     size = 'm',
-    shadow,
-    hoverShadow,
     variant = 'plain',
+    shadow,
+    shadowHover,
     active,
     fluid,
     loading,
@@ -66,18 +66,16 @@ export default function Button<T extends ElementType = 'button'>({
     const Component = as || 'button';
     const classNames = cn(
         className,
-        ...ccn(styles, {
+        ccn({
             color,
             size,
             shape,
+            variant,
             shadow,
-            hoverShadow,
-            variant
-        }),
-        (!!icon && !content || icon === true) && styles.iconButton,
-        !!startIcon && styles.iconBefore,
-        !!endIcon && styles.iconAfter,
-        active && styles.active,
+            shadowHover,
+            active
+        }, styles),
+        ((!!icon && !content) || icon === true) && styles.iconButton,
         fluid && styles.fluid,
         loading && styles.loading
     );
@@ -107,14 +105,16 @@ export default function Button<T extends ElementType = 'button'>({
             {!startIcon && !endIcon && iconElement}
 
             {loading &&
-                <Slot
-                    fallback={Spinner}
-                    className={styles.spinner}
-                    color="inherit"
-                    size={spinnerSizeMap[size]}
-                >
-                    {spinner}
-                </Slot>
+                <div className={styles.loader}>
+                    <Slot
+                        fallback={Spinner}
+                        className={styles.spinner}
+                        color="inherit"
+                        size={spinnerSizeMap[size]}
+                    >
+                        {spinner}
+                    </Slot>
+                </div>
             }
 
             {content &&

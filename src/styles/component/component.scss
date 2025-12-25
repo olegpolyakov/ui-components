@@ -1,16 +1,15 @@
 @use 'sass:map';
 @use 'sass:meta';
 
-@use '../base';
+@use 'base';
 @use 'colors';
 @use 'colors/palettes';
 @use 'colors/states';
+@use 'variants';
 @use 'utils/css';
 @use 'utils/list';
 @use 'utils/string';
 @use 'utils/type';
-
-@use './variants';
 
 $-name: '';
 $-vars: ();
@@ -19,21 +18,25 @@ $-vars: ();
     $-name: $name !global;
     $-vars: $vars !global;
 
-    #{if(&, '&', '.root')} {
-        @include vars($vars);
+    @include base.layer(components) {
+        #{if(&, '&', '.root')} {
+            @include vars($vars);
+        }
+
+        @content;
     }
 }
 
-@function vars($component, $vars: ()) {
-    $_vars: ();
+@function vars($name, $vars: ()) {
+    $map: ();
 
-    @each $name, $value in $vars {
-        $_vars: map.merge($_vars, (
-            $name: _get-value($value, $component)
+    @each $key, $value in $vars {
+        $map: map.merge($map, (
+            $key: _get-value($value, $name)
         ));
     }
 
-    @return $_vars;
+    @return $map;
 }
 
 @function var($name) {
@@ -53,12 +56,12 @@ $-vars: ();
 }
 
 @mixin var($name, $value) {
-    $_value: _get-value($value);
+    $value: _get-value($value);
 
     @if _is-private-var($name) {
-        @include css.var($name, $_value);
+        @include css.var($name, $value);
     } @else {
-        @include base.var('#{$-name}-#{$name}', $_value);
+        @include base.var('#{$-name}-#{$name}', $value);
     }
 }
 
@@ -117,44 +120,20 @@ $-vars: ();
     }
 }
 
-@mixin gaps($sizes: (xxs, xs, s, m, l, xl, xxl)) {
-    @if type.is-map($sizes) {
-        @each $size, $value in $sizes {
-            #{if(&, '&', '')}.gap-#{$size} {
-                @include vars((
-                    gap: $value
-                ));
-            }
-        }
-    } @else {
-        @each $size in $sizes {
-            #{if(&, '&', '')}.gap-#{$size} {
-                @include vars((
-                    gap: base.var(space-#{$size})
-                ));
-            }
+@mixin sizes($vars) {
+    @each $size, $-vars in $vars {
+        #{if(&, '&', '')}.#{$size} {
+            @include vars($-vars);
         }
     }
 }
 
-@mixin shadows($sizes: (xxs, xs, s, m, l, xl, xxl), $hover: false) {
-    @each $size in $sizes {
-        #{if(&, '&', '')}.shadow-#{$size} {
+@mixin gaps($vars) {
+    @each $size, $value in $vars {
+        #{if(&, '&', '')}.gap-#{$size} {
             @include vars((
-                shadow: base.var(shadow-#{$size})
+                gap: $value
             ));
-        }
-
-        @if $hover {
-            .hover-shadow-#{$size} {
-                transition: box-shadow 0.15s ease-in-out;
-                
-                &:hover {
-                    @include vars((
-                        shadow: base.var(shadow-#{$size})
-                    ));
-                }
-            }
         }
     }
 }
@@ -193,24 +172,6 @@ $-vars: ();
     }
 }
 
-@mixin interactive($props: ()) {
-    #{if(&, '&', '.interactive')} {
-        transition:
-            color 0.15s ease-in-out,
-            background-color 0.15s ease-in-out,
-            border-color 0.15s ease-in-out,
-            box-shadow 0.15s ease-in-out;
-
-        &:hover {
-            background-color: var(background-hover-color);
-        }
-
-        &:active {
-            background-color: var(background-active-color);
-        }
-    }
-}
-
 @mixin variants(
     $plain: true,
     $filled: true,
@@ -219,33 +180,33 @@ $-vars: ();
     $outlined-tinted: true,
     $text: false
 ) {
-    @if $plain {
-        @include variants.plain($prefix: '#{$-name}-');
-    }
+    // @if $plain {
+    //     @include variants.plain($prefix: '#{$-name}-');
+    // }
 
-    @if $filled {
-        @include variants.filled($prefix: '#{$-name}-');
-    }
+    // @if $filled {
+    //     @include variants.filled($prefix: '#{$-name}-');
+    // }
 
-    @if $outlined {
-        @include variants.outlined($prefix: '#{$-name}-') {
-            border: var(border-width) solid var(border-color);
-        }
-    }
+    // @if $outlined {
+    //     @include variants.outlined($prefix: '#{$-name}-') {
+    //         border: var(border-width) solid var(border-color);
+    //     }
+    // }
 
-    @if $tinted {
-        @include variants.tinted($prefix: '#{$-name}-');
-    }
+    // @if $tinted {
+    //     @include variants.tinted($prefix: '#{$-name}-');
+    // }
 
-    @if $outlined-tinted {
-        @include variants.outlined-tinted($prefix: '#{$-name}-') {
-            border: var(border-width) solid var(border-color);
-        }
-    }
+    // @if $outlined-tinted {
+    //     @include variants.outlined-tinted($prefix: '#{$-name}-') {
+    //         border: var(border-width) solid var(border-color);
+    //     }
+    // }
 
-    @if $text {
-        @include variants.text($prefix: '#{$-name}-');
-    }
+    // @if $text {
+    //     @include variants.text($prefix: '#{$-name}-');
+    // }
 }
 
 @function _get-value($value: null, $prefix: null) {
@@ -262,7 +223,10 @@ $-vars: ();
     }
 
     @if _is-public-var-value($value) {
-        @return base.var('#{$prefix}-#{string.slice($value, 3)}');
+        @return base.var(if($prefix,
+            '#{$prefix}-#{string.slice($value, 3)}',
+            string.slice($value, 3))
+        );
     }
 
     @return $value;
