@@ -1,5 +1,5 @@
-import type { ComponentProps, ElementType, Orientation, PropsWithKey, SizeFull } from '../../types';
-import { classnames as cn, getElementClassNames, resolveChildren } from '../../utils';
+import { cn, resolveChildren } from '../../component';
+import type { ComponentProps, ElementType, Orientation, PropsWithKey, Size } from '../../types';
 
 import Button, { ButtonProps } from './Button';
 
@@ -8,7 +8,7 @@ import styles from './ButtonGroup.module.scss';
 export type ButtonGroupProps = {
     buttons?: PropsWithKey<ButtonProps>[];
     orientation?: Orientation;
-    gap?: SizeFull;
+    gap?: Size;
     fluid?: boolean;
     joined?: boolean;
     color?: ButtonProps['color'];
@@ -18,8 +18,6 @@ export type ButtonGroupProps = {
 };
 
 ButtonGroup.displayName = 'ButtonGroup';
-
-const elementClassNames = getElementClassNames(ButtonGroup.displayName);
 
 export default function ButtonGroup<T extends ElementType = 'div'>({
     as,
@@ -32,23 +30,18 @@ export default function ButtonGroup<T extends ElementType = 'div'>({
     fluid,
     joined,
     color,
-    shape,
     size = 'm',
+    shape,
     variant= 'plain',
     ...props
 }: ComponentProps<ButtonGroupProps, T>) {
     const Root = as || 'div';
-    const classNames = cn(
-        className,
-        elementClassNames.root,
-        styles.root,
-        gap && styles[`gap-${gap}`],
-        size && styles[size],
-        variant && styles[variant],
-        orientation && styles[orientation],
-        fluid && styles.fluid,
-        joined && styles.joined
-    );
+    const classNames = cn(className, {
+        [orientation]: orientation,
+        fluid,
+        joined,
+        gap
+    }, styles);
 
     return (
         <Root

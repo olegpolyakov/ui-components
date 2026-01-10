@@ -1,11 +1,13 @@
+@use 'sass:meta';
+
 @use '../../src/styles/themes';
 
 @include themes.dark {
-    @import 'highlight.js/scss/github-dark.scss';
+    @include meta.load-css('highlight.js/scss/github-dark.scss');
 }
 
 @include themes.light {
-    @import 'highlight.js/scss/github.scss';
+    @include meta.load-css('highlight.js/scss/github.scss');
 }
 
 body {

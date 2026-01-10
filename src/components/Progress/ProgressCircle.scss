@@ -7,7 +7,7 @@ $size-l: 48px !default;
 
 $size: auto !default;
 $track-color: base.var(border-color) !default;
-$circle-color: base.var(primary-color) !default;
+$circle-color: base.var(brand-color) !default;
 
 $vars: component.vars(ProgressCircle, (
     size: $size,

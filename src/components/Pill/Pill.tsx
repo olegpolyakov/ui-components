@@ -1,33 +1,27 @@
 import { ReactNode } from 'react';
 
-import type { Color, ComponentProps, ElementType, IconPosition, Shape, Size, SizeExtended, Variant } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../component';
+import type { Color, ComponentProps, ElementType, Shape, Size, SizeExtended, Variant } from '../../types';
 
 import Icon, { IconProps } from '../Icon';
+import Slot, { Slotted } from '../Slot';
 
 import styles from './Pill.module.scss';
 
 export type PillProps = {
     content?: ReactNode;
-    icon?: ReactNode;
+    icon?: Slotted<IconProps>;
     start?: ReactNode;
     end?: ReactNode;
     color?: Color;
-    shape?: Shape;
+    shape?: Exclude<Shape, 'rounded'>;
     size?: Size;
     variant?: Variant;
     active?: boolean;
     interactive?: boolean;
-    iconPosition?: IconPosition;
-    iconProps?: IconProps;
 };
 
 Pill.displayName = 'Pill';
-
-const elementClassNames = getElementClassNames(
-    Pill.displayName,
-    ['start', 'icon', 'content', 'end']
-);
 
 const iconSizeMap: Record<Size, SizeExtended> = {
     s: 'xs',
@@ -45,49 +39,39 @@ export default function Pill<T extends ElementType = 'span'>({
     start,
     end,
     color,
-    shape = 'rounded',
     size = 'm',
+    shape,
     variant = 'tinted',
-    interactive,
-    iconPosition,
-    iconProps,
+    interactive = false,
     ...props
 }: ComponentProps<PillProps, T>) {
     const Root = as || 'span';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        styles.root,
-        styles[shape],
-        styles[size],
-        styles[variant],
-        styles[color ? `${variant}-${color}` : variant],
-        interactive && styles.interactive,
-        iconPosition && styles[`icon-${iconPosition}`]
+        { color, size, shape, variant, interactive },
+        styles
     );
 
     return (
         <Root className={classNames} {...props}>
             {start &&
-                <span className={cn(elementClassNames.start, styles.start)}>
+                <span className={styles.start}>
                     {start}
                 </span>
             }
 
             {icon &&
-                <span className={cn(elementClassNames.icon, styles.icon)}>
-                    <Icon
-                        name={typeof icon === 'string' ? icon : undefined}
-                        size={iconSizeMap[size]}
-                        {...iconProps}
-                    >
-                        {icon}
-                    </Icon>
-                </span>
+                <Slot
+                    fallback={Icon}
+                    className={styles.icon}
+                    size={iconSizeMap[size]}
+                >
+                    {icon}
+                </Slot>
             }
 
             {content &&
-                <span className={cn(elementClassNames.content, styles.content)}>
+                <span className={styles.content}>
                     {content}
                 </span>
             }
@@ -95,7 +79,7 @@ export default function Pill<T extends ElementType = 'span'>({
             {children}
 
             {end &&
-                <span className={cn(elementClassNames.end, styles.end)}>
+                <span className={styles.end}>
                     {end}
                 </span>
             }

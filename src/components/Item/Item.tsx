@@ -1,13 +1,11 @@
 import { ReactNode } from 'react';
 
-import { ccn } from '../../component';
+import { cn } from '../../component';
 import type { Color, Variant, Shape, ComponentProps, ElementType, Size, Slotted, Shadow } from '../../types';
-import { classnames as cn } from '../../utils';
 
 import { Icon, IconProps } from '../Icon';
 import Slot from '../Slot';
 
-import baseStyles from '../../styles/classes.module.scss';
 import styles from './Item.module.scss';
 
 export type ItemProps = {
@@ -20,7 +18,7 @@ export type ItemProps = {
     shape?: Shape;
     shadow?: Shadow;
     shadowHover?: Shadow;
-    variant?: Variant;
+    variant?: Exclude<Variant, 'filled' | 'outlined-filled' | 'text'>;
     active?: boolean;
     disabled?: boolean;
     interactive?: boolean;
@@ -39,30 +37,27 @@ export default function Item<T extends ElementType = 'div'>({
     end,
     color,
     size,
-    shape = 'rounded',
+    shape,
     variant = 'plain',
     shadow,
     shadowHover,
     active,
     disabled,
-    interactive,
+    interactive = false,
     ...props
 }: ComponentProps<ItemProps, T>) {
     const Root = as || 'div';
-    const classNames = cn(
-        className,
-        ccn({
-            color,
-            size,
-            shape,
-            variant,
-            shadow,
-            shadowHover,
-            active,
-            disabled,
-            interactive
-        }, baseStyles, styles)
-    );
+    const classNames = cn(className, {
+        color,
+        size,
+        shape,
+        variant,
+        shadow,
+        shadowHover,
+        active,
+        disabled,
+        interactive
+    }, styles);
 
     return (
         <Root

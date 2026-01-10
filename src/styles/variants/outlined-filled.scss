@@ -4,6 +4,102 @@
 @use 'colors/states';
 @use 'utils/css';
 
+@mixin classes {
+    .outlined-filled {
+        @include styles(
+            $border-color: on-filled,
+            $background-color: plain,
+            $background-hover-color: on-filled,
+            $background-active-color: on-filled-active,
+            $foreground-color: on-plain,
+            $foreground-hover-color: filled,
+            $foreground-active-color: filled
+        );
+
+        &-active {
+            @include styles(
+                $border-color: on-filled,
+                $background-color: on-filled,
+                $background-hover-color: on-filled-hover,
+                $background-active-color: on-filled-active,
+                $foreground-color: filled,
+                $foreground-hover-color: filled,
+                $foreground-active-color: filled
+            );
+        }
+
+        &-static {
+            @include styles(
+                $border-color: on-filled,
+                $background-color: plain,
+                $background-hover-color: on-filled,
+                $background-active-color: on-filled-active,
+                $foreground-color: on-plain,
+                $foreground-hover-color: filled,
+                $foreground-active-color: filled,
+                $static: true
+            );
+        }
+
+        @each $palette in palettes.$names {
+            &-#{$palette} {
+                @include styles(
+                    $border-color: #{$palette},
+                    $background-color: plain-#{$palette},
+                    $background-hover-color: filled-#{$palette},
+                    $background-active-color: filled-#{$palette}-active,
+                    $foreground-color: on-plain-#{$palette},
+                    $foreground-hover-color: on-#{$palette},
+                    $foreground-active-color: on-#{$palette}
+                );
+
+                &-active {
+                    @include styles(
+                        $border-color: #{$palette},
+                        $background-color: filled-#{$palette},
+                        $background-hover-color: filled-#{$palette}-hover,
+                        $background-active-color: filled-#{$palette}-active,
+                        $foreground-color: on-#{$palette},
+                        $foreground-hover-color: on-#{$palette},
+                        $foreground-active-color: on-#{$palette}
+                    );
+                }
+
+                // &-static {
+                //     @include styles(on-filled-#{$palette}, filled-#{$palette}, on-filled-#{$palette}, $static: true);
+                // }
+            }
+        }
+    }
+}
+
+@mixin styles(
+    $border-color,
+    $background-color,
+    $background-hover-color,
+    $background-active-color,
+    $foreground-color,
+    $foreground-hover-color,
+    $foreground-active-color,
+    $static: false
+) {
+    border: 1px solid base.var(#{$border-color}-color);
+    background-color: base.var(#{$background-color}-color);
+    color: base.var(#{$foreground-color}-color);
+
+    &:hover {
+        border-color: base.var(#{$border-color}-color);
+        background-color: base.var(#{$background-hover-color}-color);
+        color: base.var(#{$foreground-hover-color}-color);
+    }
+
+    &:active {
+        border-color: base.var(#{$border-color}-color);
+        background-color: base.var(#{$background-active-color}-color);
+        color: base.var(#{$foreground-active-color}-color);
+    }
+}
+
 @mixin vars(
     $border-color,
     $postfix: '',
@@ -16,58 +112,4 @@
     @include colors.var(#{$name}-color, $background-color);
     @include states.vars(#{$name}-color, $background-color, $args...);
     @include colors.var(on-#{$name}-color, $foreground-color);
-}
-
-@mixin styles($args...) {
-    %outlined-filled {
-        border: 1px solid css.var(border-color);
-        background-color: css.var(background-color);
-        color: css.var(foreground-color);
-
-        &:hover {
-            border-color: css.var(border-hover-color);
-            background-color: css.var(background-hover-color);
-            color: css.var(foreground-hover-color);
-        }
-
-        &:active {
-            border-color: css.var(border-active-color);
-            background-color: css.var(background-active-color);
-            color: css.var(foreground-active-color);
-        }
-    }
-
-    .outlined-filled {
-        @include css.vars((
-            border-color: base.var(border-color),
-            background-color: base.var(background-color),
-            background-hover-color: base.var(foreground-color),
-            background-active-color: base.var(foreground-color),
-            foreground-color: base.var(foreground-color),
-            foreground-hover-color: base.var(background-color),
-            foreground-active-color: base.var(background-color)
-        ), $args...);
-
-        @extend %outlined-filled;
-                
-        @content;
-
-        @each $palette in palettes.$names {
-            &-#{$palette} {
-                @include css.vars((
-                    border-color: base.var(outlined-#{$palette}-color),
-                    border-active-color: base.var(filled-#{$palette}-color),
-                    border-hover-color: base.var(filled-#{$palette}-color),
-                    background-color: base.var(plain-#{$palette}-color),
-                    background-hover-color: base.var(filled-#{$palette}-color),
-                    background-active-color: base.var(filled-#{$palette}-hover-color),
-                    foreground-color: base.var(on-plain-#{$palette}-color),
-                    foreground-hover-color: base.var(on-filled-#{$palette}-color),
-                    foreground-active-color: base.var(on-filled-#{$palette}-hover-color)
-                ), $args...);
-
-                @extend %outlined-filled;
-            }
-        }
-    }
 }

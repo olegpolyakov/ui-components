@@ -1,20 +1,4 @@
 @use 'base';
 @use 'component';
 
-$padding: null !default;
-$border-radius: null !default;
-$border-width: null !default;
-$border-color: null !default;
-$background-color: null !default;
-$foreground-color: null !default;
-$shadow: null !default;
-
-$vars: component.vars(Box, (
-    padding: $padding,
-    border-radius: $border-radius,
-    border-width: $border-width,
-    border-color: $border-color,
-    background-color: $background-color,
-    foreground-color: $foreground-color,
-    shadow: $shadow
-));
+$vars: component.vars(Box, ());

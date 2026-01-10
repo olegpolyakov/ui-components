@@ -20,5 +20,5 @@ $vars: component.vars(Textarea, (
     border-width: $border-width,
     background-color: $background-color,
     foreground-color: $foreground-color,
-    _inner-height: $_inner-height
+    _height: $_inner-height
 ));

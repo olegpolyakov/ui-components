@@ -75,8 +75,3 @@
     m: (padding: base.var(space-m)),
     l: (padding: base.var(space-l))
 ));
-
-
-// Variants
-
-@include component.variants;

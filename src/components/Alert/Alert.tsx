@@ -1,8 +1,7 @@
 import { ReactNode } from 'react';
 
-import { ccn } from '../../component';
+import { cn } from '../../component';
 import type { Color, ComponentProps, ElementType, Intent, Shadow, Shape, Size, SizeExtended, Slotted, Variant } from '../../types';
-import { cn } from '../../utils';
 
 import Button, { ButtonProps } from '../Button';
 import Icon, { IconProps } from '../Icon';
@@ -53,24 +52,21 @@ export default function Alert<T extends ElementType = 'div'>({
     intent,
     color = intent,
     size = 'm',
-    shape = 'rounded',
+    shape,
     variant = 'tinted',
     shadow,
     onClose,
     ...props
 }: ComponentProps<AlertProps, T>) {
     const Root = as || 'div';
-    const classNames = cn(
-        className,
-        ccn({
-            color,
-            size,
-            shape,
-            variant,
-            shadow,
-            interactive: false
-        }, styles)
-    );
+    const classNames = cn(className, {
+        color,
+        size,
+        shape,
+        variant,
+        shadow,
+        interactive: false
+    }, styles);
 
     return (
         <Root

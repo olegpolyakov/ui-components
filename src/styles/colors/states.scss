@@ -6,7 +6,7 @@
 
 @use './colors';
 
-@function hover-color($color, $value: 5%, $invert: false) {
+@function hover-color($color, $value: 4%, $invert: false) {
     @if color.alpha($color) < 1 {
         @return color.scale($color, $alpha: if($invert, -$value, $value));
     } @else {
@@ -14,7 +14,7 @@
     }
 }
 
-@function active-color($color, $value: 10%, $invert: false) {
+@function active-color($color, $value: 5%, $invert: false) {
     @if color.alpha($color) < 1 {
         @return color.scale($color, $alpha: if($invert, -$value, $value));
     } @else {

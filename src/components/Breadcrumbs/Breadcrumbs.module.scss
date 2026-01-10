@@ -4,15 +4,16 @@
 @use './Breadcrumbs';
 
 @include component.define(Breadcrumbs, Breadcrumbs.$vars) {
+    .root {
+        display: flex;
+        align-items: center;
+        gap: component.var(gap);
+        font-size: component.var(font-size);
+    }
 
-.root {
-    display: flex;
-    align-items: center;
-    gap: component.var(gap);
-}
+    .separator {
+        color: component.var(separator-color);
+    }
 
-.separator {
-    color: component.var(separator-color);
-}
-
+    @include component.sizes(Breadcrumbs.$sizes);
 }

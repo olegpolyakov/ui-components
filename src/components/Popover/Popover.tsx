@@ -18,7 +18,7 @@ import {
 import { Middleware, Placement, VirtualElement, autoUpdate, arrow, useFloating } from '@floating-ui/react';
 
 import type { Color, PropsWithChildren, Size, Variant } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import Portal from '../Portal';
 
@@ -26,13 +26,18 @@ import styles from './Popover.module.scss';
 
 export type { Placement, VirtualElement };
 
+export type PopoverTrigger = 
+    ReactElement<RefAttributes<HTMLElement> & 
+    HTMLAttributes<HTMLElement> & 
+    {active?: boolean, disabled?: boolean}>;
+
 export type PopoverProps = PropsWithChildren<{
     containerElement?: HTMLElement;
     anchorRef?: RefObject<Element | null>;
     anchorElement?: Element | null;
     placement?: Placement;
     fallbackPlacements?: Placement[];
-    trigger?: ReactElement<RefAttributes<HTMLElement> & HTMLAttributes<HTMLElement> & {active?: boolean}>;
+    trigger?: PopoverTrigger;
     content?: ReactNode;
     open?: boolean;
     defaultOpen?: boolean;
@@ -49,11 +54,6 @@ export type PopoverProps = PropsWithChildren<{
 }>;
 
 Popover.displayName = 'Popover';
-
-const elementClassNames = getElementClassNames(
-    Popover.displayName,
-    ['surface', 'arrow', 'content']
-);
 
 export default function Popover({
     children,
@@ -73,6 +73,7 @@ export default function Popover({
     size,
     variant = 'filled',
     middleware = [],
+    disabled,
     unstyled,
     onOpen,
     onClose
@@ -168,13 +169,11 @@ export default function Popover({
 
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
         unstyled && styles.unstyled
     );
 
     const surfaceClassNames = cn(
-        elementClassNames.surface,
         styles.surface,
         variant && styles[variant],
         color && styles[color],
@@ -186,7 +185,8 @@ export default function Popover({
             {isValidElement(trigger) &&
                 cloneElement(trigger, {
                     ref: refs.setReference,
-                    active: open || internalOpen,
+                    active: trigger.props.active ?? (open || internalOpen),
+                    disabled: disabled,
                     onClick: handleTriggerClick
                 })
             }
@@ -203,7 +203,7 @@ export default function Popover({
                             {unstyled || !showArrow &&
                                 <div
                                     ref={arrowRef}
-                                    className={cn(elementClassNames.arrow, styles.arrow)}
+                                    className={styles.arrow}
                                     style={middlewareData.arrow &&{
                                         left: middlewareData.arrow.x,
                                         top: middlewareData.arrow.y
@@ -211,7 +211,7 @@ export default function Popover({
                                 />
                             }
 
-                            <div ref={contentRef} className={cn(elementClassNames.content, styles.content)}>
+                            <div ref={contentRef} className={styles.content}>
                                 {content}
                             </div>
                         </div>

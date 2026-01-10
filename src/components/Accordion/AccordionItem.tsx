@@ -1,13 +1,11 @@
 import { ReactNode, useState, useRef, useEffect, useLayoutEffect } from 'react';
 
-import { ccn } from '../../component';
+import { cn } from '../../component';
 import type { Size,  ComponentProps, ElementType, Slotted, Variant } from '../../types';
-import { classnames as cn } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
 import Slot from '../Slot';
 
-import baseStyles from '../../styles/classes.module.scss';
 import styles from './AccordionItem.module.scss';
 
 export type AccordionItemProps = {
@@ -65,24 +63,20 @@ export default function AccordionItem<T extends ElementType = 'div'>({
     };
 
     const Root = as || 'div';
-    const classNames = cn(
-        className,
-        styles.root,
-        open && styles.open
-    );
-    const headerClassNames = cn(
-        styles.header,
-        ccn({
-            size,
-            variant,
-            active: open,
-            disabled
-        }, baseStyles, styles)
-    );
+    const rootClassNames = cn(className, {
+        size,
+        open
+    }, styles);
+    const headerClassNames = cn(styles.header, {
+        root: false,
+        variant,
+        active: open,
+        disabled
+    }, styles);
 
     return (
         <Root
-            className={classNames}
+            className={rootClassNames}
             data-open={open ? true : undefined}
             data-disabled={disabled ? true : undefined}
             {...props}
@@ -108,6 +102,7 @@ export default function AccordionItem<T extends ElementType = 'div'>({
                         fallback={Icon}
                         className={styles.indicatorIcon}
                         size={size}
+                        color="tertiary"
                     >
                         {indicatorIcon}
                     </Slot>
@@ -118,6 +113,7 @@ export default function AccordionItem<T extends ElementType = 'div'>({
                         fallback={Icon}
                         className={styles.indicatorIcon}
                         size={size}
+                        color="tertiary"
                     >
                         {openIcon}
                     </Slot>
@@ -128,6 +124,7 @@ export default function AccordionItem<T extends ElementType = 'div'>({
                         fallback={Icon}
                         className={styles.indicatorIcon}
                         size={size}
+                        color="tertiary"
                     >
                         {closeIcon}
                     </Slot>

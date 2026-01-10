@@ -1,40 +1,48 @@
 import {
     type MouseEvent,
     type ReactNode,
-    useEffect,
-    useRef,
     useState,
     useCallback,
     Children,
-    isValidElement
+    isValidElement,
+    type ChangeEvent
 } from 'react';
 
-import { flip, size as popoverSize, type Placement } from '@floating-ui/react';
+import type { Placement } from '@floating-ui/react';
 
 import type { ComponentProps, PropsWithKey, Size } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import Button from '../Button';
+import Dropdown from '../Dropdown';
 import List from '../List';
-import Option, { type OptionProps } from './Option';
-import { Popover } from '../Popover';
+import Textbox from '../Textbox';
+
+import Option, { OptionProps } from './Option';
 
 import styles from './Select.module.scss';
+import Icon from '../Icon';
 
 export type SelectProps = {
+    label?: string;
     name?: string;
     value?: string | string[];
     defaultValue?: string | string[];
     options?: PropsWithKey<OptionProps>[];
-    multiple?: boolean;
-    label?: string;
     placeholder?: string;
     start?: ReactNode;
     end?: ReactNode;
     size?: Size;
-    variant?: 'outlined' | 'tinted' | 'outlined-tinted' | 'tinted-outlined' | 'underlined' | 'underlined-tinted' | 'tinted-underlined';
-    maxMenuHeight?: number;
+    variant?: 'outlined' | 'tinted' | 'outlined-tinted';
+    input?: boolean;
+    defaultInputValue?: string;
+    disabled?: boolean;
+    clearable?: boolean;
+    creatable?: boolean;
+    createNewLabel?: string;
+    maxDropdownHeight?: number;
     onChange?: SelectChangeHandler;
+    onInputChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
 export type SelectChangeHandler = (
@@ -47,11 +55,6 @@ export type SelectChangeHandler = (
 
 Select.displayName = 'Select';
 
-const elementClassNames = getElementClassNames(
-    Select.displayName,
-    ['popover', 'control', 'start', 'label', 'value', 'input', 'end', 'menu']
-);
-
 export default function Select({
     children,
     className,
@@ -59,6 +62,8 @@ export default function Select({
     name,
     value,
     defaultValue,
+    input = false,
+    defaultInputValue,
     options = [],
     label,
     placeholder,
@@ -66,23 +71,23 @@ export default function Select({
     end,
     size = 'm',
     variant = 'outlined',
-    maxMenuHeight,
+    disabled,
+    clearable = true,
+    creatable = false,
+    createNewLabel = 'Add',
+    maxDropdownHeight,
     onChange,
+    onInputChange,
     ...props
 }: ComponentProps<SelectProps, 'div'>) {
-    const listRef = useRef<HTMLUListElement>(null);
-
     const [intervalValue, setIntervalValue] = useState(defaultValue);
+    const [inputValue, setInputValue] = useState(defaultInputValue);
+    const [focused, setFocused] = useState(false);
     const [open, setOpen] = useState(false);
     const [placement, setPlacement] = useState<Placement>('bottom');
 
-    useEffect(() => {
-        if (open) {
-            listRef.current?.focus();
-        }
-    }, [open]);
-
     const resolvedValue = value ?? intervalValue;
+    const resolvedInputValue = inputValue || defaultInputValue;
     const isControlled = value !== undefined;
     const isMultiple = Array.isArray(resolvedValue);
 
@@ -92,23 +97,48 @@ export default function Select({
         if (optionValue === undefined) return;
 
         const newValue = Array.isArray(resolvedValue)
-            ? [...resolvedValue, optionValue]
+            ? resolvedValue.includes(optionValue)
+                ? resolvedValue.filter(v => v !== optionValue)
+                : [...resolvedValue, optionValue]
             : optionValue;
 
         if (!isControlled) {
             setIntervalValue(newValue);
+            setInputValue('');
         }
 
         setOpen(false);
         onChange?.({ value: newValue, name }, event);
     }, [name, resolvedValue, isControlled, setOpen, onChange]);
 
+    const handleInputChange = useCallback((
+        event: ChangeEvent<HTMLInputElement>
+    ) => {
+        const { value } = event.target as HTMLInputElement;
+    
+        setInputValue(value);
+    
+        onInputChange?.(event);
+    }, [onInputChange]);
+
+    const handleFocus = useCallback(() => {
+        setFocused(true);
+    }, []);
+
+    const handleBlur = useCallback(() => {
+        setFocused(false);
+    }, []);
+
     const handleClearClick = useCallback((event: MouseEvent) => {
         event.stopPropagation();
 
         if (!isControlled) {
             setIntervalValue(isMultiple ? [] : undefined);
+            setInputValue('');
         }
+
+        setFocused(false);
+        setOpen(false);
 
         onChange?.({ value: undefined, name }, event);
     }, [name, isMultiple, isControlled, onChange]);
@@ -134,123 +164,158 @@ export default function Select({
     const hasValue = isMultiple
         ? resolvedValue.length > 0
         : !!resolvedValue;
-    const activated = isMultiple
-        ? resolvedValue.length > 0
-        : (resolvedValue !== undefined && resolvedValue !== null);
-
-    const commonClassNames = cn(
-        styles.common,
-        placement && styles[placement],
-        activated && styles.activated,
-        open && styles.open
-    );
+    const active = hasValue || (input && !!resolvedInputValue);
     
     const rootClassNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
-        styles[size],
-        styles[variant],
-        commonClassNames
+        styles[placement],
+        open && styles.open
     );
-
-    const menuClassNames = cn(
-        elementClassNames.menu,
-        styles.menu,
-        commonClassNames
+    
+    const dropdownClassNames = cn(
+        styles.dropdown,
+        styles[placement]
     );
 
     return (
-        <Popover
+        <Dropdown
             trigger={
-                <div className={rootClassNames} {...props}>
-                    {start &&
-                        <span className={cn(elementClassNames.start, styles.start)}>
-                            {start}
-                        </span>
-                    }
-
-                    <div className={cn(elementClassNames.control, styles.control)}>
-                        {label &&
-                            <label className={cn(elementClassNames.label, styles.label)}>{label}</label>
-                        }
-
-                        {selectedValues.map(value =>
-                            <span
-                                key={value?.toString()}
-                                className={cn(elementClassNames.value, styles.value)}
-                            >
-                                {value}
-                            </span>
-                        )}
-
-                        <input
-                            className={cn(elementClassNames.input, styles.input)}
-                            type="button"
-                            value={resolvedValue || undefined}
-                            data-placeholder={placeholder}
-                            onClick={() => setOpen(prevOpen => !prevOpen)}
-                        />
-
-                        {hasValue &&
+                <Textbox
+                    className={rootClassNames}
+                    label={label}
+                    start={start}
+                    end={<>
+                        {clearable && hasValue && !disabled &&
                             <Button
                                 icon={{
                                     name: 'close',
+                                    color: 'tertiary',
                                     size: 's'
                                 }}
                                 size="xs"
                                 onClick={handleClearClick}
                             />
                         }
-                    </div>
 
-                    {end &&
-                        <span className={cn(elementClassNames.end, styles.end)}>
-                            {end}
+                        <Icon
+                            className={styles.arrow}
+                            name="arrow_drop_down"
+                            color="tertiary"
+                            size="m"
+                            inline
+                        />
+
+                        {end}
+                    </>}
+                    size={size}
+                    variant={variant}
+                    active={active}
+                    focused={focused}
+                    disabled={disabled}
+                    data-open={open ? true : undefined}
+                    {...props}
+                >
+                    {selectedValues.map(value =>
+                        <span
+                            key={value?.toString()}
+                            className={styles.value}
+                        >
+                            {value}
                         </span>
+                    )}
+
+                    {input ? 
+                        <input
+                            className={styles.input}
+                            type="text"
+                            placeholder={placeholder}
+                            value={inputValue}
+                            defaultValue={defaultInputValue}
+                            disabled={disabled}
+                            onChange={handleInputChange}
+                            onFocus={handleFocus}
+                            onBlur={handleBlur}
+                        />
+                        :
+                        <input
+                            className={styles.input}
+                            type="button"
+                            value={resolvedValue || undefined}
+                            data-placeholder={placeholder}
+                            onClick={() => setOpen(prevOpen => !prevOpen)}
+                        />
                     }
-                </div>
+                </Textbox>
             }
             open={open}
-            placement="bottom"
-            fallbackPlacements={['top']}
-            arrow={false}
-            middleware={[
-                flip(),
-                popoverSize({
-                    apply: ({ availableHeight, elements }) => {
-                        elements.floating.style.width = elements.reference.getBoundingClientRect().width + 'px';
-
-                        elements.floating.style.maxHeight = maxMenuHeight
-                            ? Math.min(availableHeight, maxMenuHeight) + 'px'
-                            : availableHeight + 'px';
-                    }
-                })
-            ]}
-            unstyled
+            maxHeight={maxDropdownHeight}
             onOpen={placement => {
                 setPlacement(placement);
+                setFocused(true);
                 setOpen(true);
             }}
-            onClose={() => setOpen(false)}
+            onClose={() => {
+                setFocused(false);
+                setOpen(false);
+            }}
         >
-            <List
-                ref={listRef}
-                className={menuClassNames}
-                interactive
-            >
-                {resolvedOptions.map(({ key, ...rest }) => 
-                    <Option
-                        key={key}
-                        as="li"
-                        selected={isMultiple
-                            ? resolvedValue.includes(rest.value)
-                            : rest.value === resolvedValue}
-                        onClick={handleOptionClick}
-                        {...rest}
-                    />
-                )}
-            </List>
-        </Popover>
+            <div className={dropdownClassNames}>
+                <List
+                    className={styles.list}
+                    variant={variant}
+                >
+                    {resolvedOptions
+                        .filter(option => input
+                            ? getLabel(option).toLowerCase().includes(inputValue?.toLowerCase() || '')
+                            : true
+                        ).map(({ key, ...props }) => {
+                            const optionLabel = getLabel(props);
+                            const optionValue = getValue(props);
+                            const selected = isMultiple
+                                ? resolvedValue.includes(optionValue)
+                                : optionValue === resolvedValue;
+                                
+                            return (
+                                <Option
+                                    key={key}
+                                    content={optionLabel}
+                                    active={selected}
+                                    interactive
+                                    onClick={handleOptionClick}
+                                    {...props}
+                                />
+                            );
+                        })
+                    }
+
+                    {creatable && inputValue && !resolvedOptions.find(option => getLabel(option) === inputValue) &&
+                        <Option
+                            label={`${createNewLabel} "${inputValue}"`}
+                            value={inputValue}
+                            interactive
+                            onClick={handleOptionClick}
+                        />
+                    }
+                </List>
+            </div>
+        </Dropdown>
     );
+}
+
+function getValue(arg: string | OptionProps): string {
+    return typeof arg === 'object' ? arg.value : arg;
+}
+
+function getLabel(arg: string | OptionProps): string {
+    return typeof arg === 'string'
+        ? arg 
+        : typeof arg === 'object'
+            ? ('label' in arg && typeof arg.label === 'string'
+                ? arg.label
+                : 'content' in arg && typeof arg.content === 'string' 
+                    ? arg.content
+                    : arg.toString()
+            )
+            : '';
 }

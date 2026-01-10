@@ -1,5 +1,5 @@
+import { cn } from '../../component';
 import type { Align, ComponentProps, ElementType } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
 
 import gridStyles from './Grid.module.scss';
 import styles from './GridItem.module.scss';
@@ -18,8 +18,6 @@ export type GridItemProps = {
 
 GridItem.displayName = 'GridItem';
 
-const elementClassNames = getElementClassNames(GridItem.displayName);
-
 export default function GridItem<T extends ElementType = 'div'>({
     as,
     className,
@@ -37,14 +35,15 @@ export default function GridItem<T extends ElementType = 'div'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        styles.root,
-        span && styles[`span-${span}`],
-        desktop && styles[`span-${desktop}-desktop`],
-        tablet && styles[`span-${tablet}-tablet`],
-        phone && styles[`span-${phone}-phone`],
-        order && styles[`order-${order}`],
-        align && styles[`align-${align}`]
+        {
+            [`span-${span}`]: span,
+            [`span-${desktop}-desktop`]: desktop,
+            [`span-${tablet}-tablet`]: tablet,
+            [`span-${phone}-phone`]: phone,
+            [`order-${order}`]: order,
+            [`align-${align}`]: align
+        },
+        styles
     );
 
     return (

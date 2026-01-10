@@ -17,7 +17,6 @@ import Button from './pages/components/Button.mdx';
 import ButtonGroup from './pages/components/ButtonGroup.mdx';
 import Card from './pages/components/Card.mdx';
 import Checkbox from './pages/components/Checkbox.mdx';
-import Combobox from './pages/components/Combobox.mdx';
 import Dialog from './pages/components/Dialog.mdx';
 import Divider from './pages/components/Divider.mdx';
 import Drawer from './pages/components/Drawer.mdx';
@@ -79,7 +78,6 @@ export default [
             { path: '/button-group', component: ButtonGroup, title: 'Button Group' },
             { path: '/card', component: Card, title: 'Card' },
             { path: '/checkbox', component: Checkbox, title: 'Checkbox' },
-            { path: '/combobox', component: Combobox, title: 'Combobox' },
             { path: '/dialog', component: Dialog, title: 'Dialog' },
             { path: '/divider', component: Divider, title: 'Divider' },
             { path: '/drawer', component: Drawer, title: 'Drawer' },

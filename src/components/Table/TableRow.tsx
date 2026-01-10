@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import type { ComponentProps } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import styles from './TableRow.module.scss';
 
@@ -11,8 +11,6 @@ export type TableRowProps = {
 };
 
 TableRow.displayName = 'TableRow';
-
-const elementClassNames = getElementClassNames(TableRow.displayName);
 
 export default function TableRow({
     className,
@@ -24,7 +22,6 @@ export default function TableRow({
 }: ComponentProps<TableRowProps, 'tr'>) {
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
         interactive && styles.interactive
     );

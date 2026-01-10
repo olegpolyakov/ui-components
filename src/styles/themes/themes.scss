@@ -1,7 +1,9 @@
 @use 'sass:map';
+@use 'sass:meta';
 
 @use 'base';
 @use 'colors';
+@use 'colors/palettes';
 @use 'colors/states';
 @use 'variants';
 
@@ -27,23 +29,4 @@
     @include define(light) {
         @content;
     }
-}
-
-@mixin vars(
-    $base-colors,
-    $element-colors
-) {
-    @each $name, $color in $base-colors {
-        @include base.var(#{$name}-color, $color);
-        @include base.var(on-#{$name}-color, colors.contrast-color($color));
-    }
-
-    @each $element, $color in $element-colors {
-        @include base.var(#{$element}-color, $color);
-    }
-
-    @include variants.vars(
-        $base-colors,
-        $element-colors
-    );
 }

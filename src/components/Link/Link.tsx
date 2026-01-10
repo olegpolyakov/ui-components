@@ -1,19 +1,17 @@
 import { FunctionComponent } from 'react';
 
-import type { ComponentProps, ElementType } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../component';
+import type { Color, ComponentProps, ElementType } from '../../types';
 
 import { TextProps } from '../Text';
 
-import cssClasses from './Link.module.scss';
+import styles from './Link.module.scss';
 
 export type LinkProps = TextProps & {
     disabled?: boolean;
 };
 
 Link.displayName = 'Link';
-
-const elementClassNames = getElementClassNames(Link.displayName);
 
 export default function Link<T extends ElementType | FunctionComponent = 'a'>({
     as,
@@ -28,10 +26,11 @@ export default function Link<T extends ElementType | FunctionComponent = 'a'>({
     const Component = as || 'a';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        cssClasses.root,
-        color && cssClasses[color],
-        disabled && cssClasses.disabled
+        {
+            color: color as Color,
+            disabled
+        },
+        styles
     );
 
     return (

@@ -1,7 +1,7 @@
-import { type MouseEvent } from 'react';
+import { MouseEvent } from 'react';
 
 import type { ComponentProps, ElementType } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import Item, { ItemProps } from '../Item';
 
@@ -15,11 +15,6 @@ export type OptionProps = ItemProps & {
 };
 
 Option.displayName = 'Option';
-
-const elementClassNames = getElementClassNames(
-    Option.displayName,
-    ['start', 'content', 'end']
-);
 
 export default function Option<T extends ElementType = 'li'>({
     className,
@@ -35,7 +30,6 @@ export default function Option<T extends ElementType = 'li'>({
 }: ComponentProps<OptionProps, T>) {
     const classNames = cn(
         className,
-        elementClassNames.root,
         cssClasses.root
     );
 

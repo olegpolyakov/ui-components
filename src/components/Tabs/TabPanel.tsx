@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 
 import type { ComponentProps, ElementType } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import TabsContext from './TabsContext';
 
-import cssClasses from './Tabs.module.scss';
+import styles from './Tabs.module.scss';
 
 export type TabPanelProps = {
     value: string | number;
@@ -13,8 +13,6 @@ export type TabPanelProps = {
 };
 
 TabPanel.displayName = 'TabPanel';
-
-const elementClassNames = getElementClassNames(TabPanel.displayName);
 
 export default function TabPanel<T extends ElementType = 'div'>({
     as,
@@ -30,8 +28,7 @@ export default function TabPanel<T extends ElementType = 'div'>({
     const Component = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        hidden && cssClasses.hidden
+        hidden && styles.hidden
     );
 
     if (value !== selectedValue) {

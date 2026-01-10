@@ -1,6 +1,24 @@
 @use 'base';
 @use 'component';
 
+$s: (
+    gap: base.var(space-xxs)
+) !default;
+
+$m: (
+    gap: base.var(space-xs)
+) !default;
+
+$l: (
+    gap: base.var(space-s)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
 $gap: base.var(space-s) !default;
 
 $vars: component.vars(Field, (

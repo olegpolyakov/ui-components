@@ -5,20 +5,20 @@
 
 $s: (
     size: 24px,
-    font-size: 10px,
-    border-width: 1px
+    border-width: 1px,
+    font-size: 10px
 ) !default;
 
 $m: (
     size: 40px,
-    font-size: 16px,
-    border-width: 2px
+    border-width: 2px,
+    font-size: 16px
 ) !default;
 
 $l: (
     size: 64px,
-    font-size: 28px,
-    border-width: 2px
+    border-width: 2px,
+    font-size: 28px
 ) !default;
 
 $sizes: (
@@ -28,11 +28,11 @@ $sizes: (
 ) !default;
 
 $size: map.get($m, size) !default;
-$font-size: map.get($m, font-size) !default;
 $border-width: map.get($m, border-width) !default;
+$font-size: map.get($m, font-size) !default;
 
 $vars: component.vars(Avatar, (
     size: $size,
-    font-size: $font-size,
-    border-width: $border-width
+    border-width: $border-width,
+    font-size: $font-size
 ));

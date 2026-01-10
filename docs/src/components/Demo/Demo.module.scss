@@ -13,10 +13,11 @@
 }
 
 .main {
-    position: relative;
     grid-area: main;
+    position: relative;
     box-sizing: border-box;
     padding: 16px 36px 16px 16px;
+    overflow: hidden;
 }
 
 .drawer {

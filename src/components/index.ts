@@ -7,7 +7,6 @@ export * from './Breadcrumbs';
 export * from './Button';
 export * from './Card';
 export * from './Checkbox';
-export * from './Combobox';
 export * from './Dialog';
 export * from './Divider';
 export * from './Drawer';

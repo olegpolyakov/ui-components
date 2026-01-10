@@ -1,25 +1,20 @@
 import type { ReactNode } from 'react';
 
-import type { Color, ComponentProps, Size } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../component';
+import type { ComponentProps, Size, TextColor } from '../../types';
 
-import cssClasses from './Label.module.scss';
+import styles from './Label.module.scss';
 
 export type LabelProps = {
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-    color?: Color;
+    color?: TextColor;
     size?: Size;
     inline?: boolean;
 };
 
 Label.displayName = 'Label';
-
-const elementClassNames = getElementClassNames(
-    Label.displayName,
-    ['start', 'end']
-);
 
 export default function Label({
     as,
@@ -37,17 +32,14 @@ export default function Label({
     const Component = as || 'label';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        cssClasses.root,
-        color && cssClasses[color],
-        cssClasses[size],
-        inline && cssClasses.inline
+        { color, size, inline },
+        styles
     );
 
     return (
         <Component className={classNames} {...props}>
             {start &&
-                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                <span className={styles.start}>
                     {start}
                 </span>
             }
@@ -55,7 +47,7 @@ export default function Label({
             {content}
 
             {end &&
-                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                <span className={styles.end}>
                     {end}
                 </span>
             }

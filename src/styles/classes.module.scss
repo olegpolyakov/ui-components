@@ -3,7 +3,9 @@
 @use 'base' as *;
 @use 'colors';
 @use 'colors/palettes';
+@use 'elements';
 @use 'variants';
+@use 'utils/css';
 
 // Colors
 
@@ -21,9 +23,15 @@
     }
 }
 
-@each $color in colors.$palette-names {
-    .#{$color}-border-color {
-        border-color: var(border-#{$color}-color);
+@each $name in colors.$palette-names {
+    .#{$name}-border-color {
+        border-color: var(#{$name}-border-color);
+    }
+
+    @each $color in (primary, secondary, tertiary) {
+        .#{$name}-border-#{$color}-color {
+            border-color: var(#{$name}-border-#{$color}-color);
+        }
     }
 }
 
@@ -41,9 +49,15 @@
     }
 }
 
-@each $color in colors.$palette-names {
-    .#{$color}-background-color {
-        background-color: var(#{$color}-color);
+@each $name in colors.$palette-names {
+    .#{$name}-background-color {
+        background-color: var(#{$name}-background-color);
+    }
+
+    @each $color in (primary, secondary, tertiary) {
+        .#{$name}-background-#{$color}-color {
+            background-color: var(#{$name}-background-#{$color}-color);
+        }
     }
 }
 
@@ -61,9 +75,15 @@
     }
 }
 
-@each $color in colors.$palette-names {
-    .#{$color}-foreground-color {
-        color: var(#{$color}-color);
+@each $name in colors.$palette-names {
+    .#{$name}-foreground-color {
+        color: var(#{$name}-color);
+    }
+
+    @each $color in (primary, secondary, tertiary) {
+        .#{$name}-foreground-#{$color}-color {
+            color: var(#{$name}-foreground-#{$color}-color);
+        }
     }
 }
 
@@ -71,7 +91,7 @@
 // Opacity
 
 @each $level in map.keys($opacity) {
-    .opacity-#{$level} {
+    .o-#{$level} {
         opacity: #{var(opacity-#{$level})};
     }
 }
@@ -234,7 +254,8 @@
 // Gaps
 
 @each $size in $sizes {
-    .g-#{$size} {
+    .gap-#{$size} {
+        @include css.var(gap, var(space-#{$size}));
         gap: var(space-#{$size})
     }
 }
@@ -278,10 +299,6 @@
     }
 }
 
-.bold {
-    font-weight: bold;
-}
-
 .italic {
     font-style: italic;
 }
@@ -307,16 +324,14 @@
 }
 
 .ellipsis {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    @include elements.ellipsis;
 }
 
 
 // Shapes
 
 .circular {
-    border-radius: 100%;
+    border-radius: 10000px;
 }
 
 .rectangular {
@@ -324,11 +339,11 @@
 }
 
 .rounded {
-    border-radius: var(border-radius-m);
-
-    @each $size in map.keys($border-radii) {
+    border-radius: var(radius-m);
+    
+    @each $size in map.keys($radius-sizes) {
         &-#{$size} {
-            border-radius: var(border-radius-#{$size});
+            border-radius: var(radius-#{$size});
         }
     }
 }
@@ -344,6 +359,8 @@
 
 @each $size in $sizes {
     .shadow-hover-#{$size} {        
+        transition: box-shadow 0.15s ease-in-out;
+
         &:hover {
             box-shadow: var(shadow-#{$size}) var(shadow-color);
             z-index: 1;
@@ -354,49 +371,25 @@
 
 // Variants
 
-@include variants.plain-styles;
-@include variants.filled-styles;
-@include variants.outlined-styles;
-@include variants.tinted-styles;
-@include variants.outlined-tinted-styles;
-@include variants.outlined-filled-styles;
+@include variants.plain-classes;
+@include variants.filled-classes;
+@include variants.outlined-classes;
+@include variants.tinted-classes;
+@include variants.outlined-tinted-classes;
+@include variants.outlined-filled-classes;
+@include variants.text-classes;
 
 
 // States
 
 .disabled {
-    cursor: default;
-    opacity: var(opacity-medium);
-    pointer-events: none;
+    @include elements.disabled;
 }
 
 .interactive {
-    cursor: pointer;
-    user-select: none;
-    
-    &:hover {
-        border-color: var(border-hover-color);
-        background-color: var(background-hover-color);
-        color: var(foreground-hover-color);
-    }
-    
-    &:active {
-        border-color: var(border-active-color);
-        background-color: var(background-active-color);
-        color: var(foreground-active-color);
-    }
+    @include elements.interactive;
 }
 
-.static {
-    &:hover {
-        border-color: var(border-color);
-        background-color: var(background-color);
-        color: var(foreground-color);
-    }
-
-    &:active {
-        border-color: var(border-color);
-        background-color: var(background-color);
-        color: var(foreground-color);
-    }
+.non-interactive {
+    @include elements.non-interactive;
 }

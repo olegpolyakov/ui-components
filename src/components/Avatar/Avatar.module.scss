@@ -4,40 +4,38 @@
 @use './Avatar';
 
 @include component.define(Avatar, Avatar.$vars) {
+    .root {
+        box-sizing: border-box;
+        position: relative;
+        width: component.var(size);
+        height: component.var(size);
+        border-width: component.var(border-width);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        user-select: none;
+    }
 
-.root {
-    box-sizing: border-box;
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: component.var(size);
-    height: component.var(size);
-    border-width: component.var(border-width);
-    overflow: hidden;
-    user-select: none;
-}
+    .content {
+        font-family: base.var(font-family);
+        font-size: component.var(font-size);
+        font-weight: base.var(font-weight-semibold);
+        line-height: 1;
+        text-transform: uppercase;
+        text-align: center;
+    }
 
-.content {
-    font-family: base.var(font-family);
-    font-size: component.var(font-size);
-    font-weight: base.var(font-weight-semibold);
-    line-height: 1;
-    text-transform: uppercase;
-    text-align: center;
-}
+    .icon {
+        color: inherit
+    }
 
-.icon {
-    color: inherit
-}
+    .image {
+        position: absolute;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
 
-.image {
-    position: absolute;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-}
-
-@include component.sizes(Avatar.$sizes);
-
+    @include component.sizes(Avatar.$sizes);
 }

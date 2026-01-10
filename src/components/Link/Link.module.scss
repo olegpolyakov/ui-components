@@ -1,45 +1,32 @@
-@use 'sass:list';
-@use 'sass:math';
-
 @use 'base';
 @use 'component';
-@use 'utils/units' as *;
 
 @use './Link';
 
-@include component.define(Link, Link.$vars);
-
-.root {
-    background-color: transparent;
-    color: component.var(color);
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    text-align: inherit;
-    text-overflow: inherit;
-    overflow: inherit;
-    user-select: text;
-    cursor: pointer;
-}
-
-
-// States
-
-.root {
-    &:hover {
-        color: component.var(hover-color);
+@include component.define(Link, Link.$vars) {
+    .root {
+        background-color: transparent;
+        color: component.var(color);
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        text-align: inherit;
+        text-overflow: inherit;
+        overflow: inherit;
+        user-select: text;
+        cursor: pointer;
     }
-    
-    &:active {
-        color: component.var(active-color);
-    }
+
+
+    // Colors
+
+    @include component.classes((
+        primary: (color: base.var(foreground-primary-color)),
+        secondary: (color: base.var(foreground-secondary-color)),
+        tertiary: (color: base.var(foreground-tertiary-color))
+    ));
+
+    @include component.palettes-vars(color);
+
+    // TODO Add sizes
 }
-
-.disabled {
-    color: component.var(disabled-color);
-}
-
-
-// Colors
-
-@include component.palettes-vars(color);

@@ -1,18 +1,45 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
-$border-color: transparent !default;
-$border-width: 1px !default;
-$border-radius: base.var(border-radius-m) !default;
-$background-color: base.var(background-secondary-color) !default;
-$padding: base.var(space-m) !default;
-$shadow: none !default;
+$xs: (
+    radius: base.var(radius-xs),
+    padding: base.var(space-xs)
+) !default;
+
+$s: (
+    radius: base.var(radius-s),
+    padding: base.var(space-s)
+) !default;
+
+$m: (
+    radius: base.var(radius-m),
+    padding: base.var(space-m)
+) !default;
+
+$l: (
+    radius: base.var(radius-l),
+    padding: base.var(space-l)
+) !default;
+
+$xl: (
+    radius: base.var(radius-xl),
+    padding: base.var(space-xl)
+) !default;
+
+$sizes: (
+    xs: $xs,
+    s: $s,
+    m: $m,
+    l: $l,
+    xl: $xl
+);
+
+$radius: map.get($m, radius) !default;
+$padding: map.get($m, padding) !default;
 
 $vars: component.vars(Card, (
-    border-color: $border-color,
-    border-width: $border-width,
-    border-radius: $border-radius,
-    background-color: $background-color,
-    padding: $padding,
-    shadow: $shadow
+    radius: $radius,
+    padding: $padding
 ));

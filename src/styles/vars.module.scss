@@ -5,7 +5,7 @@
 
 :export {
     prefix: string.unquote(base.$prefix);
-    neutralColor: colors.$neutral;
+    baseColor: colors.$base;
     brandColor: colors.$brand;
     accentColor: colors.$accent;
     dangerColor: colors.$danger;

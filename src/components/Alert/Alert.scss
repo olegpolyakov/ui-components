@@ -1,9 +1,11 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
 $s: (
     height: 32px,
-    border-radius: base.var(border-radius-xs),
+    radius: base.var(border-radius-xs),
     padding: base.var(space-xxs) base.var(space-xs),
     gap: base.var(space-xxs),
     font-size: base.var(font-size-xs)
@@ -11,7 +13,7 @@ $s: (
 
 $m: (
     height: 40px,
-    border-radius: base.var(border-radius-s),
+    radius: base.var(border-radius-s),
     padding: base.var(space-xs) base.var(space-s),
     gap: base.var(space-xs),
     font-size: base.var(font-size-s)
@@ -19,7 +21,7 @@ $m: (
 
 $l: (
     height: 48px,
-    border-radius: base.var(border-radius-m),
+    radius: base.var(border-radius-m),
     padding: base.var(space-s) base.var(space-m),
     gap: base.var(space-s),
     font-size: base.var(font-size-m)
@@ -31,16 +33,16 @@ $sizes: (
     l: $l
 ) !default;
 
-$height: auto !default;
-$padding: base.var(space-xxs) base.var(space-xs) !default;
-$gap: base.var(space-xs) !default;
-$icon-color: inherit !default;
+$height: map.get($m, height) !default;
+$radius: map.get($m, radius) !default;
+$padding: map.get($m, padding) !default;
+$gap: map.get($m, gap) !default;
 $font-size: base.var(font-size-medium) !default;
 
 $vars: component.vars(Alert, (
     height: $height,
+    radius: $radius,
     padding: $padding,
     gap: $gap,
-    icon-color: $icon-color,
     font-size: $font-size,
 ));

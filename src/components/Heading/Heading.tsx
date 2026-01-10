@@ -1,26 +1,24 @@
 import { ReactNode } from 'react';
 
-import type { Align, ComponentProps, ElementType, Opacity, SizeFull, Space, TextColor, Weight } from '../../types';
-import { bcn, classnames as cn } from '../../utils';
+import { cn } from '../../component';
+import type { Align, Color, ComponentProps, ElementType, Opacity, SizeFull, Space, TextColor, Weight } from '../../types';
 
-import baseStyles from '../../styles/classes.module.scss';
 import styles from './Heading.module.scss';
-
-console.log({ baseStyles });
 
 export type HeadingProps = {
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-    color?: TextColor;
+    color?: Color | TextColor;
     size?: SizeFull; 
+    align?: Align;
     weight?: Weight;
     opacity?: Opacity;
-    align?: Align;
     gap?: Space;
     inline?: boolean;
     italic?: boolean;
     capitalize?: boolean;
+    ellipsis?: boolean;
     uppercase?: boolean;
     marginTop?: boolean;
     marginBottom?: boolean;
@@ -38,40 +36,35 @@ export default function Heading<T extends ElementType = 'h1'>({
     end,
     color,
     size = 'm',
+    align,
     weight = 'semibold',
     opacity,
-    align,
     gap = 'xs',
     inline,
     italic,
     capitalize,
+    ellipsis,
     uppercase,
     marginTop,
     marginBottom,
     ...props
 }: ComponentProps<HeadingProps, T>) {
     const Root = as || 'h1';
-    const classNames = cn(
-        className,
-        styles.root,
-        styles[size],
-        color && styles[color],
-        color && bcn(`${color}-foreground-color`),
-        gap && bcn(`gap-${gap}`),
-        opacity && bcn(`opacity-${opacity}`),
-        weight && bcn(`weight-${weight}`),
-        align && styles[`align-${align}`],
-        inline && styles.inline,
-        italic && bcn('italic'),
-        capitalize && bcn('capitalize'),
-        uppercase && bcn('uppercase'),
-        marginTop && (marginTop === true
-            ? bcn('mt')
-            : bcn(`mt-${marginTop}`)),
-        marginBottom && (marginBottom === true
-            ? bcn('mb')
-            : bcn(`mb-${marginBottom}`))
-    );
+    const classNames = cn(className, {
+        color,
+        size,
+        inline,
+        [`align-${align}`]: align,
+        ellipsis,
+        mt: marginTop,
+        mb: marginBottom,
+        gap,
+        opacity,
+        weight,
+        italic,
+        capitalize,
+        uppercase
+    }, styles);
 
     return (
         <Root

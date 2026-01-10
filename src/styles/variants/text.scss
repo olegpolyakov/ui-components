@@ -1,8 +1,44 @@
-@use '../base';
+@use 'base';
 @use 'colors';
 @use 'colors/palettes';
 @use 'colors/states';
 @use 'utils/color';
+
+@mixin classes {
+    .text {
+        @include styles(text);
+
+        &-static {
+            @include styles(text, $static: true);
+        }
+
+        @each $palette in palettes.$names {
+            &-#{$palette} {
+                @include styles(text-#{$palette});
+            }
+        }
+    }
+}
+
+@mixin styles($color, $static: false) {
+    height: unset;
+    min-height: unset;
+    padding: 0;
+    border: none;
+    background-color: unset;
+    color: base.var(#{$color}-color);
+    line-height: inherit;
+
+    @if $static == false {
+        &:hover {
+            color: base.var(#{$color}-hover-color);
+        }
+
+        &:active {
+            color: base.var(#{$color}-active-color);
+        }
+    }
+}
 
 @mixin vars(
     $color,
@@ -20,38 +56,4 @@
         hover: states.hover-color($color, $hover-value, $invert),
         active: states.active-color($color, $active-value, $invert)
     ), $args...);
-}
-
-@mixin styles($args...) {
-    %text {
-        height: unset;
-        min-height: unset;
-        padding: 0;
-        background-color: unset;
-        color: var(text-color);
-        line-height: inherit;
-        justify-content: flex-start;
-
-        &:hover {
-            color: var(text-hover-color);
-        }
-
-        &:active {
-            color: var(text-active-color);
-        }
-    }
-
-    .text {
-        @include states.vars((
-            foreground-color: text
-        ), $args...);
-
-        @each $palette in palettes.$names {
-            &-#{$palette} {
-                @include palettes.vars($palette, (
-                    foreground-color: $palette
-                ), $args...);
-            }
-        }
-    }
 }

@@ -1,9 +1,9 @@
 import { createContext, useEffect, useMemo, useState } from 'react';
 
 import type { Props } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
-import cssClasses from './Provider.module.scss';
+import styles from './Provider.module.scss';
 
 export type ProviderProps = {
     theme?: 'dark' | 'light';
@@ -18,8 +18,6 @@ export const Context = createContext<{
 });
 
 Provider.displayName = 'Provider';
-
-const elementClassNames = getElementClassNames(Provider.displayName);
 
 export default function Provider({
     children,
@@ -36,9 +34,8 @@ export default function Provider({
 
     const classNames = cn(
         className,
-        elementClassNames.root,
-        cssClasses.root,
-        cssClasses[theme ?? '']
+        styles.root,
+        styles[theme ?? '']
     );
 
     const value = useMemo(() => ({

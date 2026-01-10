@@ -1,3 +1,8 @@
+@use 'base';
 @use 'component';
 
-$vars: component.vars(Accordion);
+$gap: 0px !default;
+
+$vars: component.vars(Accordion, (
+    gap: $gap
+));

@@ -1,11 +1,25 @@
-import { Children as ReactChildren, ReactElement, isValidElement } from 'react';
+import { Children as ReactChildren, ReactElement, isValidElement, createElement, cloneElement, type FunctionComponent } from 'react';
 
-import type {  Children, Color,  Shadow, Shape, Variant, SizeExtended } from './types';
-import { cn } from './utils';
+import type {
+    Children,
+    Color,
+    Shadow,
+    Shape,
+    Variant,
+    SizeExtended,
+    Space,
+    AspectRatio,
+    Opacity,
+    Weight,
+    SizeFull,
+    Size,
+    TextColor
+} from './types';
+import { cn, isObject, isString } from './utils';
 
 import baseStyles from './styles/classes.module.scss';
 
-export function resolveChildren<T>(children: Children, items: T[]): T[] {
+export function  resolveChildren<T>(children: Children, items: T[]): T[] {
     return items.length > 0
         ? items
         : ReactChildren.toArray(children)
@@ -13,51 +27,153 @@ export function resolveChildren<T>(children: Children, items: T[]): T[] {
             .map(child => child.props);
 }
 
+export function renderChildren<T extends Record<string, unknown>>(
+    children: Children,
+    items: T[],
+    Fallback: FunctionComponent<T>,
+    props?: T
+): ReactElement[] {
+    return [
+        ...ReactChildren.toArray(children),
+        ...items
+    ].map(child => isValidElement<T>(child)
+        ? cloneElement<T>(child, {
+            ...props,
+            ...(child.props as T)
+        })
+        : createElement<T>(Fallback, {
+            ...props,
+            ...(child as T)
+        })
+    );
+} 
+
 export function getComponentClassNames(
+    className = '',
     {
+        root = true,
         color,
         size,
         shape,
+        variant,
+
         shadow,
         shadowHover,
-        variant,
+
+        inline,
+        aspectRatio,
+        gap,
+        opacity,
+
+        italic,
+        capitalize,
+        underline,
+        uppercase,
+        ellipsis,
+        weight,
+
         active,
         disabled,
-        interactive
+        interactive,
+        ...rest
     }: {
-        color?: Color;
-        size?: SizeExtended;
+        root?: boolean;
+        color?: Color | TextColor;
+        size?: Size | SizeExtended | SizeFull | 'inherit';
         shape?: Shape;
+        variant?: Variant | 'text';
+
         shadow?: Shadow;
         shadowHover?: Shadow;
-        variant?: Variant | 'text';
+
+        aspectRatio?: AspectRatio;
+        opacity?: Opacity;
+        inline?: boolean;
+
+        gap?: Space;
+
+        italic?: boolean;
+        capitalize?: boolean;
+        underline?: boolean;
+        uppercase?: boolean;
+        ellipsis?: boolean;
+        weight?: Weight;
+
         active?: boolean;
         disabled?: boolean;
         interactive?: boolean;
-    } = {},
-    ...restClassNames: Record<string, string>[]
+    } & Record<string, string | boolean | undefined> = {},
+    componentClassNames: Record<string, string | boolean | undefined>,
+    ...restClassNames: Record<string, string | boolean | undefined>[] | (string | boolean | undefined)[]
 ) {
-    const classNames = Object.assign({}, baseStyles, ...restClassNames);
+    const classNames = {
+        ...baseStyles,
+        ...componentClassNames,
+        ...restClassNames
+            .map(cls =>
+                isObject(cls)
+                    ? cls
+                    : isString(cls)
+                        ? { [cls]: true }
+                        : undefined
+            )
+            .filter(cls => !!cls)
+            .reduce((acc, curr) => ({ ...acc, ...curr }), {})
+    };
     
     return cn(
-        classNames.root,
+        className,
+
+        root && classNames.root,
         size && classNames[size],
-        variant && color 
-            ? classNames[joinClasses(variant, color)]
-            : variant
-                ? classNames[variant]
-                : color,
-        active && classNames[joinClasses(variant, 'active')],
+
+        ...Object.entries(rest).map(([key, value]) => value && componentClassNames[key]),
+        
+        getVariantClassNames(
+            variant,
+            color,
+            active,
+            interactive === false,
+            classNames
+        ),
+        
         shape && classNames[shape],
+
         shadow && classNames[`shadow-${shadow}`],
         shadowHover && classNames[`shadow-hover-${shadowHover}`],
-        typeof interactive === 'boolean' && (interactive ? classNames.interactive : classNames.static),
-        disabled && classNames.disabled
+        
+        aspectRatio && classNames[`ar-${aspectRatio.replace('/', '-')}`],
+        gap && classNames[`gap-${gap}`],
+        opacity && classNames[`o-${opacity}`],
+        inline && classNames.inline,
+
+        weight && classNames[weight],
+        italic && classNames.italic,
+        underline && classNames.underline,
+        capitalize && classNames.capitalize,
+        uppercase && classNames.uppercase,
+        ellipsis && classNames.ellipsis,
+
+        disabled && classNames.disabled,
+        interactive && classNames.interactive
     );
 }
 
-export { getComponentClassNames as ccn };
+function getVariantClassNames(
+    variant: Variant | 'text' | undefined,
+    color: Color | TextColor | undefined,
+    active: boolean | undefined,
+    nonInteractive: boolean | undefined,
+    classNames: Record<string, string | boolean | undefined>
+) {
+    const className = [
+        variant,
+        color,
+        active ? 'active' : undefined,
+        nonInteractive ? 'static' : undefined
+    ].filter(part => !!part).join('-');
 
-function joinClasses(...classes: (string | undefined)[]) {
-    return classes.filter(Boolean).join('-');
+    return classNames[className];
 }
+
+export { getComponentClassNames as cn, getComponentClassNames as ccn };

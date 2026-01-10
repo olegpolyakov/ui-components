@@ -2,268 +2,106 @@
 
 @use 'base';
 @use 'component';
+@use 'elements';
 
-@use '../Input';
 @use './Select';
 
-.common {
-    @include component.define(Select, Select.$vars);
-    box-sizing: border-box;
-    border-radius: component.var(border-radius);
-    transition: border-color .2s ease-in-out;
-}
-
-.root {
-    box-sizing: border-box;
-    position: relative;
-    width: 100%;
-    height: component.var(height);
-    display: flex;
-    align-items: center;
-    padding: component.var(padding);
-    gap: component.var(gap);
-    background-clip: padding-box;
-    background-color: component.var(background-color);
-    color: component.var(foreground-color);
-    font-family: base.var(font-family);
-    font-size: component.var(font-size);
-    font-weight: component.var(font-weight);
-    line-height: component.var(line-height);
-    cursor: pointer;
-}
-
-.menu {
-    list-style: none;
-    height: 100%;
-    padding: 4px 0;
-    margin: 0;
-    outline: none;
-    border: 1px solid component.var(border-color);
-    background: base.var(background-color);
-    overflow: hidden auto;
-    box-shadow: base.var(shadow-m) base.var(shadow-color);
-    z-index: 10;
-}
-
-.start,
-.end {
-    display: inline-flex;
-    align-items: center;
-    gap: component.var(gap);
-}
-
-.control {
-    flex: 1;
-    height: 100%;
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: base.var(space-xxs);
-
-    @include Select.caret;
-}
-
-.label {
-    position: absolute;
-    color: component.var(label-color);
-    transition: transform .2s;
-    transform-origin: top left;
-}
-
-.input {
-    height: 100%;
-    flex: 1;
-    margin: 0;
-    padding: 0;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: inherit;
-    font-family: inherit;
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit;
-    text-align: left;
-    white-space: nowrap;
-    z-index: 1;
-    visibility: hidden;
-    cursor: inherit;
-
-    &:empty::before {
-        content: attr(data-placeholder);
-        color: #b8b8b8;
+@include component.define(Select, Select.$vars) {
+    .root {
+        cursor: pointer;
     }
 
-    .label ~ &::before {
+    .control {
+        flex: 1;
+        height: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: base.var(space-xxs);
+    }
+
+    .input {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: inherit;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+        text-align: left;
+        white-space: nowrap;
+        z-index: 1;
+        cursor: inherit;
+    }
+
+    .input[type="button"] {
         visibility: hidden;
-    }
-}
 
-.value {
-    pointer-events: none;
-    transform: translateY(10%);
-    opacity: 0;
-    transition: opacity .2s, transform .2s;
-}
-
-
-// Shapes
-
-@include component.classes((
-    rounded: (border-radius: base.var(border-radius-m)),
-    rectangular: (border-radius: 0),
-    circular: (border-radius: component.var(height))
-));
-
-
-// Sizes
-
-@include component.classes((
-    s: (
-        height: 32px,
-        padding: 0 8px,
-        font-size: 12px
-    ),
-    m: (
-        height: 36px,
-        padding: 0 12px,
-        font-size: 14px
-    ),
-    l: (
-        height: 48px,
-        padding: 0 16px,
-        font-size: 16px
-    )
-));
-
-
-// Variants
-
-.outlined {
-    @include component.vars((
-        border-color: base.var(border-color),
-        background-color: transparent
-    ));
-    
-    border: component.var(border-width) solid component.var(border-color);
-}
-
-.underlined {
-    @include component.vars((
-        background-color: transparent
-    ));
-    
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-bottom: component.var(border-width) solid component.var(border-color);
-}
-
-.tinted {
-    @include component.vars((
-        background-color: base.var(background-color)
-    ));
-}
-    
-.outlined-tinted,
-.tinted-outlined {
-    @extend .outlined;
-    @extend .tinted;
-}
-
-.underlined-tinted,
-.tinted-underlined {
-    @extend .underlined;
-    @extend .tinted;
-}
-
-.outlined,
-.underlined {
-    &.focused {
-        @include component.vars((
-            border-color: base.var(brand-color)
-        ));
-    }
-}
-
-
-// Misc
-
-.root[data-validation-message] {
-    margin-bottom: 1rem;
-
-    &::after {
-        content: attr(data-validation-message);
-        bottom: -18px;
-        position: absolute;
-        left: 0;
-        font-size: .8rem;
-        line-height: 1rem;
-        color: var(--ui-Input-danger-color);
-    }
-}
-
-
-// States
-
-.open {
-    @include component.vars((
-        border-color: base.var(brand-color)
-    ));
-
-    &.root {
-        &.bottom {
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
+        &:empty::before {
+            content: attr(data-placeholder);
+            color: #b8b8b8;
         }
 
-        &.top {
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
+        .label ~ &::before {
+            visibility: hidden;
         }
-    }
-
-    &.menu {
-        &.bottom {
-            border-top: none;
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
-
-        &.top {
-            border-bottom: none;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-    }
-
-    // caret
-    .control::after {
-        transform: rotate(180deg);
-    }
-}
-
-.activated {
-    .label {
-        transform: scale(.75) translate(0, -35%);
-    }
-
-    .label ~ .value,
-    .label ~ .input {
-        padding-top: .75rem;
     }
 
     .value {
-        opacity: 1;
-        transform: translateY(0);
+        align-self: center;
+        white-space: nowrap;
     }
-}
 
-.disabled {
-    cursor: default;
-}
+    .arrow {
+        transition: transform 0.2s ease-in-out;
+    }
 
-.invalid {
-    @include component.vars((
-        border-color: base.var(danger-color)
-    ));
+    .dropdown {
+        
+    }
+
+    .list:empty {
+        &::after {
+            content: 'No options';
+            min-height: component.var(height);
+            display: flex;
+            align-items: center;
+            padding: component.var(padding);
+            color: base.var(foreground-tertiary-color);
+            font-style: italic;
+        }
+    }
+
+    .open {
+        &.bottom {
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+
+        &.top {
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 0 !important;
+        }
+
+        .dropdown.bottom {
+            border-top: none !important;
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 0 !important;
+        }
+
+        .dropdown.top {
+            border-bottom: none !important;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+
+        .arrow {
+            transform: rotate(180deg);
+        }
+    }
 }

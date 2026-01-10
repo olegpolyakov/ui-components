@@ -3,43 +3,53 @@
 @use 'colors/palettes';
 @use 'colors/states';
 @use 'utils/color';
+@use 'utils/css';
 
-@mixin styles($args...) {
-    %outlined-tinted {
-        border: 1px solid base.var(border-color);
-        background-color: base.var(background-color);
-        color: base.var(foreground-color);
-
-        &:hover {
-            border-color: base.var(border-hover-color);
-            background-color: base.var(background-hover-color);
-        }
-
-        &:active {
-            border-color: base.var(border-active-color);
-            background-color: base.var(background-active-color);
-        }
-    }
-
+@mixin classes {
     .outlined-tinted {
-        @include colors.vars((
-            border-color: states.vars(border-color, outlined),
-            background-color: states.vars(background-color, tinted)
-        ), $args...);
+        @include styles(outlined, tinted);
 
-        @extend %outlined-tinted;
-                
-        @content;
+        &-active {
+            @include styles(filled-brand, tinted-active);
+        }
+
+        &-static {
+            @include styles(outlined, tinted, $static: true);
+        }
 
         @each $palette in palettes.$names {
             &-#{$palette} {
-                @include colors.vars((
-                    border-color: states.vars(border-color, outlined-#{$palette}),
-                    background-color: states.vars(background-color, tinted-#{$palette})
-                ), $args...);
+                @include styles(outlined-#{$palette}, tinted-#{$palette});
 
-                @extend %outlined-tinted;
+                &-active {
+                    @include styles(filled-#{$palette}, tinted-#{$palette}-active);
+                }
+
+                &-static {
+                    @include styles(outlined-#{$palette}, tinted-#{$palette}, $static: true);
+                }
             }
+        }
+    }
+}
+
+@mixin styles(
+    $border-color,
+    $background-color,
+    $static: false
+) {
+    border: 1px solid base.var(#{$border-color}-color);
+    background-color: base.var(#{$background-color}-color);
+
+    @if $static == false {
+        &:hover {
+            border-color: base.var(#{$border-color}-hover-color);
+            background-color: base.var(#{$background-color}-hover-color);
+        }
+
+        &:active {
+            border-color: base.var(#{$border-color}-active-color);
+            background-color: base.var(#{$background-color}-active-color);
         }
     }
 }

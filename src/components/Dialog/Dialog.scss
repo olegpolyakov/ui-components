@@ -1,20 +1,43 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
-$padding: base.var(space-m) !default;
-$padding-x: --padding !default;
-$padding-y: --padding !default;
+$s: (
+    padding: base.var(space-s),
+    font-size: base.var(font-size-s)
+) !default;
+
+$m: (
+    padding: base.var(space-m),
+    font-size: base.var(font-size-m)
+) !default;
+
+$l: (
+    padding: base.var(space-l),
+    font-size: base.var(font-size-l)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
+$border-color: base.var(border-color) !default;
+$border-width: 1px !default;
+$radius: base.var(radius-m) !default;
+$padding: map.get($m, padding) !default;
 $background-color: base.var(background-color) !default;
-$border-radius: base.var(border-radius-m) !default;
 $shadow: base.var(shadow-m) !default;
-$z-index: 100 !default;
+$z-index: 1000 !default;
 
 $vars: component.vars(Dialog, (
+    border-color: $border-color,
+    border-width: $border-width,
+    radius: $radius,
     padding: $padding,
-    padding-x: $padding-x,
-    padding-y: $padding-y,
     background-color: $background-color,
-    border-radius: $border-radius,
     shadow: $shadow,
     z-index: $z-index
 ));

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import type { ComponentProps } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import styles from './TableBody.module.scss';
 
@@ -10,8 +10,6 @@ export type TableBodyProps = {
 };
 
 TableBody.displayName = 'TableBody';
-
-const elementClassNames = getElementClassNames(TableBody.displayName);
 
 export default function TableBody({
     children,
@@ -22,7 +20,6 @@ export default function TableBody({
 }: ComponentProps<TableBodyProps, 'tbody'>) {
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root
     );
 

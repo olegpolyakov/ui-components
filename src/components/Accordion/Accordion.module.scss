@@ -1,12 +1,18 @@
+@use 'base';
 @use 'component';
 
 @use './Accordion';
 
 @include component.define(Accordion, Accordion.$vars) {
-    
-.root {
-    display: flex;
-    flex-direction: column;
-}
+    .root {
+        display: flex;
+        flex-direction: column;
+        gap: component.var(gap);
+    }
 
+    @include component.gaps((
+        s: base.var(space-xxs),
+        m: base.var(space-xs),
+        l: base.var(space-s),
+    ));
 }

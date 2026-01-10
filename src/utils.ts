@@ -1,31 +1,14 @@
 import cn from 'classnames';
 
-import { THEME_PREFIX, Key, KeyCode } from './constants';
+import { Key, KeyCode } from './constants';
 import type { MouseInteractionEvent } from './types';
 
-export { cn, cn as classnames, baseClassName as bcn };
-
-export { resolveChildren, getComponentClassNames } from './component';
-
-export function baseClassName(className: string) {
-    return `${THEME_PREFIX}-${className}`;
-}
+export { cn, cn as classnames };
 
 export function noop() { return; }
 
-export function getElementClassNames<T extends readonly string[]>(
-    componentName: string,
-    elementNames?: [...T]
-) {
-    return (elementNames || []).reduce(
-        (result, elementName) => ({
-            ...result,
-            [elementName]: `${THEME_PREFIX}-${componentName}__${elementName}`
-        }),
-        {
-            root: `${THEME_PREFIX}-${componentName}`
-        } as { root: string; } & { [Key in T[number]]: string }
-    );
+export function joinClasses(...classes: (string | undefined)[]) {
+    return classes.filter(Boolean).join('-');
 }
 
 export function getClientWidth(element: HTMLElement) {

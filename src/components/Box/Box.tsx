@@ -1,3 +1,4 @@
+import { cn } from '../../component';
 import type {
     AspectRatio,
     Color,
@@ -9,20 +10,16 @@ import type {
     SizeFull as Size,
     Variant
 } from '../../types';
-import { classnames as cn, getComponentClassNames, getElementClassNames } from '../../utils';
 
+import baseStyles from '../../styles/classes.module.scss';
 import styles from './Box.module.scss';
-
-Box.displayName = 'Box';
-
-const elementClassNames = getElementClassNames(Box.displayName);
 
 export type BoxProps = {
     as?: 'div';
     color?: Color;
     shape?: Shape;
     shadow?: Shadow;
-    hoverShadow?: Shadow;
+    shadowHover?: Shadow;
     variant?: Variant;
     interactive?: boolean;
     padding?: Padding;
@@ -43,6 +40,8 @@ export type BoxProps = {
     ar?: AspectRatio;
 };
 
+Box.displayName = 'Box';
+
 export default function Box<T extends ElementType = 'div'>({
     as,
     className,
@@ -51,10 +50,10 @@ export default function Box<T extends ElementType = 'div'>({
     content = children,
     color,
     shape,
-    shadow,
-    hoverShadow,
     variant = 'plain',
-    interactive,
+    shadow,
+    shadowHover,
+    interactive = false,
     aspectRatio,
     ar = aspectRatio,
     padding,
@@ -73,6 +72,7 @@ export default function Box<T extends ElementType = 'div'>({
     pl = paddingLeft,
     ...props
 }: ComponentProps<BoxProps, T>) {
+    const Root = as || 'div';
     const {
         x = px,
         y = py,
@@ -82,38 +82,37 @@ export default function Box<T extends ElementType = 'div'>({
         left: l = pl
     } = typeof p === 'object'
         ? (p as { x: Size; y: Size } & {
-        top: Size;
-        right: Size;
-        bottom: Size;
-        left: Size;
-      })
+            top: Size;
+            right: Size;
+            bottom: Size;
+            left: Size;
+        })
         : ({} as { x: Size; y: Size } & {
-        top: Size;
-        right: Size;
-        bottom: Size;
-        left: Size;
-      });
-
-    const Root = as || 'div';
+            top: Size;
+            right: Size;
+            bottom: Size;
+            left: Size;
+        });
     const classNames = cn(
         className,
-        elementClassNames.root,
-        ...getComponentClassNames(styles, {
+        {
             color,
             shape,
-            shadow,
-            hoverShadow,
             variant,
-            interactive
-        }),
-        typeof p === 'string' && styles[`p-${p}`],
-        x && styles[`px-${x}`],
-        y && styles[`py-${y}`],
-        t && styles[`pt-${t}`],
-        r && styles[`pr-${r}`],
-        b && styles[`pb-${b}`],
-        l && styles[`pl-${l}`],
-        ar && styles[`ar-${ar.replace('/', '-')}`]
+            shadow,
+            shadowHover,
+            aspectRatio: ar,
+            interactive,
+            p: typeof p === 'string' ? p : undefined
+        },
+        styles,
+        typeof p === 'string' && baseStyles[`p-${p}`],
+        x && baseStyles[`px-${x}`],
+        y && baseStyles[`py-${y}`],
+        t && baseStyles[`pt-${t}`],
+        r && baseStyles[`pr-${r}`],
+        b && baseStyles[`pb-${b}`],
+        l && baseStyles[`pl-${l}`]
     );
 
     return (

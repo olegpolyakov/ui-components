@@ -6,94 +6,87 @@
 @use './Button';
 @use './ButtonGroup';
 
-@include component.define(ButtonGroup, ButtonGroup.$vars);
-
-.root {
-    position: relative;
-    display: inline-flex;
-    gap: component.var(gap);
-    vertical-align: middle;
-}
-
-.button {
-    flex: 1 1 auto;
-
-    &:hover,
-    &:active {
-        z-index: 1;
+@include component.define(ButtonGroup, ButtonGroup.$vars) {
+    .root {
+        position: relative;
+        display: inline-flex;
+        gap: component.var(gap);
     }
-}
 
-@include component.classes((
-    gap-xxs: (gap: base.var(space-xxs)),
-    gap-xs: (gap: base.var(space-xs)),
-    gap-s: (gap: base.var(space-xs)),
-    gap-m: (gap: base.var(space-m)),
-    gap-l: (gap: base.var(space-l)),
-    gap-xl: (gap: base.var(space-xl)),
-    gap-xxl: (gap: base.var(space-xxl))
-));
-
-.fluid {
-    width: 100%;
-}
-
-.joined {
-    @include component.vars((gap: 0));
-}
-
-.vertical {
-    flex-direction: column;
-}
-
-.joined:not(.vertical) {
     .button {
-        &:first-child {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-    
-        &:not(:first-child):not(:last-child) {
-            border-radius: 0;
-        }
+        flex: 1 1 auto;
 
-        &:last-child {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
+        &:hover,
+        &:active {
+            z-index: 1;
         }
     }
-}
 
-.joined.vertical {
-    .button {
-        &:first-child {
-            border-radius: map.get(Button.$vars, 'border-radius');
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-
-        &:not(:first-child):not(:last-child) {
-            border-radius: 0;
-        }
-
-        &:last-child {
-            border-radius: map.get(Button.$vars, 'border-radius');
-            border-top-left-radius: 0;
-            border-top-right-radius: 0;
-        }
+    .fluid {
+        width: 100%;
     }
-}
 
-.joined.outlined {
-    &.horizontal {
+    .horizontal {
+        flex-direction: row;
+    }
+
+    .vertical {
+        flex-direction: column;
+    }
+
+    .joined {
+        gap: 0;
+    }
+
+    .joined.horizontal {
+        .button {
+            &:first-child {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+        
+            &:not(:first-child):not(:last-child) {
+                border-radius: 0;
+            }
+
+            &:last-child {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+
         .button + .button {
-            margin-left: -1px;
+            border-left: 0px;
         }
     }
 
-    &.vertical {
+    .joined.vertical {
+        .button {
+            &:first-child {
+                border-radius: map.get(Button.$vars, border-radius);
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            &:not(:first-child):not(:last-child) {
+                border-radius: 0;
+            }
+
+            &:last-child {
+                border-radius: map.get(Button.$vars, border-radius);
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+        }
+
         .button + .button {
-            margin-top: -1px;
+            border-top: 0px;
         }
     }
+
+    @include component.gaps((
+        s: base.var(space-xxs),
+        m: base.var(space-xs),
+        l: base.var(space-s),
+    ));
 }

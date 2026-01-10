@@ -1,28 +1,4 @@
-@use 'sass:map';
-
 @use 'base';
 @use 'component';
 
-@use '../Input';
-
-$menu-shadow: base.var(shadow-m) !default;
-
-$vars: component.vars(Select, map.merge(Input.$vars, (
-    menu-shadow: $menu-shadow
-)));
-
-@mixin caret($size: 18px) {
-    &::after {
-        content: '';
-        display: inline-block;
-        width: $size;
-        height: $size;
-        margin-left: auto;
-        background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyNCcgaGVpZ2h0PScyNCcgdmlld0JveD0nMCAwIDI0IDI0JyBmaWxsPSdub25lJz48cGF0aCBkPSdNNiA5TDEyIDE1TDE4IDknIHN0cm9rZT0nIzUzNTI1Qycgc3Ryb2tlLXdpZHRoPScxLjUnIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcgc3Ryb2tlLWxpbmVqb2luPSdyb3VuZCcvPjwvc3ZnPg==');
-        background-size: contain;
-        background-position: center;
-        background-repeat: no-repeat;
-        transition: transform .2s;
-        opacity: .5;
-    }
-}
+$vars: component.vars(Select, ());

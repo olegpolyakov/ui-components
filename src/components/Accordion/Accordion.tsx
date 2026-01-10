@@ -1,15 +1,14 @@
-import type { ComponentProps, ElementType, PropsWithKey, Size, Space } from '../../types';
-import { classnames as cn, resolveChildren } from '../../utils';
+import { cn, resolveChildren } from '../../component';
+import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
 
 import AccordionItem, { AccordionItemProps } from './AccordionItem';
 
-import baseStyles from '../../styles/classes.module.scss';
 import styles from './Accordion.module.scss';
 
 export type AccordionProps = {
     items?: PropsWithKey<AccordionItemProps>[];
     size?: Size;
-    gap?: Space;
+    gap?: Size;
 };
 
 Accordion.displayName = 'Accordion';
@@ -26,12 +25,9 @@ export default function Accordion<T extends ElementType = 'div'>({
     ...props
 }: ComponentProps<AccordionProps, T>) {
     const Root = as || 'div';
-    const classNames = cn(
-        className,
-        styles.root,
-        styles[size],
-        gap && baseStyles[`gap-${gap}`]
-    );
+    const classNames = cn(className, {
+        gap
+    }, styles);
 
     return (
         <Root className={classNames} {...props}>

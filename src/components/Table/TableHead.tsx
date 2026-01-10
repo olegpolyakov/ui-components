@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { ComponentProps } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import styles from './TableHead.module.scss';
 
@@ -10,8 +10,6 @@ export type TableHeadProps = {
 };
 
 TableHead.displayName = 'TableHead';
-
-const elementClassNames = getElementClassNames(TableHead.displayName);
 
 export default function TableHead({
     className,
@@ -22,7 +20,6 @@ export default function TableHead({
 }: ComponentProps<TableHeadProps, 'thead'>) {
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root
     );
 

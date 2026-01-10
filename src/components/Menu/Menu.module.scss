@@ -3,22 +3,22 @@
 
 @use './Menu';
 
-@include component.define(Menu, Menu.$vars);
+@include component.define(Menu, Menu.$vars) {
+    .root {
+        display: flex;
+        flex-direction: column;
+        padding: component.var(padding);
+        overflow-y: auto;
+    }
 
-.root {
-    display: flex;
-    flex-direction: column;
-    padding: component.var(padding);
-    overflow-y: auto;
-}
+    .heading {
+        margin: 0;
+        padding: 8px 16px;
+    }
 
-.heading {
-    margin: 0;
-    padding: 8px 16px;
-}
-
-.divider {
-    width: 100%;
-    margin: 0;
-    opacity: base.var(opacity-low);
+    .divider {
+        width: 100%;
+        margin: 0;
+        opacity: base.var(opacity-low);
+    }
 }

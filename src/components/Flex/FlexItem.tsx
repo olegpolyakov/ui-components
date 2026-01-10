@@ -1,5 +1,5 @@
+import { cn } from '../../component';
 import type { Align, ComponentProps, ElementType } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
 
 import styles from './FlexItem.module.scss';
 
@@ -12,8 +12,6 @@ export type FlexItemProps = {
 };
 
 FlexItem.displayName = 'FlexItem';
-
-const elementClassNames = getElementClassNames(FlexItem.displayName);
 
 export default function FlexItem<T extends ElementType = 'div'>({
     as,
@@ -29,12 +27,14 @@ export default function FlexItem<T extends ElementType = 'div'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        grow && styles.grow,
-        shrink && styles.shrink,
-        alignX && styles.alignX,
-        alignY && styles.alignY,
-        alignCenter && styles.alignCenter
+        {
+            grow,
+            shrink,
+            alignX,
+            alignY,
+            alignCenter
+        },
+        styles
     );
 
     return (

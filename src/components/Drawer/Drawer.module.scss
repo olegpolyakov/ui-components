@@ -1,127 +1,142 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
 @use './Drawer';
 
-@include component.define(Drawer, Drawer.$vars);
-
-.root {
-    width: 100%;
-    height: 100%;
-    outline: none;
-    z-index: component.var(z-index);
-}
-
-.surface {
-    width: component.var(width);
-    height: component.var(height);
-    background-color: component.var(background-color);
-    color: base.var(foreground-color);
-    display: flex;
-    flex-direction: column;
-
-    // @include component.shadows;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: component.var(padding-y) component.var(padding-x);
-}
-
-.title {
-    margin: 0;
-}
-
-.content {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    padding: component.var(padding-y) component.var(padding-x);
-    overflow-y: auto;
-}
-
-.close-button {
-    flex-shrink: 0;
-}
-
-
-// Types
-
-.inline {
-    &.enter,
-    &.enter-done {
-        display: flex;
+@include component.define(Drawer, Drawer.$vars) {
+    .root {
+        width: 100%;
+        height: 100%;
+        outline: none;
+        z-index: component.var(z-index);
     }
-
-    &.exit,
-    &.exit-done {
-        display: none;
-    }
-
-    &.left .surface {
-        border-right: component.var(border-width) solid component.var(border-color);
-    }
-
-    &.right .surface {
-        border-left: component.var(border-width) solid component.var(border-color);
-    }
-
-    &.top .surface {
-        border-bottom: component.var(border-width) solid component.var(border-color);
-    }
-
-    &.bottom .surface {
-        border-top: component.var(border-width) solid component.var(border-color);
-    }
-}
-
-.modal,
-.overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
 
     .surface {
+        box-sizing: border-box;
+        width: component.var(width);
+        height: component.var(height);
+        display: flex;
+        flex-direction: column;
+        background-color: component.var(background-color);
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: component.var(padding-y) component.var(padding-x);
+    }
+
+    .title {
+        margin: 0;
+    }
+
+    .content {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        padding: component.var(padding-y) component.var(padding-x);
+        font-size: component.var(font-size);
+        overflow-y: auto;
+    }
+
+    .close-button {
+        flex-shrink: 0;
+    }
+
+
+    @include component.sizes(Drawer.$sizes);
+
+
+    // Types
+
+    .inline {
+        &.enter,
+        &.enter-done {
+            display: flex;
+        }
+
+        &.exit,
+        &.exit-done {
+            display: none;
+        }
+
+        .surface {
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        &.left .surface {
+            border-right: component.var(border-width) solid component.var(border-color);
+        }
+
+        &.right .surface {
+            border-left: component.var(border-width) solid component.var(border-color);
+        }
+
+        &.top .surface {
+            border-bottom: component.var(border-width) solid component.var(border-color);
+        }
+
+        &.bottom .surface {
+            border-top: component.var(border-width) solid component.var(border-color);
+        }
+    }
+
+    .modal,
+    .overlay {
         position: absolute;
-        box-shadow: component.var(shadow) base.var(shadow-color);
-        transition: transform 200ms ease-in-out;
-    }
 
-    &.left,
-    &.right {
-        @include component.vars((
-            min-width: 360px,
-            height: 100%
-        ));
-    }
+        .surface {
+            position: absolute;
+            border-radius: component.var(radius);
+            box-shadow: component.var(shadow) base.var(shadow-color);
+            transition: transform 200ms ease-in-out;
+        }
 
-    &.top,
-    &.bottom {
-        @include component.vars((
-            width: 100%,
-            height: auto
-        ));
-    }
+        &.left,
+        &.right {
+            @include component.vars((
+                min-width: 360px,
+                height: 100%
+            ));
+        }
 
-    &.left .surface {
-        top: 0;
-        left: 0;
-    }
+        &.top,
+        &.bottom {
+            @include component.vars((
+                width: 100%,
+                height: auto
+            ));
+        }
 
-    &.right .surface {
-        top: 0;
-        right: 0;
-    }
+        &.left .surface {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
 
-    &.top .surface {
-        top: 0;
-        left: 0;
-    }
+        &.right .surface {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
 
-    &.bottom .surface {
-        bottom: 0;
-        left: 0;
+        &.top .surface {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        &.bottom .surface {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        &.inset .surface {
+            width: calc(component.var(width) - component.var(padding) * 2);
+            height: calc(component.var(height) - component.var(padding) * 2);
+            margin: component.var(padding);
+            border-radius: component.var(radius);
+        }
     }
 }

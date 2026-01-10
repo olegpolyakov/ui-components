@@ -4,73 +4,71 @@
 @use './Flex';
 
 @include component.define(Flex, Flex.$vars) {
-
-.root {
-    display: flex;
-}
-
-.inline {
-    display: inline-flex;
-}
-
-.row {
-    flex-direction: row;
-
-    &-reverse {
-        flex-direction: row-reverse;
-    }
-}
-
-.column {
-    flex-direction: column;
-
-    &-reverse {
-        flex-direction: column-reverse;
-    }
-}
-
-.wrap {
-    flex-wrap: wrap;
-}
-
-.align {
-    &-start {
-        align-items: flex-start;
+    .root {
+        display: flex;
     }
 
-    &-center {
-        align-items: center;
+    .inline {
+        display: inline-flex;
     }
 
-    &-end {
-        align-items: flex-end;
-    }
-}
+    .row {
+        flex-direction: row;
 
-.justify {
-    &-start {
-        justify-content: flex-start;
+        &-reverse {
+            flex-direction: row-reverse;
+        }
     }
 
-    &-center {
-        justify-content: center;
+    .column {
+        flex-direction: column;
+
+        &-reverse {
+            flex-direction: column-reverse;
+        }
     }
 
-    &-end {
-        justify-content: flex-end;
+    .wrap {
+        flex-wrap: wrap;
     }
 
-    &-around {
-        justify-content: space-around;
+    .align {
+        &-start {
+            align-items: flex-start;
+        }
+
+        &-center {
+            align-items: center;
+        }
+
+        &-end {
+            align-items: flex-end;
+        }
     }
 
-    &-between {
-        justify-content: space-between;
-    }
+    .justify {
+        &-start {
+            justify-content: flex-start;
+        }
 
-    &-evenly {
-        justify-content: space-evenly;
-    }
-}
+        &-center {
+            justify-content: center;
+        }
 
+        &-end {
+            justify-content: flex-end;
+        }
+
+        &-around {
+            justify-content: space-around;
+        }
+
+        &-between {
+            justify-content: space-between;
+        }
+
+        &-evenly {
+            justify-content: space-evenly;
+        }
+    }
 }

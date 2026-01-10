@@ -1,17 +1,16 @@
-import type { Color, ComponentProps, ElementType, Shape } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../component';
+import type { Color, ComponentProps, ElementType, Shadow, Shape } from '../../types';
 
 import styles from './Image.module.scss';
 
 export type ImageProps = {
     color?: Color;
     shape?: Shape;
+    shadow?: Shadow;
     inline?: boolean;
 };
 
 Image.displayName = 'Image';
-
-const elementClassNames = getElementClassNames(Image.displayName);
 
 export default function Image<T extends ElementType = 'img'>({
     as,
@@ -19,17 +18,15 @@ export default function Image<T extends ElementType = 'img'>({
 
     color,
     shape,
+    shadow,
     inline,
     ...props
 }: ComponentProps<ImageProps, T>) {
     const Component = as || 'img';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        styles.root,
-        color && styles[color],
-        shape && styles[shape],
-        inline && styles.inline
+        { color, shape, shadow, inline },
+        styles
     );
 
     return (

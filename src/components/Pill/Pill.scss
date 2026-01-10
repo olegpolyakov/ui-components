@@ -1,42 +1,52 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
+@use 'utils/css';
 
-$height: auto !default;
-$padding: null !default;
-$gap: base.var(space-xxs) !default;
-$border-color: null !default;
-$border-color-hover: null !default;
-$border-color-active: null !default;
-$border-radius: null !default;
-$border-width: null !default;
-$background-color: null !default;
-$background-color-hover: null !default;
-$background-color-active: null !default;
-$foreground-color: null !default;
-$foreground-color-hover: null !default;
-$foreground-color-active: null !default;
-$font-size: base.var(font-size) !default;
+$s: (
+    height: 18px,
+    radius: base.var(border-radius-xs),
+    padding: base.var(space-xxs),
+    gap: base.var(space-xxs),
+    font-size: 12px
+) !default;
+    
+$m: (
+    height: 24px,
+    radius: base.var(border-radius-s),
+    padding: base.var(space-xs),
+    gap: base.var(space-xxs),
+    font-size: 14px
+) !default;
+
+$l: (
+    height: 30px,
+    radius: base.var(border-radius-m),
+    padding: base.var(space-s),
+    gap: base.var(space-xs),
+    font-size: 16px
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
+$height: map.get($m, height) !default;
+$radius: base.var(border-radius-m) !default;
+$padding: map.get($m, padding) !default;
+$gap: map.get($m, gap) !default;
+$font-size: map.get($m, font-size) !default;
 $font-weight: base.var(font-weight-normal) !default;
-$line-height: 1 !default;
-$icon-color: currentColor !default;
 
 $vars: component.vars(Pill, (
     height: $height,
+    radius: component.var(_radius, $radius),
     padding: $padding,
     gap: $gap,
-    border-color: $border-color,
-    border-color-hover: $border-color-hover,
-    border-color-active: $border-color-active,
-    border-radius: $border-radius,
-    border-width: $border-width,
-    background-color: $background-color,
-    background-color-hover: $background-color-hover,
-    background-color-active: $background-color-active,
-    foreground-color: $foreground-color,
-    foreground-color-hover: $foreground-color-hover,
-    foreground-color-active: $foreground-color-active,
     font-size: $font-size,
     font-weight: $font-weight,
-    line-height: $line-height,
-    icon-color: $icon-color
+    _height: --height
 ));

@@ -5,127 +5,96 @@
 @use './Button';
 
 @include component.define(Button, Button.$vars) {
-
-.root {
-    box-sizing: border-box;
-    position: relative;
-    min-height: component.var(height);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 component.var(padding);
-    gap: component.var(gap);
-    border: none;
-    border-radius: component.var(border-radius);
-    font-family: base.var(font-family);
-    font-size: component.var(font-size);
-    font-weight: component.var(font-weight-normal);
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    @include elements.interactive;
-
-    &:has(.start) {
-        padding-left: calc(#{component.var(padding)} * 0.625);
-    }
-
-    &:has(.end) {
-        padding-right: calc(#{component.var(padding)} * 0.625);
-    }
-    
-    &:disabled {
-        cursor: default;
-        pointer-events: none;
-        opacity: base.var(opacity-medium);
-    }
-}
-
-.start,
-.content,
-.end {
-    display: inline-flex;
-    align-items: center;
-}
-
-.startIcon,
-.endIcon {
-    position: relative;
-}
-
-.fluid {
-    width: 100%;
-}
-
-.loading {
-    pointer-events: none;
-
-    .loader {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
+    .root {
+        box-sizing: border-box;
+        position: relative;
+        min-height: component.var(height);
+        border: none;
+        padding-inline: component.var(padding);
+        display: inline-flex;
         align-items: center;
         justify-content: center;
+        gap: component.var(gap);
+        border-radius: component.var(radius);
+        font-family: base.var(font-family);
+        font-size: component.var(font-size);
+        font-weight: component.var(font-weight);
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+
+        @include elements.interactive;
+        @include elements.disabled-state;
+        @include elements.slot-padding(component.var(padding), base.var(space-xs));
     }
 
     .start,
-    .icon,
     .content,
     .end {
-        visibility: hidden;
+        display: inline-flex;
+        align-items: center;
     }
-}
 
-
-// Sizes
-
-@each $size, $vars in Button.$sizes {
-    .#{$size} {
-        @include component.vars($vars);
+    .startIcon,
+    .endIcon {
+        position: relative;
     }
-}
 
+    .fluid {
+        width: 100%;
+    }
 
-// Shapes
+    .loading {
+        pointer-events: none;
 
-@include component.shapes(
-    $circular: component.var(height),
-    $rounded: calc(component.var(height) / 4)
-);
+        .loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
+        .start,
+        .icon,
+        .content,
+        .end {
+            visibility: hidden;
+        }
+    }
 
-// Icon
+    @include component.sizes(Button.$sizes);
 
-.icon-button {
-    @include component.vars((
-        padding: 0
-    ));
+    .icon-button {
+        @include component.vars((
+            padding: 0
+        ));
 
-    width: component.var(height);
-    height: component.var(height);
-    min-height: auto;
+        width: component.var(height);
+        height: component.var(height);
+        min-height: auto;
 
-    @include component.declare((
-        -xs: (
-            height: 16px,
-            border-radius: base.var(border-radius-xs)
-        ),
-        -s: (
-            height: 24px,
-            border-radius: base.var(border-radius-s)
-        ),
-        -m: (
-            height: 32px
-        ),
-        -l: (
-            height: 40px
-        ),
-        -xl: (
-            height: 48px
-        )
-    ));
-}
-
+        @include component.declare((
+            -xs: (
+                height: 16px,
+                border-radius: base.var(border-radius-xs)
+            ),
+            -s: (
+                height: 24px,
+                border-radius: base.var(border-radius-s)
+            ),
+            -m: (
+                height: 32px
+            ),
+            -l: (
+                height: 40px
+            ),
+            -xl: (
+                height: 48px
+            )
+        ));
+    }
 }

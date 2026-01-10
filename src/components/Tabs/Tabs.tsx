@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import type { ComponentProps, ElementType } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import TabsContext from './TabsContext';
 import TabsList, { TabsListProps } from './TabsList';
@@ -20,8 +20,6 @@ export type TabsProps = {
 Tabs.displayName = 'Tabs';
 Tabs.List = TabsList;
 Tabs.Panel = TabPanel;
-
-const elementClassNames = getElementClassNames(Tabs.displayName);
 
 export default function Tabs<T extends ElementType = 'div'>({
     as,
@@ -52,7 +50,6 @@ export default function Tabs<T extends ElementType = 'div'>({
     const Component = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root
     );
 

@@ -1,7 +1,8 @@
 import { ReactNode, useRef } from 'react';
 
-import type { ComponentProps, ElementType, Shadow, Slotted } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn as ccn } from '../../component';
+import type { ComponentProps, ElementType, Shadow, Shape, Size, SizeExtended, Slotted } from '../../types';
+import { cn } from '../../utils';
 
 import Button, { ButtonProps } from '../Button';
 import Heading, { HeadingProps } from '../Heading';
@@ -19,16 +20,21 @@ export type DrawerProps = {
     closeButton?: Slotted<ButtonProps>;
     type?: 'inline' | 'overlay' | 'modal';
     position?: 'left' | 'right' | 'top' | 'bottom';
+    size?: Size;
+    shape?: Exclude<Shape, 'circular'>;
     shadow?: Shadow;
+    backdrop?: boolean;
+    inset?: boolean;
     onClose?: () => void;
 };
 
-Drawer.displayName = 'Drawer';
+const sizeMap: Record<Size, SizeExtended> = {
+    s: 'xs',
+    m: 's',
+    l: 'm'
+};
 
-const elementClassNames = getElementClassNames(
-    Drawer.displayName,
-    ['surface', 'header', 'title', 'content', 'closeButton']
-);
+Drawer.displayName = 'Drawer';
 
 export default function Drawer<T extends ElementType = 'div'>({
     as,
@@ -42,26 +48,37 @@ export default function Drawer<T extends ElementType = 'div'>({
     closeButton = { icon: 'close' },
     type = 'inline',
     position = 'left',
-    shadow = 'm',
+    size = 'm',
+    shadow,
+    shape,
+    backdrop = true,
+    inset = false,
     onClose,
     ...props
 }: ComponentProps<DrawerProps, T>) {
     const surfaceRef = useRef<HTMLDivElement>(null);
 
     const Component = as || 'div';
-    const classNames = cn(
+    const rootClassNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
+        styles[type],
+        styles[size],
         styles[position],
-        styles[type]
+        inset && styles.inset
     );
+    const surfaceClassNames = ccn(styles.surface, {
+        root: false,
+        shape,
+        shadow
+    }, styles);
 
     const rootContent = (
         <Component
-            className={classNames}
+            className={rootClassNames}
             tabIndex={-1}
             data-open={open ? true : undefined}
+            data-position={position}
             {...props}
         >
             <Transition
@@ -74,15 +91,15 @@ export default function Drawer<T extends ElementType = 'div'>({
             >
                 <div
                     ref={surfaceRef}
-                    className={cn(elementClassNames.surface, styles.surface, shadow && styles[`shadow-${shadow}`])}
+                    className={surfaceClassNames}
                 >
                     {(title || header || onClose) &&
-                        <div className={cn(elementClassNames.header, styles.header)}>
+                        <div className={styles.header}>
                             {title &&
                                 <Slot
                                     fallback={Heading}
-                                    className={cn(elementClassNames.title, styles.title)}
-                                    size="s"
+                                    className={styles.title}
+                                    size={sizeMap[size]}
                                 >
                                     {title}
                                 </Slot>
@@ -93,9 +110,9 @@ export default function Drawer<T extends ElementType = 'div'>({
                             {closeButton && 
                                 <Slot
                                     fallback={Button}
-                                    className={cn(elementClassNames.closeButton, styles.closeButton)}
+                                    className={styles.closeButton}
                                     icon="close"
-                                    size="s"
+                                    size={sizeMap[size]}
                                     aria-label="Close dialog"
                                     onClick={onClose}
                                 />
@@ -103,7 +120,7 @@ export default function Drawer<T extends ElementType = 'div'>({
                         </div>
                     }
 
-                    <div className={cn(elementClassNames.content, styles.content)}>
+                    <div className={styles.content}>
                         {content}
                     </div>
                 </div>
@@ -112,7 +129,7 @@ export default function Drawer<T extends ElementType = 'div'>({
     );
 
     return type === 'modal' ?
-        <Modal open={open} backdrop fixed>
+        <Modal open={open} backdrop={backdrop} fixed>
             {rootContent}
         </Modal> :
         rootContent;

@@ -10,7 +10,7 @@ import {
 
 import { useUpdated } from '../../hooks/lifecycle';
 import type{ ComponentProps, Props } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import Layer from '../Layer';
 import Button from '../Button';
@@ -36,8 +36,6 @@ export type ToastProps = {
 };
 
 Toast.displayName = 'Toast';
-
-const elementClassNames = getElementClassNames(Toast.displayName);
 
 export default function Toast({
     as,
@@ -84,7 +82,6 @@ export default function Toast({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
         leading && styles.leading,
         stacked && styles.stacked
@@ -125,13 +122,13 @@ export default function Toast({
                     </div>
 
                     <div className={styles.actions} aria-atomic="true">
-                        {isValidElement<Props>(action) &&
+                        {isValidElement<{className: string}>(action) &&
                             cloneElement(action, {
                                 className: styles.action
                             })
                         }
 
-                        {dismissible && (isValidElement<Props>(dismissIcon) ?
+                        {dismissible && (isValidElement<{className: string, onClick: () => void}>(dismissIcon) ?
                             cloneElement(dismissIcon, {
                                 className: styles.dismiss,
                                 onClick: onClose

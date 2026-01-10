@@ -1,13 +1,13 @@
 import { MouseEvent, ReactNode, useCallback, useContext } from 'react';
 
 import { Size, type ComponentProps, type Variant } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import Icon from '../Icon';
 
 import TabsContext from './TabsContext';
 
-import cssClasses from './Tab.module.scss';
+import styles from './Tab.module.scss';
 
 export type TabProps = {
     value?: string | number;
@@ -23,11 +23,6 @@ export type TabProps = {
 };
 
 Tab.displayName = 'Tab';
-
-const elementClassNames = getElementClassNames(
-    Tab.displayName,
-    ['container', 'content', 'start', 'end', 'icon']
-);
 
 export default function Tab({
     as,
@@ -55,11 +50,10 @@ export default function Tab({
     const Component = as || 'button';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size],
-        cssClasses[variant],
-        active && cssClasses.active
+        styles.root,
+        styles[size],
+        styles[variant],
+        active && styles.active
     );
 
     return (
@@ -72,26 +66,26 @@ export default function Tab({
             {...props}
         >
             {start &&
-                <span className={cn(elementClassNames.start, cssClasses.start)}>
+                <span className={styles.start}>
                     {start}
                 </span>
             }
 
             {icon &&
                 <Icon
-                    className={cn(elementClassNames.icon, cssClasses.icon)}
+                    className={styles.icon}
                     size={size}
                 >
                     {icon}
                 </Icon>
             }
 
-            <span className={cn(elementClassNames.content, cssClasses.content)}>
+            <span className={styles.content}>
                 {content}
             </span>
 
             {end &&
-                <span className={cn(elementClassNames.end, cssClasses.end)}>
+                <span className={styles.end}>
                     {end}
                 </span>
             }

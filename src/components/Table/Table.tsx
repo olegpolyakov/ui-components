@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import type { Size, ComponentProps } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import TableBody from './TableBody';
 import TableCell from './TableCell';
@@ -24,8 +24,6 @@ Table.Cell = TableCell;
 Table.Head = TableHead;
 Table.Row = TableRow;
 
-const elementClassNames = getElementClassNames(Table.displayName);
-
 export default function Table({
     className,
     children,
@@ -38,7 +36,6 @@ export default function Table({
 }: ComponentProps<TableProps, 'table'>) {
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
         styles[size],
         interactive && styles.interactive,

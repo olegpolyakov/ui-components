@@ -5,19 +5,24 @@
 
 $s: (
     height: 36px,
-    padding: base.var(space-xxs) base.var(space-xs),
+    padding-block: base.var(space-xxs),
+    padding-inline: base.var(space-xs),
     gap: base.var(space-xxs),
     font-size: base.var(font-size-s)
 );
+
 $m: (
     height: 40px,
-    padding: base.var(space-xs) base.var(space-s),
+    padding-block: base.var(space-xs),
+    padding-inline: base.var(space-s),
     gap: base.var(space-xs),
     font-size: base.var(font-size-m)
 );
+
 $l: (
     height: 48px,
-    padding: base.var(space-s) base.var(space-m),
+    padding-block: base.var(space-s),
+    padding-inline: base.var(space-m),
     gap: base.var(space-s),
     font-size: base.var(font-size-l)
 ) !default;
@@ -29,14 +34,16 @@ $sizes: (
 ) !default;
 
 $height: auto;
-$padding: map.get($m, padding);
+$padding-block: map.get($m, padding-block);
+$padding-inline: map.get($m, padding-inline);
 $gap: map.get($m, gap);
 $border-radius: base.var(border-radius-m) !default;
 $font-size: base.var(font-size-m) !default;
 
 $vars: component.vars(Item, (
     height: $height,
-    padding: $padding,
+    padding-block: $padding-block,
+    padding-inline: $padding-inline,
     gap: $gap,
     border-radius: $border-radius,
     font-size: $font-size

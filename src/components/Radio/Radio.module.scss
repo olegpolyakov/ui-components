@@ -51,7 +51,7 @@
             border-color: base.var(filled-brand-color)
         ));
 
-        border-width: component.var(_checked-border-width);
+        border-width: component.var(checked-border-width);
 
         &:hover {
             @include component.vars((
@@ -86,16 +86,16 @@
     s: (
         size: 16px,
         gap: base.var(space-xs),
-        _checked-border-width: 5px
+        checked-border-width: 5px
     ),
     m: (
         size: 20px,
         gap: base.var(space-s),
-        _checked-border-width: 6px
+        checked-border-width: 6px
     ),
     l: (
         size: 24px,
         gap: base.var(space-m),
-        _checked-border-width: 7px
+        checked-border-width: 7px
     )
 ));

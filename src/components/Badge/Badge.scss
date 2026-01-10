@@ -1,21 +1,23 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
 $s: (
     size: 14px,
-    padding-x: base.var(space-xxs),
+    padding: base.var(space-xxs),
     font-size: base.var(font-size-xxs)
 ) !default;
 
 $m: (
     size: 18px,
-    padding-x: base.var(space-xs),
+    padding: base.var(space-xxs),
     font-size: base.var(font-size-xs)
 ) !default;
 
 $l: (
     size: 24px,
-    padding-x: base.var(space-s),
+    padding: base.var(space-xs),
     font-size: base.var(font-size-s)
 ) !default;
 
@@ -25,12 +27,12 @@ $sizes: (
     l: $l
 ) !default;
 
-$size: auto !default;
-$padding-x: 0 !default;
-$font-size: base.var(font-size-xs) !default;
+$size: map.get($m, size) !default;
+$padding: map.get($m, padding) !default;
+$font-size: map.get($m, font-size) !default;
 
 $vars: component.vars(Badge, (
     size: $size,
-    padding-x: $padding-x,
+    padding: $padding,
     font-size: $font-size
 ));

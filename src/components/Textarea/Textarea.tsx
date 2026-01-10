@@ -8,7 +8,7 @@ import {
 } from 'react';
 
 import type { ComponentProps, Size } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import styles from './Textarea.module.scss';
 
@@ -30,11 +30,6 @@ export type TextareaChangeHandler = (
 ) => void;
 
 Textarea.displayName = 'Textarea';
-
-const elementClassNames = getElementClassNames(
-    Textarea.displayName,
-    ['start', 'label', 'container', 'hidden', 'textarea', 'end']
-);
 
 export default function Textarea({
     value,
@@ -77,7 +72,6 @@ export default function Textarea({
 
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
         styles[size],
         styles[variant],
@@ -91,21 +85,21 @@ export default function Textarea({
             data-validation-message={validationMessage || undefined}
         >
             {start &&
-                <span className={cn(elementClassNames.start, styles.start)}>
+                <span className={styles.start}>
                     {start}
                 </span>
             }
 
             <div
                 ref={containerRef}
-                className={cn(elementClassNames.container, styles.container)}
+                className={styles.container}
             >
                 {label &&
-                    <label className={cn(elementClassNames.label, styles.label)}>{label}</label>
+                    <label className={styles.label}>{label}</label>
                 }
             
                 <textarea
-                    className={cn(elementClassNames.textarea, styles.textarea)}
+                    className={styles.textarea}
                     value={value}
                     defaultValue={defaultValue}
                     onChange={handleChange}
@@ -115,7 +109,7 @@ export default function Textarea({
             </div>
 
             {end &&
-                <span className={cn(elementClassNames.end, styles.end)}>
+                <span className={styles.end}>
                     {end}
                 </span>
             }

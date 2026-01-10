@@ -13,5 +13,5 @@ $vars: component.vars(Radio, (
     border-width: $border-width,
     background-color: $background-color,
     gap: $gap,
-    _checked-border-width: 6px
+    checked-border-width: 6px
 ));

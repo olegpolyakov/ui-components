@@ -1,27 +1,36 @@
 @use 'base';
+@use 'colors';
+@use 'colors/palettes';
 @use 'component';
 
 @use './Divider';
 
-@include component.define(Divider, Divider.$vars);
+@include component.define(Divider, Divider.$vars) {
+    .root {
+        display: block;
+        border: none;
+        margin: 0;
+        flex-shrink: 0;
+        align-self: stretch;
+        background: component.var(color);
+    }
 
-.root {
-    display: block;
-    margin: 0;
-    align-self: stretch;
-    flex-shrink: 0;
-    border: none;
-    background: component.var(color);
-}
+    .horizontal {
+        min-width: 1px;
+        width: 100%;
+        height: 1px;
+    }
 
-.horizontal {
-    min-width: 1px;
-    width: 100%;
-    height: 1px;
-}
+    .vertical {
+        width: 1px;
+        min-height: 1px;
+        height: 100%;
+    }
 
-.vertical {
-    width: 1px;
-    min-height: 1px;
-    height: 100%;
+
+    // Colors
+
+    @include component.palettes-vars((
+        color: '$-border-color'
+    ));
 }

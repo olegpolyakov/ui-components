@@ -4,40 +4,38 @@
 @use './Alert';
 
 @include component.define(Alert, Alert.$vars) {
+    .root {
+        position: relative;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        min-height: component.var(height);
+        border-radius: component.var(radius);
+        padding: component.var(padding);
+        gap: component.var(gap);
+    }
 
-.root {
-    position: relative;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    min-height: component.var(height);
-    padding: component.var(padding);
-    gap: component.var(gap);
-    border-radius: component.var(border-radius);
-}
+    .start,
+    .content,
+    .action,
+    .end {
+        display: inline-flex;
+        align-items: center;
+        gap: component.var(gap);
+    }
 
-.start,
-.content,
-.action,
-.end {
-    display: inline-flex;
-    align-items: center;
-    gap: component.var(gap);
-}
+    .start,
+    .icon,
+    .action,
+    .close-button,
+    .end {
+        flex-shrink: 0;
+    }
 
-.start,
-.icon,
-.action,
-.close-button,
-.end {
-    flex-shrink: 0;
-}
+    .content {
+        flex: 1;
+        font-size: component.var(font-size);
+    }
 
-.content {
-    flex: 1;
-    font-size: component.var(font-size);
-}
-
-@include component.sizes(Alert.$sizes);
-
+    @include component.sizes(Alert.$sizes);
 }

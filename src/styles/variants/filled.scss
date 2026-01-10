@@ -1,7 +1,51 @@
-@use '../base';
-@use '../colors';
-@use '../colors/palettes';
-@use '../colors/states';
+@use 'base';
+@use 'colors';
+@use 'colors/palettes';
+@use 'colors/states';
+@use 'utils/css';
+
+@mixin classes {
+    .filled {
+        @include styles(filled, on-filled);
+
+        &-active {
+            @include styles(filled-active, on-filled);
+        }
+
+        &-static {
+            @include styles(filled, on-filled, $static: true);
+        }
+
+        @each $palette in palettes.$names {
+            &-#{$palette} {
+                @include styles(filled-#{$palette}, on-filled-#{$palette});
+
+                &-active {
+                    @include styles(filled-#{$palette}-active, on-filled-#{$palette});
+                }
+
+                &-static {
+                    @include styles(filled-#{$palette}, on-filled-#{$palette}, $static: true);
+                }
+            }
+        }
+    }
+}
+
+@mixin styles($background-color, $foreground-color, $static: false, $args...) {
+    background-color: base.var(#{$background-color}-color);
+    color: base.var(#{$foreground-color}-color);
+
+    @if $static == false {
+        &:hover {
+            background-color: base.var(#{$background-color}-hover-color);
+        }
+
+        &:active {
+            background-color: base.var(#{$background-color}-active-color);
+        }
+    }
+}
 
 @mixin vars(
     $background-color,
@@ -9,46 +53,16 @@
     $postfix: '',
     $args...
 ) {
+    @if ($background-color == $foreground-color) {
+        $foreground-color: colors.contrast-color($background-color);
+    }
+
     $name: 'filled#{$postfix}';
+    $active-background-color: states.active-color($background-color, $value: 10%);
 
     @include colors.var(#{$name}-color, $background-color);
     @include states.vars(#{$name}-color, $background-color, $args...);
+    @include states.vars(#{$name}-active-color, $active-background-color, $args...);
     @include colors.var(on-#{$name}-color, $foreground-color);
-}
-
-@mixin styles($args...) {
-    %filled {
-        background-color: base.var(background-color);
-        color: base.var(foreground-color);
-
-        &:hover {
-            background-color: base.var(background-hover-color);
-        }
-
-        &:active {
-            background-color: base.var(background-active-color);
-        }
-    }
-
-    .filled {
-        @include colors.vars((
-            background-color: states.vars(background-color, filled),
-            foreground-color: on-filled
-        ), $args...);
-
-        @extend %filled;
-
-        @content;
-
-        @each $palette in palettes.$names {
-            &-#{$palette} {
-                @include colors.vars((
-                    background-color: states.vars(background-color, filled-#{$palette}),
-                    foreground-color: on-filled-#{$palette}
-                ), $args...);
-
-                @extend %filled;
-            }
-        }
-    }
+    @include states.vars(on-#{$name}-color, $foreground-color);
 }

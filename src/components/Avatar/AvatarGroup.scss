@@ -1,7 +1,7 @@
 @use 'base';
 @use 'component';
 
-$gap: base.var(space-none) !default;
+$gap: base.var(space-xxs) !default;
 
 $vars: component.vars(AvatarGroup, (
     gap: $gap

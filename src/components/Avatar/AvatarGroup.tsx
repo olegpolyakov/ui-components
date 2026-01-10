@@ -1,8 +1,9 @@
-import type { ComponentProps, ElementType, PropsWithKey, Space } from '../../types';
-import { classnames as cn, getElementClassNames, resolveChildren } from '../../utils';
+import { cn, resolveChildren } from '../../component';
+import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
 
-import Avatar, { type AvatarProps } from './Avatar';
-import cssClasses from './AvatarGroup.module.scss';
+import Avatar, { AvatarProps } from './Avatar';
+
+import styles from './AvatarGroup.module.scss';
 
 export type AvatarGroupProps = {
     avatars?: PropsWithKey<AvatarProps>[];
@@ -11,18 +12,14 @@ export type AvatarGroupProps = {
     size?: AvatarProps['size'];
     variant?: AvatarProps['variant'];
     shadow?: AvatarProps['shadow'];
-    gap?: Space;
+    gap?: Size;
     overlap?: boolean;
     maxCount?: number;
 };
 
-AvatarGroup.displayName = 'AvatarGroup';
-
-const elementClassNames = getElementClassNames(
-    AvatarGroup.displayName, ['avatar']
-);
-
 const colors: AvatarProps['color'][] = ['warning', 'success', 'info'];
+
+AvatarGroup.displayName = 'AvatarGroup';
 
 export default function AvatarGroup<T extends ElementType>({
     as,
@@ -35,7 +32,7 @@ export default function AvatarGroup<T extends ElementType>({
     size,
     variant,
     shadow,
-    gap = 'xxs',
+    gap,
     overlap,
     maxCount = 0,
     ...props
@@ -47,13 +44,14 @@ export default function AvatarGroup<T extends ElementType>({
     const hiddenAvatarsCount = resolvedAvatars.length - shownAvatars.length;
 
     const Root = as || 'div';
-    const classNames = cn(
-        className,
-        elementClassNames.root,
-        cssClasses.root,
-        overlap && cssClasses.overlap,
-        gap && cssClasses[`gap-${gap}`]
-    );
+    const classNames = cn(className, {
+        color,
+        size,
+        overlap,
+        shape,
+        variant,
+        gap
+    }, styles);
 
     return (
         <Root
@@ -63,7 +61,7 @@ export default function AvatarGroup<T extends ElementType>({
             {shownAvatars?.map(({ key, ...avatar }, index) =>
                 <Avatar
                     key={key ?? index}
-                    className={cn(elementClassNames.avatar, cssClasses.avatar)}
+                    className={styles.avatar}
                     color={color || colors[index % 3]}
                     shape={shape}
                     size={size}
@@ -75,7 +73,7 @@ export default function AvatarGroup<T extends ElementType>({
 
             {hiddenAvatarsCount > 0 &&
                 <Avatar
-                    className={cn(elementClassNames.avatar, cssClasses.avatar)}
+                    className={styles.avatar}
                     content={`+${hiddenAvatarsCount}`}
                     color={color}
                     shape={shape}

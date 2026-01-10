@@ -13,8 +13,8 @@ import {
 
 import { Placement, Strategy, autoUpdate, arrow, flip, shift, useFloating } from '@floating-ui/react';
 
-import type { ComponentProps, HTMLSpanProps, PropsWithChildren } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import type { ComponentProps } from '../../types';
+import { cn } from '../../utils';
 
 import styles from './Tooltip.module.scss';
 
@@ -26,11 +26,6 @@ export type TooltipProps = {
 };
 
 Tooltip.displayName = 'Tooltip';
-
-const elementClassNames = getElementClassNames(
-    Tooltip.displayName,
-    ['arrow']
-);
 
 export default function Tooltip({
     className,
@@ -93,11 +88,8 @@ export default function Tooltip({
 
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root
     );
-
-    console.log({middlewareData})
 
     return (
         <>
@@ -127,7 +119,7 @@ export default function Tooltip({
               >
                   <div
                       ref={arrowRef}
-                      className={cn(elementClassNames.arrow, styles.arrow)}
+                      className={styles.arrow}
                       style={middlewareData.arrow && {
                         left: middlewareData.arrow.x,
                         top: middlewareData.arrow.y

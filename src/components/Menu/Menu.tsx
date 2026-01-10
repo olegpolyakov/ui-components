@@ -2,8 +2,9 @@ import { Children, isValidElement, MouseEvent, useCallback, useState } from 'rea
 
 import { Placement, flip } from '@floating-ui/react';
 
+import { cn } from '../../component';
 import type { ComponentProps, ElementType, PropsOf, PropsWithKey } from '../../types';
-import { classnames as cn, getElementClassNames, isObject } from '../../utils';
+import { isObject } from '../../utils';
 
 import Divider from '../Divider';
 import Heading from '../Heading';
@@ -24,8 +25,6 @@ export type MenuProps = {
 } & Omit<PopoverProps, 'middleware' | 'unstyled'>;
 
 Menu.displayName = 'Menu';
-
-const elementClassNames = getElementClassNames(Menu.displayName);
 
 export default function Menu<T extends ElementType = 'div'>({
     as,
@@ -70,9 +69,8 @@ export default function Menu<T extends ElementType = 'div'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        styles.root,
-        styles[size]
+        {},
+        styles
     );
 
     const resolvedItems = items ||
@@ -105,7 +103,7 @@ export default function Menu<T extends ElementType = 'div'>({
                         return (
                             <Divider
                                 key={key}
-                                className={cn(styles.divider)}
+                                className={styles.divider}
                             />
                         );
                     } else if (type === 'heading') {
@@ -115,7 +113,7 @@ export default function Menu<T extends ElementType = 'div'>({
                                 className={styles.heading}
                                 content={item.content}
                                 size="s"
-                                muted
+                                color="secondary"
                             />
                         );
                     } else if (items) {
@@ -149,7 +147,6 @@ export default function Menu<T extends ElementType = 'div'>({
                         return (
                             <Item
                                 key={key}
-                                shape="rectangular"
                                 {...rest}
                                 interactive
                                 active={selected}

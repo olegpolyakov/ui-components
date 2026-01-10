@@ -1,113 +1,92 @@
 @use 'base';
 @use 'component';
-@use 'themes';
+@use 'elements';
 
+@use '../Icon';
 @use './Checkbox';
 
-@include component.define(Checkbox, Checkbox.$vars);
-
-.root {
-    display: flex;
-    align-items: center;
-}
-
-.label {
-    padding-left: component.var(gap);
-    cursor: pointer;
-    user-select: none;
-}
-
-.input {
-    appearance: none;
-    width: component.var(size);
-    height: component.var(size);
-    border: component.var(border-width) solid component.var(border-color);
-    border-radius: component.var(border-radius);
-    background-color: component.var(background-color);
-    background-position: center;
-    background-size: 100%;
-    outline: none;
-    margin: 0;
-    padding: 0;
-    transition: all .2s;
-    cursor: pointer;
-}
-
-
-// States
-
-.input {
-    &:hover {
-        @include component.vars((
-            background-color: base.var(plain-hover-color)
-        ));
+@include component.define(Checkbox, Checkbox.$vars) {
+    .root {
+        display: flex;
+        align-items: center;
     }
 
-    &:active {
-        @include component.vars((
-            background-color: base.var(plain-active-color)
-        ));
+    .input {
+        appearance: none;
+        width: component.var(size);
+        height: component.var(size);
+        border: component.var(border-width) solid component.var(border-color);
+        border-radius: component.var(border-radius);
+        background-color: component.var(background-color);
+        background-position: center;
+        background-size: 100%;
+        outline: none;
+        margin: 0;
+        padding: 0;
+        transition: all .2s;
+        cursor: pointer;
     }
 
-    &:checked {
-        border-color: transparent;
-        
-        @include component.vars((
-            background-color: base.var(filled-brand-color)
-        ));
+    .label {
+        padding-left: component.var(gap);
+        cursor: pointer;
+        user-select: none;
+    }
 
+    @include component.sizes(Checkbox.$sizes);
+
+
+    // States
+
+    .input {
         &:hover {
             @include component.vars((
-                background-color: base.var(filled-brand-hover-color)
+                background-color: base.var(plain-hover-color)
             ));
         }
 
         &:active {
             @include component.vars((
-                background-color: base.var(filled-brand-active-color)
+                background-color: base.var(plain-active-color)
             ));
+        }
+
+        &:checked {
+            border-color: transparent;
+
+            &::after {
+                content: attr(data-icon);
+                width: 100%;
+                height: 100%;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                color: base.var(foreground-inverted-color);
+                @include Icon.icon(component.var(size));
+            }
+            
+            @include component.vars((
+                background-color: base.var(filled-brand-color)
+            ));
+
+            &:hover {
+                @include component.vars((
+                    background-color: base.var(filled-brand-hover-color)
+                ));
+            }
+
+            &:active {
+                @include component.vars((
+                    background-color: base.var(filled-brand-active-color)
+                ));
+            }
         }
     }
 
-    &:disabled {
-        opacity: base.var(opacity-medium);
-        pointer-events: none;
+    .disabled {
+        .input,
+        .label {
+            @include elements.disabled;
+        }
     }
 }
-
-@include themes.dark {
-    .input:checked {
-        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSIyNHB4IiBmaWxsPSJibGFjayI+PHBhdGggZD0iTTM4Mi0yNDAgMTU0LTQ2OGw1Ny01NyAxNzEgMTcxIDM2Ny0zNjcgNTcgNTctNDI0IDQyNFoiLz48L3N2Zz4=');
-    }
-}
-
-@include themes.light {
-    .input:checked {
-        background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iMjRweCIgdmlld0JveD0iMCAtOTYwIDk2MCA5NjAiIHdpZHRoPSIyNHB4IiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTM4Mi0yNDAgMTU0LTQ2OGw1Ny01NyAxNzEgMTcxIDM2Ny0zNjcgNTcgNTctNDI0IDQyNFoiLz48L3N2Zz4=');
-    }
-}
-
-.disabled {
-    .input,
-    .label {
-        cursor: default;
-    }
-}
-
-
-// Sizes
-
-@include component.classes((
-    s: (
-        size: 16px,
-        gap: base.var(space-xs)
-    ),
-    m: (
-        size: 20px,
-        gap: base.var(space-s)
-    ),
-    l: (
-        size: 24px,
-        gap: base.var(space-m)
-    )
-));

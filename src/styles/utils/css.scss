@@ -3,6 +3,14 @@
 
 $css-var: meta.get-function('var', $css: true);
 
+@function rgb($values...) {
+    @return string.unquote('rgb(#{$values})');
+}
+
+@function rgba($values...) {
+    @return string.unquote('rgba(#{$values})');
+}
+
 @function var($name, $default-value: null) {
     @if ($default-value) {
         @return meta.call($css-var, --#{$name}, #{$default-value});
@@ -19,12 +27,4 @@ $css-var: meta.get-function('var', $css: true);
     @each $name, $value in $vars {
         @include var($name, $value);
     }
-}
-
-@function rgb($values...) {
-    @return string.unquote('rgb(#{$values})');
-}
-
-@function rgba($values...) {
-    @return string.unquote('rgba(#{$values})');
 }

@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef } from 'react';
 
+import { cn } from '../../component';
 import type { PropsWithChildren } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
 
 import Portal from '../Portal';
 import { ProviderContext } from '../Provider';
@@ -18,8 +18,6 @@ export type ModalProps = PropsWithChildren<{
 }>;
 
 Modal.displayName = 'Modal';
-
-const elementClassNames = getElementClassNames(Modal.displayName);
 
 export default function Modal({
     className,
@@ -59,10 +57,8 @@ export default function Modal({
 
     const classNames = cn(
         className,
-        elementClassNames.root,
-        styles.root,
-        backdrop && styles.backdrop,
-        fixed && styles.fixed
+        { backdrop, fixed },
+        styles
     );
 
     return (

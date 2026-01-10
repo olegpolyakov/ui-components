@@ -5,10 +5,9 @@ import { CSSTransitionProps } from 'react-transition-group/CSSTransition';
 import Modal from '../Modal';
 
 export type LayerProps = CSSTransitionProps & {
+    children: ReactNode;
     modal?: boolean;
     fixed?: boolean;
-
-    children?: ReactNode | ReactNode[];
 };
 
 export default function Layer({

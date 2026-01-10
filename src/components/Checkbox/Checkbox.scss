@@ -1,12 +1,35 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
-$size: 20px !default;
+$s: (
+    size: 16px,
+    gap: base.var(space-xs)
+) !default;
+
+$m: (
+    size: 20px,
+    gap: base.var(space-s)
+) !default;
+
+$l: (
+    size: 24px,
+    gap: base.var(space-m)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l,
+) !default;
+
+$size: map.get($m, size) !default;
 $border-color: base.var(outlined-color) !default;
 $border-width: 1px !default;
 $border-radius: 4px !default;
-$background-color: base.var(background-primary-color) !default;
-$gap: base.var(space-s) !default;
+$background-color: base.var(background-brand-color) !default;
+$gap: map.get($m, gap) !default;
 
 $vars: component.vars(Checkbox, (
     size: $size,

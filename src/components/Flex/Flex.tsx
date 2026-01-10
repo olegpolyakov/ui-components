@@ -1,21 +1,19 @@
-import type { Align, ComponentProps, ElementType, Justify, SizeFull } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../component';
+import type { Align, ComponentProps, ElementType, Justify, Space } from '../../types';
 
 import styles from './Flex.module.scss';
 
 export type FlexProps = {
-    dir?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
+    dir?: 'column' | 'column-reverse' | 'row' | 'row-reverse';
     column?: boolean;
     align?: Align;
     justify?: Justify;
-    gap?: SizeFull;
+    gap?: Space;
     inline?: boolean;
     wrap?: boolean;
 };
 
 Flex.displayName = 'Flex';
-
-const elementClassNames = getElementClassNames(Flex.displayName);
 
 export default function Flex<T extends ElementType = 'div'>({
     as,
@@ -31,18 +29,15 @@ export default function Flex<T extends ElementType = 'div'>({
     ...props
 }: ComponentProps<FlexProps, T>) {
     const Root = as || 'div';
-    const classNames = cn(
-        className,
-        elementClassNames.root,
-        styles.root,
-        styles[dir],
-        column && styles.column,
-        align && styles[`align-${align}`],
-        justify && styles[`justify-${justify}`],
-        gap && styles[`gap-${gap}`],
-        inline && styles.inline,
-        wrap && styles.wrap
-    );
+    const classNames = cn(className, {
+        dir,
+        column,
+        [`align-${align}`]: align,
+        [`justify-${justify}`]: justify,
+        inline,
+        wrap,
+        gap
+    }, styles);
 
     return (
         <Root className={classNames} {...props} />

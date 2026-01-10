@@ -1,49 +1,33 @@
+@use 'sass:map';
+@use 'sass:meta';
+
+@use 'base';
+@use 'colors';
 @use 'colors/palettes';
+@use 'variants';
 
-@use './themes';
+$border-color: palettes.$base-6 !default;
+$border-inverted-color: palettes.$base-4 !default;
+$border-primary-color: palettes.$base-6 !default;
+$border-secondary-color: palettes.$base-7 !default;
+$border-tertiary-color: palettes.$base-8 !default;
 
-$neutral-color: palettes.$neutral-5 !default;
-$brand-color: palettes.$brand-5 !default;
-$accent-color: palettes.$accent-5 !default;
-$danger-color: palettes.$danger-5 !default;
-$info-color: palettes.$info-5 !default;
-$success-color: palettes.$success-5 !default;
-$warning-color: palettes.$warning-5 !default;
+$background-color: palettes.$base-9 !default;
+$background-inverted-color: palettes.$base-0 !default;
+$background-primary-color: palettes.$base-9 !default;
+$background-secondary-color: palettes.$base-8 !default;
+$background-tertiary-color: palettes.$base-7 !default;
 
-$base-colors: (
-    neutral: $neutral-color,
-    brand: $brand-color,
-    accent: $accent-color,
-    danger: $danger-color,
-    info: $info-color,
-    success: $success-color,
-    warning: $warning-color
-) !default;
-
-$border-color: palettes.$neutral-6 !default;
-$border-inverted-color: palettes.$neutral-4 !default;
-$border-primary-color: palettes.$neutral-6 !default;
-$border-secondary-color: palettes.$neutral-7 !default;
-$border-tertiary-color: palettes.$neutral-8 !default;
-
-$background-color: palettes.$neutral-9 !default;
-$background-inverted-color: palettes.$neutral-0 !default;
-$background-primary-color: palettes.$neutral-9 !default;
-$background-secondary-color: palettes.$neutral-8 !default;
-$background-tertiary-color: palettes.$neutral-7 !default;
-
-$foreground-color: palettes.$neutral-0 !default;
-$foreground-inverted-color: palettes.$neutral-9 !default;
-$foreground-primary-color: palettes.$neutral-0 !default;
-$foreground-secondary-color: palettes.$neutral-4 !default;
-$foreground-tertiary-color: palettes.$neutral-5 !default;
+$foreground-color: palettes.$base-0 !default;
+$foreground-inverted-color: palettes.$base-9 !default;
+$foreground-primary-color: palettes.$base-0 !default;
+$foreground-secondary-color: palettes.$base-4 !default;
+$foreground-tertiary-color: palettes.$base-5 !default;
 
 $backdrop-color: rgba(0, 0, 0, .5) !default;
 $shadow-color: rgba(0, 0, 0, .5) !default;
 
 $element-colors: (
-    backdrop: $backdrop-color,
-
     border: $border-color,
     border-inverted: $border-inverted-color,
     border-primary: $border-primary-color,
@@ -62,13 +46,55 @@ $element-colors: (
     foreground-secondary: $foreground-secondary-color,
     foreground-tertiary: $foreground-tertiary-color,
     
+    backdrop: $backdrop-color,
     shadow: $shadow-color
 ) !default;
 
-@mixin vars {
-    @include themes.vars(
-        $base-colors,
-        $element-colors
+@function palette-base-color($palette) {
+    @return map.get($palette, 5);
+}
+
+@function palette-element-colors($palette) {
+    @return (
+        border: map.get($palette, 8),
+        border-inverted: colors.contrast-color(map.get($palette, 5)),
+        border-primary: map.get($palette, 8),
+        border-secondary: map.get($palette, 9),
+        border-tertiary: map.get($palette, 10),
+        
+        background: map.get($palette, 5),
+        background-inverted: colors.contrast-color(map.get($palette, 5)),
+        background-primary: map.get($palette, 5),
+        background-secondary: map.get($palette, 8),
+        background-tertiary: map.get($palette, 10),
+        
+        foreground: map.get($palette, 5),
+        foreground-inverted: colors.contrast-color(map.get($palette, 5)),
+        foreground-primary: map.get($palette, 5),
+        foreground-secondary: map.get($palette, 7),
+        foreground-tertiary: map.get($palette, 9),
     );
-    @include palettes.alpha-vars($invert: true);
+}
+
+@mixin vars {
+    @each $element, $color in $element-colors {
+        @include base.var(#{$element}-color, $color);
+    }
+
+    @include variants.vars($element-colors);
+
+    @each $name, $palette in palettes.$map {
+        $base-color: palette-base-color($palette);
+        
+        @include base.var(#{$name}-color, $base-color);
+        @include base.var(on-#{$name}-color, colors.contrast-color($base-color));
+        
+        $element-colors: palette-element-colors($palette);
+
+        @each $element, $color in $element-colors {
+            @include base.var(#{$name}-#{$element}-color, $color);
+        }
+
+        @include variants.vars($element-colors, $postfix: '-#{$name}');
+    }
 }

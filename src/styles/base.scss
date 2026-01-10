@@ -6,6 +6,7 @@
 $prefix: 'kui' !default;
 $root: ':root' !default;
 $theme: null !default;
+$sizes: (xxs, xs, s, m, l, xl, xxl);
 
 $font-family: 'Fira Sans', Roboto, 'Helvetica Neue', -apple-system, BlinkMacSystemFont, sans-serif !default;
 $font-size: 16px !default;
@@ -18,14 +19,6 @@ $font-weights: (
 
 $line-height: 1.5 !default;
 
-$opacity: (
-    full: 1,
-    high: 0.75,
-    medium: 0.5,
-    low: 0.25,
-    none: 0
-) !default;
-
 $font-sizes: (
     xxs: 10px,
     xs: 12px,
@@ -36,7 +29,7 @@ $font-sizes: (
     xxl: 28px
 ) !default;
 
-$border-radii: (
+$radius-sizes: (
     xxs: 2px,
     xs: 4px,
     s: 6px,
@@ -56,14 +49,36 @@ $space-sizes: (
     xxl: 40px
 ) !default;
 
+$opacity: (
+    full: 1,
+    high: 0.75,
+    medium: 0.5,
+    low: 0.25,
+    none: 0
+) !default;
+
+$shapes: (
+    circle: 100%,
+    circular: 100000px,
+    rounded: map.get($radius-sizes, m),
+    rectangular: 0px
+) !default;
+
 $shadows: (
     xxs: 0 1px 2px 0,
+    xxs-: 0 -1px 2px 0,
     xs: 0 2px 4px 0,
+    xs-: 0 -2px 4px 0,
     s: 0 4px 8px 0,
+    s-: 0 -4px 8px 0,
     m: 0 8px 16px 0,
+    m-: 0 -8px 16px 0,
     l: 0 16px 24px 0,
+    l-: 0 -16px 24px 0,
     xl: 0 24px 32px 0,
-    xxl: 0 32px 40px 0
+    xl-: 0 -24px 32px 0,
+    xxl: 0 32px 40px 0,
+    xxl-: 0 -32px 40px 0
 ) !default;
 
 $screen-sizes: (
@@ -82,10 +97,12 @@ $breakpoints: (
     l: map.get($screen-sizes, l)
 ) !default;
 
-$sizes: (xxs, xs, s, m, l, xl, xxl);
-
 @function var($name, $default-value: null) {
-    @return css.var(#{$prefix}-#{$name});
+    @if $default-value != null {
+        @return css.var('#{$prefix}-#{$name}', $default-value);
+    } @else {
+        @return css.var(#{$prefix}-#{$name});
+    }
 }
 
 @mixin class($class) {
@@ -104,6 +121,15 @@ $sizes: (xxs, xs, s, m, l, xl, xxl);
     #{$root} {
         @content;
     }
+}
+
+@mixin prop($name, $syntax, $inherits: false, $initial-value: null) {
+    @include css.prop(
+        --#{$prefix}-#{$name},
+        $syntax,
+        $inherits,
+        $initial-value
+    );
 }
 
 @mixin var($name, $value: null) {

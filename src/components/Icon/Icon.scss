@@ -3,20 +3,56 @@
 @use 'base';
 @use 'component';
 
-$sizes: (
-    xs: 12px,
-    s: 16px,
-    m: 24px,
-    l: 36px,
-    xl: 48px
+$xs: (
+    size: 12px
 ) !default;
 
-$color: base.var(foreground-color) !default;
+$s: (
+    size: 16px
+) !default;
+
+$m: (
+    size: 24px
+) !default;
+
+$l: (
+    size: 36px
+) !default;
+
+$xl: (
+    size: 48px
+) !default;
+
+$sizes: (
+    xs: $xs,
+    s: $s,
+    m: $m,
+    l: $l,
+    xl: $xl
+) !default;
+
 $font: 'Material Symbols Outlined' !default;
-$size: map.get($sizes, m) !default;
+$color: base.var(foreground-color) !default;
+$size: map.get($m, size) !default;
 
 $vars: component.vars(Icon, (
-    color: $color,
     font: $font,
+    color: $color,
     size: $size
 ));
+
+@mixin icon($size, $font: $font, $color: $color) {
+    font-family: $font;
+    font-size: $size;
+    font-variation-settings: 'OPSZ' $size;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1;
+    color: $color;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    user-select: none;
+}

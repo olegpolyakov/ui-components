@@ -73,8 +73,8 @@ export type Size = 's' | 'm' | 'l';
 export type SizeExtended = 'xs' | Size | 'xl';
 export type SizeFull = 'xxs' | SizeExtended | 'xxl';
 export type Shadow = SizeFull;
-export type Shape = 'circular' | 'rectangular' | 'rounded' | 'rounded-xs' | 'rounded-s' | 'rounded-m' | 'rounded-l' | 'rounded-xl';
-export type Space = 'none' | SizeFull;
+export type Shape = 'circular' | 'rectangular' | 'rounded-xs' | 'rounded-s' | 'rounded-m' | 'rounded-l' | 'rounded-xl';
+export type Space = SizeFull | 'none';
 export type Variant = 'plain' | 'filled' | 'outlined' | 'tinted' | 'outlined-filled' | 'outlined-tinted';
 export type Weight = 'light' | 'normal' | 'semibold' | 'bold';
 

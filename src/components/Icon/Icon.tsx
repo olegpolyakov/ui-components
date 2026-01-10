@@ -1,7 +1,7 @@
 import { cloneElement, isValidElement } from 'react';
 
+import { cn } from '../../component';
 import type { ComponentProps, ElementType, Opacity, SizeExtended, TextColor } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
 import { getFontVariationSettings } from './utils';
 
 import styles from './Icon.module.scss';
@@ -9,16 +9,15 @@ import styles from './Icon.module.scss';
 export type IconProps = {
     name?: string;
     color?: TextColor;
-    size?: SizeExtended;
+    size?: SizeExtended | 'inherit';
     opacity?: Opacity;
     weight?: number | string;
     grade?: number | string;
     filled?: boolean;
+    inline?: boolean;
 };
 
 Icon.displayName = 'Icon';
-
-const elementClassNames = getElementClassNames(Icon.displayName);
 
 export default function Icon<T extends ElementType = 'i'>({
     as,
@@ -32,16 +31,14 @@ export default function Icon<T extends ElementType = 'i'>({
     weight,
     grade,
     filled = false,
+    inline = false,
     ...props
 }: ComponentProps<IconProps, T>) {
     const Root = as || 'i';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        styles.root,
-        color && styles[color],
-        size && styles[size],
-        opacity && styles[`opacity-${opacity}`]
+        { color, size, opacity, inline },
+        styles
     );
 
     const fontVariationSettings = getFontVariationSettings(

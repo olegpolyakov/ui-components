@@ -3,49 +3,36 @@
 
 @use './Label';
 
-@include component.define(Label, Label.$vars);
+@include component.define(Label, Label.$vars) {
+    .root {
+        display: flex;
+        align-items: flex-start;
+        gap: component.var(gap);
+        color: component.var(color);
+        font-family: base.var(font-family);
+        font-size: component.var(size);
+        line-height: 1;
+    }
 
-.root {
-    display: flex;
-    align-items: flex-start;
-    gap: component.var(gap);
-    color: component.var(color);
-    font-family: base.var(font-family);
-    font-size: component.var(size);
-    line-height: 1;
-}
+    .start,
+    .end {
+        flex-shrink: 0;
+    }
 
-.start,
-.end {
-    flex-shrink: 0;
-}
-
-
-// Colors
-
-@include component.palettes-vars(color);
+    .inline {
+        display: inline-flex;
+    }
 
 
-// Sizes
+    // Colors TODO refactor to use `colors` mixin
 
-@include component.classes((
-    s: (
-        size: base.var(font-size-xs),
-        gap: base.var(space-xxs)
-    ),
-    m: (
-        size: base.var(font-size-s),
-        gap: base.var(space-xxs)
-    ),
-    l: (
-        size: base.var(font-size-m),
-        gap: base.var(space-xs)
-    )
-));
+    @include component.classes((
+        primary: (color: base.var(foreground-primary-color)),
+        secondary: (color: base.var(foreground-secondary-color)),
+        tertiary: (color: base.var(foreground-tertiary-color))
+    ));
 
+    @include component.palettes-vars(color);
 
-// Misc
-
-.inline {
-    display: inline-flex;
+    @include component.sizes(Label.$sizes);
 }

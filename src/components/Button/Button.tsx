@@ -1,11 +1,10 @@
 import type { ReactNode } from 'react';
 
-import { ccn } from '../../component';
-import type { Color, ComponentProps, ElementType, Shadow, Shape, SizeExtended, SizeFull, Slotted, Variant } from '../../types';
-import { classnames as cn } from '../../utils';
+import { cn } from '../../component';
+import type { Color, ComponentProps, ElementType, Shadow, Shape, SizeExtended, SizeFull, Variant } from '../../types';
 
 import Icon, { IconProps } from '../Icon';
-import Slot from '../Slot';
+import Slot, { Slotted } from '../Slot';
 import Spinner, { SpinnerProps } from '../Spinner';
 
 import styles from './Button.module.scss';
@@ -30,8 +29,6 @@ export type ButtonProps = {
     loading?: boolean;
 };
 
-Button.displayName = 'Button';
-
 const spinnerSizeMap: Record<SizeExtended, SizeFull> = {
     xs: 'xxs',
     s: 'xs',
@@ -39,6 +36,8 @@ const spinnerSizeMap: Record<SizeExtended, SizeFull> = {
     l: 'm',
     xl: 'm'
 };
+
+Button.displayName = 'Button';
 
 export default function Button<T extends ElementType = 'button'>({
     as,
@@ -53,8 +52,8 @@ export default function Button<T extends ElementType = 'button'>({
     endIcon,
     spinner,
     color,
-    shape = 'rounded',
     size = 'm',
+    shape,
     variant = 'plain',
     shadow,
     shadowHover,
@@ -63,22 +62,19 @@ export default function Button<T extends ElementType = 'button'>({
     loading,
     ...props
 }: ComponentProps<ButtonProps, T>) {
-    const Component = as || 'button';
-    const classNames = cn(
-        className,
-        ccn({
-            color,
-            size,
-            shape,
-            variant,
-            shadow,
-            shadowHover,
-            active
-        }, styles),
-        ((!!icon && !content) || icon === true) && styles.iconButton,
-        fluid && styles.fluid,
-        loading && styles.loading
-    );
+    const Root = as || 'button';
+    const classNames = cn(className, {
+        iconButton: (!!icon && !content) || icon === true,
+        color,
+        size,
+        shape,
+        variant,
+        shadow,
+        shadowHover,
+        active,
+        fluid,
+        loading
+    }, styles);
     
     const iconContent = icon !== true && (icon || startIcon || endIcon);
     const iconElement = iconContent && (
@@ -92,7 +88,7 @@ export default function Button<T extends ElementType = 'button'>({
     );
 
     return (
-        <Component
+        <Root
             className={classNames}
             {...props}
         >
@@ -128,6 +124,6 @@ export default function Button<T extends ElementType = 'button'>({
                     {end || iconElement}
                 </span>
             }
-        </Component>
+        </Root>
     );
 }

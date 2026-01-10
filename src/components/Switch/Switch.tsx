@@ -6,7 +6,7 @@ import {
 } from 'react';
 
 import type { ComponentProps, Size } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import Label from '../Label';
 
@@ -32,11 +32,6 @@ export type SwitchChangeHandler = (
 
 Switch.displayName = 'Switch';
 
-const elementClassNames = getElementClassNames(
-    Switch.displayName,
-    ['input', 'label']
-);
-
 export default function Switch({
     className,
 
@@ -58,7 +53,6 @@ export default function Switch({
 
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles[size],
         styles.root
     );
@@ -67,7 +61,7 @@ export default function Switch({
         <div className={classNames}>
             <input
                 id={id}
-                className={cn(elementClassNames.input, styles.input)}
+                className={styles.input}
                 type="checkbox"
                 role="switch"
                 disabled={disabled}
@@ -77,7 +71,7 @@ export default function Switch({
 
             {label &&
                 <Label
-                    className={cn(elementClassNames.label, styles.label)}
+                    className={styles.label}
                     htmlFor={id}
                 >
                     {label}

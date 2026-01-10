@@ -5,36 +5,41 @@
 
 $xs: (
     height: 24px,
-    padding: 8px,
-    gap: 4px,
+    radius: base.var(border-radius-s),
+    padding: base.var(space-xs),
+    gap: base.var(space-xxs),
     font-size: base.var(font-size-xs)
 ) !default;
 
 $s: (
     height: 28px,
-    padding: 8px,
-    gap: 4px,
+    radius: base.var(border-radius-s),
+    padding: base.var(space-xs),
+    gap: base.var(space-xxs),
     font-size: base.var(font-size-s)
 ) !default;;
 
 $m: (
     height: 32px,
-    padding: 12px,
-    gap: 4px,
+    radius: base.var(border-radius-m),
+    padding: base.var(space-s),
+    gap: base.var(space-xxs),
     font-size: base.var(font-size-m)
 ) !default;;
 
 $l: (
     height: 40px,
-    padding: 16px,
-    gap: 8px,
+    radius: base.var(border-radius-m),
+    padding: base.var(space-m),
+    gap: base.var(space-xs),
     font-size: base.var(font-size-l)
 ) !default;;
 
 $xl: (
     height: 48px,
-    padding: 16px,
-    gap: 8px,
+    radius: base.var(border-radius-l),
+    padding: base.var(space-m),
+    gap: base.var(space-xs),
     font-size: base.var(font-size-xl)
 ) !default;
 
@@ -46,18 +51,18 @@ $sizes: (
     xl: $xl
 ) !default;
 
-$height: auto !default;
-$padding: null !default;
-$gap: base.var(space-xs) !default;
-$border-radius: null !default;
-$font-size: map.get($sizes, $m, font-size) !default;
+$height: map.get($m, height) !default;
+$padding: map.get($m, padding) !default;
+$gap: map.get($m, gap) !default;
+$radius: map.get($m, radius) !default;
+$font-size: map.get($m, font-size) !default;
 $font-weight: base.var(font-weight-normal) !default;
 
 $vars: component.vars(Button, (
     height: $height,
     padding: $padding,
     gap: $gap,
-    border-radius: $border-radius,
+    radius: $radius,
     font-size: $font-size,
-    font-weight: $font-weight,
+    font-weight: $font-weight
 ));

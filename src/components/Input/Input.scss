@@ -1,30 +1,4 @@
 @use 'base';
 @use 'component';
 
-$height: null !default;
-$padding: null !default;
-$gap: base.var(space-xs) !default;
-$border-color: base.var(border-color) !default;
-$border-width: 1px !default;
-$border-radius: base.var(border-radius-m) !default;
-$background-color: base.var(plain-color) !default;
-$foreground-color: base.var(on-plain-color) !default;
-$label-color: base.var(on-plain-color) !default;
-$font-size: base.var(font-size-m) !default;
-$font-weight: base.var(font-weight-normal) !default;
-$line-height: base.var(line-height) !default;
-
-$vars: component.vars('Input', (
-    height: $height,
-    padding: $padding,
-    gap: $gap,
-    border-color: $border-color,
-    border-width: $border-width,
-    border-radius: $border-radius,
-    background-color: $background-color,
-    foreground-color: $foreground-color,
-    label-color: $label-color,
-    font-size: $font-size,
-    font-weight: $font-weight,
-    line-height: $line-height
-));
+$vars: component.vars('Input', ());

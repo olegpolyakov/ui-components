@@ -1,5 +1,5 @@
 import type { ComponentProps, ElementType, PropsWithKey } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import Pill, { type PillProps } from './Pill';
 
@@ -15,8 +15,6 @@ export type PillGroupProps = {
 };
 
 PillGroup.displayName = 'PillGroup';
-
-const elementClassNames = getElementClassNames(PillGroup.displayName);
 
 export default function PillGroup<T extends ElementType = 'div'>({
     as,
@@ -39,7 +37,6 @@ export default function PillGroup<T extends ElementType = 'div'>({
     const Component = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root
     );
 

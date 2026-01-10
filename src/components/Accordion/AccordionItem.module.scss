@@ -1,62 +1,46 @@
-@use 'sass:map';
-@use 'sass:meta';
-
 @use 'base';
 @use 'component';
 @use 'elements';
 
-@use '../Text';
 @use './AccordionItem';
 
 @include component.define(AccordionItem, AccordionItem.$vars) {
+    .root {
+        overflow: clip;
+    }
 
-.root {
-    overflow: clip;
-}
-
-.header {
-    box-sizing: border-box;
-    min-height: component.var(height);
-    display: flex;
-    align-items: center;
-    gap: component.var(gap);
-    padding: component.var(padding);
-    background-color: component.var(background-color);
-    font-weight: base.var(font-weight-semibold);
-    @include elements.interactive;
-}
-
-.content {
-    padding: 0 component.var(padding-x);
-    transition: height .2s ease-in-out, padding .2s ease-in-out;
-    will-change: height, padding;
-}
-
-.indicator-icon {
-    margin-left: auto;
-    color: base.var(icon-color);
-    transition: transform .2s ease;
-}
-
-.open {
-    .content {
+    .header {
+        box-sizing: border-box;
+        min-height: component.var(height);
         padding: component.var(padding-y) component.var(padding-x);
+        display: flex;
+        align-items: center;
+        gap: component.var(gap);
+        font-size: component.var(font-size);
+        font-weight: base.var(font-weight-semibold);
+        @include elements.interactive;
     }
-    
+
+    .content {
+        padding: 0 component.var(padding-x);
+        transition: height .2s ease-in-out, padding .2s ease-in-out;
+        will-change: height, padding;
+    }
+
     .indicator-icon {
-        transform: rotateZ(180deg);
+        margin-left: auto;
+        transition: transform .2s ease;
     }
-}
 
-
-// Sizes
-
-@each $size in (s m l) {
-    .#{$size} {
-        .header {
-            @include Text.text($size);
+    .open {
+        .content {
+            padding: component.var(padding-y) component.var(padding-x);
+        }
+        
+        .indicator-icon {
+            transform: rotateZ(180deg);
         }
     }
-}
 
+    @include component.sizes(AccordionItem.$sizes);
 }

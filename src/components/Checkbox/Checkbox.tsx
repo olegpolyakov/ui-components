@@ -1,20 +1,21 @@
 import {
     type ChangeEvent,
-    type ReactNode,
     useCallback,
     useId
 } from 'react';
 
+import { cn } from '../../component';
 import type { ComponentProps, Size } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
 
-import Label from '../Label';
+import Label, { LabelProps } from '../Label';
+import Slot, { Slotted } from '../Slot';
 
-import cssClasses from './Checkbox.module.scss';
+import styles from './Checkbox.module.scss';
 
 export type CheckboxProps = {
     inputRef?: React.Ref<HTMLInputElement>;
-    label?: ReactNode;
+    label?: Slotted<LabelProps>;
+    checkedIcon?: string;
     size?: Size;
     checked?: boolean;
     disabled?: boolean;
@@ -32,15 +33,11 @@ export type CheckboxChangeHandler = (
 
 Checkbox.displayName = 'Checkbox';
 
-const elementClassNames = getElementClassNames(
-    Checkbox.displayName,
-    ['input', 'label']
-);
-
 export default function Checkbox({
     className,
 
     label,
+    checkedIcon = 'check',
     size = 'm',
     checked,
     disabled,
@@ -59,10 +56,8 @@ export default function Checkbox({
 
     const classNames = cn(
         className,
-        elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size],
-        disabled && cssClasses.disabled
+        { size, disabled },
+        styles
     );
 
     return (
@@ -73,22 +68,24 @@ export default function Checkbox({
         >
             <input
                 id={id}
-                className={cn(elementClassNames.input, cssClasses.input)}
+                className={styles.input}
                 type="checkbox"
                 checked={checked}
                 disabled={disabled}
+                data-icon={checkedIcon}
                 onChange={handleChange}
                 {...props}
             />
 
             {label &&
-                <Label
-                    className={cn(elementClassNames.label, cssClasses.label)}
+                <Slot
+                    fallback={Label}
+                    className={styles.label}
                     htmlFor={id}
                     size={size}
                 >
                     {label}
-                </Label>
+                </Slot>
             }
         </div>
     );

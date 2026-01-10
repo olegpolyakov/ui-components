@@ -10,6 +10,8 @@ import {
 
 import { classnames as cn, isObject } from '../../utils';
 
+export type Slotted<P> = ReactNode | P;
+
 export type SlotProps<
     T extends ElementType | FunctionComponent,
     C extends ReactNode | ComponentProps<T>

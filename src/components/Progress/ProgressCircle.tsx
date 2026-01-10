@@ -1,8 +1,8 @@
 import { ComponentProps, Size } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import { sizeProps } from './constants';
-import cssClasses from './ProgressCircle.module.scss';
+import styles from './ProgressCircle.module.scss';
 
 export type ProgressCircleProps = {
     value?: number | string;
@@ -10,11 +10,6 @@ export type ProgressCircleProps = {
 };
 
 ProgressCircle.displayName = 'ProgressCircle';
-
-const elementClassNames = getElementClassNames(
-    ProgressCircle.displayName,
-    ['container', 'circleGraphic', 'track', 'circle']
-);
 
 export default function ProgressCircle({
     as,
@@ -27,9 +22,8 @@ export default function ProgressCircle({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size]
+        styles.root,
+        styles[size]
     );
 
     const value = Number(_value);
@@ -48,14 +42,14 @@ export default function ProgressCircle({
             aria-valuenow={progress}
             {...props}
         >
-            <div className={cssClasses.container}>
+            <div className={styles.container}>
                 <svg
                     viewBox={`0 0 ${viewBox} ${viewBox}`}
                     fill="transparent"
                     xmlns="http://www.w3.org/2000/svg"
                 >
                     <circle
-                        className={cssClasses.track}
+                        className={styles.track}
                         cx={cx}
                         cy={cy}
                         r={radius}
@@ -63,7 +57,7 @@ export default function ProgressCircle({
                     />
 
                     <circle
-                        className={cssClasses.circle}
+                        className={styles.circle}
                         cx={cx}
                         cy={cy}
                         r={radius}

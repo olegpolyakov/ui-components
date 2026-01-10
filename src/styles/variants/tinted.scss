@@ -3,6 +3,49 @@
 @use 'colors/palettes';
 @use 'colors/states';
 @use 'utils/color';
+@use 'utils/css';
+
+@mixin classes {
+    .tinted {
+        @include styles(tinted);
+
+        &-active {
+            @include styles(tinted-active);
+        }
+
+        &-static {
+            @include styles(tinted, $static: true);
+        }
+
+        @each $palette in palettes.$names {
+            &-#{$palette} {
+                @include styles(tinted-#{$palette});
+
+                &-active {
+                    @include styles(tinted-#{$palette}-active);
+                }
+
+                &-static {
+                    @include styles(tinted-#{$palette}, $static: true);
+                }
+            }
+        }
+    }
+}
+
+@mixin styles($background-color, $static: false, $args...) {
+    background-color: base.var(#{$background-color}-color);
+
+    @if $static == false {
+        &:hover {
+            background-color: base.var(#{$background-color}-hover-color);
+        }
+
+        &:active {
+            background-color: base.var(#{$background-color}-active-color);
+        }
+    }
+}
 
 @mixin vars(
     $background-color,
@@ -11,57 +54,11 @@
     $args...
 ) {
     $name: 'tinted#{$postfix}';
-    $tinted-background-color: color.change($background-color, $alpha: 0.1);
-    $tinted-active-background-color: color.change($background-color, $alpha: 0.2);
+    $tinted-background-color: color.change($foreground-color, $alpha: 0.05);
+    $tinted-active-background-color: color.change($foreground-color, $alpha: 0.1);
 
     @include colors.var(#{$name}-color, $tinted-background-color);
     @include states.vars(#{$name}-color, $tinted-background-color, $args...);
     @include states.vars(#{$name}-active-color, $tinted-active-background-color, $args...);
     @include colors.var(on-#{$name}-color, $foreground-color);
-}
-
-@mixin styles($args...) {
-    %tinted {
-        background-color: base.var(background-color);
-        color: base.var(foreground-color);
-
-        &:hover {
-            background-color: base.var(background-hover-color);
-        }
-
-        &:active {
-            background-color: base.var(background-active-color);
-        }
-    }
-
-    .tinted {
-        @include colors.vars(
-            states.vars(background-color, tinted),
-            $args...
-        );
-
-        @extend %tinted;
-
-        @content;
-
-        &-active {
-            @include colors.vars(
-                states.vars(background-color, tinted-active),
-                $args...
-            );
-
-            @extend %tinted;
-        }
-        
-        @each $palette in palettes.$names {
-            &-#{$palette} {
-                @include colors.vars(
-                    states.vars(background-color, tinted-#{$palette}),
-                    $args...
-                );
-
-                @extend %tinted;
-            }
-        }
-    }
 }

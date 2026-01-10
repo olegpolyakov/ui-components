@@ -1,5 +1,5 @@
 import type { ComponentProps, ElementType } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import styles from './ProgressBar.module.scss';
 
@@ -10,11 +10,6 @@ export type ProgressBarProps = {
 };
 
 ProgressBar.displayName = 'ProgressBar';
-
-const elementClassNames = getElementClassNames(
-    ProgressBar.displayName,
-    ['list']
-);
 
 export default function ProgressBar<T extends ElementType = 'div'>({
     as,
@@ -28,7 +23,6 @@ export default function ProgressBar<T extends ElementType = 'div'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
         indeterminate && styles.indeterminate
     );

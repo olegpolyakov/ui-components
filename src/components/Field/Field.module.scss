@@ -3,43 +3,36 @@
 
 @use './Field';
 
-@include component.define(Field, Field.$vars);
+@include component.define(Field, Field.$vars) {
+    .root {
+        display: flex;
+        gap: component.var(gap);
+    }
 
-.root {
-    display: flex;
-    gap: component.var(gap);
-}
-
-.label {
-    flex-shrink: 0;
-}
-
-.vertical {
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: flex-start;
-}
-
-.horizontal {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: center;
-}
-
-.required {
     .label {
-        &::after {
-            content: '*';
-            color: base.var(danger-color);
+        flex-shrink: 0;
+    }
+
+    .vertical {
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    .horizontal {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+
+    .required {
+        .label {
+            &::after {
+                content: '*';
+                color: base.var(danger-color);
+            }
         }
     }
+
+    @include component.sizes(Field.$sizes);
 }
-
-
-// Sizes
-
-@include component.classes((
-    s: (gap: base.var(space-xxs)),
-    m: (gap: base.var(space-xs)),
-    l: (gap: base.var(space-s))
-));

@@ -9,13 +9,13 @@ import {
 
 import { useUpdated } from '../../hooks/lifecycle';
 import type { MouseInteractionEvent,  ComponentProps, ElementType } from '../../types';
-import { classnames as cn, getElementClassNames, getEventKey, getPageX } from '../../utils';
+import { cn, getEventKey, getPageX } from '../../utils';
 
 import Track from './SliderTrack';
 import Thumb from './SliderThumb';
 import { getValueForEventKey } from './helpers';
 
-import cssClasses from './Slider.module.scss';
+import styles from './Slider.module.scss';
 
 export type SliderProps = {
     name?: string;
@@ -30,8 +30,6 @@ export type SliderProps = {
 };
 
 Slider.displayName = 'Slider';
-
-const elementClassNames = getElementClassNames(Slider.displayName);
 
 export default function Slider<T extends ElementType = 'div'>({
     as,
@@ -146,8 +144,7 @@ export default function Slider<T extends ElementType = 'div'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
-        cssClasses.root
+        styles.root
     );
 
     return (
@@ -159,7 +156,7 @@ export default function Slider<T extends ElementType = 'div'>({
         >
             <input
                 ref={inputRef}
-                className={cssClasses.input}
+                className={styles.input}
                 type="range"
                 value={Math.round(resolvedValue)}
                 onChange={() => {}}

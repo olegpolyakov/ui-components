@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import type { ComponentProps } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import styles from './TableCell.module.scss';
 
@@ -13,8 +13,6 @@ export type TableCellProps = {
 };;
 
 TableCell.displayName = 'TableCell';
-
-const elementClassNames = getElementClassNames(TableCell.displayName);
 
 export default function TableCell({
     className,
@@ -29,7 +27,6 @@ export default function TableCell({
     const Root = header ? 'th' : 'td';
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
         alignH && styles[alignH],
         alignV && styles[alignV]

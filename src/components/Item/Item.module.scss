@@ -1,48 +1,44 @@
+@use 'sass:list';
+
 @use 'base';
 @use 'component';
+@use 'elements';
 
 @use './Item';
 
 @include component.define(Item, Item.$vars) {
+    .root {
+        box-sizing: border-box;
+        min-height: component.var(height);
+        padding: component.var(padding-block) component.var(padding-inline);
+        display: flex;
+        align-items: center;
+        gap: component.var(gap);
+        font-size: component.var(font-size);
+        transition: color 0.15s ease-in-out,
+                    background-color 0.15s ease-in-out,
+                    border-color 0.15s ease-in-out,
+                    box-shadow 0.15s ease-in-out;
 
-.root {
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    min-height: component.var(height);
-    border-radius: component.var(border-radius);
-    padding: component.var(padding);
-    gap: component.var(gap);
-    font-size: component.var(font-size);
-    transition: color 0.15s ease-in-out,
-                background-color 0.15s ease-in-out,
-                border-color 0.15s ease-in-out,
-                box-shadow 0.15s ease-in-out;
-}
+        @include elements.disabled-state;
+        @include elements.slot-padding(component.var(padding-inline), base.var(space-xs));
+    }
 
-.start,
-.end {
-    display: inline-flex;
-    align-items: center;
-    flex-shrink: 0;
-}
+    .start,
+    .end {
+        display: inline-flex;
+        align-items: center;
+        flex-shrink: 0;
+    }
 
-.content {
-    flex-grow: 1;
-    overflow: hidden;
-}
+    .content {
+        flex-grow: 1;
+        overflow: hidden;
+    }
 
-// Sizes
+    .interactive {
+        @include elements.interactive;
+    }
 
-@include component.classes(Item.$sizes);
-
-
-// Shapes
-
-@include component.classes((
-    circular: (
-        border-radius: component.var(height)
-    )
-));
-
+    @include component.sizes(Item.$sizes);
 }

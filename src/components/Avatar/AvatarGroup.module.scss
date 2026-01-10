@@ -1,30 +1,26 @@
 @use 'base';
 @use 'component';
 
-@include component.define(AvatarGroup, (
-    gap: base.var(space-none)
-));
+@use './AvatarGroup';
 
-.root {
-    display: flex;
-    align-items: center;
-    gap: component.var(gap);
-}
-
-@include component.classes((
-    gap-xxs: (gap: base.var(space-xxs)),
-    gap-xs: (gap: base.var(space-xs)),
-    gap-s: (gap: base.var(space-s)),
-    gap-m: (gap: base.var(space-m)),
-    gap-l: (gap: base.var(space-l)),
-    gap-xl: (gap: base.var(space-xl)),
-    gap-xxl: (gap: base.var(space-xxl))
-));
-
-.overlap {
-    gap: 0;
-    
-    .avatar + .avatar {
-        margin-left: -8px;
+@include component.define(AvatarGroup, AvatarGroup.$vars) {
+    .root {
+        display: flex;
+        align-items: center;
+        gap: component.var(gap);
     }
+
+    .overlap {
+        gap: 0;
+        
+        .avatar + .avatar {
+            margin-left: -8px;
+        }
+    }
+
+    @include component.gaps((
+        s: base.var(space-xxs),
+        m: base.var(space-xs),
+        l: base.var(space-s),
+    ));
 }

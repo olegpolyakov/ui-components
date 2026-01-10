@@ -11,88 +11,43 @@
 @use './Grid';
 @use './GridItem';
 
-@include component.define(GridItem, GridItem.$vars);
-
-@mixin _cell-span($size, $span, $gutter) {
-    $percent: math.percentage(
-        math.div($span, map.get(variables.$columns, $size))
-    );
-
-    @if $percent > 100% {
-        $percent: 100%;
-    }
-
-    width: calc(#{$percent} - #{map.get(Grid.$vars, gutter-#{$size})});
-
-    @supports (display: grid) {
-        width: auto;
-        grid-column-end: span math.min($span, map.get(variables.$columns, $size));
-    }
-}
-
-.root {
-    @each $size in map.keys(variables.$columns) {
-        @include mixins.media-query($size) {
-            $gutter: map.get(variables.$gutter, $size);
-
-            @include _cell-span($size, variables.$default-column-span, $gutter);
-
-            box-sizing: border-box;
-            margin: calc(#{map.get(Grid.$vars, gutter-#{$size})} / 2);
-
-            @supports (display: grid) {
-                margin: 0;
+@include component.define(GridItem, GridItem.$vars) {
+    .root {
+        @each $size in map.keys(variables.$columns) {
+            @include mixins.media-query($size) {
+                @include mixins.cell-span($size, variables.$default-column-span);
             }
         }
     }
-}
 
-
-// Align
-
-.align {
-    &-start {
-        align-self: flex-start;
-
-        @supports (display: grid) {
+    .align {
+        &-start {
             align-self: start;
         }
-    }
 
-    &-center {
-        align-self: center;
-    }
+        &-center {
+            align-self: center;
+        }
 
-    &-end {
-        align-self: flex-end;
-
-        @supports (display: grid) {
+        &-end {
             align-self: end;
         }
     }
-}
 
-
-// Span
-
-@each $size in map.keys(variables.$columns) {
-    @include mixins.media-query($size) {
-        $gutter: map.get(variables.$gutter, $size);
-
-        @for $span from 1 through map.get(variables.$columns, variables.$upper-breakpoint) {
-            .span-#{$span},
-            .span-#{$span}-#{$size} {
-                @include _cell-span($size, $span, $gutter);
+    @each $size in map.keys(variables.$columns) {
+        @include mixins.media-query($size) {
+            @for $span from 1 through map.get(variables.$columns, variables.$upper-breakpoint) {
+                .span-#{$span},
+                .span-#{$span}-#{$size} {
+                    @include mixins.cell-span($size, $span);
+                }
             }
         }
     }
-}
 
-
-// Order
-
-@for $i from 1 through map.get(variables.$columns, variables.$upper-breakpoint) {
-    .order-#{$i} {
-        order: $i;
+    @for $i from 1 through map.get(variables.$columns, variables.$upper-breakpoint) {
+        .order-#{$i} {
+            order: $i;
+        }
     }
 }

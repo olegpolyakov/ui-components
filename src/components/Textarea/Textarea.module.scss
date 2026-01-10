@@ -56,7 +56,7 @@
     outline: none;
     field-sizing: content;
     background: transparent;
-    padding: calc((#{component.var(height)} - #{component.var(border-width)} * 2 - #{component.var(_inner-height)}) / 2) 0;
+    padding: calc((component.var(height) - component.var(border-width) * 2 - component.var(inner-height)) / 2) 0;
     font-family: inherit;
     font-size: inherit;
     line-height: 1.4;
@@ -73,7 +73,7 @@
 .focused,
 .root:focus-within {
     @include component.vars((
-        border-color: base.var(primary-color)
+        border-color: base.var(brand-color)
     ));
 
     .label {

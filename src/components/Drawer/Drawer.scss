@@ -1,26 +1,52 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
+$s: (
+    padding: base.var(space-s),
+    font-size: base.var(font-size-s)
+) !default;
+
+$m: (
+    padding: base.var(space-m),
+    font-size: base.var(font-size-m)
+) !default;
+
+$l: (
+    padding: base.var(space-l),
+    font-size: base.var(font-size-l)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
 $width: 360px !default;
 $height: 100% !default;
+$margin: 0px !default;
 $border-color: base.var(border-color) !default;
 $border-width: 1px !default;
 $background-color: base.var(background-color) !default;
-$padding-x: 0.75rem !default;
-$padding-y: 0.75rem !default;
-$padding: (--padding-y, --padding-x) !default;
+$padding-x: map.get($m, padding) !default;
+$padding-y: map.get($m, padding) !default;
+$radius: base.var(radius-m) !default;
 $shadow: base.var(shadow-m) !default;
 $z-index: 1000 !default;
 
 $vars: component.vars(Drawer, (
     width: $width,
     height: $height,
+    margin: $margin,
     border-color: $border-color,
     border-width: $border-width,
     background-color: $background-color,
     padding-x: $padding-x,
     padding-y: $padding-y,
-    padding: $padding,
+    padding: (--padding-y, --padding-x),
+    radius: $radius,
     shadow: $shadow,
     z-index: $z-index
 ));

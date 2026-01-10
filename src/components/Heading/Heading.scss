@@ -1,15 +1,23 @@
 @use 'base';
 @use 'component';
 
+// (font-size, line-height)
+$xxs: (16px, 22px) !default;
+$xs: (20px, 28px) !default;
+$s: (24px, 32px) !default;
+$m: (28px, 36px) !default;
+$l: (32px, 40px) !default;
+$xl: (40px, 52px) !default;
+$xxl: (68px, 92px) !default;
+
 $sizes: (
-    // type: (font-size, line-height)
-    xxs: (16px, 22px),
-    xs: (20px, 28px),
-    s: (24px, 32px),
-    m: (28px, 36px),
-    l: (32px, 40px),
-    xl: (40px, 52px),
-    xxl: (68px, 92px)
+    xxs: $xxs,
+    xs: $xs,
+    s: $s,
+    m: $m,
+    l: $l,
+    xl: $xl,
+    xxl: $xxl
 ) !default;
 
 $color: base.var(foreground-color) !default;

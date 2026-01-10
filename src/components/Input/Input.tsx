@@ -7,10 +7,12 @@ import {
     useState
 } from 'react';
 
+import { cn } from '../../component';
 import type { ComponentProps, Shape, Size } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
 
-import cssClasses from './Input.module.scss';
+import Textbox from '../Textbox';
+
+import styles from './Input.module.scss';
 
 export type InputProps = {
     label?: ReactNode;
@@ -18,8 +20,7 @@ export type InputProps = {
     end?: ReactNode;
     size?: Size;
     shape?: Shape;
-    variant?: 'outlined' | 'tinted' | 'outlined-tinted' | 'tinted-outlined' | 'underlined' | 'underlined-tinted' | 'tinted-underlined';
-    active?: boolean;
+    variant?: 'outlined' | 'tinted' | 'outlined-tinted';
     onChange?: InputChangeHandler;
 };
 
@@ -33,11 +34,6 @@ export type InputChangeHandler = (
 
 Input.displayName = 'Input';
 
-const elementClassNames = getElementClassNames(
-    Input.displayName,
-    ['start', 'control', 'label', 'input', 'end']
-);
-
 export default function Input({
     className,
 
@@ -49,7 +45,6 @@ export default function Input({
     shape = 'rounded',
     size = 'm',
     variant = 'outlined',
-    active,
     disabled,
     onChange,
     onFocus,
@@ -63,7 +58,6 @@ export default function Input({
     const [isInvalid, setInvalid] = useState(false);
     const [internalValue, setInternalValue] = useState(value || defaultValue || '');
     const [validationMessage, setValidationMessage] = useState('');
-
 
     const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         if (!isControlled) {
@@ -95,57 +89,39 @@ export default function Input({
         onBlur?.(event);
     }, [onBlur]);
 
-    const isActive = Boolean(active || value || defaultValue || internalValue);
+    const isActive = Boolean(value || defaultValue || internalValue);
 
     const classNames = cn(
         className,
-        elementClassNames.root,
-        cssClasses.root,
-        cssClasses[size],
-        cssClasses[shape],
-        cssClasses[variant],
-        isActive && cssClasses.active,
-        isFocused && cssClasses.focused,
-        isInvalid && cssClasses.invalid,
-        disabled && cssClasses.disabled
+        {},
+        styles
     );
 
     return (
-        <div
-            className={classNames}
-            data-validation-message={validationMessage || undefined}
+        <Textbox
+            label={label}
+            start={start}
+            end={end}
+            shape={shape}
+            size={size}
+            variant={variant}
+            active={isActive}
+            disabled={disabled}
+            focused={isFocused}
+            invalid={isInvalid}
+            validationMessage={validationMessage}
         >
-            {start &&
-                <span className={cn(elementClassNames.start, cssClasses.start)}>
-                    {start}
-                </span>
-            }
-
-            <div className={cn(elementClassNames.control, cssClasses.control)}>
-                {label &&
-                    <label className={cn(elementClassNames.label, cssClasses.label)}>
-                        {label}
-                    </label>
-                }
-
-                <input
-                    className={cn(elementClassNames.input, cssClasses.input)}
-                    value={value}
-                    defaultValue={defaultValue}
-                    disabled={disabled}
-                    onChange={handleChange}
-                    onInvalid={handleInvalid}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    {...props}
-                />
-            </div>
-
-            {end &&
-                <span className={cn(elementClassNames.end, cssClasses.end)}>
-                    {end}
-                </span>
-            }
-        </div>
+            <input
+                className={classNames}
+                value={value}
+                defaultValue={defaultValue}
+                disabled={disabled}
+                onChange={handleChange}
+                onInvalid={handleInvalid}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                {...props}
+            />
+        </Textbox>
     );
 }

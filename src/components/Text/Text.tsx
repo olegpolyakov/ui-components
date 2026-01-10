@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
-import type { Align, Color, ComponentProps, ElementType, SizeFull, Tone, Weight } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import type { Align, Color, ComponentProps, ElementType, SizeFull, Weight } from '../../types';
+import { cn } from '../../utils';
 
 import styles from './Text.module.scss';
 
@@ -10,7 +10,6 @@ export type TextProps = {
     start?: ReactNode;
     end?: ReactNode;
     color?: 'primary' | 'secondary' | 'tertiary' | Color | 'inherit';
-    tone?: Tone;
     size?: SizeFull;
     weight?: Weight;
     align?: Align;
@@ -26,11 +25,6 @@ export type TextProps = {
 };
 
 Text.displayName = 'Text';
-
-const elementClassNames = getElementClassNames(
-    Text.displayName,
-    ['start', 'content', 'end']
-);
 
 export default function Text<T extends ElementType = 'p'>({
     as,
@@ -59,7 +53,6 @@ export default function Text<T extends ElementType = 'p'>({
     const Component = as || 'p';
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
         (color || tone) && styles[`${color}${tone && tone !== 'neutral' ? `-${tone}` : ''}`],
         !color && tone && styles[tone],
@@ -85,19 +78,19 @@ export default function Text<T extends ElementType = 'p'>({
     return (
         <Component className={classNames} {...props}>
             {start &&
-                <span className={cn(elementClassNames.start, styles.start)}>
+                <span className={styles.start}>
                     {start}
                 </span>
             }
 
             {content &&
-                <span className={cn(elementClassNames.content, styles.content)}>
+                <span className={styles.content}>
                     {content}
                 </span>
             }
 
             {end &&
-                <span className={cn(elementClassNames.end, styles.end)}>
+                <span className={styles.end}>
                     {end}
                 </span>
             }

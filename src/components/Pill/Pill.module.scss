@@ -1,112 +1,36 @@
 @use 'base';
 @use 'component';
+@use 'elements';
 
 @use './Pill';
 
-@include component.define(Pill, Pill.$vars);
+@include component.define(Pill, Pill.$vars) {
+    .root {
+        box-sizing: border-box;
+        height: component.var(height);
+        padding: 0 component.var(padding);
+        display: inline-flex;
+        align-items: center;
+        gap: component.var(gap);
+        border-radius: component.var(_radius, component.var(radius));
+        font-family: base.var(font-family);
+        font-size: component.var(font-size);
+        font-weight: component.var(font-weight);
 
-.root {
-    box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
-    height: component.var(height);
-    padding: 0 component.var(padding);
-    gap: component.var(gap);
-    border: none;
-    border-radius: component.var(border-radius);
-    background-color: component.var(background-color);
-    color: component.var(foreground-color);
-    font-family: base.var(font-family);
-    font-size: component.var(font-size);
-    font-weight: component.var(font-weight);
-    // line-height: component.var(line-height);
-
-    &:has(.icon, .start) {
-        padding-left: calc(#{component.var(padding)} * 0.625);
+        @include elements.slot-padding(component.var(padding), base.var(space-xxs));
     }
 
-    &:has(.end) {
-        padding-right: calc(#{component.var(padding)} * 0.625);
+    .content {
+        line-height: 1;
     }
+
+    .content,
+    .icon,
+    .start,
+    .end {
+        display: inline-flex;
+        align-items: center;
+    }
+
+    @include component.sizes(Pill.$sizes);
 }
-
-.content,
-.icon,
-.start,
-.end {
-    display: inline-flex;
-    align-items: center;
-}
-
-.interactive {
-    cursor: pointer;
-    transition:
-        color 0.15s ease-in-out,
-        background-color 0.15s ease-in-out,
-        border-color 0.15s ease-in-out,
-        opacity 0.15s ease-in-out;
-
-    &:hover {
-        border-color: component.var(border-color-hover);
-        background-color: component.var(background-color-hover);
-        color: component.var(foreground-color-hover);
-    }
-
-    &:active {
-        border-color: component.var(border-color-active);
-        background-color: component.var(background-color-active);
-        color: component.var(foreground-color-active);
-    }
-    
-    &:disabled {
-        opacity: base.var(disabled-opacity);
-        cursor: default;
-    }
-}
-
-.icon-before {
-    .icon {
-        order: 0;
-    }
-}
-
-.icon-after {
-    .icon {
-        order: 1;
-    }
-}
-
-
-// Sizes
-
-@include component.classes((
-    s: (
-        height: 18px,
-        padding: 4px,
-        font-size: 12px
-    ),
-    m: (
-        height: 24px,
-        padding: 6px,
-        font-size: 14px
-    ),
-    l: (
-        height: 30px,
-        padding: 8px,
-        font-size: 16px
-    )
-));
-
-
-// Shapes
-
-@include component.classes((
-    circular: (border-radius: --height),
-    rectangular: (border-radius: 0),
-    rounded: (border-radius: calc(component.var(height) / 4))
-));
-
-
-// Variants
-
-@include component.variants;

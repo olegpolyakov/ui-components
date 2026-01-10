@@ -2,12 +2,13 @@
 
 @use 'base';
 @use 'utils/color';
+@use 'utils/css';
 @use 'utils/string';
 @use 'utils/type';
 
 $black: #121212 !default;
 $white: #ffffff !default;
-$neutral: #9e9e9e !default;
+$base: #737373 !default;
 $brand: #4285f4 !default;
 $accent: #ee3f39 !default;
 $danger: #db4437 !default;
@@ -32,7 +33,8 @@ $warning: #f4b400 !default;
     $name,
     $color,
     $prefix: '',
-    $postfix: ''
+    $postfix: '',
+    $css: false
 ) {
     @if not string.ends-with($name, 'color') {
         $name: '#{$name}-color';
@@ -52,7 +54,11 @@ $warning: #f4b400 !default;
         $color: color.hex($color);
     }
 
-    @include base.var(#{$prefix}#{$name}#{$postfix}, $color);
+    @if $css {
+        @include css.var(#{$prefix}#{$name}#{$postfix}, $color);
+    } @else {
+        @include base.var(#{$prefix}#{$name}#{$postfix}, $color);
+    }
 }
 
 @mixin vars($vars, $args...) {

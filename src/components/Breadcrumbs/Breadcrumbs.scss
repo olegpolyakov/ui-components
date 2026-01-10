@@ -1,7 +1,30 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
-$gap: base.var(space-xs) !default;
+$s: (
+    font-size: base.var(font-size-s),
+    gap: base.var(space-xxs)
+) !default;
+
+$m: (
+    font-size: base.var(font-size-m),
+    gap: base.var(space-xs)
+) !default;
+
+$l: (
+    font-size: base.var(font-size-l),
+    gap: base.var(space-s)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
+$gap: map.get($m, gap) !default;
 $separator-color: base.var(foreground-tertiary-color) !default;
 
 $vars: component.vars(Breadcrumbs, (

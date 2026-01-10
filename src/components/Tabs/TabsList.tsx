@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import type { Align, ComponentProps, ElementType, PropsWithKey } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import TabsContext from './TabsContext';
 import Tab, { TabProps } from './Tab';
@@ -15,8 +15,6 @@ export type TabsListProps = {
 };
 
 TabsList.displayName = 'TabsList';
-
-const elementClassNames = getElementClassNames(TabsList.displayName);
 
 export default function TabsList<T extends ElementType = 'div'>({
     as,
@@ -33,7 +31,6 @@ export default function TabsList<T extends ElementType = 'div'>({
     const Component = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
         align && styles[`align-${align}`],
         fluid && styles.fluid

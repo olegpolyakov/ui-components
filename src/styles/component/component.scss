@@ -11,14 +11,14 @@
 @use 'utils/string';
 @use 'utils/type';
 
-$-name: '';
-$-vars: ();
+$-NAME: '';
+$-VARS: ();
 
 @mixin define($name, $vars) {
-    $-name: $name !global;
-    $-vars: $vars !global;
+    $-NAME: $name !global;
+    $-VARS: $vars !global;
 
-    @include base.layer(components) {
+    @layer components {
         #{if(&, '&', '.root')} {
             @include vars($vars);
         }
@@ -39,13 +39,13 @@ $-vars: ();
     @return $map;
 }
 
-@function var($name) {
-    $value: map.get($-vars, $name);
+@function var($name, $value: null) {
+    // $value: map.get($-VARS, $name);
 
     @if _is-private-var($name) {
         @return css.var($name, $value);
     } @else {
-        @return base.var('#{$-name}-#{$name}', $value);
+        @return base.var('#{$-NAME}-#{$name}', $value);
     }
 }
 
@@ -61,7 +61,7 @@ $-vars: ();
     @if _is-private-var($name) {
         @include css.var($name, $value);
     } @else {
-        @include base.var('#{$-name}-#{$name}', $value);
+        @include base.var('#{$-NAME}-#{$name}', $value);
     }
 }
 
@@ -95,7 +95,7 @@ $-vars: ();
 
 @mixin color-state-vars($args...) {
     @include states.vars(
-        $prefix: '#{$-name}-',
+        $prefix: '#{$-NAME}-',
         $args...
     );
 }
@@ -104,7 +104,7 @@ $-vars: ();
     @include palettes.define using ($palette) {
         @include palettes.vars(
             $palette,
-            $prefix: '#{$-name}-',
+            $prefix: '#{$-NAME}-',
             $args...
         );
     }
@@ -114,7 +114,17 @@ $-vars: ();
     @include palettes.define using ($palette) {
         @include palettes.state-vars(
             $palette,
-            $prefix: '#{$-name}-',
+            $prefix: '#{$-NAME}-',
+            $args...
+        );
+    }
+}
+
+@mixin colors($args...) {
+    @include palettes.define using ($palette) {
+        @include palettes.vars(
+            $palette,
+            $prefix: '#{$-NAME}-',
             $args...
         );
     }
@@ -136,77 +146,6 @@ $-vars: ();
             ));
         }
     }
-}
-
-@mixin shapes($circular: 100%, $rectangular: 0, $rounded: (xs, s, m, l, xl)) {
-    @if not type.is-null($circular) {
-        .circular {
-            @include vars((
-                border-radius: $circular
-            ));
-        }
-    }
-
-    @if not type.is-null($rectangular) {
-        .rectangular {
-            @include vars((
-                border-radius: $rectangular
-            ));
-        }
-    }
-
-    @if type.is-list($rounded) {
-        @each $size in $rounded {
-            .rounded-#{$size} {
-                @include vars((
-                    border-radius: base.var(border-radius-#{$size})
-                ));
-            }
-        }
-    } @else if not type.is-null($rounded) {
-        .rounded {
-            @include vars((
-                border-radius: $rounded
-            ));
-        }
-    }
-}
-
-@mixin variants(
-    $plain: true,
-    $filled: true,
-    $outlined: true,
-    $tinted: true,
-    $outlined-tinted: true,
-    $text: false
-) {
-    // @if $plain {
-    //     @include variants.plain($prefix: '#{$-name}-');
-    // }
-
-    // @if $filled {
-    //     @include variants.filled($prefix: '#{$-name}-');
-    // }
-
-    // @if $outlined {
-    //     @include variants.outlined($prefix: '#{$-name}-') {
-    //         border: var(border-width) solid var(border-color);
-    //     }
-    // }
-
-    // @if $tinted {
-    //     @include variants.tinted($prefix: '#{$-name}-');
-    // }
-
-    // @if $outlined-tinted {
-    //     @include variants.outlined-tinted($prefix: '#{$-name}-') {
-    //         border: var(border-width) solid var(border-color);
-    //     }
-    // }
-
-    // @if $text {
-    //     @include variants.text($prefix: '#{$-name}-');
-    // }
 }
 
 @function _get-value($value: null, $prefix: null) {

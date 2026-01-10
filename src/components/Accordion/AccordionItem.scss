@@ -1,18 +1,48 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
-$height: 36px !default;
-$padding-x: base.var(space-xs) !default;
-$padding-y: base.var(space-xxs) !default;
-$padding: (--padding-y, --padding-x) !default;
-$gap: base.var(space-xs) !default;
-$font-size: base.var(font-size-m) !default;
+$s: (
+    height: 32px,
+    padding-x: base.var(space-xxs),
+    padding-y: base.var(space-xxs),
+    gap: base.var(space-xxs),
+    font-size: base.var(font-size-s)
+) !default;
+
+$m: (
+    height: 40px,
+    padding-x: base.var(space-xs),
+    padding-y: base.var(space-xs),
+    gap: base.var(space-xs),
+    font-size: base.var(font-size-m)
+) !default;
+
+$l: (
+    height: 48px,
+    padding-x: base.var(space-s),
+    padding-y: base.var(space-s),
+    gap: base.var(space-s),
+    font-size: base.var(font-size-l)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
+$height: map.get($m, height) !default;
+$padding-x: map.get($m, padding-x) !default;
+$padding-y: map.get($m, padding-y) !default;
+$gap: map.get($m, gap) !default;
+$font-size: map.get($m, font-size) !default;
 
 $vars: component.vars(AccordionItem, (
     height: $height,
     padding-x: $padding-x,
     padding-y: $padding-y,
-    padding: $padding,
     gap: $gap,
     font-size: $font-size
 ));

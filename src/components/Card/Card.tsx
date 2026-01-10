@@ -1,24 +1,22 @@
 import type { ReactNode } from 'react';
 
-import type { Color, ComponentProps, ElementType, Shadow, Shape, Size, Variant } from '../../types';
-import { classnames as cn, getComponentClassNames, getElementClassNames } from '../../utils';
+import { cn } from '../../component';
+import type { Color, ComponentProps, ElementType, Shadow, Shape, SizeExtended, Variant } from '../../types';
 
 import styles from './Card.module.scss';
 
 export type CardProps = {
     content?: ReactNode;
     color?: Color;
-    size?: Size;
-    shape?: Omit<Shape, 'circular'>;
+    size?: SizeExtended;
+    shape?: Exclude<Shape, 'circular'>;
     shadow?: Shadow;
-    hoverShadow?: Shadow;
+    shadowHover?: Shadow;
     variant?: Variant;
     interactive?: boolean;
 };
 
 Card.displayName = 'Card';
-
-const elementClassNames = getElementClassNames(Card.displayName);
 
 export default function Card<T extends ElementType = 'div'>({
     as,
@@ -29,27 +27,22 @@ export default function Card<T extends ElementType = 'div'>({
     color,
     size,
     shape,
+    variant = 'tinted',
     shadow,
-    hoverShadow,
-    variant = 'plain',
-    interactive,
+    shadowHover,
+    interactive = false,
     ...props
 }: ComponentProps<CardProps, T>) {
     const Root = as || 'div';
-    const classNames = cn(
-        className,
-        elementClassNames.root,
-        styles.root,
-        ...getComponentClassNames(styles, {
-            color,
-            size,
-            shape: shape as Shape,
-            shadow,
-            hoverShadow,
-            variant,
-            interactive
-        })
-    );
+    const classNames = cn(className, {
+        color,
+        size,
+        shape,
+        variant,
+        shadow,
+        shadowHover,
+        interactive
+    }, styles);
 
     return (
         <Root className={classNames} {...props}>

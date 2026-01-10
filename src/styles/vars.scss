@@ -19,8 +19,9 @@
         @include var(font-weight-#{$weight}, $value);
     }
 
-    @each $size, $value in $border-radii {
-        @include var(border-radius-#{$size}, $value);
+    @each $size, $value in $radius-sizes {
+        @include var(radius-#{$size}, $value);
+        @include var(border-radius-#{$size}, $value); // TODO remove duplicate
     }
 
     @each $name, $value in $opacity {
@@ -29,6 +30,10 @@
 
     @each $size, $value in $space-sizes {
         @include var(space-#{$size}, $value);
+    }
+
+    @each $name, $value in $shapes {
+        @include var(#{$name}, $value);
     }
 
     @each $size, $value in $shadows {

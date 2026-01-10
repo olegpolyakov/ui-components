@@ -1,6 +1,7 @@
 import { Children, cloneElement, isValidElement } from 'react';
+
 import type { Align, ComponentProps, ElementType, Orientation, PropsWithKey } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import Radio from './Radio';
 
@@ -18,8 +19,6 @@ export type RadioGroupProps = {
 
 RadioGroup.displayName = 'RadioGroup';
 
-const elementClassNames = getElementClassNames(RadioGroup.displayName);
-
 export default function RadioGroup<T extends ElementType = 'div'>({
     as,
     className,
@@ -34,8 +33,7 @@ export default function RadioGroup<T extends ElementType = 'div'>({
 }: ComponentProps<RadioGroupProps, T>) {
     const Root = as || 'div';
     const classNames = cn(
-        className,
-        elementClassNames.root,
+        className, 
         styles.root,
         styles[`${orientation}-${align}`]
     );

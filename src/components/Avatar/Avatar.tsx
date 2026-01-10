@@ -1,9 +1,8 @@
 import { ReactNode, ElementType } from 'react';
 
-import { ccn } from '../../component';
+import { cn } from '../../component';
 import { useImage } from '../../hooks/image';
 import type { Color, ComponentProps, Shadow, Shape, Size, Slotted, Variant } from '../../types';
-import { cn } from '../../utils';
 
 import Icon, { IconProps } from '../Icon';
 import Slot from '../Slot';
@@ -19,6 +18,7 @@ export type AvatarProps = {
     shape?: Shape;
     shadow?: Shadow;
     variant?: Variant;
+    interactive?: boolean;
 };
 
 Avatar.displayName = 'Avatar';
@@ -37,21 +37,20 @@ export default function Avatar<T extends ElementType = 'div'>({
     size = 'm',
     shadow,
     variant = 'tinted',
+    interactive = false,
     ...props
 }: ComponentProps<AvatarProps, T>) {
     const { ref: imageRef } = useImage(src);
 
     const Root = as || 'div';
-    const classNames = cn(
-        className,
-        ccn({
-            color,
-            size,
-            shape,
-            variant,
-            shadow
-        }, styles)
-    );
+    const classNames = cn(className, {
+        color,
+        size,
+        shape,
+        variant,
+        shadow,
+        interactive
+    }, styles);
 
     return (
         <Root

@@ -1,12 +1,35 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
+$s: (
+    size: base.var(font-size-s),
+    gap: base.var(space-xxs)
+) !default;
+
+$m: (
+    size: base.var(font-size-m),
+    gap: base.var(space-xs)
+) !default;
+
+$l: (
+    size: base.var(font-size-l),
+    gap: base.var(space-s)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
 $color: base.var(foreground-color) !default;
-$gap: base.var(space-xs) !default;
-$size: base.var(font-size-m) !default;
+$size: map.get($m, size) !default;
+$gap: map.get($m, gap) !default;
 
 $vars: component.vars(Label, (
     color: $color,
-    gap: $gap,
-    size: $size
+    size: $size,
+    gap: $gap
 ));

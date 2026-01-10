@@ -1,7 +1,8 @@
 import { MouseEvent, ReactNode, useCallback, useEffect, useRef } from 'react';
 
-import type { ComponentProps, Shadow, Slotted } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn as ccn } from '../../component';
+import type { ComponentProps, Shadow, Shape, Size, SizeExtended, Slotted } from '../../types';
+import { cn } from '../../utils';
 
 import Button, { type ButtonProps } from '../Button';
 import Heading, { HeadingProps } from '../Heading';
@@ -19,16 +20,19 @@ export type DialogProps = {
     closeButtonPosition?: 'inside' | 'outside';
     closeOnClickOutside?: boolean;
     disableScroll?: boolean;
+    size?: Size;
+    shape?: Exclude<Shape, 'circular'>;
     shadow?: Shadow;
     onClose: () => void;
 };
 
-Dialog.displayName = 'Dialog';
+const sizeMap: Record<Size, SizeExtended> = {
+    s: 'xs',
+    m: 's',
+    l: 'm'
+};
 
-const elementClassNames = getElementClassNames(
-    Dialog.displayName,
-    ['surface', 'title', 'content', 'closeButton']
-);
+Dialog.displayName = 'Dialog';
 
 export default function Dialog({
     className,
@@ -41,7 +45,9 @@ export default function Dialog({
     closeButtonPosition = 'inside',
     closeOnClickOutside = false,
     disableScroll,
-    shadow = 'm',
+    size = 'm',
+    shape,
+    shadow,
     onClose,
     ...props
 }: ComponentProps<DialogProps, 'div'>) {
@@ -73,11 +79,16 @@ export default function Dialog({
         }
     }, [closeOnClickOutside]);
 
-    const classNames = cn(
+    const rootClassNames = cn(
         className,
-        elementClassNames.root,
-        styles.root
+        styles.root,
+        styles[size]
     );
+    const surfaceClassNames = ccn(styles.surface, {
+        root: false,
+        shape,
+        shadow
+    }, styles);
 
     return (
         <Modal
@@ -87,7 +98,7 @@ export default function Dialog({
             fixed
         >
             <div
-                className={classNames}
+                className={rootClassNames}
                 role="dialog"
                 data-open={open ? true : undefined}
                 tabIndex={-1}
@@ -104,30 +115,30 @@ export default function Dialog({
                 >
                     <div
                         ref={surfaceRef}
-                        className={cn(elementClassNames.surface, styles.surface, shadow && styles[`shadow-${shadow}`])} 
+                        className={surfaceClassNames} 
                         onClick={handleSurfaceClick}
                     >
                         {title &&
                             <Slot
                                 fallback={Heading}
-                                className={cn(elementClassNames.title, styles.title)}
-                                size="s"
+                                className={styles.title}
+                                size={sizeMap[size]}
                             >
                                 {title}
                             </Slot>
                         }
 
-                        <div className={cn(elementClassNames.content, styles.content)}>
+                        <div className={styles.content}>
                             {content}
                         </div>
 
                         {closeButton && 
                             <Slot
                                 fallback={Button}
-                                className={cn(elementClassNames.closeButton, styles.closeButton, styles[`close-button-${closeButtonPosition}`])}
+                                className={cn(styles.closeButton, styles[`close-button-${closeButtonPosition}`])}
                                 icon="close"
-                                size="s"
-                                variant={closeButtonPosition === 'inside' ? 'plain' : 'tinted'}
+                                size={sizeMap[size]}
+                                variant={closeButtonPosition === 'inside' ? 'plain' : 'plain'}
                                 aria-label="Close dialog"
                                 onClick={onClose}
                             />

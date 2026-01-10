@@ -13,57 +13,37 @@
 @use './outlined-tinted';
 @use './text';
 
-@mixin vars($base-colors, $element-colors) {
+@mixin vars($element-colors, $postfix: '') {
     $border-color: map.get($element-colors, border);
     $background-color: map.get($element-colors, background);
-    $background-inverted-color: map.get($element-colors, background-inverted);
     $foreground-color: map.get($element-colors, foreground);
-    $foreground-inverted-color: map.get($element-colors, foreground-inverted);
 
     @include plain.vars(
-        $background-inverted-color,
-        $foreground-color
+        $background-color,
+        $foreground-color,
+        $postfix: $postfix
     );
 
     @include filled.vars(
         $background-color,
-        $foreground-color
+        $foreground-color,
+        $postfix: $postfix
     );
 
-    @include outlined.vars($border-color);
+    @include outlined.vars(
+        $border-color,
+        $postfix: $postfix
+    );
 
     @include tinted.vars(
-        $background-inverted-color,
-        $foreground-color
+        $background-color,
+        $foreground-color,
+        $postfix: $postfix
     );
 
-    @include text.vars($foreground-color, $background-color);
-
-    @each $name, $color in $base-colors {
-        @include plain.vars(
-            $color,
-            $color,
-            $postfix:'-#{$name}'
-        );
-
-        @include filled.vars(
-            $color,
-            colors.contrast-color($color),
-            $postfix:'-#{$name}'
-        );
-
-        @include outlined.vars($color, $postfix:'-#{$name}');
-        
-        @include tinted.vars(
-            $color,
-            $color,
-            $postfix:'-#{$name}'
-        );
-
-        @include text.vars(
-            $color,
-            $background-color,
-            $postfix:'-#{$name}'
-        );
-    }
+    @include text.vars(
+        $foreground-color,
+        $background-color,
+        $postfix: $postfix
+    );
 }

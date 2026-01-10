@@ -3,24 +3,14 @@
 
 @use './Card';
 
-@include component.define(Card, Card.$vars);
+@include component.define(Card, Card.$vars) {
+    .root {
+        border-radius: component.var(radius);
+        padding: component.var(padding);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+    }
 
-.root {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    border: component.var(border-width) solid component.var(border-color);
-    border-radius: component.var(border-radius);
-    background-color: component.var(background-color);
-    padding: component.var(padding);
-    box-shadow: component.var(shadow) base.var(shadow-color);
+    @include component.sizes(Card.$sizes);
 }
-
-
-// Sizes
-
-@include component.classes((
-    s: (padding: base.var(space-s)),
-    m: (padding: base.var(space-m)),
-    l: (padding: base.var(space-l))
-));

@@ -6,60 +6,35 @@
 
 @use './Icon';
 
-@include component.define(Icon, Icon.$vars);
-
-.root {
-    font-family: component.var(font);
-    font-weight: normal;
-    font-style: normal;
-    font-size: component.var(size);
-    font-variation-settings: 'OPSZ' component.var(size);
-    display: inline-block;
-    line-height: 1;
-    color: component.var(color);
-    opacity: component.var(opacity);
-    text-transform: none;
-    letter-spacing: normal;
-    word-wrap: normal;
-    white-space: nowrap;
-    direction: ltr;
-    user-select: none;
-}
-
-
-// Colors
-
-@include component.classes((
-    primary: (color: base.var(foreground-primary-color)),
-    secondary: (color: base.var(foreground-secondary-color)),
-    tertiary: (color: base.var(foreground-tertiary-color))
-));
-
-@include component.palettes-vars(color);
-
-
-// Sizes
-
-@include component.classes((
-    xs: (size: map.get(Icon.$sizes, xs)),
-    s: (size: map.get(Icon.$sizes, s)),
-    m: (size: map.get(Icon.$sizes, m)),
-    l: (size: map.get(Icon.$sizes, l)),
-    xl: (size: map.get(Icon.$sizes, xl))
-));
-
-
-// Opacity
-
-@include component.classes((
-    opacity-high: (opacity: base.var(opacity-high)),
-    opacity-medium: (opacity: base.var(opacity-medium)),
-    opacity-low: (opacity: base.var(opacity-low))
-));
-
-
-@include themes.dark {
+@include component.define(Icon, Icon.$vars) {
     .root {
-        font-variation-settings: 'GRAD' -25;
+        display: inline-block;
+        
+        @include Icon.icon(
+            component.var(size),
+            component.var(font),
+            component.var(color)
+        );
+
+        @include themes.dark {
+            font-variation-settings: 'GRAD' -25;
+        }
     }
+
+    @include component.sizes(Icon.$sizes);
+
+    .inline {
+        display: inline;
+    }
+    
+
+    // Colors
+
+    @include component.classes((
+        primary: (color: base.var(foreground-primary-color)),
+        secondary: (color: base.var(foreground-secondary-color)),
+        tertiary: (color: base.var(foreground-tertiary-color))
+    ));
+
+    @include component.palettes-vars(color);
 }

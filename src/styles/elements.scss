@@ -1,4 +1,34 @@
 @use 'base';
+@use 'utils/css' as css;
+
+@mixin caret($size: 18px) {
+    &::after {
+        content: '';
+        display: inline-block;
+        width: $size;
+        height: $size;
+        margin-left: auto;
+        background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyNCcgaGVpZ2h0PScyNCcgdmlld0JveD0nMCAwIDI0IDI0JyBmaWxsPSdub25lJz48cGF0aCBkPSdNNiA5TDEyIDE1TDE4IDknIHN0cm9rZT0nIzUzNTI1Qycgc3Ryb2tlLXdpZHRoPScxLjUnIHN0cm9rZS1saW5lY2FwPSdyb3VuZCcgc3Ryb2tlLWxpbmVqb2luPSdyb3VuZCcvPjwvc3ZnPg==');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        transition: transform .2s;
+        opacity: .75;
+    }
+}
+
+@mixin disabled($opacity: base.var(opacity-medium)) {
+    opacity: $opacity;
+    cursor: default;
+    pointer-events: none;
+}
+
+@mixin disabled-state {
+    &:disabled,
+    &[aria-disabled='true'] {
+        @include disabled;
+    }
+}
 
 @mixin ellipsis {
     overflow: hidden;
@@ -14,6 +44,32 @@
         border-color 0.15s ease-in-out,
         color 0.15s ease-in-out,
         box-shadow 0.15s ease-in-out;
+}
+
+@mixin non-interactive {
+    cursor: default;
+
+    &:hover {
+        border-color: css.var(border-color);
+        background-color: css.var(background-color);
+        color: css.var(foreground-color);
+    }
+
+    &:active {
+        border-color: css.var(border-color);
+        background-color: css.var(background-color);
+        color: css.var(foreground-color);
+    }
+}
+
+@mixin slot-padding($padding, $min-padding, $factor: 0.625) {
+    &:has(.start, .icon) {
+        padding-inline-start: max(calc($padding * $factor), $min-padding);
+    }
+
+    &:has(.end) {
+        padding-inline-end: max(calc($padding * $factor), $min-padding);
+    }
 }
 
 @mixin shadows($sizes: (xxs, xs, s, m, l, xl, xxl), $hover: false) {

@@ -1,0 +1,59 @@
+@use 'sass:map';
+
+@use 'base';
+@use 'component';
+
+$s: (
+    height: 32px,
+    padding: base.var(space-xs),
+    gap: base.var(space-xs),
+    font-size: base.var(font-size-xs)
+) !default;
+
+$m: (
+    height: 36px,
+    padding: base.var(space-s),
+    gap: base.var(space-xs),
+    font-size: base.var(font-size-s)
+) !default;
+
+$l: (
+    height: 48px,
+    padding: base.var(space-m),
+    gap: base.var(space-s),
+    font-size: base.var(font-size-m)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
+$height: map.get($m, height) !default;
+$padding: map.get($m, padding) !default;
+$gap: map.get($m, gap) !default;
+$border-color: base.var(border-color) !default;
+$border-width: 1px !default;
+$border-radius: base.var(border-radius-m) !default;
+$background-color: transparent !default;
+$foreground-color: base.var(foreground-color) !default;
+$label-color: base.var(foreground-secondary-color) !default;
+$font-size: base.var(font-size-m) !default;
+$font-weight: base.var(font-weight-normal) !default;
+$line-height: base.var(line-height) !default;
+
+$vars: component.vars('Input', (
+    height: $height,
+    padding: $padding,
+    gap: $gap,
+    border-color: $border-color,
+    border-width: $border-width,
+    border-radius: $border-radius,
+    background-color: $background-color,
+    foreground-color: $foreground-color,
+    label-color: $label-color,
+    font-size: $font-size,
+    font-weight: $font-weight,
+    line-height: $line-height
+));

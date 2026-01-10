@@ -6,7 +6,7 @@ import {
 } from 'react';
 
 import type { ComponentProps, ElementType, Size } from '../../types';
-import { classnames as cn, getElementClassNames } from '../../utils';
+import { cn } from '../../utils';
 
 import Label from '../Label';
 
@@ -28,11 +28,6 @@ export type RadioChangeHandler = (
 ) => void;
 
 Radio.displayName = 'Radio';
-
-const elementClassNames = getElementClassNames(
-    Radio.displayName,
-    ['input', 'label']
-);
 
 export default function Radio<T extends ElementType = 'input'>({
     as,
@@ -57,7 +52,6 @@ export default function Radio<T extends ElementType = 'input'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        elementClassNames.root,
         styles.root,
         styles[size],
         disabled && styles.disabled
@@ -67,7 +61,7 @@ export default function Radio<T extends ElementType = 'input'>({
         <Root className={classNames}>
             <input
                 id={id}
-                className={cn(elementClassNames.input, styles.input)}
+                className={styles.input}
                 type="radio"
                 disabled={disabled}
                 onChange={handleChange}
@@ -76,7 +70,7 @@ export default function Radio<T extends ElementType = 'input'>({
 
             {label &&
                 <Label
-                    className={cn(elementClassNames.label, styles.label)}
+                    className={styles.label}
                     htmlFor={id}
                     size={size}
                 >

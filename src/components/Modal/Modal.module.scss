@@ -1,4 +1,9 @@
 @use 'base';
+@use 'component';
+
+@use './Modal';
+
+@include component.define(Modal, Modal.$vars);
 
 .root {
     position: relative;
@@ -12,7 +17,7 @@
         content: '';
         width: 100%;
         height: 100%;
-        background-color: base.var(backdrop-color);
+        background-color: component.var(backdrop-color);
         transition: opacity .2s;
     }
 }

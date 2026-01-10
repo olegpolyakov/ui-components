@@ -8,11 +8,10 @@
         box-sizing: border-box;
         min-width: component.var(size);
         min-height: component.var(size);
-        padding: 0 component.var(padding-x);
+        padding-inline: component.var(padding);
+        border-radius: base.var(circular);
         display: inline-flex;
         align-items: center;
-        place-content: center;
-        font-family: base.var(font-family);
         font-size: component.var(font-size);
         font-weight: base.var(font-weight-semibold);
 

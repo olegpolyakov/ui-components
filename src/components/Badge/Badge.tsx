@@ -1,15 +1,13 @@
 import type { ReactNode } from 'react';
 
-import { ccn } from '../../component';
-import type { Color, ComponentProps, ElementType, Shape, Size, Variant } from '../../types';
-import { cn } from '../../utils';
+import { cn } from '../../component';
+import type { Color, ComponentProps, ElementType, Size, Variant } from '../../types';
 
 import styles from './Badge.module.scss';
 
 export type BadgeProps = {
     content?: ReactNode;
     color?: Color;
-    shape?: Shape;
     size?: Size;
     variant?: Variant;
     interactive?: boolean;
@@ -24,23 +22,18 @@ export default function Badge<T extends ElementType = 'span'>({
 
     content = children,
     color = 'brand',
-    shape = 'circular',
     size = 'm',
     variant = 'filled',
     interactive = false,
     ...props
 }: ComponentProps<BadgeProps, T>) {
     const Root = as || 'span';
-    const classNames = cn(
-        className,
-        ccn({
-            color,
-            size,
-            shape,
-            variant,
-            interactive
-        }, styles)
-    );
+    const classNames = cn(className, {
+        color,
+        size,
+        variant,
+        interactive
+    }, styles);
 
     return (
         <Root className={classNames} {...props}>

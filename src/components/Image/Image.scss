@@ -1,8 +1,8 @@
 @use 'base';
 @use 'component';
 
-$border-radius: base.var(border-radius-s) !default;
+$radius: base.var(radius-m) !default;
 
 $vars: component.vars(Image, (
-    border-radius: $border-radius,
+    radius: $radius,
 ));

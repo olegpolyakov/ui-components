@@ -1,5 +1,5 @@
 import {
-  neutralColor,
+  baseColor,
   brandColor,
   accentColor,
   dangerColor,
@@ -17,7 +17,7 @@ import Palette from "@/components/Palette";
 # Colors
 
 <Flex gap="xxs" wrap>
-    <Color name="Neutral" value={neutralColor} />
+    <Color name="Base" value={baseColor} />
     <Color name="Brand" value={brandColor} />
     <Color name="Accent" value={accentColor} />
     <Color name="Danger" value={dangerColor} />
@@ -29,38 +29,71 @@ import Palette from "@/components/Palette";
 ## Palettes
 
 <Flex column gap="m">
-  <Palette name="neutral" />
-  <Palette name="brand" />
-  <Palette name="accent" />
-  <Palette name="success" />
-  <Palette name="warning" />
-  <Palette name="danger" />
-  <Palette name="info" />
+  <Palette name="base" alpha={false} />
+  <Palette name="brand" alpha={false} />
+  <Palette name="accent" alpha={false} />
+  <Palette name="success" alpha={false} />
+  <Palette name="warning" alpha={false} />
+  <Palette name="danger" alpha={false} />
+  <Palette name="info" alpha={false} />
 </Flex>
 
 ## Borders
 
 <Flex gap="xxs">
-  <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className="kui-border-color">Base/Primary</Box>
-  <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className="kui-border-secondary-color">Secondary</Box>
-  <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className="kui-border-tertiary-color">Tertiary</Box>
-  <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className="kui-border-inverted-color">Inverted</Box>
+  <Flex column gap="xxs">
+    <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className="kui-border-color">Base/Primary</Box>
+    <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className="kui-border-secondary-color">Secondary</Box>
+    <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className="kui-border-tertiary-color">Tertiary</Box>
+    <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className="kui-border-inverted-color">Inverted</Box>
+  </Flex>
+
+  {['brand', 'accent', 'success', 'warning', 'danger', 'info'].map(name => (
+    <Flex column gap="xxs" key={name}>
+      <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className={`kui-${name}-border-color`}>Base/Primary</Box>
+      <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className={`kui-${name}-border-secondary-color`}>Secondary</Box>
+      <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className={`kui-${name}-border-tertiary-color`}>Tertiary</Box>
+      <Box style={{borderWidth: '1px', borderStyle: 'solid'}} className={`kui-${name}-border-inverted-color`}>Inverted</Box>
+    </Flex>
+  ))}
 </Flex>
 
 ## Backgrounds
 
 <Flex gap="xxs">
-  <Box className="kui-background-color">Base/Primary</Box>
-  <Box className="kui-background-secondary-color">Secondary</Box>
-  <Box className="kui-background-tertiary-color">Tertiary</Box>
-  <Box className="kui-background-inverted-color kui-foreground-inverted-color">Inverted</Box>
+  <Flex column gap="xxs">
+    <Box className="kui-background-color">Base/Primary</Box>
+    <Box className="kui-background-secondary-color">Secondary</Box>
+    <Box className="kui-background-tertiary-color">Tertiary</Box>
+    <Box className="kui-background-inverted-color kui-foreground-inverted-color">Inverted</Box>
+  </Flex>
+
+  {['brand', 'accent', 'success', 'warning', 'danger', 'info'].map(name => (
+    <Flex column gap="xxs" key={name}>
+      <Box className={`kui-${name}-background-color`}>Base/Primary</Box>
+      <Box className={`kui-${name}-background-secondary-color`}>Secondary</Box>
+      <Box className={`kui-${name}-background-tertiary-color`}>Tertiary</Box>
+      <Box className={`kui-${name}-background-inverted-color kui-foreground-inverted-color`}>Inverted</Box>
+    </Flex>
+  ))}
 </Flex>
 
 ## Foreground
 
 <Flex gap="xs">
-  <span className="kui-foreground-color">Base/Primary</span>
-  <span className="kui-foreground-secondary-color">Secondary</span>
-  <span className="kui-foreground-tertiary-color">Tertiary</span>
-  <span className="kui-foreground-tertiary-inverted-color">Inverted</span>
+  <Flex column gap="xxs">
+    <span className="kui-foreground-color">Base/Primary</span>
+    <span className="kui-foreground-secondary-color">Secondary</span>
+    <span className="kui-foreground-tertiary-color">Tertiary</span>
+    <span className="kui-foreground-tertiary-inverted-color">Inverted</span>
+  </Flex>
+
+  {['brand', 'accent', 'success', 'warning', 'danger', 'info'].map(name => (
+    <Flex column gap="xxs" key={name}>
+      <span className={`kui-${name}-foreground-color`}>Base/Primary</span>
+      <span className={`kui-${name}-foreground-secondary-color`}>Secondary</span>
+      <span className={`kui-${name}-foreground-tertiary-color`}>Tertiary</span>
+      <span className={`kui-${name}-foreground-tertiary-inverted-color`}>Inverted</span>
+    </Flex>
+  ))}
 </Flex>
