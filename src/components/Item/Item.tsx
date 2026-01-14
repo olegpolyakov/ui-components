@@ -38,7 +38,7 @@ export default function Item<T extends ElementType = 'div'>({
     color,
     size,
     shape,
-    variant = 'plain',
+    variant,
     shadow,
     shadowHover,
     active,
@@ -64,7 +64,7 @@ export default function Item<T extends ElementType = 'div'>({
             className={classNames}
             data-active={active}
             data-disabled={disabled}
-            data-interactive={interactive}
+            data-interactive={interactive || undefined}
             {...props}
         >
             {(start || icon) &&

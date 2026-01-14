@@ -8,11 +8,11 @@
     .root {
         box-sizing: border-box;
         height: component.var(height);
-        padding: 0 component.var(padding);
+        border-radius: component.var(radius);
+        padding-inline: component.var(padding);
         display: inline-flex;
         align-items: center;
         gap: component.var(gap);
-        border-radius: component.var(_radius, component.var(radius));
         font-family: base.var(font-family);
         font-size: component.var(font-size);
         font-weight: component.var(font-weight);

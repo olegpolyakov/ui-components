@@ -1,3 +1,4 @@
-.root {
-    background-color: var(--ui-extra-light-gray);
-}
+@use 'base';
+@use 'component';
+
+$vars: component.vars(TableHead, ());

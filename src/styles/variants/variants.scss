@@ -13,6 +13,23 @@
 @use './outlined-tinted';
 @use './text';
 
+$names: (
+    plain,
+    filled,
+    outlined,
+    tinted,
+    outlined-tinted,
+    text
+) !default;
+
+@mixin define($names: $names) {
+    @each $name in $names {
+        #{if(&, '&', '')}.#{$name} {
+            @content($name);
+        }
+    }
+}
+
 @mixin vars($element-colors, $postfix: '') {
     $border-color: map.get($element-colors, border);
     $background-color: map.get($element-colors, background);

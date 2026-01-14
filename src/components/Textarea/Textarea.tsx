@@ -1,14 +1,19 @@
 import {
     type ChangeEvent,
     type ReactNode,
+    FocusEvent,
     useCallback,
-    useRef,
     useState,
-    FormEvent
+    FormEvent,
+    useRef,
+    useLayoutEffect,
+    useEffect
 } from 'react';
 
-import type { ComponentProps, Size } from '../../types';
-import { cn } from '../../utils';
+import { cn } from '../../component';
+import type { ComponentProps, Shape, Size } from '../../types';
+
+import Textbox from '../Textbox';
 
 import styles from './Textarea.module.scss';
 
@@ -17,7 +22,8 @@ export type TextareaProps = {
     start?: ReactNode;
     end?: ReactNode;
     size?: Size;
-    variant?: 'filled' | 'outlined' | 'underlined';
+    shape?: Shape;
+    variant?: 'outlined' | 'tinted' | 'outlined-tinted';
     onChange?: TextareaChangeHandler;
 };
 
@@ -38,18 +44,47 @@ export default function Textarea({
     start,
     end,
     size = 'm',
+    shape,
     variant = 'outlined',
+    disabled,
     onChange,
+    onFocus,
+    onBlur,
     onInvalid,
 
     className,
     ...props
 }: ComponentProps<TextareaProps, 'textarea'>) {
-    const containerRef = useRef<HTMLDivElement>(null);
+    const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    const [internalValue, setInternalValue] = useState(value || defaultValue);
+    const [internalValue, setInternalValue] = useState(value || defaultValue || '');
     const [validationMessage, setValidationMessage] = useState('');
+    const [isFocused, setFocused] = useState(false);
     const [isInvalid, setInvalid] = useState(false);
+
+    useLayoutEffect(() => {
+        if (!textareaRef.current) return;
+
+        const textarea = textareaRef.current;
+
+        function handleInput() {
+            autosizeTextarea(textarea);
+        }
+        
+        textarea.addEventListener('input', handleInput);
+
+        return () => {
+            textarea?.removeEventListener('input', handleInput);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (!textareaRef.current) return;
+
+        const textarea = textareaRef.current;
+
+        autosizeTextarea(textarea);
+    }, [isFocused]);
 
     const handleChange = useCallback((event: ChangeEvent<HTMLTextAreaElement>) => {
         setInvalid(false);
@@ -61,6 +96,16 @@ export default function Textarea({
         }, event);
     }, [onChange]);
 
+    const handleFocus = useCallback((event: FocusEvent<HTMLTextAreaElement>) => {
+        setFocused(true);
+        onFocus?.(event);
+    }, [onFocus]);
+    
+    const handleBlur = useCallback((event: FocusEvent<HTMLTextAreaElement>) => {
+        setFocused(false);
+        onBlur?.(event);
+    }, [onBlur]);
+
     const handleInvalid = useCallback((event: FormEvent<HTMLTextAreaElement>) => {
         event.preventDefault();
         setInvalid(true);
@@ -68,51 +113,44 @@ export default function Textarea({
         onInvalid?.(event);
     }, [onInvalid]);
 
-    const isFocused = Boolean(internalValue);
+    const isActive = Boolean(value || defaultValue || internalValue);
 
     const classNames = cn(
         className,
-        styles.root,
-        styles[size],
-        styles[variant],
-        isFocused && styles.focused,
-        isInvalid && styles.invalid
+        {},
+        styles
     );
 
     return (
-        <div
-            className={classNames}
-            data-validation-message={validationMessage || undefined}
+        <Textbox
+            label={label}
+            start={start}
+            end={end}
+            shape={shape}
+            size={size}
+            variant={variant}
+            active={isActive}
+            disabled={disabled}
+            focused={isFocused}
+            invalid={isInvalid}
+            validationMessage={validationMessage}
         >
-            {start &&
-                <span className={styles.start}>
-                    {start}
-                </span>
-            }
-
-            <div
-                ref={containerRef}
-                className={styles.container}
-            >
-                {label &&
-                    <label className={styles.label}>{label}</label>
-                }
-            
-                <textarea
-                    className={styles.textarea}
-                    value={value}
-                    defaultValue={defaultValue}
-                    onChange={handleChange}
-                    onInvalid={handleInvalid}
-                    {...props}
-                />
-            </div>
-
-            {end &&
-                <span className={styles.end}>
-                    {end}
-                </span>
-            }
-        </div>
+            <textarea
+                ref={textareaRef}
+                className={classNames}
+                value={value}
+                defaultValue={defaultValue}
+                onChange={handleChange}
+                onInvalid={handleInvalid}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                {...props}
+            />
+        </Textbox>
     );
+}
+
+function autosizeTextarea(textarea: HTMLTextAreaElement) {
+    textarea.style.height = '0px';
+    textarea.style.height = textarea.scrollHeight + 'px';
 }

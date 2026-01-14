@@ -7,164 +7,128 @@
 
 @use './Text';
 
-@include component.define(Text, Text.$vars);
-
-.root {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: component.var(gap);
-    font-family: component.var(font-family);
-    font-size: component.var(font-size);
-    font-weight: component.var(font-weight);
-    color: component.var(foreground-color);
-}
-
-.content {
-    line-height: component.var(line-height);
-    letter-spacing: component.var(letter-spacing);
-}
-
-.start,
-.end {
-    flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    line-height: component.var(line-height);
-}
-
-
-// Colors
-
-@include component.classes((
-    primary: (
-        foreground-color: base.var(foreground-primary-color)
-    ),
-    secondary: (
-        foreground-color: base.var(foreground-secondary-color)
-    ),
-    tertiary: (
-        foreground-color: base.var(foreground-tertiary-color)
-    )
-));
-
-@include component.palettes-vars((
-    foreground-color: '$'
-));
-
-.inherit {
-    color: inherit;
-}
-
-
-// Sizes
-
-@each $size, $values in Text.$sizes {
-    $font-size: list.nth($values, 1);
-    $line-height: list.nth($values, 2);
-
-    .#{$size} {
-        @include component.vars((
-            font-size: rem($font-size),
-            line-height: math.div($line-height, $font-size)
-        ));
-    }
-}
-
-
-// Weight
-
-@include component.classes((
-    weight-light: (font-weight: base.var(font-weight-light)),
-    weight-normal: (font-weight: base.var(font-weight-normal)),
-    weight-semibold: (font-weight: base.var(font-weight-semibold)),
-    weight-bold: (font-weight: base.var(font-weight-bold))
-));
-
-
-// Align
-
-.align {
-    &-start {
-        justify-content: flex-start;
-        text-align: left;
+@include component.define(Text, Text.$vars) {
+    .root {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: component.var(gap);
+        font-family: component.var(font);
+        font-size: component.var(size);
+        font-weight: component.var(weight);
+        color: component.var(color);
     }
 
-    &-center {
-        justify-content: center;
-        text-align: center;
-    }
-
-    &-end {
-        justify-content: flex-end;
-        text-align: right;
-    }
-}
-
-
-// Misc
-
-.inline {
-    display: inline-flex;
-}
-
-.italic {
-    font-style: italic;
-}
-
-.uppercase {
-    text-transform: uppercase;
-}
-
-.strikethrough {
-    text-decoration: line-through;
-}
-
-.ellipsis {
     .content {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        line-height: component.var(height);
+        letter-spacing: component.var(spacing);
     }
-}
 
-@include component.classes((
-    mt: 1em,
-    mt-s: (margin-top: base.var(space-s)),
-    mt-m: (margin-top: base.var(space-m)),
-    mt-l: (margin-top: base.var(space-l)),
-    mb: 1em,
-    mb-s: (margin-bottom: base.var(space-s)),
-    mb-m: (margin-bottom: base.var(space-m)),
-    mb-l: (margin-bottom: base.var(space-l)),
-));
+    .start,
+    .end {
+        flex-shrink: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: component.var(height);
+    }
 
-.decorative {
-    user-select: none;
-}
 
-.link {
-    @include component.vars((
-        foreground-color: base.var(primary-color),
-        foreground-hover-color: base.var(primary-hover-color),
-        foreground-active-color: base.var(primary-active-color),
-        foreground-disabled-color: base.var(primary-disabled-color),
+    // Colors
+
+    @include component.classes((
+        primary: (
+            color: base.var(foreground-primary-color)
+        ),
+        secondary: (
+            color: base.var(foreground-secondary-color)
+        ),
+        tertiary: (
+            color: base.var(foreground-tertiary-color)
+        )
     ));
 
-    text-decoration: underline;
-    cursor: pointer;
+    @include component.palettes-vars((
+        color: '$'
+    ));
 
-    &:hover {
-        color: component.var(foreground-hover-color);
-    }
-    
-    &:active {
-        color: component.var(foreground-active-color);
+    .inherit {
+        color: inherit;
     }
 
-    &.disabled {
-        color: component.var(foreground-disabled-color);
-        cursor: default;
+
+    // Sizes
+
+    @each $size, $values in Text.$sizes {
+        $font-size: list.nth($values, 1);
+        $line-height: list.nth($values, 2);
+
+        .#{$size} {
+            @include component.vars((
+                size: rem($font-size),
+                height: math.div($line-height, $font-size)
+            ));
+        }
+    }
+
+
+    // Weight
+
+    @include component.classes((
+        light: (weight: base.var(font-weight-light)),
+        normal: (weight: base.var(font-weight-normal)),
+        semibold: (weight: base.var(font-weight-semibold)),
+        bold: (weight: base.var(font-weight-bold))
+    ));
+
+
+    // Align
+
+    .align {
+        &-start {
+            justify-content: flex-start;
+            text-align: left;
+        }
+
+        &-center {
+            justify-content: center;
+            text-align: center;
+        }
+
+        &-end {
+            justify-content: flex-end;
+            text-align: right;
+        }
+    }
+
+
+    // Misc
+
+    .inline {
+        display: inline-flex;
+    }
+
+    .italic {
+        font-style: italic;
+    }
+
+    .uppercase {
+        text-transform: uppercase;
+    }
+
+    .strikethrough {
+        text-decoration: line-through;
+    }
+
+    .ellipsis {
+        .content {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .decorative {
+        user-select: none;
     }
 }

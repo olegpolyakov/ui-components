@@ -1,3 +1,8 @@
+@use 'base';
 @use 'component';
 
-$vars: component.vars(PillGroup, ());
+$gap: base.var(space-xxs) !default;
+
+$vars: component.vars(PillGroup, (
+    gap: $gap
+));

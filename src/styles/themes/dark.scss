@@ -25,6 +25,8 @@ $foreground-secondary-color: palettes.$base-4 !default;
 $foreground-tertiary-color: palettes.$base-5 !default;
 
 $backdrop-color: rgba(0, 0, 0, .5) !default;
+$popover-color: $background-secondary-color !default;
+$tooltip-color: palettes.$base-3 !default;
 $shadow-color: rgba(0, 0, 0, .5) !default;
 
 $element-colors: (
@@ -47,6 +49,8 @@ $element-colors: (
     foreground-tertiary: $foreground-tertiary-color,
     
     backdrop: $backdrop-color,
+    popover: $popover-color,
+    tooltip: $tooltip-color,
     shadow: $shadow-color
 ) !default;
 

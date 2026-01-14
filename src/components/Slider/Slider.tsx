@@ -7,12 +7,13 @@ import {
     useCallback
 } from 'react';
 
+import { cn } from '../../component';
 import { useUpdated } from '../../hooks/lifecycle';
 import type { MouseInteractionEvent,  ComponentProps, ElementType } from '../../types';
-import { cn, getEventKey, getPageX } from '../../utils';
+import { getEventKey, getPageX } from '../../utils';
 
-import Track from './SliderTrack';
 import Thumb from './SliderThumb';
+import Track from './SliderTrack';
 import { getValueForEventKey } from './helpers';
 
 import styles from './Slider.module.scss';
@@ -24,9 +25,11 @@ export type SliderProps = {
     min?: number;
     max?: number;
     step?: number;
-    discrete?: boolean;
     disabled?: boolean;
+    discrete?: boolean;
     marks?: boolean;
+    withValueLabel?: boolean;
+    onChange?: (value: number) => void;
 };
 
 Slider.displayName = 'Slider';
@@ -40,9 +43,10 @@ export default function Slider<T extends ElementType = 'div'>({
     min = 0,
     max = 100,
     step,
-    discrete,
     disabled,
+    discrete,
     marks,
+    withValueLabel,
     onChange,
     ...props
 }: ComponentProps<SliderProps, T>) {
@@ -76,6 +80,8 @@ export default function Slider<T extends ElementType = 'div'>({
     const handleMove = useCallback((
         event: MouseInteractionEvent
     ) => {
+        if (disabled) return;
+
         const trackClientRect = trackRef.current?.getBoundingClientRect();
 
         if (!trackClientRect) return;
@@ -86,9 +92,11 @@ export default function Slider<T extends ElementType = 'div'>({
         const value = Number(min) + percent * (max - min);
 
         updateValue(value);
-    }, [min, max, updateValue]);
+    }, [disabled, min, max, updateValue]);
 
     const handleKeyDown = useCallback((event: KeyboardEvent<HTMLDivElement>) => {
+        if (disabled) return;
+
         event.preventDefault();
 
         const value = Number(inputRef.current?.value);
@@ -98,7 +106,7 @@ export default function Slider<T extends ElementType = 'div'>({
         if (isNaN(newValue)) return;
 
         updateValue(newValue);
-    }, [min, max, step, updateValue]);
+    }, [disabled, min, max, step, updateValue]);
 
     const handleUp = useCallback(() => {
         setActive(false);
@@ -144,7 +152,8 @@ export default function Slider<T extends ElementType = 'div'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        styles.root
+        { disabled },
+        styles
     );
 
     return (
@@ -159,6 +168,7 @@ export default function Slider<T extends ElementType = 'div'>({
                 className={styles.input}
                 type="range"
                 value={Math.round(resolvedValue)}
+                disabled={disabled}
                 onChange={() => {}}
                 {...props}
             />
@@ -179,6 +189,7 @@ export default function Slider<T extends ElementType = 'div'>({
                 max={max}
                 discrete={discrete}
                 disabled={disabled}
+                withValueLabel={withValueLabel}
                 onStartInteraction={handleThumbStartInteraction}
                 onEndInteraction={handleThumbEndInteraction}
                 onKeyDown={handleKeyDown}

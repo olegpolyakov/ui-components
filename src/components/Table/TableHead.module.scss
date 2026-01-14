@@ -1,3 +1,10 @@
-.root {
-    background-color: var(--ui-extra-light-gray);
+@use 'base';
+@use 'component';
+
+@use './TableHead';
+
+@include component.define(TableHead, TableHead.$vars) {
+    .root {
+        position: relative;
+    }
 }

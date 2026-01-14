@@ -1,9 +1,12 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
-@use './Slider';
+$color: base.var(Slider-thumb-color);
+$size: base.var(Slider-thumb-size);
 
 $vars: component.vars(SliderThumb, (
-    color: Slider.$thumb-color,
-    size: Slider.$thumb-size
+    color: $color,
+    size: $size
 ));

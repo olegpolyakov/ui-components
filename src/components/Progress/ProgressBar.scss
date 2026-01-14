@@ -1,14 +1,34 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
-$thickness: 6px !default;
-$border-radius: --thickness !default;
+$s: (
+    thickness: 2px
+) !default;
+
+$m: (
+    thickness: 4px
+) !default;
+
+$l: (
+    thickness: 8px
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
+$thickness: map.get($m, thickness) !default;
+$radius: --thickness !default;
 $track-color: base.var(border-color) !default;
 $bar-color: base.var(brand-color) !default;
 
 $vars: component.vars(ProgressBar, (
     thickness: $thickness,
-    border-radius: $border-radius,
+    radius: $radius,
     track-color: $track-color,
     bar-color: $bar-color
 ));

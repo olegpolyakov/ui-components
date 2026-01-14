@@ -89,7 +89,6 @@ export default function Menu<T extends ElementType = 'div'>({
             placement={placement}
             fallbackPlacements={['top', 'left', 'right']}
             middleware={[flip()]}
-            size={size}
             variant={variant}
             onOpen={handlePopoverOpen}
             onClose={handlePopoverClose}

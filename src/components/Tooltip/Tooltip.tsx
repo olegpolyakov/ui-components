@@ -11,10 +11,20 @@ import {
     useRef
 } from 'react';
 
-import { Placement, Strategy, autoUpdate, arrow, flip, shift, useFloating } from '@floating-ui/react';
+import {
+    Placement,
+    Strategy,
+    autoUpdate,
+    arrow,
+    flip,
+    offset,
+    shift,
+    useFloating
+} from '@floating-ui/react';
 
-import type { ComponentProps } from '../../types';
-import { cn } from '../../utils';
+import { cn } from '../../component';
+import  { ComponentProps } from '../../types';
+import { isFunction } from '../../utils';
 
 import styles from './Tooltip.module.scss';
 
@@ -36,11 +46,17 @@ export default function Tooltip({
     placement = 'bottom',
     arrow: showArrow = true
 }: ComponentProps<TooltipProps, 'div'>) {
-    const arrowRef = useRef<HTMLDivElement>(null);
+    const arrowRef = useRef<SVGSVGElement>(null);
 
     const [isOpen, setIsOpen] = useState(false);
+    const timeoutRef = useRef<number | null>(null);
 
-    const {refs, floatingStyles, middlewareData} = useFloating({
+    const {
+        refs,
+        floatingStyles,
+        placement: currentPlacement,
+        middlewareData
+    } = useFloating({
         strategy: position,
         placement,
         whileElementsMounted: autoUpdate,
@@ -49,26 +65,37 @@ export default function Tooltip({
         middleware: [
             flip(),
             shift(),
+            offset(8),
             showArrow && arrow({
-                element: arrowRef,
-                padding: -8
-            })
+                element: arrowRef
+            }),
         ].filter(Boolean)
     });
 
     const handleMouseEnter = useCallback<MouseEventHandler<HTMLDivElement>>((event) => {
-        setIsOpen(true);
+        timeoutRef.current = window.setTimeout(() => {
+            setIsOpen(true);
+        }, 500);
 
-        if (isValidElement<{onMouseEnter: MouseEventHandler<HTMLDivElement>}>(children)) {
-            children.props?.onMouseEnter(event);
+        if (
+            isValidElement<{onMouseEnter: MouseEventHandler<HTMLDivElement>}>(children) &&
+            isFunction(children.props.onMouseEnter)
+        ) {
+            children.props.onMouseEnter(event);
         }
     }, [children]);
 
     const handleMouseLeave = useCallback<MouseEventHandler<HTMLDivElement>>((event) => {
         setIsOpen(false);
 
-        if (isValidElement<{onMouseLeave: MouseEventHandler<HTMLDivElement>}>(children)) {
-            children.props?.onMouseLeave(event);
+        window.clearTimeout(timeoutRef.current!);
+        timeoutRef.current = null;
+
+        if (
+            isValidElement<{onMouseLeave: MouseEventHandler<HTMLDivElement>}>(children) &&
+            isFunction(children.props.onMouseLeave)
+        ) {
+            children.props.onMouseLeave(event);
         }
     }, [children]);
 
@@ -88,7 +115,8 @@ export default function Tooltip({
 
     const classNames = cn(
         className,
-        styles.root
+        { [currentPlacement]: currentPlacement },
+        styles
     );
 
     return (
@@ -114,17 +142,36 @@ export default function Tooltip({
                   ref={refs.setFloating}
                   className={classNames}
                   style={floatingStyles}
+                  data-placement={currentPlacement}
                   onMouseEnter={handleMouseEnterTooltip}
                   onMouseLeave={handleMouseLeaveTooltip}
               >
-                  <div
-                      ref={arrowRef}
-                      className={styles.arrow}
-                      style={middlewareData.arrow && {
+                  <svg
+                    ref={arrowRef}
+                    className={styles.arrow}
+                    viewBox="0 0 12 6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    style={middlewareData.arrow && {
                         left: middlewareData.arrow.x,
                         top: middlewareData.arrow.y
                     }}
-                  />
+                >
+                    <polygon
+                        points="6,0 12,6 0,6"
+                    />
+
+                    <line
+                        x1="0" y1="6"
+                        x2="6" y2="0"
+                        strokeWidth="1"
+                    />
+
+                    <line
+                        x1="12" y1="6"
+                        x2="6" y2="0"
+                        strokeWidth="1"
+                    />
+                </svg>
 
                   {content}
               </div>

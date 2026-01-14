@@ -1,56 +1,31 @@
+@use 'base';
 @use 'component';
 
 @use './Table';
 
-@include component.define(Table, Table.$vars);
-
-.root {
-    width: 100%;
-    table-layout: fixed;
-    border-collapse: collapse;
-    border-radius: var(--ui-border-radius-medium);
-    font-family: var(--ui-font-family);
-}
-
-
-// Sizes
-
-@include component.classes((
-    s: (
-        cell-padding: .5rem .75rem,
-        font-size: 12px,
-    ),
-    m: (
-        cell-padding: .75rem 1rem,
-        font-size: 14px,
-    ),
-    l: (
-        cell-padding: 1rem 1.25rem,
-        font-size: 16px,
-    )
-));
-
-.interactive {
-    tbody tr {
-        @include component.color-state-vars(background-color, plain);
-
-        @include component.states((
-            hover: (background-color: hover-background-color),
-            active: (background-color: active-background-color)
-        ));
-    }
-}
-
-.striped {
-    &-even {
-        tbody tr:nth-child(even) {
-            @include component.color-state-vars(background-color, neutral);
-        }
+@include component.define(Table, Table.$vars) {
+    .root {
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+        border-radius: base.var(radius-m);
+        font-family: base.var(font-family);
+        font-size: component.var(font-size);
     }
 
-    &-odd {
-        tbody tr:nth-child(odd) {
-            @include component.color-state-vars(background-color, neutral);
+    @include component.sizes(Table.$sizes);
+
+    .interactive {
+        tbody tr {
+            @include component.color-state-vars(background-color, plain);
+
+            &:hover {
+                background-color: component.var(background-hover-color);
+            }
+
+            &:active {
+                background-color: component.var(background-active-color);
+            }
         }
     }
 }

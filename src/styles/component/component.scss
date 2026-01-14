@@ -93,6 +93,13 @@ $-VARS: ();
     }
 }
 
+@mixin color-vars($args...) {
+    @include colors.vars(
+        $prefix: '#{$-NAME}-',
+        $args...
+    );
+}
+
 @mixin color-state-vars($args...) {
     @include states.vars(
         $prefix: '#{$-NAME}-',

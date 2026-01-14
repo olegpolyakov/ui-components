@@ -5,40 +5,40 @@
 @use 'base';
 @use 'component';
 
-$color: base.var(foreground-color) !default;
-$hover-color: null !default;
-$active-color: null !default;
-$disabled-color: null !default;
-$emphasis: base.var(emphasis-high) !default;
-$font-family: base.var(font-family) !default;
-$font-size: base.var(font-size-m) !default;
-$font-weight: base.var(font-weight-normal) !default;
-$line-height: base.var(line-height) !default;
-$letter-spacing: 0 !default;
-$gap: base.var(space-xs) !default;
+// (font-size, line-height)
+$xxs: (10px, 14px) !default;
+$xs: (12px, 16px) !default;
+$s: (14px, 18px) !default;
+$m: (16px, 22px) !default;
+$l: (20px, 26px) !default;
+$xl: (24px, 30px) !default;
+$xxl: (28px, 34px) !default;
 
 $sizes: (
-    // type: (font-size, line-height)
-    xxs: (10px, 14px),
-    xs: (12px, 16px),
-    s: (14px, 18px),
-    m: (16px, 22px),
-    l: (20px, 26px),
-    xl: (24px, 30px),
-    xxl: (28px, 34px)
-) !default;
+    xxs: $xxs,
+    xs: $xs,
+    s: $s,
+    m: $m,
+    l: $l,
+    xl: $xl,
+    xxl: $xxl
+);
+
+$color: initial !default;
+$font: initial !default;
+$size: initial !default;
+$weight: initial !default;
+$height: base.var(line-height) !default;
+$spacing: 0 !default;
+$gap: base.var(space-xs) !default;
 
 $vars: component.vars(Text, (
-    foreground-color: $color,
-    foreground-hover-color: $hover-color,
-    foreground-active-color: $active-color,
-    foreground-disabled-color: $disabled-color,
-    emphasis: $emphasis,
-    font-family: $font-family,
-    font-size: $font-size,
-    font-weight: $font-weight,
-    line-height: $line-height,
-    letter-spacing: $letter-spacing,
+    color: $color,
+    font: $font,
+    size: $size,
+    weight: $weight,
+    height: $height,
+    spacing: $spacing,
     gap: $gap
 ));
 
@@ -46,10 +46,9 @@ $vars: component.vars(Text, (
     $_sizes: map.get($sizes, $size);
     $font-size: list.nth($_sizes, 1);
     $line-height: list.nth($_sizes, 2);
-    $font-weight: map.get(base.$font-weights, $weight);
 
     font-family: base.var(font-family);
     font-size: $font-size;
-    font-weight: $font-weight;
+    font-weight: map.get(base.$font-weights, $weight);
     line-height: math.div($line-height, $font-size);
 }

@@ -1,9 +1,18 @@
+@use 'base';
 @use 'component';
 
 $enter-duration: 150ms !default;
 $exit-duration: 75ms !default;
+$radius: base.var(radius-s) !default;
+$background-color: base.var(background-secondary-color) !default;
+$foreground-color: base.var(foreground-color) !default;
+$shadow: base.var(shadow-s) base.var(shadow-color) !default;
 
 $vars: component.vars(Toast, (
     enter-duration: $enter-duration,
-    exit-duration: $exit-duration
+    exit-duration: $exit-duration,
+    radius: $radius,
+    background-color: $background-color,
+    foreground-color: $foreground-color,
+    shadow: $shadow
 ));

@@ -1,7 +1,7 @@
 import { KeyboardEvent, useState, useCallback } from 'react';
 
 import type { ComponentProps } from '../../types';
-import { classnames as cn } from '../../utils';
+import { cn } from '../../utils';
 
 import styles from './SliderThumb.module.scss';
 
@@ -12,12 +12,11 @@ export type SliderThumbProps = {
     step?: number;
     discrete?: boolean;
     disabled?: boolean;
+    withValueLabel?: boolean;
     onStartInteraction?: () => void;
     onEndInteraction?: () => void;
     onKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void;
 };
-
-const THUMB_WIDTH = 32;
 
 SliderThumb.displayName = 'SliderThumb';
 
@@ -27,6 +26,7 @@ export default function SliderThumb({
     max = 100,
     discrete,
     disabled,
+    withValueLabel,
     onStartInteraction,
     onEndInteraction,
     ...props
@@ -41,13 +41,15 @@ export default function SliderThumb({
         setFocused(false);
     }, []);
 
-    const classNames = cn(styles.root, {
-        [styles.THUMB_FOCUSED]: focused,
-        [styles.THUMB_WITH_INDICATOR]: discrete && focused
-    });
+    const classNames = cn(
+        styles.root,
+        focused && styles.focused,
+        discrete && styles.discrete,
+        disabled && styles.disabled
+    );
 
     const style = {
-        left: `calc(${(value - min) / (max - min) * 100}% - ${THUMB_WIDTH * 0.5}px)`
+        left: `calc(${Math.trunc((value - min) / (max - min) * 100)}% - ${styles.size})`
     };
 
     return (
@@ -57,6 +59,7 @@ export default function SliderThumb({
             tabIndex={disabled ? -1 : 0}
             aria-disabled={disabled || undefined}
             style={style}
+            data-value={Math.round(value)}
             onFocus={handleFocus}
             onBlur={handleBlur}
             onMouseDown={onStartInteraction}
@@ -65,7 +68,13 @@ export default function SliderThumb({
             onTouchEnd={onEndInteraction}
             {...props}
         >
-            <div className={styles.knob} data-value={Math.round(value)} />
+            <div className={styles.knob} />
+
+            {withValueLabel &&
+                <span className={styles.label}>
+                    {Math.round(value)}
+                </span>
+            }
         </div>
     );
 }

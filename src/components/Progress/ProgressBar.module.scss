@@ -4,29 +4,44 @@
 
 @use './ProgressBar';
 
-@include component.define(ProgressBar, ProgressBar.$vars);
+@include component.define(ProgressBar, ProgressBar.$vars) {
+    .root {
+        position: relative;
+        box-sizing: border-box;
+        min-height: component.var(thickness);
+        flex: 1 1 0%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: component.var(radius);
+        background-color: component.var(track-color);
+        overflow: hidden;
+    }
 
-.root {
-    position: relative;
-    box-sizing: border-box;
-    min-height: component.var(thickness);
-    flex: 1 1 0%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: component.var(border-radius);
-    background-color: component.var(track-color);
+    .bar {
+        box-sizing: inherit;
+        block-size: component.var(thickness);
+        inline-size: 100%;
+        border-radius: inherit;
+        background-color: component.var(bar-color);
+        transform-origin: left;
+    }
+
+    .indeterminate .bar {
+        animation: slide 2s linear 0s infinite normal none running;
+    }
+
+    @include component.sizes(ProgressBar.$sizes);
 }
 
-.bar {
-    box-sizing: inherit;
-    block-size: component.var(thickness);
-    inline-size: 100%;
-    border-radius: component.var(border-radius);
-    background-color: component.var(bar-color);
-    transform-origin: left;
-}
-
-.indeterminate {
-    animation: slide 2.5s ease-in-out 0s infinite normal none running;
+@keyframes slide {
+    0% {
+        transform: translateX(-100%) scaleX(0.5);
+    }
+    50% {
+        transform: translateX(0%) scaleX(0.75);
+    }
+    100% {
+        transform: translateX(100%) scaleX(0.5);
+    }
 }

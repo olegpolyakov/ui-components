@@ -3,119 +3,20 @@
 
 @use './Textarea';
 
-@include component.define(Textarea, Textarea.$vars);
-
-.root {
-    box-sizing: border-box;
-    position: relative;
-    width: 100%;
-    min-height: component.var(height);
-    display: flex;
-    align-items: center;
-    padding: 0 1rem;
-    gap: component.var(gap);
-    border-radius: component.var(border-radius);
-    background-clip: padding-box;
-    background-color: component.var(background-color);
-    font-size: component.var(font-size);
-    font-family: base.var(font-family);
-    line-height: base.var(line-height);
-    color: component.var(foreground-color);
-    overflow: hidden;
-    transition: border-color 0.2s ease-in-out;
-}
-
-.start,
-.end {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    overflow: hidden;
-}
-
-.label {
-    position: absolute;
-    top: var(--ui-Textarea-label-top);
-    color: var(--ui-Textarea-label-color);
-    transform-origin: top left;
-    transition: transform .2s;
-}
-
-.textarea {
-    appearance: none;
-    width: 100%;
-    resize: none;
-    border: none;
-    outline: none;
-    field-sizing: content;
-    background: transparent;
-    padding: calc((component.var(height) - component.var(border-width) * 2 - component.var(inner-height)) / 2) 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: 1.4;
-    z-index: 1;
-}
-
-.label + .textarea::placeholder {
-    visibility: hidden;
-}
-
-
-// States
-
-.focused,
-.root:focus-within {
-    @include component.vars((
-        border-color: base.var(brand-color)
-    ));
-
-    .label {
-        transform: scale(.75) translate(0, -35%);
-    }
-
-    .label + .textarea {
-        padding-top: calc(var(--ui-Textarea-height) - var(--ui-Textarea-border-width, 0px) * 2 - var(--ui-Textarea-inner-height) - 2px);
-        padding-bottom: 2px;
+@include component.define(Textarea, Textarea.$vars) {
+    .root {
+        appearance: none;
+        box-sizing: border-box;
+        align-self: center;
+        width: 100%;
+        resize: none;
+        border: none;
+        outline: none;
+        padding: 0;
+        background: transparent;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: 1.4;
+        overflow: hidden;
     }
 }
-
-.invalid {
-    @include component.vars((
-        border-color: base.var(danger-color)
-    ));
-}
-
-
-// Sizes
-
-@include component.classes((
-    s: (
-        height: 32px,
-        font-size: 12px,
-        label-top: 7px,
-        _inner-height: 17px,
-    ),
-    m: (
-        height: 40px,
-        font-size: 14px,
-        label-top: 9px,
-        _inner-height: 20px,
-    ),
-    l: (
-        height: 48px,
-        font-size: 16px,
-        label-top: 11px,
-        _inner-height: 22px,
-    )
-));
-
-
-// Variants
-

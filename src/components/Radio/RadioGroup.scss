@@ -1,7 +1,7 @@
 @use 'base';
 @use 'component';
 
-$gap: base.var(space-s) !default;
+$gap: base.var(space-m) !default;
 
 $vars: component.vars(RadioGroup, (
     gap: $gap,

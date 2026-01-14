@@ -3,35 +3,27 @@
 
 @use './Slider';
 
-@include component.define(Slider, Slider.$vars);
+@include component.define(Slider, Slider.$vars) {
+    .root {
+        position: relative;
+        height: component.var(thumb-ripple-size);
+        margin: 0 calc(component.var(thumb-ripple-size) / 2);
+        touch-action: pan-y;
+        cursor: pointer;
+    }
 
-.root {
-    position: relative;
-    height: component.var(thumb-ripple-size);
-    margin: 0 calc(#{component.var(thumb-ripple-size)} / 2);
-    touch-action: pan-y;
-    cursor: pointer;
-}
+    .input {
+        $indent: 2px;
+        $size: Slider.$thumb-ripple-size - 2 * $indent;
 
-.input {
-    $indent: 2px;
-    $size: Slider.$thumb-ripple-size - 2 * $indent;
-
-    position: absolute;
-    width: $size;
-    top: $indent;
-    left: $indent;
-    margin: 0;
-    height: $size;
-    opacity: 0;
-    pointer-events: none;
-    cursor: pointer;
-}
-
-.disabled {
-    cursor: auto;
-
-    .thumb {
+        position: absolute;
+        top: $indent;
+        left: $indent;
+        width: $size;
+        height: $size;
+        margin: 0;
+        opacity: 0;
         pointer-events: none;
+        cursor: pointer;
     }
 }

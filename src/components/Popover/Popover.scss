@@ -1,20 +1,39 @@
 @use 'base';
 @use 'component';
 
-$padding: base.var(space-m) !default;
-$background-color: base.var(background-color) !default;
+$s: (
+    padding: base.var(space-xxs),
+    font-size: base.var(font-size-s)
+) !default;
+
+$m: (
+    padding: base.var(space-xs),
+    font-size: base.var(font-size-m)
+) !default;
+
+$l: (
+    padding: base.var(space-s),
+    font-size: base.var(font-size-l)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
+$radius: base.var(radius-m);
+$padding: 0 !default;
+$background-color: base.var(popover-color) !default;
 $foreground-color: base.var(foreground-color) !default;
-$border-color: base.var(border-color) !default;
-$border-radius: base.var(border-radius-m) !default;
-$border-width: 1px !default;
+$font-size: base.var(font-size-s) !default;
 $shadow: base.var(shadow-s) base.var(shadow-color) !default;
 
 $vars: component.vars(Popover, (
+    radius: $radius,
     padding: $padding,
     background-color: $background-color,
     foreground-color: $foreground-color,
-    border-color: $border-color,
-    border-radius: $border-radius,
-    border-width: $border-width,
+    font-size: $font-size,
     shadow: $shadow
 ));

@@ -1,12 +1,13 @@
-import type { ComponentProps, ElementType } from '../../types';
-import { cn } from '../../utils';
+import { cn } from '../../component';
+import type { ComponentProps, ElementType, Shape, Size } from '../../types';
 
 import styles from './ProgressBar.module.scss';
 
 export type ProgressBarProps = {
     value?: number | string;
-    bufferValue?: number | string;
     indeterminate?: boolean;
+    size?: Size;
+    shape?: Extract<Shape, 'circular' | 'rectangular'>;
 };
 
 ProgressBar.displayName = 'ProgressBar';
@@ -16,20 +17,19 @@ export default function ProgressBar<T extends ElementType = 'div'>({
     className,
 
     value: _value,
-    bufferValue: _bufferValue,
     indeterminate,
+    size,
+    shape,
     ...props
 }: ComponentProps<ProgressBarProps, T>) {
     const Root = as || 'div';
     const classNames = cn(
         className,
-        styles.root,
-        indeterminate && styles.indeterminate
+        { indeterminate, size, shape },
+        styles
     );
 
     const value = Number(_value);
-    const buffer = Number(_bufferValue);
-
     const barStyle = {
         transform: `scaleX(${indeterminate ? 1 : (value > 1 ? (value * 0.01) : value)})`
     };

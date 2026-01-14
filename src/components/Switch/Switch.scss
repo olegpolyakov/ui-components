@@ -1,16 +1,39 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
-$input-width: null !default;
-$input-height: null !default;
+$s: (
+    width: 28px,
+    height: 16px
+) !default;
+
+$m: (
+    width: 36px,
+    height: 20px
+) !default;
+
+$l: (
+    width: 44px,
+    height: 24px
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+);
+
+$width: map.get($m, width) !default;
+$height: map.get($m, height) !default;
 $border-color: base.var(outlined-color) !default;
 $background-color: base.var(plain-color) !default;
 $thumb-background-color: base.var(outlined-color) !default;
 $thumb-transition-speed: 0.2s !default;
 
 $vars: component.vars(Switch, (
-    input-width: $input-width,
-    input-height: $input-height,
+    width: $width,
+    height: $height,
     border-color: $border-color,
     background-color: $background-color,
     thumb-background-color: $thumb-background-color,

@@ -3,54 +3,78 @@
 
 @use './Tooltip';
 
-@include component.define(Tooltip, Tooltip.$vars);
-
-.root {
-    box-sizing: border-box;
-    position: relative;
-    max-width: component.var(max-width);
-    border-radius: component.var(border-radius);
-    padding: component.var(padding);
-    display: inline-flex;
-    flex-direction: column;
-    gap: component.var(gap);
-    background: component.var(background-color);
-    color: component.var(color);
-    font-size: component.var(font-size);
-    font-family: base.var(font-family);
-    font-weight: base.var(font-weight-normal);
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.10);
-    animation: fade-in .2s;
-    z-index: 9999;
-
-    &[data-popper-placement^='top'] > .arrow {
-        bottom: var(--ui-Tooltip-arrow-offset);
+@include component.define(Tooltip, Tooltip.$vars) {
+    .root {
+        box-sizing: border-box;
+        position: relative;
+        max-width: component.var(max-width);
+        border-radius: component.var(border-radius);
+        padding: component.var(padding);
+        display: inline-flex;
+        flex-direction: column;
+        gap: component.var(gap);
+        background: component.var(background-color);
+        color: component.var(foreground-color);
+        font-size: component.var(font-size);
+        font-family: base.var(font-family);
+        font-weight: base.var(font-weight-normal);
+        box-shadow: component.var(shadow);
+        animation: fade-in .2s;
+        animation-delay: .2s;
+        z-index: 9999;
     }
-    &[data-popper-placement^='right'] > .arrow {
-        left: var(--ui-Tooltip-arrow-offset);
-    }
-    &[data-popper-placement^='bottom'] > .arrow {
-        top: var(--ui-Tooltip-arrow-offset);
-    }
-    &[data-popper-placement^='left'] > .arrow {
-        right: var(--ui-Tooltip-arrow-offset);
-    }
-}
 
-.arrow,
-.arrow:before {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    background: inherit;
-}
+    .arrow {
+        width: component.var(arrow-size);
+        height: calc(component.var(arrow-size) / 2);
+        position: absolute;
+        transform: translateY(-100%);
+        transform-origin: center center;
+        z-index: -1;
 
-.arrow {
-    visibility: hidden;
+        polygon {
+            fill: component.var(background-color);
+        }
 
-    &::before {
-        visibility: visible;
-        content: '';
-        transform: rotate(45deg);
+        line {
+            stroke: component.var(border-color);
+        }
     }
+
+    .top,
+    .top-start,
+    .top-end {
+        .arrow {
+            bottom: 0;
+            transform: translateY(100%) rotate(180deg);
+        }
+    }
+
+    .right,
+    .right-start,
+    .right-end {
+        .arrow {
+            left: 0;
+            transform: rotate(-90deg) translateY(-150%);
+        }
+    }
+
+    .bottom,
+    .bottom-start,
+    .bottom-end {
+        .arrow {
+            top: 0;
+        }
+    }
+
+    .left,
+    .left-start,
+    .left-end {
+        .arrow {
+            right: 0;
+            transform: rotate(90deg) translateY(-150%);
+        }
+    }
+
+    // TODO Add other placements (top-left, top-right, etc.)
 }

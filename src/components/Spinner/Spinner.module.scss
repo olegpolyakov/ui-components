@@ -4,45 +4,31 @@
 
 @use './Spinner';
 
-@include component.define(Spinner, Spinner.$vars);
+@include component.define(Spinner, Spinner.$vars) {
+    .root {
+        display: inline-block;
+        width: component.var(size);
+        height: component.var(size);
+        border: calc(component.var(size) * .1) solid component.var(color);
+        border-right-color: transparent;
+        border-radius: 50%;
+        animation: component.var(speed) linear infinite spin;
+        vertical-align: var(vertical-align, -0.125em);
 
-.root {
-    display: inline-block;
-    width: component.var(size);
-    height: component.var(size);
-    border: calc(#{component.var(size)} * .1) solid component.var(color);
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation: component.var(speed) linear infinite spin;
-    vertical-align: var(vertical-align, -0.125em);
-
-    @include motion.reduced {
-        @include component.vars((
-            speed: calc(#{component.var(speed)} * 2)
-        ));
+        @include motion.reduced {
+            @include component.vars((
+                speed: calc(component.var(speed) * 2)
+            ));
+        }
     }
+
+    .inherit {
+        color: inherit;
+        border-color: currentColor;
+        border-right-color: transparent;
+    }
+
+    @include component.palettes-vars(color);
+
+    @include component.sizes(Spinner.$sizes);
 }
-
-
-// Colors
-
-.inherit {
-    color: inherit;
-    border-color: currentColor;
-    border-right-color: transparent;
-}
-
-@include component.palettes-vars(color);
-
-
-// Sizes
-
-@include component.classes((
-    xxs: (size: 8px),
-    xs: (size: 12px),
-    s: (size: 16px),
-    m: (size: 24px),
-    l: (size: 32px),
-    xl: (size: 40px),
-    xxl: (size: 48px)
-));

@@ -1,3 +1,43 @@
+@use 'sass:map';
+
+@use 'base';
 @use 'component';
 
-$vars: component.vars(Table, ());
+$s: (
+    cell-padding: base.var(space-xs) base.var(space-s),
+    font-size: base.var(font-size-s)
+) !default;
+
+$m: (
+    cell-padding: base.var(space-s) base.var(space-m),
+    font-size: base.var(font-size-m)
+) !default;
+
+$l: (
+    cell-padding: base.var(space-m) base.var(space-l),
+    font-size: base.var(font-size-l)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+);
+
+$border-color: base.var(border-color);
+$border-width: 1px;
+$cell-padding: map.get($m, cell-padding);
+$font-size: map.get($m, font-size);
+$header-font-weight: base.var(font-weight-semibold);
+$row-even-background-color: none;
+$row-odd-background-color: none;
+
+$vars: component.vars(Table, (
+    border-color: $border-color,
+    border-width: $border-width,
+    cell-padding: $cell-padding,
+    font-size: $font-size,
+    header-font-weight: $header-font-weight,
+    row-even-background-color: $row-even-background-color,
+    row-odd-background-color: $row-odd-background-color
+));

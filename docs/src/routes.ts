@@ -33,6 +33,7 @@ import Link from './pages/components/Link.mdx';
 import List from './pages/components/List.mdx';
 import Menu from './pages/components/Menu.mdx';
 import Pill from './pages/components/Pill.mdx';
+import PillGroup from './pages/components/PillGroup.mdx';
 import Popover from './pages/components/Popover.mdx';
 import ProgressBar from './pages/components/ProgressBar.mdx';
 import ProgressCircle from './pages/components/ProgressCircle.mdx';
@@ -94,6 +95,7 @@ export default [
             { path: '/list', component: List, title: 'List' },
             { path: '/menu', component: Menu, title: 'Menu' },
             { path: '/pill', component: Pill, title: 'Pill' },
+            { path: '/pill-group', component: PillGroup, title: 'Pill Group' },
             { path: '/popover', component: Popover, title: 'Popover' },
             { path: '/progress-bar', component: ProgressBar, title: 'Progress Bar' },
             { path: '/progress-circle', component: ProgressCircle, title: 'Progress Circle' },

@@ -2,7 +2,7 @@
 @use 'component';
 
 $height: auto !default;
-$padding: base.var(space-xs) 0 !default;
+$padding: 0 !default;
 
 $vars: component.vars(Menu, (
     height: $height,

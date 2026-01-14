@@ -2,7 +2,6 @@
 
 @use 'base';
 @use 'component';
-@use 'utils/css';
 
 $s: (
     height: 18px,
@@ -35,7 +34,7 @@ $sizes: (
 ) !default;
 
 $height: map.get($m, height) !default;
-$radius: base.var(border-radius-m) !default;
+$radius: map.get($m, radius) !default;
 $padding: map.get($m, padding) !default;
 $gap: map.get($m, gap) !default;
 $font-size: map.get($m, font-size) !default;
@@ -43,10 +42,9 @@ $font-weight: base.var(font-weight-normal) !default;
 
 $vars: component.vars(Pill, (
     height: $height,
-    radius: component.var(_radius, $radius),
+    radius: $radius,
     padding: $padding,
     gap: $gap,
     font-size: $font-size,
-    font-weight: $font-weight,
-    _height: --height
+    font-weight: $font-weight
 ));

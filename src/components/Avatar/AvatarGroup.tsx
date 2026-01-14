@@ -37,19 +37,15 @@ export default function AvatarGroup<T extends ElementType>({
     maxCount = 0,
     ...props
 }: ComponentProps<AvatarGroupProps, T>) {
-    const resolvedAvatars = resolveChildren(children, avatars);
-    const shownAvatars = (maxCount > 0 && resolvedAvatars.length > maxCount)
-        ? resolvedAvatars.slice(0, maxCount)
-        : resolvedAvatars;
-    const hiddenAvatarsCount = resolvedAvatars.length - shownAvatars.length;
+    const resolvedChildren = resolveChildren(children, avatars);
+    const shownChildren = (maxCount > 0 && resolvedChildren.length > maxCount)
+        ? resolvedChildren.slice(0, maxCount)
+        : resolvedChildren;
+    const hiddenCount = resolvedChildren.length - shownChildren.length;
 
     const Root = as || 'div';
     const classNames = cn(className, {
-        color,
-        size,
         overlap,
-        shape,
-        variant,
         gap
     }, styles);
 
@@ -58,7 +54,7 @@ export default function AvatarGroup<T extends ElementType>({
             className={classNames}
             {...props}
         >
-            {shownAvatars?.map(({ key, ...avatar }, index) =>
+            {shownChildren?.map(({ key, ...avatar }, index) =>
                 <Avatar
                     key={key ?? index}
                     className={styles.avatar}
@@ -71,10 +67,10 @@ export default function AvatarGroup<T extends ElementType>({
                 />
             )}
 
-            {hiddenAvatarsCount > 0 &&
+            {hiddenCount > 0 &&
                 <Avatar
                     className={styles.avatar}
-                    content={`+${hiddenAvatarsCount}`}
+                    content={`+${hiddenCount}`}
                     color={color}
                     shape={shape}
                     size={size}

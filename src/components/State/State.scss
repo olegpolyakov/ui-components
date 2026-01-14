@@ -1,7 +1,27 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
-$gap: base.var(space-m) !default;
+$s: (
+    gap: base.var(space-xs)
+) !default;
+
+$m: (
+    gap: base.var(space-s)
+) !default;
+
+$l: (
+    gap: base.var(space-m)
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+);
+
+$gap: map.get($m, gap) !default;
 
 $vars: component.vars(State, (
     gap: $gap

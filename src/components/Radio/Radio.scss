@@ -1,7 +1,33 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
-$size: 20px !default;
+$s: (
+    size: 16px,
+    gap: base.var(space-xs),
+    checked-border-width: 5px
+) !default;
+
+$m: (
+    size: 20px,
+    gap: base.var(space-s),
+    checked-border-width: 6px
+) !default;
+
+$l: (
+    size: 24px,
+    gap: base.var(space-m),
+    checked-border-width: 7px
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
+$size: map.get($m, size) !default;
 $border-color: base.var(outlined-color) !default;
 $border-width: 1px !default;
 $background-color: base.var(plain-color) !default;

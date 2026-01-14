@@ -8,92 +8,27 @@
     exitDuration: #{Toast.$exit-duration};
 }
 
-@include component.define(Toast, Toast.$vars);
-
-.root {
-    display: none;
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    pointer-events: none; // Ignore mouse events on the root layout element.
-}
-
-.surface {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    box-sizing: border-box;
-    transform: scale(0.8);
-    opacity: 0;
-}
-
-.content {
-    width: 100%;
-    flex-grow: 1;
-    box-sizing: border-box;
-    margin: 0;
-    visibility: hidden;
-
-    // 14px top/bottom padding needed to make the height 48px.
-    padding-top: 14px;
-    padding-bottom: 14px;
-}
-
-.actions {
-    box-sizing: border-box;
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    visibility: hidden;
-}
-
-.action {}
-
-.dismiss {}
-
-
-// Misc
-
-.leading {
-
-}
-
-.stacked {
-
-}
-
-
-// Transition
-
-.opening,
-.open,
-.closing {
-    display: flex;
-}
-
-.open {
-    .surface {
-        transform: scale(1);
-        opacity: 1;
-        pointer-events: auto; // Allow mouse events on surface element while snackbar is open
-        transition:
-            animation.enter(opacity, Toast.$enter-duration),
-            animation.enter(transform, Toast.$enter-duration);
+@include component.define(Toast, Toast.$vars) {
+    .container {
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        z-index: 1000;
     }
 
-    .content,
-    .actions {
-        visibility: visible;
-    }
-}
-
-.closing {
-    .surface {
-        transform: scale(1);
-        transition: animation.exit-permanent(opacity, Toast.$exit-duration);
+    .root {
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        border-radius: component.var(radius);
+        background-color: component.var(background-color);
+        color: component.var(foreground-color);
+        box-shadow: component.var(shadow);
+        overflow: hidden;
+        z-index: 10000;
     }
 }

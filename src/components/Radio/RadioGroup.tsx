@@ -1,13 +1,9 @@
-import { Children, cloneElement, isValidElement } from 'react';
+import { cn, resolveChildren } from '../../component';
+import type { Align, ComponentProps, ElementType, Orientation, PropsWithKey, Size } from '../../types';
 
-import type { Align, ComponentProps, ElementType, Orientation, PropsWithKey } from '../../types';
-import { cn } from '../../utils';
-
-import Radio from './Radio';
+import Radio, { RadioProps } from './Radio';
 
 import styles from './RadioGroup.module.scss';
-
-type RadioProps = Parameters<typeof Radio>[0];
 
 export type RadioGroupProps = {
     name?: string;
@@ -15,6 +11,7 @@ export type RadioGroupProps = {
     size?: RadioProps['size'];
     align?: Align;
     orientation?: Orientation;
+    gap?: Size;
 };
 
 RadioGroup.displayName = 'RadioGroup';
@@ -29,18 +26,22 @@ export default function RadioGroup<T extends ElementType = 'div'>({
     size,
     align = 'start',
     orientation = 'horizontal',
+    gap = size,
     ...props
 }: ComponentProps<RadioGroupProps, T>) {
     const Root = as || 'div';
     const classNames = cn(
-        className, 
-        styles.root,
-        styles[`${orientation}-${align}`]
+        className,
+        {
+            [`${orientation}-${align}`]: true,
+            gap
+        },
+        styles
     );
 
     return (
         <Root className={classNames} {...props}>
-            {radios?.map(({ key, ...props }) =>
+            {resolveChildren(children, radios).map(({ key, ...props }) =>
                 <Radio
                     key={key}
                     className={styles.radio}
@@ -48,15 +49,6 @@ export default function RadioGroup<T extends ElementType = 'div'>({
                     size={size}
                     {...props}
                 />
-            )}
-
-            {Children.map(children, child =>
-                isValidElement<RadioProps>(child) &&
-                cloneElement<RadioProps>(child, {
-                    className: cn(child.props.className, styles.radio),
-                    name,
-                    size
-                })
             )}
         </Root>
     );

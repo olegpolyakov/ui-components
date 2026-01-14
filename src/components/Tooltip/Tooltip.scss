@@ -3,13 +3,13 @@
 
 $max-width: auto !default;
 $gap: base.var(space-xs) !default;
-$padding: base.var(space-xxs) !default;
-$border-radius: base.var(border-radius-s) !default;
-$background-color: base.var(surface-inverted-color) !default;
-$color: base.var(text-inverted-color) !default;
+$padding: base.var(space-xxs) base.var(space-xs) !default;
+$border-radius: base.var(border-radius-xs) !default;
+$background-color: base.var(tooltip-color) !default;
+$foreground-color: base.var(foreground-inverted-color) !default;
 $font-size: base.var(font-size-s) !default;
-$shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.10) !default;
-$arrow-offset: -3px !default;
+$arrow-size: 8px !default;
+$shadow: base.var(shadow-xs) base.var(shadow-color) !default;
 
 $vars: component.vars(Tooltip, (
     max-width: $max-width,
@@ -17,8 +17,8 @@ $vars: component.vars(Tooltip, (
     padding: $padding,
     border-radius: $border-radius,
     background-color: $background-color,
-    color: $color,
+    foreground-color: $foreground-color,
     font-size: $font-size,
+    arrow-size: $arrow-size,
     shadow: $shadow,
-    arrow-offset: $arrow-offset,
 ));

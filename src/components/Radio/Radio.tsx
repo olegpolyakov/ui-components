@@ -5,8 +5,8 @@ import {
     useId
 } from 'react';
 
+import { cn } from '../../component';
 import type { ComponentProps, ElementType, Size } from '../../types';
-import { cn } from '../../utils';
 
 import Label from '../Label';
 
@@ -15,6 +15,7 @@ import styles from './Radio.module.scss';
 export type RadioProps = {
     label?: ReactNode;
     size?: Size;
+    disabled?: boolean;
     onChange?: RadioChangeHandler;
 };
 
@@ -52,9 +53,8 @@ export default function Radio<T extends ElementType = 'input'>({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        styles.root,
-        styles[size],
-        disabled && styles.disabled
+        { size, disabled },
+        styles
     );
 
     return (

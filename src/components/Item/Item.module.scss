@@ -8,6 +8,7 @@
 
 @include component.define(Item, Item.$vars) {
     .root {
+        position: relative;
         box-sizing: border-box;
         min-height: component.var(height);
         padding: component.var(padding-block) component.var(padding-inline);

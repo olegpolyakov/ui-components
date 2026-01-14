@@ -1,1 +1,4 @@
-.root {}
+@use 'base';
+@use 'component';
+
+$vars: component.vars(TableBody, ());

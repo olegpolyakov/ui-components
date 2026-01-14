@@ -1,9 +1,23 @@
 @use 'base';
 @use 'component';
 
-$size-s: 24px !default;
-$size-m: 32px !default;
-$size-l: 48px !default;
+$s: (
+    size: 24px
+) !default;
+
+$m: (
+    size: 32px
+) !default;
+
+$l: (
+    size: 48px
+) !default;
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
 
 $size: auto !default;
 $track-color: base.var(border-color) !default;

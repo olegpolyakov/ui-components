@@ -40,6 +40,7 @@ export type SelectProps = {
     clearable?: boolean;
     creatable?: boolean;
     createNewLabel?: string;
+    noOptionsLabel?: string;
     maxDropdownHeight?: number;
     onChange?: SelectChangeHandler;
     onInputChange?: (event: ChangeEvent<HTMLInputElement>) => void;
@@ -74,7 +75,8 @@ export default function Select({
     disabled,
     clearable = true,
     creatable = false,
-    createNewLabel = 'Add',
+    createNewLabel = 'Add', // TODO i18n
+    noOptionsLabel = 'No options', // TODO i18n
     maxDropdownHeight,
     onChange,
     onInputChange,
@@ -249,6 +251,7 @@ export default function Select({
                 </Textbox>
             }
             open={open}
+            variant={variant as 'filled' | 'outlined'} // TODO fix types that Dropdown accepts
             maxHeight={maxDropdownHeight}
             onOpen={placement => {
                 setPlacement(placement);
@@ -260,45 +263,43 @@ export default function Select({
                 setOpen(false);
             }}
         >
-            <div className={dropdownClassNames}>
-                <List
-                    className={styles.list}
-                    variant={variant}
-                >
-                    {resolvedOptions
-                        .filter(option => input
-                            ? getLabel(option).toLowerCase().includes(inputValue?.toLowerCase() || '')
-                            : true
-                        ).map(({ key, ...props }) => {
-                            const optionLabel = getLabel(props);
-                            const optionValue = getValue(props);
-                            const selected = isMultiple
-                                ? resolvedValue.includes(optionValue)
-                                : optionValue === resolvedValue;
-                                
-                            return (
-                                <Option
-                                    key={key}
-                                    content={optionLabel}
-                                    active={selected}
-                                    interactive
-                                    onClick={handleOptionClick}
-                                    {...props}
-                                />
-                            );
-                        })
-                    }
+            <List
+                className={styles.list}
+                data-no-options-label={noOptionsLabel}
+            >
+                {resolvedOptions
+                    .filter(option => input
+                        ? getLabel(option).toLowerCase().includes(inputValue?.toLowerCase() || '')
+                        : true
+                    ).map(({ key, ...props }) => {
+                        const optionLabel = getLabel(props);
+                        const optionValue = getValue(props);
+                        const selected = isMultiple
+                            ? resolvedValue.includes(optionValue)
+                            : optionValue === resolvedValue;
+                            
+                        return (
+                            <Option
+                                key={key}
+                                content={optionLabel}
+                                active={selected}
+                                interactive
+                                onClick={handleOptionClick}
+                                {...props}
+                            />
+                        );
+                    })
+                }
 
-                    {creatable && inputValue && !resolvedOptions.find(option => getLabel(option) === inputValue) &&
-                        <Option
-                            label={`${createNewLabel} "${inputValue}"`}
-                            value={inputValue}
-                            interactive
-                            onClick={handleOptionClick}
-                        />
-                    }
-                </List>
-            </div>
+                {creatable && inputValue && !resolvedOptions.find(option => getLabel(option) === inputValue) &&
+                    <Option
+                        label={`${createNewLabel} "${inputValue}"`}
+                        value={inputValue}
+                        interactive
+                        onClick={handleOptionClick}
+                    />
+                }
+            </List>
         </Dropdown>
     );
 }

@@ -3,20 +3,9 @@
 
 @use './TableRow';
 
-@include component.define(TableRow, TableRow.$vars);
-
-.root {
-    background-color: var(--ui-TableRow-background-color);
-    border-bottom: 1px solid var(--ui-border-muted-color);
-    overflow: visible;
-    font-size: 14px;
-    line-height: 24px;
-}
-
-.interactive {
-    @include component.color-state-vars(background-color, plain);
-
-    @include component.states((
-        hover: (background-color: plain-hover)
-    ));
+@include component.define(TableRow, TableRow.$vars) {
+    .root {
+        border-bottom: component.var(border-width) solid component.var(border-color);
+        overflow: visible;
+    }
 }

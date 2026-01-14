@@ -3,42 +3,48 @@
 
 @use './RadioGroup';
 
-@include component.define(RadioGroup, RadioGroup.$vars);
-
-.root {
-    display: flex;
-    gap: component.var(gap);
-    flex-wrap: wrap;
-}
-
-.horizontal {
-    flex-direction: row;
-
-    &-start {
-        justify-content: flex-start;
+@include component.define(RadioGroup, RadioGroup.$vars) {
+    .root {
+        display: flex;
+        flex-wrap: wrap;
+        gap: component.var(gap);
     }
 
-    &-center {
-        justify-content: center;
+    .horizontal {
+        flex-direction: row;
+
+        &-start {
+            justify-content: flex-start;
+        }
+
+        &-center {
+            justify-content: center;
+        }
+
+        &-end {
+            justify-content: flex-end;
+        }
     }
 
-    &-end {
-        justify-content: flex-end;
-    }
-}
+    .vertical {
+        flex-direction: column;
 
-.vertical {
-    flex-direction: column;
+        &-start {
+            align-items: flex-start;
+        }
 
-    &-start {
-        align-items: flex-start;
+        &-center {
+            align-items: center;
+        }
+
+        &-end {
+            align-items: flex-end;
+        }
     }
 
-    &-center {
-        align-items: center;
-    }
-
-    &-end {
-        align-items: flex-end;
-    }
+    @include component.gaps((
+        s: base.var(space-xs),
+        m: base.var(space-s),
+        l: base.var(space-m),
+    ));
 }

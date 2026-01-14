@@ -17,7 +17,7 @@ import type {
 } from './types';
 import { cn, isObject, isString } from './utils';
 
-import baseStyles from './styles/classes.module.scss';
+import baseClassNames from './styles/classes.module.scss';
 
 export function  resolveChildren<T>(children: Children, items: T[]): T[] {
     return items.length > 0
@@ -107,7 +107,7 @@ export function getComponentClassNames(
     ...restClassNames: Record<string, string | boolean | undefined>[] | (string | boolean | undefined)[]
 ) {
     const classNames = {
-        ...baseStyles,
+        ...baseClassNames,
         ...componentClassNames,
         ...restClassNames
             .map(cls =>
@@ -127,7 +127,7 @@ export function getComponentClassNames(
         root && classNames.root,
         size && classNames[size],
 
-        ...Object.entries(rest).map(([key, value]) => value && componentClassNames[key]),
+        ...Object.entries(rest).map(([key, value]) => value && (componentClassNames[key] || baseClassNames[key])),
         
         getVariantClassNames(
             variant,

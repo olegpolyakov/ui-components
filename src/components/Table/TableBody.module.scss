@@ -1,1 +1,10 @@
-.root {}
+@use 'base';
+@use 'component';
+
+@use './TableBody';
+
+@include component.define(TableBody, TableBody.$vars) {
+    .root {
+        position: relative;
+    }
+}

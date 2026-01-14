@@ -3,55 +3,55 @@
 
 @use './Tab';
 
-@include component.define(Tab, Tab.$vars);
+@include component.define(Tab, Tab.$vars) {
+    .root {
+        box-sizing: border-box;
+        position: relative;
+        min-height: component.var(height);
+        font: inherit;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        align-self: stretch;
+        gap: component.var(gap);
+        text-align: center;
+        background: none;
+        cursor: pointer;
+        padding: 4px 16px;
+        border: none;
+        border-radius: component.var(border-radius);
+        font-size: inherit;
+        line-height: inherit;
+        color: component.var(foreground-color);
+        flex: initial;
+        justify-content: center;
 
-.root {
-    box-sizing: border-box;
-    position: relative;
-    min-height: component.var(height);
-    font: inherit;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-self: stretch;
-    gap: component.var(gap);
-    text-align: center;
-    background: none;
-    cursor: pointer;
-    padding: 4px 16px;
-    border: none;
-    border-radius: component.var(border-radius);
-    font-size: inherit;
-    line-height: inherit;
-    color: component.var(foreground-color);
-    flex: initial;
-    justify-content: center;
+        &:hover {
+            background-color: var(--ui-Tab-hover-background-color);
+            color: var(--ui-Tab-hover-text-color);
+        }
 
-    &:hover {
-        background-color: var(--ui-Tab-hover-background-color);
-        color: var(--ui-Tab-hover-text-color);
+        &:active {
+            background-color: var(--ui-Tab-active-background-color);
+            color: var(--ui-Tab-active-text-color);
+        }
+        
+        &:disabled {
+            background-color: var(--ui-Tab-disabled-background-color);
+            color: var(--ui-Tab-disabled-text-color);
+        }
     }
 
-    &:active {
-        background-color: var(--ui-Tab-active-background-color);
-        color: var(--ui-Tab-active-text-color);
-    }
-    
-    &:disabled {
-        background-color: var(--ui-Tab-disabled-background-color);
-        color: var(--ui-Tab-disabled-text-color);
-    }
+    .container {}
+
+    .content {}
+
+    .icon {}
+
+    .start {}
+
+    .end {}
+
+
+    // Sizes
 }
-
-.container {}
-
-.content {}
-
-.icon {}
-
-.start {}
-
-.end {}
-
-
-// Sizes

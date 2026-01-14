@@ -1,5 +1,5 @@
-import type { ComponentProps, Slotted } from '../../types';
-import { cn } from '../../utils';
+import { cn } from '../../component';
+import type { ComponentProps, Size, SizeExtended, Slotted } from '../../types';
 
 import Button, { ButtonProps } from '../Button';
 import Heading, { HeadingProps } from '../Heading';
@@ -15,26 +15,38 @@ export type StateProps = {
     subtitle?: Slotted<HeadingProps>;
     description?: Slotted<TextProps>;
     action?: Slotted<ButtonProps>;
+    size?: Size;
 };
 
 State.displayName = 'State';
 
+const subtitleSizeMap: Record<Size, SizeExtended> = {
+    s: 'xs',
+    m: 's',
+    l: 'm'
+};
+
 export default function State({
+    as,
+    className,
+    children,
+
     image,
     title,
     subtitle,
     description,
     action,
-    className,
-    children
+    size = 'm'
 }: ComponentProps<StateProps, 'div'>) {
+    const Root = as || 'div';
     const classNames = cn(
         className,
-        styles.root
+        { size },
+        styles
     );
 
     return (
-        <div className={classNames}>
+        <Root className={classNames}>
             {image && (
                 <Slot
                     fallback={Image}
@@ -50,6 +62,7 @@ export default function State({
                         fallback={Heading}
                         as="h2"
                         className={styles.title}
+                        size={size}
                     >
                         {title}
                     </Slot>
@@ -59,8 +72,8 @@ export default function State({
                     <Slot
                         fallback={Heading}
                         as="h3"
-                        size="s"
                         className={styles.subtitle}
+                        size={subtitleSizeMap[size]}
                     >
                         {subtitle}
                     </Slot>
@@ -70,6 +83,7 @@ export default function State({
                     <Slot
                         fallback={Text}
                         className={styles.description}
+                        size={size}
                     >
                         {description}
                     </Slot>
@@ -80,6 +94,7 @@ export default function State({
                 <Slot
                     fallback={Button}
                     className={styles.action}
+                    size={size}
                     color="brand"
                     variant="filled"
                 >
@@ -88,6 +103,6 @@ export default function State({
             )}
 
             {children}
-        </div>
+        </Root>
     );
 }

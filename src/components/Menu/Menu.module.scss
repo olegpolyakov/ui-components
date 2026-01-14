@@ -7,7 +7,7 @@
     .root {
         display: flex;
         flex-direction: column;
-        padding: component.var(padding);
+        padding-block: component.var(padding);
         overflow-y: auto;
     }
 

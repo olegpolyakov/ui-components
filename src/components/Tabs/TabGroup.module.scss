@@ -1,0 +1,33 @@
+@use 'component';
+
+@use './TabGroup';
+
+@include component.define(TabGroup, TabGroup.$vars) {    
+    .root {
+        display: flex;
+    }
+
+    .align {
+        &-start {
+            justify-content: start;
+        }
+
+        &-center {
+            justify-content: center;
+        }
+
+        &-end {
+            justify-content: end;
+        }
+    }
+
+    .tab {
+
+    }
+
+    .fluid {
+        .tab {
+            flex: 1;
+        }
+    }
+}

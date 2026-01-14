@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
+import { cn } from '../../component';
 import type { Size, ComponentProps } from '../../types';
-import { cn } from '../../utils';
 
 import TableBody from './TableBody';
 import TableCell from './TableCell';
@@ -14,7 +14,6 @@ export type TableProps = {
     content?: ReactNode;
     size?: Size;
     interactive?: boolean;
-    striped?: 'even' | 'odd';
 };
 
 Table.displayName = 'Table';
@@ -31,15 +30,15 @@ export default function Table({
     content = children,
     size = 'm',
     interactive,
-    striped,
     ...props
 }: ComponentProps<TableProps, 'table'>) {
     const classNames = cn(
         className,
-        styles.root,
-        styles[size],
-        interactive && styles.interactive,
-        striped && styles[`striped-${striped}`]
+        {
+            size,
+            interactive
+        },
+        styles
     );
 
     return (

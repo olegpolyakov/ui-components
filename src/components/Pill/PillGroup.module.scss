@@ -1,16 +1,23 @@
+@use 'base';
 @use 'component';
 
 @use './PillGroup';
 
-@include component.define(PillGroup, PillGroup.$vars);
+@include component.define(PillGroup, PillGroup.$vars) {
+    .root {
+        display: flex;
+        gap: component.var(gap);
+        align-items: center;
+        flex-wrap: wrap;
+    }
 
-.root {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    flex-wrap: wrap;
-}
+    .pill {
+        flex-shrink: 0;
+    }
 
-.pill {
-    flex-shrink: 0;
+    @include component.gaps((
+        s: base.var(space-xxs),
+        m: base.var(space-xs),
+        l: base.var(space-s)
+    ));
 }

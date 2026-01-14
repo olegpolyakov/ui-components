@@ -40,7 +40,7 @@ export default function Dropdown({
                     }
                 })
             ]}
-            unstyled
+            attached
             {...props}
         >
             {content}

@@ -3,8 +3,12 @@
 
 @use './Slider';
 
+$background-color: base.var(Slider-track-background-color);
+$foreground-color: base.var(Slider-track-foreground-color);
+$height: base.var(Slider-track-height);
+
 $vars: component.vars(SliderTrack, (
-    background-color: Slider.$track-background-color,
-    foreground-color: Slider.$track-foreground-color,
-    height: Slider.$track-height,
+    background-color: $background-color,
+    foreground-color: $foreground-color,
+    height: $height
 ));

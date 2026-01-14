@@ -4,38 +4,31 @@
 
 @use './ProgressCircle';
 
-@include component.define(ProgressCircle, ProgressCircle.$vars);
+@include component.define(ProgressCircle, ProgressCircle.$vars) {
+    .root {
+        display: inline-flex;
+        position: relative;
+        width: component.var(size);
+        height: component.var(size);
+        line-height: 0;
+        transition: animation.exit-temporary(opacity, 250ms);
+    }
 
-.root {
-    display: inline-flex;
-    position: relative;
-    width: component.var(size);
-    height: component.var(size);
-    line-height: 0;
-    transition: animation.exit-temporary(opacity, 250ms);
+    .container {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        transform: rotate(-90deg);
+    }
+
+    .track {
+        stroke: component.var(track-color);
+    }
+
+    .circle {
+        stroke: component.var(circle-color);
+        transition: animation.enter(stroke-dashoffset, 500ms);
+    }
+
+    @include component.sizes(ProgressCircle.$sizes);
 }
-
-.container {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    transform: rotate(-90deg);
-}
-
-.track {
-    stroke: component.var(track-color);
-}
-
-.circle {
-    stroke: component.var(circle-color);
-    transition: animation.enter(stroke-dashoffset, 500ms);
-}
-
-
-// Sizes
-
-@include component.classes((
-    s: (size: ProgressCircle.$size-s),
-    m: (size: ProgressCircle.$size-m),
-    l: (size: ProgressCircle.$size-l)
-));

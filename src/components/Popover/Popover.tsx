@@ -15,10 +15,18 @@ import {
     useState
 } from 'react';
 
-import { Middleware, Placement, VirtualElement, autoUpdate, arrow, useFloating } from '@floating-ui/react';
+import {
+    Middleware,
+    Placement,
+    VirtualElement,
+    autoUpdate,
+    arrow,
+    offset,
+    useFloating
+} from '@floating-ui/react';
 
-import type { Color, PropsWithChildren, Size, Variant } from '../../types';
-import { cn } from '../../utils';
+import { cn } from '../../component';
+import type { PropsWithChildren, Size } from '../../types';
 
 import Portal from '../Portal';
 
@@ -42,12 +50,13 @@ export type PopoverProps = PropsWithChildren<{
     open?: boolean;
     defaultOpen?: boolean;
     arrow?: boolean;
-    color?: Color;
+    offset?: number;
     size?: Size;
-    variant?: Variant;
+    variant?: 'filled' | 'outlined';
     disabled?: boolean;
-    middleware?: Middleware[];
+    attached?: boolean;
     unstyled?: boolean;
+    middleware?: Middleware[];
     onOpen?: (placement: Placement) => void;
     onClose?: () => void;
     onOpenChange?: (isOpen: boolean, event?: SyntheticEvent | KeyboardEvent | MouseEvent) => void;
@@ -69,23 +78,31 @@ export default function Popover({
     open,
     defaultOpen = false,
     arrow: showArrow = true,
-    color,
+    offset: _offsetValue = 0,
     size,
-    variant = 'filled',
-    middleware = [],
+    variant,
+    attached,
     disabled,
     unstyled,
+    middleware = [],
     onOpen,
     onClose
 }: PopoverProps) {
     const rootRef = useRef<HTMLDivElement>(null);
     const surfaceRef = useRef<HTMLDivElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
-    const arrowRef = useRef<HTMLDivElement>(null);
+    const arrowRef = useRef<SVGSVGElement>(null);
 
     const [internalOpen, setInternalOpen] = useState(defaultOpen);
 
-    const {refs, placement: internalPlacement, floatingStyles, middlewareData} = useFloating({
+    const offsetValue = Number.parseInt(_offsetValue.toString());
+
+    const {
+        refs,
+        placement: internalPlacement,
+        floatingStyles,
+        middlewareData
+    } = useFloating({
         placement,
         open: internalOpen,
         onOpenChange: setInternalOpen,
@@ -94,6 +111,12 @@ export default function Popover({
             floating: surfaceRef.current
         } : undefined,
         middleware: [
+            offsetValue !== undefined
+                ? offset(showArrow
+                    ? offsetValue + 10
+                    : offsetValue
+                )
+                : undefined,
             showArrow && arrow({
                 element: arrowRef
             }),
@@ -169,15 +192,19 @@ export default function Popover({
 
     const classNames = cn(
         className,
-        styles.root,
-        unstyled && styles.unstyled
+        {
+            size,
+            [internalPlacement]: internalPlacement,
+            attached,
+            unstyled
+        },
+        styles
     );
 
     const surfaceClassNames = cn(
         styles.surface,
-        variant && styles[variant],
-        color && styles[color],
-        size && styles[size],
+        { root: false, variant },
+        styles
     );
 
     return (
@@ -193,22 +220,47 @@ export default function Popover({
 
             {(open || internalOpen) &&
                 <Portal container={containerElement}>
-                    <div ref={rootRef} className={classNames}>
+                    <div
+                        ref={rootRef}
+                        className={classNames}
+                        data-open={internalOpen}
+                        data-placement={internalPlacement}
+                    >
                         <div
                             ref={refs.setFloating}
                             className={surfaceClassNames}
                             style={floatingStyles}
                             onClick={handlePopoverClick}
                         >
-                            {unstyled || !showArrow &&
-                                <div
+                            {!unstyled && showArrow &&
+                                <svg
+                                    width="12"
+                                    height="6"
+                                    viewBox="0 0 12 6"
+                                    xmlns="http://www.w3.org/2000/svg"
                                     ref={arrowRef}
                                     className={styles.arrow}
-                                    style={middlewareData.arrow &&{
+                                    style={middlewareData.arrow && {
                                         left: middlewareData.arrow.x,
                                         top: middlewareData.arrow.y
                                     }}
-                                />
+                                >
+                                    <polygon
+                                        points="6,0 12,6 0,6"
+                                    />
+
+                                    <line
+                                        x1="0" y1="6"
+                                        x2="6" y2="0"
+                                        strokeWidth="1"
+                                    />
+
+                                    <line
+                                        x1="12" y1="6"
+                                        x2="6" y2="0"
+                                        strokeWidth="1"
+                                    />
+                                </svg>
                             }
 
                             <div ref={contentRef} className={styles.content}>

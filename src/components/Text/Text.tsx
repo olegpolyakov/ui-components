@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
-import type { Align, Color, ComponentProps, ElementType, SizeFull, Weight } from '../../types';
-import { cn } from '../../utils';
+import { cn } from '../../component';
+import type { Align, ComponentProps, ElementType, SizeFull, TextColor, Weight } from '../../types';
 
 import styles from './Text.module.scss';
 
@@ -9,7 +9,7 @@ export type TextProps = {
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-    color?: 'primary' | 'secondary' | 'tertiary' | Color | 'inherit';
+    color?: TextColor;
     size?: SizeFull;
     weight?: Weight;
     align?: Align;
@@ -18,7 +18,6 @@ export type TextProps = {
     uppercase?: boolean;
     strikethrough?: boolean;
     ellipsis?: boolean;
-    disabled?: boolean;
     decorative?: boolean;
     marginTop?: boolean;
     marginBottom?: boolean;
@@ -35,7 +34,6 @@ export default function Text<T extends ElementType = 'p'>({
     start,
     end,
     color,
-    tone,
     size,
     weight,
     align,
@@ -45,7 +43,6 @@ export default function Text<T extends ElementType = 'p'>({
     strikethrough,
     ellipsis,
     decorative,
-    disabled,
     marginTop,
     marginBottom,
     ...props
@@ -53,26 +50,21 @@ export default function Text<T extends ElementType = 'p'>({
     const Component = as || 'p';
     const classNames = cn(
         className,
-        styles.root,
-        (color || tone) && styles[`${color}${tone && tone !== 'neutral' ? `-${tone}` : ''}`],
-        !color && tone && styles[tone],
-        size && styles[size],
-        weight && styles[`weight-${weight}`],
-        align && styles[`align-${align}`],
-        inline && styles.inline,
-        italic && styles.italic,
-        uppercase && styles.uppercase,
-        strikethrough && styles.strikethrough,
-        ellipsis && styles.ellipsis,
-        disabled && styles.disabled,
-        decorative && styles.decorative,
-        marginTop && marginTop === true
-            ? styles.mt
-            : styles[`mt-${marginTop}`],
-        marginBottom && marginBottom === true
-            ? styles.mb
-            : styles[`mb-${marginBottom}`],
-        as === 'a' && styles.link
+        {
+            color,
+            size,
+            weight,
+            [`align-${align}`]: align,
+            inline,
+            italic,
+            uppercase,
+            strikethrough,
+            ellipsis,
+            decorative,
+            mt: marginTop,
+            mb: marginBottom
+        },
+        styles
     );
 
     return (

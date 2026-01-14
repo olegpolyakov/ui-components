@@ -1,9 +1,10 @@
 import { MouseEvent, ReactNode, useCallback, useContext } from 'react';
 
+import { cn } from '../../component';
 import { Size, type ComponentProps, type Variant } from '../../types';
-import { cn } from '../../utils';
 
-import Icon from '../Icon';
+import Icon, { type IconProps } from '../Icon';
+import { Slot, type Slotted } from '../Slot';
 
 import TabsContext from './TabsContext';
 
@@ -12,7 +13,7 @@ import styles from './Tab.module.scss';
 export type TabProps = {
     value?: string | number;
     content?: ReactNode;
-    icon?: ReactNode;
+    icon?: Slotted<IconProps>;
     start?: ReactNode;
     end?: ReactNode;
     size?: Size;
@@ -40,28 +41,26 @@ export default function Tab({
     onClick,
     ...props
 }: ComponentProps<TabProps, 'button'>) {
-    const { setSelectedValue } = useContext(TabsContext);
+    const { selectedValue, setSelectedValue } = useContext(TabsContext);
 
     const handleClick = useCallback((event: MouseEvent<HTMLButtonElement>) => {
         setSelectedValue(value);
         onClick?.(event);
     }, [value, setSelectedValue, onClick]);
 
-    const Component = as || 'button';
+    const Root = as || 'button';
     const classNames = cn(
         className,
-        styles.root,
-        styles[size],
-        styles[variant],
-        active && styles.active
+        { variant, active: value === selectedValue },
+        styles
     );
 
     return (
-        <Component
+        <Root
             className={classNames}
             type="button"
             value={value}
-            data-active={active}
+            data-active={value === selectedValue}
             onClick={handleClick}
             {...props}
         >
@@ -72,12 +71,13 @@ export default function Tab({
             }
 
             {icon &&
-                <Icon
+                <Slot
+                    fallback={Icon}
                     className={styles.icon}
                     size={size}
                 >
                     {icon}
-                </Icon>
+                </Slot>
             }
 
             <span className={styles.content}>
@@ -89,6 +89,6 @@ export default function Tab({
                     {end}
                 </span>
             }
-        </Component>
+        </Root>
     );
 }

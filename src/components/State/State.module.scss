@@ -3,38 +3,40 @@
 
 @use './State';
 
-@include component.define(State, State.$vars);
+@include component.define(State, State.$vars) {
+    .root {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: component.var(gap);
+    }
 
-.root {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: component.var(gap);
-}
+    .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-self: stretch;
+        gap: component.var(gap);
+    }
 
-.main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    align-self: stretch;
-    gap: base.var(space-s);
-}
+    .title,
+    .subtitle,
+    .description {
+        margin: 0;
+        text-align: center;
+    }
 
-.title,
-.subtitle,
-.description {
-    margin: 0;
-    text-align: center;
-}
+    .title {
+        color: base.var(foreground-color);
+    }
 
-.title {
-    color: base.var(foreground-color);
-}
+    .subtitle {
+        color: base.var(foreground-color);
+    }
 
-.subtitle {
-    color: base.var(foreground-color);
-}
+    .description {
+        color: base.var(foreground-color);
+    }
 
-.description {
-    color: base.var(foreground-color);
+    @include component.sizes(State.$sizes);
 }

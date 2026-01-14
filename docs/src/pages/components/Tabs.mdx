@@ -8,22 +8,22 @@ import { Tabs, Tab } from '~/components/Tabs';
 Tabs is a component that organizes content into separate views, allowing users to switch between them by clicking on tab headers.
 
 <Demo settings={Tabs.settings}>
-    <Tabs>
-        <Tabs.List>
-            <Tab value="foo">Item 1</Tab>
-            <Tab value="bar">Item 2</Tab>
-            <Tab value="baz">Item 3</Tab>
-        </Tabs.List>
+    <Tabs defaultValue="1">
+        <Tabs.Group>
+            <Tab value="1">Item 1</Tab>
+            <Tab value="2">Item 2</Tab>
+            <Tab value="3">Item 3</Tab>
+        </Tabs.Group>
 
-        <Tabs.Panel value="foo">
+        <Tabs.Panel value="1">
             Content for Item 1
         </Tabs.Panel>
 
-        <Tabs.Panel value="bar">
+        <Tabs.Panel value="2">
             Content for Item 2
         </Tabs.Panel>
 
-        <Tabs.Panel value="baz">
+        <Tabs.Panel value="3">
             Content for Item 3
         </Tabs.Panel>
     </Tabs>

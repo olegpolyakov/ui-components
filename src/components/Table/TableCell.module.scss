@@ -1,43 +1,49 @@
-.root {
-    padding: var(--ui-Table-cell-padding);
-    font-size: var(--ui-Table-font-size);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+@use 'base';
+@use 'component';
 
-th.root {
-    font-weight: 700;
-    line-height: 24px;
-    text-align: inherit;
-}
+@use './TableCell';
 
-.align {
-    &-h {
-        &-left {
-            text-align: left;
-        }
-
-        &-center {
-            text-align: center;
-        }
-
-        &-right {
-            text-align: right;
-        }
+@include component.define(TableCell, TableCell.$vars) {
+    .root {
+        padding: component.var(padding);
+        font-size: component.var(font-size);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
-    &-v {
-        &-left {
-            vertical-align: top;
+    th.root {
+        font-weight: component.var(header-font-weight);
+        text-align: inherit;
+    }
+
+    .align {
+        &-h {
+            &-left {
+                text-align: left;
+            }
+
+            &-center {
+                text-align: center;
+            }
+
+            &-right {
+                text-align: right;
+            }
         }
 
-        &-center {
-            vertical-align: middle;
-        }
+        &-v {
+            &-left {
+                vertical-align: top;
+            }
 
-        &-right {
-            vertical-align: bottom;
+            &-center {
+                vertical-align: middle;
+            }
+
+            &-right {
+                vertical-align: bottom;
+            }
         }
     }
 }

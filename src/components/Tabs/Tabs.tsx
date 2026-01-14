@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import { cn } from '../../component';
 import type { ComponentProps, ElementType } from '../../types';
-import { cn } from '../../utils';
 
-import TabsContext from './TabsContext';
-import TabsList, { TabsListProps } from './TabsList';
-import TabPanel from './TabPanel';
+import Context from './TabsContext';
+import Group, { TabGroupProps } from './TabGroup';
+import Panel from './TabPanel';
 
 import styles from './Tabs.module.scss';
 
@@ -15,11 +15,11 @@ export type TabsProps = {
     value?: TabValue;
     defaultValue?: TabValue;
     onChange?: (value: TabValue) => void;
-} & TabsListProps;
+} & TabGroupProps;
 
 Tabs.displayName = 'Tabs';
-Tabs.List = TabsList;
-Tabs.Panel = TabPanel;
+Tabs.Group = Group;
+Tabs.Panel = Panel;
 
 export default function Tabs<T extends ElementType = 'div'>({
     as,
@@ -28,7 +28,7 @@ export default function Tabs<T extends ElementType = 'div'>({
 
     value,
     defaultValue,
-    items,
+    tabs,
     align,
     fluid,
     onChange,
@@ -47,25 +47,26 @@ export default function Tabs<T extends ElementType = 'div'>({
         setSelectedValue
     }), [selectedValue]);
 
-    const Component = as || 'div';
+    const Root = as || 'div';
     const classNames = cn(
         className,
-        styles.root
+        {},
+        styles
     );
 
     return (
-        <Component className={classNames} {...props}>
-            <TabsContext.Provider value={contextValue}>
-                {items &&
-                    <TabsList
-                        items={items}
+        <Root className={classNames} {...props}>
+            <Context.Provider value={contextValue}>
+                {tabs &&
+                    <Group
+                        tabs={tabs}
                         align={align}
                         fluid={fluid}
                     />
                 }
                 
                 {children}
-            </TabsContext.Provider>
-        </Component>
+            </Context.Provider>
+        </Root>
     );
 }

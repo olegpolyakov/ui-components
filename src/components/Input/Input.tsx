@@ -42,8 +42,8 @@ export default function Input({
     label,
     start,
     end,
-    shape = 'rounded',
     size = 'm',
+    shape,
     variant = 'outlined',
     disabled,
     onChange,
@@ -54,9 +54,9 @@ export default function Input({
 }: ComponentProps<InputProps, 'input'>) {
     const isControlled = value !== undefined;
 
+    const [internalValue, setInternalValue] = useState(value || defaultValue || '');
     const [isFocused, setFocused] = useState(false);
     const [isInvalid, setInvalid] = useState(false);
-    const [internalValue, setInternalValue] = useState(value || defaultValue || '');
     const [validationMessage, setValidationMessage] = useState('');
 
     const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -72,13 +72,6 @@ export default function Input({
         }, event);
     }, [isControlled, onChange]);
 
-    const handleInvalid = useCallback((event: InvalidEvent<HTMLInputElement>) => {
-        event.preventDefault();
-        setInvalid(true);
-        setValidationMessage(event.target.validationMessage);
-        onInvalid?.(event);
-    }, [onInvalid]);
-
     const handleFocus = useCallback((event: FocusEvent<HTMLInputElement>) => {
         setFocused(true);
         onFocus?.(event);
@@ -88,6 +81,13 @@ export default function Input({
         setFocused(false);
         onBlur?.(event);
     }, [onBlur]);
+
+    const handleInvalid = useCallback((event: InvalidEvent<HTMLInputElement>) => {
+        event.preventDefault();
+        setInvalid(true);
+        setValidationMessage(event.target.validationMessage);
+        onInvalid?.(event);
+    }, [onInvalid]);
 
     const isActive = Boolean(value || defaultValue || internalValue);
 
@@ -117,9 +117,9 @@ export default function Input({
                 defaultValue={defaultValue}
                 disabled={disabled}
                 onChange={handleChange}
-                onInvalid={handleInvalid}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
+                onInvalid={handleInvalid}
                 {...props}
             />
         </Textbox>

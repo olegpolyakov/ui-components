@@ -9,9 +9,8 @@
         box-sizing: border-box;
         position: relative;
         width: 100%;
-        height: component.var(height);
+        min-height: component.var(height);
         display: flex;
-        align-items: center;
         padding: 0 component.var(padding);
         gap: component.var(gap);
         border-radius: component.var(border-radius);
@@ -47,7 +46,6 @@
     }
 
     .content {
-        height: 100%;
         flex: 1;
         position: relative;
         display: flex;
@@ -57,11 +55,13 @@
     .label {
         position: absolute;
         color: component.var(label-color);
-        transition: transform .2s;
+        line-height: component.var(label-line-height);
+        transition: transform .2s, top .2s;
         transform-origin: top left;
     }
 
     .control {
+        align-self: center;
         box-sizing: border-box;
         width: 100%;
         height: 100%;
@@ -83,7 +83,8 @@
 
     .active {
         .label {
-            transform: scale(.75) translate(0, -35%);
+            transform: scale(.75);
+            top: 0;
         }
 
         .label + .control {

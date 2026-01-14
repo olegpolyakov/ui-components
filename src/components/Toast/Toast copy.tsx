@@ -1,15 +1,16 @@
 import {
     KeyboardEvent,
     ReactNode,
+    ReactElement,
     cloneElement,
     isValidElement,
     useCallback,
-    useEffect,
     useRef
 } from 'react';
 
 import { cn } from '../../component';
 import { Key } from '../../constants';
+import { useUpdated } from '../../hooks/lifecycle';
 import type{ Color, ComponentProps, Shape, Variant } from '../../types';
 import { getEventKey } from '../../utils';
 
@@ -20,7 +21,6 @@ import { Portal } from '../Portal';
 import type { Slotted } from '../Slot';
 import Transition from '../Transition';
 
-import { useToastsContext } from './ToastsContext';
 import styles from './Toast.module.scss';
 
 const DEFAULT_AUTO_DISMISS_TIMEOUT_MS = 5000;
@@ -35,13 +35,11 @@ export type ToastProps = {
     color?: Color;
     variant?: Variant;
     shape?: Shape;
-    appear?: boolean;
     open?: boolean;
     dismissible?: boolean;
     closeOnEscape?: boolean;
     timeout?: number;
     onClose?: () => void;
-    onClosed?: () => void;
 };
 
 Toast.displayName = 'Toast';
@@ -58,21 +56,17 @@ export default function Toast({
     color,
     variant,
     shape,
-    appear,
     open,
     dismissible = true,
     closeOnEscape = true,
     timeout = DEFAULT_AUTO_DISMISS_TIMEOUT_MS,
     onClose,
-    onClosed,
     ...props
 }: ComponentProps<ToastProps, 'div'>) {
-    const { container } = useToastsContext();
-
     const rootRef = useRef<HTMLDivElement>(null);
     const timeoutRef = useRef<number | undefined>(undefined);
 
-    useEffect(() => {
+    useUpdated(() => {
         if (open) {
             timeoutRef.current = window.setTimeout(() => {
                 timeoutRef.current = undefined;
@@ -99,19 +93,15 @@ export default function Toast({
     const Root = as || 'div';
     const classNames = cn(
         className,
-        { 
-            shape,
-            container: !container
-        },
+        { shape },
         styles
     );
 
     return (
-        <Portal container={container}>
+        <Portal>
             <Transition
                 nodeRef={rootRef}
                 in={open}
-                appear={appear}
                 type="slide-bottom"
                 timeout={{
                     appear: ANIMATION_OPEN_TIME_MS,
@@ -120,15 +110,13 @@ export default function Toast({
                 }}
                 mountOnEnter
                 unmountOnExit
-                onExited={onClosed}
+                onExited={onClose}
             >
                 <Root
                     ref={rootRef}
                     className={classNames}
                     role="status"
                     aria-relevant="additions"
-                    onKeyDown={handleKeyDown}
-                    {...props}
                 >
                     <Item
                         icon={icon}
@@ -158,6 +146,8 @@ export default function Toast({
                         color={color}
                         variant={variant}
                         shape={shape}
+                        onKeyDown={handleKeyDown}
+                        {...props}
                     />
                 </Root>
             </Transition>

@@ -1,12 +1,19 @@
 import Demo from '@/components/Demo';
 import Section from '@/components/Section';
 
-import Toast from '~/components/Toast';
+import Toast, { ToastsContext, ToastsProvider, useToastsContext } from '~/components/Toast';
 
 # Toast
 
 Toast is a component that displays brief, auto-expiring messages to inform users about certain actions or events.
 
 <Demo settings={Toast.settings}>
-    <Toast content="Toast" open />
+    {(props, setProps) => (
+        <Toast
+            icon="info"
+            content="Content"
+            {...props}
+            onClose={() => setProps({ ...props, open: false })}
+        />
+    )}
 </Demo>

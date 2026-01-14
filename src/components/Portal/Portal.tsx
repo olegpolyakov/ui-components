@@ -11,13 +11,13 @@ export type PortalProps = {
 Portal.displayName = 'Portal';
 
 export default function Portal({
-    container = document.body,
+    container,
     children
 }: ComponentProps<PortalProps, 'div'>) {
     const { rootElement } = useContext(ProviderContext);
 
     return createPortal(
         children,
-        rootElement || container
+        container || rootElement || document.body
     );
 }

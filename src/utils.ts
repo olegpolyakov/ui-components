@@ -118,6 +118,10 @@ export function isObject<T = object>(arg: unknown): arg is T {
     return typeof arg === 'object' && !Array.isArray(arg) && arg !== null;
 }
 
+export function isFunction(value: unknown) {
+    return typeof value === 'function';
+}
+
 export function omit<T extends object, K extends keyof T>(obj: T, keys: K[]): Omit<T, K> {
     const result = { ...obj };
     keys.forEach(key => {

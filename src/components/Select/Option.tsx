@@ -35,11 +35,12 @@ export default function Option<T extends ElementType = 'li'>({
 
     return (
         <Item
+            as="li"
             className={classNames}
             content={content}
             active={selected}
             disabled={disabled}
-            shape="rectangular"
+            variant="plain"
             interactive
             data-value={value}
             onClickCapture={onClick}

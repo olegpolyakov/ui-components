@@ -1,5 +1,5 @@
-import type { ComponentProps, ElementType, PropsWithKey } from '../../types';
-import { cn } from '../../utils';
+import { cn, resolveChildren } from '../../component';
+import type { ComponentProps, ElementType, PropsWithKey, Size } from '../../types';
 
 import Pill, { type PillProps } from './Pill';
 
@@ -7,9 +7,11 @@ import styles from './PillGroup.module.scss';
 
 export type PillGroupProps = {
     pills?: PropsWithKey<PillProps>[];
+    color?: PillProps['color'];
     shape?: PillProps['shape'];
     size?: PillProps['size'];
     variant?: PillProps['variant'];
+    gap?: Size;
     maxCount?: number;
     interactive?: boolean;
 };
@@ -25,24 +27,25 @@ export default function PillGroup<T extends ElementType = 'div'>({
     shape,
     size,
     variant,
+    gap,
     maxCount = 0,
     interactive,
     ...props
 }: ComponentProps<PillGroupProps, T>) {
-    const shownPills = (maxCount > 0 && pills.length > maxCount)
-        ? pills.slice(0, maxCount)
-        : pills;
-    const hiddenPillsCount = pills.length - shownPills.length;
+    const resolvedChildren = resolveChildren(children, pills);
+    const shownChildren = (maxCount > 0 && resolvedChildren.length > maxCount)
+        ? resolvedChildren.slice(0, maxCount)
+        : resolvedChildren;
+    const hiddenCount = resolvedChildren.length - shownChildren.length;
     
-    const Component = as || 'div';
-    const classNames = cn(
-        className,
-        styles.root
-    );
+    const Root = as || 'div';
+    const classNames = cn(className, {
+        gap
+    }, styles);
 
     return (
-        <Component className={classNames} {...props}>
-            {shownPills?.map(pill =>
+        <Root className={classNames} {...props}>
+            {shownChildren?.map(pill =>
                 <Pill
                     key={pill.key}
                     className={styles.pill}
@@ -54,17 +57,15 @@ export default function PillGroup<T extends ElementType = 'div'>({
                 />
             )}
 
-            {hiddenPillsCount > 0 &&
+            {hiddenCount > 0 &&
                 <Pill
                     className={styles.pill}
-                    content={`+${hiddenPillsCount}`}
+                    content={`+${hiddenCount}`}
                     shape={shape}
                     size={size}
                     variant={variant}
                 />
             }
-
-            {children}
-        </Component>
+        </Root>
     );
 }

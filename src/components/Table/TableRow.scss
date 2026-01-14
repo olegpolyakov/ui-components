@@ -1,3 +1,14 @@
+@use 'base';
 @use 'component';
 
-$vars: component.vars(TableRow, ());
+$border-color: base.var(Table-border-color);
+$border-width: base.var(Table-border-width);
+$even-background-color: base.var(Table-row-even-background-color);
+$odd-background-color: base.var(Table-row-odd-background-color);
+
+$vars: component.vars(TableRow, (
+    border-color: $border-color,
+    border-width: $border-width,
+    even-background-color: $even-background-color,
+    odd-background-color: $odd-background-color
+));

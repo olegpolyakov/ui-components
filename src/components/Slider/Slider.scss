@@ -1,14 +1,31 @@
+@use 'sass:map';
+
 @use 'base';
 @use 'component';
 
+$s: (
+    track-height: 4px,
+    thumb-size: 16px
+) !default;
+
+$m: (
+    track-height: 4px,
+    thumb-size: 16px
+) !default;
+
+$l: (
+    track-height: 4px,
+    thumb-size: 16px
+) !default;
+
 $color: base.var(filled-brand-color);
 
-$track-background-color: base.var(background-secondary-color) !default;
+$track-background-color: base.var(background-tertiary-color) !default;
 $track-foreground-color: $color !default;
-$track-height: 4px !default;
+$track-height: map.get($m, track-height) !default;
 
 $thumb-color: $color !default;
-$thumb-size: 16px !default;
+$thumb-size: map.get($m, thumb-size) !default;
 $thumb-ripple-size: $thumb-size * 2 !default;
 
 $vars: component.vars(Slider, (

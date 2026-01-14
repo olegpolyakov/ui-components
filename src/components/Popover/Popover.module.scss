@@ -3,75 +3,137 @@
 
 @use './Popover';
 
-@include component.define(Popover, Popover.$vars);
-
-.root {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10000;
-}
-
-.surface {
-    display: flex;
-    border-radius: component.var(border-radius);
-    background-color: component.var(background-color);
-    box-shadow: component.var(shadow);
-    overflow: hidden;
-    z-index: 10;
-}
-
-.content {
-    width: 100%;
-    overflow: hidden;
-}
-
-.arrow {
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    z-index: -1;
-
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        width: 10px;
-        height: 10px;
-        background: component.var(background-color);
-        transform: rotate(45deg);
-        transition: transform 0.2s ease-out 0s, visibility 0.2s ease-out 0s;
-        transform: translateX(0px) rotate(45deg);
-        transform-origin: center center;
-        visibility: visible;
-        z-index: -1;
-    }
-}
-
-.unstyled {
-    .arrow {
-        display: none;
+@include component.define(Popover, Popover.$vars) {
+    .root {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10000;
     }
 
     .surface {
-        box-shadow: unset;
-        border-radius: unset;
-        background-color: unset;
-        overflow: unset;
+        box-sizing: border-box;
+        display: flex;
+        border-radius: component.var(radius);
+        box-shadow: component.var(shadow);
+    }
+    
+    .content {
+        width: 100%;
+        padding: component.var(padding);
+        border-radius: component.var(radius);
+        background-color: component.var(background-color);
+        color: component.var(foreground-color);
+        font-size: component.var(font-size);
+        overflow: hidden auto;
     }
 
-    .content {
-        overflow: unset;
+    .arrow {
+        position: absolute;
+        transform: translateY(-100%);
+        transform-origin: center center;
+        z-index: -1;
+
+        polygon {
+            fill: component.var(background-color);
+        }
+
+        line {
+            stroke: component.var(border-color);
+        }
+    }
+
+    .attached {
+        &.bottom {
+            .surface,
+            .content {
+                border-top: none !important;
+                border-top-left-radius: 0 !important;
+                border-top-right-radius: 0 !important;
+            }
+        }
+
+        &.top {
+            .surface,
+            .content {
+                border-bottom: none !important;
+                border-bottom-left-radius: 0 !important;
+                border-bottom-right-radius: 0 !important;
+            }
+        }
+    }
+
+    .unstyled {
+        .arrow {
+            display: none;
+        }
+
+        .surface {
+            box-shadow: unset;
+            border-radius: unset;
+            background-color: unset;
+            overflow: unset;
+        }
+
+        .content {
+            overflow: unset;
+        }
+    }
+
+    .top,
+    .top-start,
+    .top-end {
+        .arrow {
+            bottom: 0;
+            transform: translateY(100%) rotate(180deg);
+        }
+    }
+
+    .right,
+    .right-start,
+    .right-end {
+        .arrow {
+            left: 0;
+            transform: rotate(-90deg) translateY(-150%);
+        }
+    }
+
+    .bottom,
+    .bottom-start,
+    .bottom-end {
+        .arrow {
+            top: 0;
+        }
+    }
+
+    .left,
+    .left-start,
+    .left-end {
+        .arrow {
+            right: 0;
+            transform: rotate(90deg) translateY(-150%);
+        }
+    }
+
+    // TODO Add other placements (top-left, top-right, etc.)
+
+    @include component.sizes(Popover.$sizes);
+
+    .filled {
+        @include component.vars((
+            background-color: base.var(filled-color)
+        ));
+
+        background-color: component.var(background-color);
+    }
+    
+    .outlined {
+        @include component.vars((
+            border-color: base.var(outlined-color)
+        ));
+        
+        border: 1px solid component.var(border-color);
     }
 }
-
-// Sizes
-
-@include component.classes((
-    s: (padding: base.var(space-s)),
-    m: (padding: base.var(space-m)),
-    l: (padding: base.var(space-l))
-));
