@@ -1,9 +1,20 @@
 import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { viteStaticCopy as copy } from 'vite-plugin-static-copy';
 
 export default defineConfig({
-    plugins: [react()],
+    plugins: [
+        react(),
+        copy({
+            targets: [
+                {
+                    src: 'src/styles',
+                    dest: '.'
+                }
+            ]
+        })
+    ],
     build: {
         lib: {
             entry: path.resolve(__dirname, 'src/index.ts'),
@@ -25,13 +36,17 @@ export default defineConfig({
         modules: {
             scopeBehaviour: 'local',
             localsConvention: 'dashes',
-            generateScopedName: '[name]__[local]___[hash:base64:5]',
-            // generateScopedName: (name, filename, css) => {
-            //     console.log({ name, filename, css });
-            //     const file = path.basename(filename, '.css');
-            //     // Example: returns a name like "_file_line_name"
-            //     return `_${file}_${name}`; 
-            // }
+            generateScopedName: (name, filename) => {
+                const file = path.basename(filename, '.module.scss');
+            
+                if (file === 'classes') {
+                    return `kui-${name}`;
+                } else if (name === 'root') {
+                    return `kui-${file}`;
+                } else {
+                    return `kui-${file}-${name}`;
+                }
+            }
         },
         preprocessorOptions: {
             scss: {
