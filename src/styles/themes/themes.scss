@@ -7,26 +7,29 @@
 @use '../colors/states';
 @use '../variants';
 
-@mixin define($theme) {
-    @include base.root {
-        @media (prefers-color-scheme: #{$theme}) {
-            @content;
-        }
-    }
-
-    [data-theme="#{$theme}"] {
-        @content;
-    }
-}
-
 @mixin dark {
-    @include define(dark) {
+    @include theme(dark) {
         @content;
     }
 }
 
 @mixin light {
-    @include define(light) {
+    @include theme(light) {
+        @content;
+    }
+}
+
+@mixin scheme($theme) {
+    @include base.root {
+        @media (prefers-color-scheme: #{$theme}) {
+            @content;
+        }
+    }
+}
+
+@mixin theme($theme) {
+    [data-theme="#{$theme}"] {
+        color-scheme: $theme;
         @content;
     }
 }

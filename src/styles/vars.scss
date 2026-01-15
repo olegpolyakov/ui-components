@@ -54,16 +54,28 @@
     }
 }
 
-@if $theme != 'light' {
+@if $theme == 'dark' {
     @include themes.dark {
-        color-scheme: dark;
         @include dark.vars;
     }
-}
-
-@if $theme != 'dark' {
+} @else if $theme == 'light' {
     @include themes.light {
-        color-scheme: light;
         @include light.vars;
+    }
+} @else {
+    @include themes.scheme(light) {
+        @include light.vars;
+    }
+
+    @include themes.scheme(dark) {
+        @include dark.vars;
+    }
+
+    @include themes.theme(light) {
+        @include light.vars;
+    }
+
+    @include themes.theme(dark) {
+        @include dark.vars;
     }
 }

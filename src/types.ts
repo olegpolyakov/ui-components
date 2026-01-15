@@ -85,5 +85,3 @@ export type MouseInteractionEvent<T extends HTMLElement = HTMLElement> =
     React.TouchEvent<T>;
 
 export type Slotted<P> = React.ReactNode | P;
-
-export type Theme = 'light' | 'dark';

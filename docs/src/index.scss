@@ -2,19 +2,19 @@
 
 @use '../../src/styles/themes';
 
-@include themes.dark {
-    @include meta.load-css('highlight.js/scss/github-dark.scss');
-}
-
 @include themes.light {
     @include meta.load-css('highlight.js/scss/github.scss');
+}
+
+@include themes.dark {
+    @include meta.load-css('highlight.js/scss/github-dark.scss');
 }
 
 body {
     margin: 0;
     padding: 0;
 
-    @media (prefers-color-scheme: dark) {
+    @include themes.scheme(dark) {
         background-color: black;
         color: white;
     }

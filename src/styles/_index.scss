@@ -1,4 +1,5 @@
 @forward './base';
 @forward './colors' as color-* show color-var, color-vars;
+@forward './themes' as theme-*;
 
 @use './vars';
