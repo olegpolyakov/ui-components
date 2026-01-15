@@ -156,6 +156,7 @@ export default function Toast({
 
                         </>}
                         color={color}
+                        // @ts-ignore TODO pass correct type
                         variant={variant}
                         shape={shape}
                     />
