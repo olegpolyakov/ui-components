@@ -38,7 +38,7 @@ $padding: map.get($m, padding) !default;
 $gap: map.get($m, gap) !default;
 $border-color: base.var(border-color) !default;
 $border-width: 1px !default;
-$border-radius: base.var(border-radius-m) !default;
+$border-radius: base.var(radius-m) !default;
 $background-color: transparent !default;
 $foreground-color: base.var(foreground-color) !default;
 $label-color: base.var(foreground-secondary-color) !default;
@@ -47,7 +47,7 @@ $font-weight: base.var(font-weight-normal) !default;
 $line-height: base.var(line-height) !default;
 $label-line-height: map.get($m, label-line-height) !default;
 
-$vars: component.vars('Input', (
+$vars: component.vars(Textbox, (
     height: $height,
     padding: $padding,
     gap: $gap,

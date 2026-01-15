@@ -29,6 +29,14 @@ $font-sizes: (
     xxl: 28px
 ) !default;
 
+$opacity: (
+    full: 1,
+    high: 0.75,
+    medium: 0.5,
+    low: 0.25,
+    none: 0
+) !default;
+
 $radius-sizes: (
     xxs: 2px,
     xs: 4px,
@@ -47,14 +55,6 @@ $space-sizes: (
     l: 24px,
     xl: 32px,
     xxl: 40px
-) !default;
-
-$opacity: (
-    full: 1,
-    high: 0.75,
-    medium: 0.5,
-    low: 0.25,
-    none: 0
 ) !default;
 
 $shapes: (

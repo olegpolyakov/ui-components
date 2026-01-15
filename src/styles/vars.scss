@@ -19,13 +19,12 @@
         @include var(font-weight-#{$weight}, $value);
     }
 
-    @each $size, $value in $radius-sizes {
-        @include var(radius-#{$size}, $value);
-        @include var(border-radius-#{$size}, $value); // TODO remove duplicate
-    }
-
     @each $name, $value in $opacity {
         @include var(opacity-#{$name}, $value);
+    }
+
+    @each $size, $value in $radius-sizes {
+        @include var(radius-#{$size}, $value);
     }
 
     @each $size, $value in $space-sizes {

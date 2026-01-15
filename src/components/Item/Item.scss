@@ -37,7 +37,7 @@ $height: auto;
 $padding-block: map.get($m, padding-block);
 $padding-inline: map.get($m, padding-inline);
 $gap: map.get($m, gap);
-$border-radius: base.var(border-radius-m) !default;
+$border-radius: base.var(radius-m) !default;
 $font-size: base.var(font-size-m) !default;
 
 $vars: component.vars(Item, (

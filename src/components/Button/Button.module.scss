@@ -80,11 +80,11 @@
         @include component.declare((
             -xs: (
                 height: 16px,
-                border-radius: base.var(border-radius-xs)
+                border-radius: base.var(radius-xs)
             ),
             -s: (
                 height: 24px,
-                border-radius: base.var(border-radius-s)
+                border-radius: base.var(radius-s)
             ),
             -m: (
                 height: 32px

@@ -5,7 +5,7 @@
 
 $xs: (
     height: 24px,
-    radius: base.var(border-radius-s),
+    radius: base.var(radius-s),
     padding: base.var(space-xs),
     gap: base.var(space-xxs),
     font-size: base.var(font-size-xs)
@@ -13,7 +13,7 @@ $xs: (
 
 $s: (
     height: 28px,
-    radius: base.var(border-radius-s),
+    radius: base.var(radius-s),
     padding: base.var(space-xs),
     gap: base.var(space-xxs),
     font-size: base.var(font-size-s)
@@ -21,7 +21,7 @@ $s: (
 
 $m: (
     height: 32px,
-    radius: base.var(border-radius-m),
+    radius: base.var(radius-m),
     padding: base.var(space-s),
     gap: base.var(space-xxs),
     font-size: base.var(font-size-m)
@@ -29,7 +29,7 @@ $m: (
 
 $l: (
     height: 40px,
-    radius: base.var(border-radius-m),
+    radius: base.var(radius-m),
     padding: base.var(space-m),
     gap: base.var(space-xs),
     font-size: base.var(font-size-l)
@@ -37,7 +37,7 @@ $l: (
 
 $xl: (
     height: 48px,
-    radius: base.var(border-radius-l),
+    radius: base.var(radius-l),
     padding: base.var(space-m),
     gap: base.var(space-xs),
     font-size: base.var(font-size-xl)

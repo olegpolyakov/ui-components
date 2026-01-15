@@ -42,11 +42,11 @@ $vars: component.vars(Component, (
             padding-y: base.var(padding-s),
 
             '.rounded': (
-                border-radius: base.var(border-radius-s)
+                border-radius: base.var(radius-s)
             )
         ),
         '.small.rounded:hover': (
-            border-radius: base.var(border-radius-s)
+            border-radius: base.var(radius-s)
         )
     ));
 }

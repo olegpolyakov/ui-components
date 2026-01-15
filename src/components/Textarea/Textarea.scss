@@ -1,24 +1,4 @@
 @use 'base';
 @use 'component';
 
-$height: auto !default;
-$gap: base.var(space-xs) !default;
-$font-size: base.var(font-size-m) !default;
-$border-color: base.var(border-color) !default;
-$border-radius: base.var(border-radius-m) !default;
-$border-width: 1px !default;
-$background-color: base.var(background-color) !default;
-$foreground-color: base.var(foreground-color) !default;
-$_inner-height: auto !default;
-
-$vars: component.vars(Textarea, (
-    height: $height,
-    gap: $gap,
-    font-size: $font-size,
-    border-color: $border-color,
-    border-radius: $border-radius,
-    border-width: $border-width,
-    background-color: $background-color,
-    foreground-color: $foreground-color,
-    _height: $_inner-height
-));
+$vars: component.vars(Textarea, ());
