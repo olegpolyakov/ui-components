@@ -1,11 +1,11 @@
 @use 'sass:map';
 
-@use 'base' as *;
-@use 'colors';
-@use 'colors/palettes';
-@use 'elements';
-@use 'variants';
-@use 'utils/css';
+@use './base' as *;
+@use './colors';
+@use './colors/palettes';
+@use './elements';
+@use './variants';
+@use './utils/css';
 
 // Colors
 

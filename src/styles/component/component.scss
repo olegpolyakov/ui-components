@@ -1,15 +1,15 @@
 @use 'sass:map';
 @use 'sass:meta';
 
-@use 'base';
-@use 'colors';
-@use 'colors/palettes';
-@use 'colors/states';
-@use 'variants';
-@use 'utils/css';
-@use 'utils/list';
-@use 'utils/string';
-@use 'utils/type';
+@use '../base';
+@use '../colors';
+@use '../colors/palettes';
+@use '../colors/states';
+@use '../variants';
+@use '../utils/css';
+@use '../utils/list';
+@use '../utils/string';
+@use '../utils/type';
 
 $-NAME: '';
 $-VARS: ();

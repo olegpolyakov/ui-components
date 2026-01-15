@@ -1,11 +1,11 @@
 @use 'sass:map';
 @use 'sass:meta';
 
-@use 'base';
-@use 'colors';
-@use 'colors/palettes';
-@use 'colors/states';
-@use 'variants';
+@use '../base';
+@use '../colors';
+@use '../colors/palettes';
+@use '../colors/states';
+@use '../variants';
 
 @mixin define($theme) {
     @include base.root {

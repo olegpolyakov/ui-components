@@ -1,10 +1,10 @@
 @use 'sass:map';
 @use 'sass:meta';
 
-@use 'base';
-@use 'colors';
-@use 'colors/palettes';
-@use 'variants';
+@use '../base';
+@use '../colors';
+@use '../colors/palettes';
+@use '../variants';
 
 $border-color: palettes.$base-3 !default;
 $border-inverted-color: palettes.$base-7 !default;

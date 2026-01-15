@@ -1,10 +1,10 @@
 @use 'sass:map';
 
-@use 'base';
-@use 'utils/color';
-@use 'utils/css';
-@use 'utils/string';
-@use 'utils/type';
+@use '../base';
+@use '../utils/color';
+@use '../utils/css';
+@use '../utils/string';
+@use '../utils/type';
 
 $black: #121212 !default;
 $white: #ffffff !default;

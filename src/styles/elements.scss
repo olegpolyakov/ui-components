@@ -1,5 +1,5 @@
-@use 'base';
-@use 'utils/css' as css;
+@use './base';
+@use './utils/css' as css;
 
 @mixin caret($size: 18px) {
     &::after {

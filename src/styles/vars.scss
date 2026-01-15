@@ -1,8 +1,8 @@
-@use 'base' as *;
-@use 'colors/palettes';
-@use 'themes';
-@use 'themes/dark';
-@use 'themes/light';
+@use './base' as *;
+@use './colors/palettes';
+@use './themes';
+@use './themes/dark';
+@use './themes/light';
 
 @include root {
     @include vars((
