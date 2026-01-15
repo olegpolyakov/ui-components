@@ -138,43 +138,43 @@ export default function Tooltip({
             }
 
             {isOpen &&
-              <div
-                  ref={refs.setFloating}
-                  className={classNames}
-                  style={floatingStyles}
-                  data-placement={currentPlacement}
-                  onMouseEnter={handleMouseEnterTooltip}
-                  onMouseLeave={handleMouseLeaveTooltip}
-              >
-                  <svg
-                    ref={arrowRef}
-                    className={styles.arrow}
-                    viewBox="0 0 12 6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    style={middlewareData.arrow && {
-                        left: middlewareData.arrow.x,
-                        top: middlewareData.arrow.y
-                    }}
+                <div
+                    ref={refs.setFloating}
+                    className={classNames}
+                    style={floatingStyles}
+                    data-placement={currentPlacement}
+                    onMouseEnter={handleMouseEnterTooltip}
+                    onMouseLeave={handleMouseLeaveTooltip}
                 >
-                    <polygon
-                        points="6,0 12,6 0,6"
-                    />
+                    <svg
+                        ref={arrowRef}
+                        className={styles.arrow}
+                        viewBox="0 0 12 6"
+                        xmlns="http://www.w3.org/2000/svg"
+                        style={middlewareData.arrow && {
+                            left: middlewareData.arrow.x,
+                            top: middlewareData.arrow.y
+                        }}
+                    >
+                        <polygon
+                            points="6,0 12,6 0,6"
+                        />
 
-                    <line
-                        x1="0" y1="6"
-                        x2="6" y2="0"
-                        strokeWidth="1"
-                    />
+                        <line
+                            x1="0" y1="6"
+                            x2="6" y2="0"
+                            strokeWidth="1"
+                        />
 
-                    <line
-                        x1="12" y1="6"
-                        x2="6" y2="0"
-                        strokeWidth="1"
-                    />
-                </svg>
+                        <line
+                            x1="12" y1="6"
+                            x2="6" y2="0"
+                            strokeWidth="1"
+                        />
+                    </svg>
 
-                  {content}
-              </div>
+                    {content}
+                </div>
             }
         </>
     );
