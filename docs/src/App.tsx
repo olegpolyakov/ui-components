@@ -1,8 +1,8 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, useLocation } from 'react-router-dom';
 
-import { Button, ButtonGroup, Heading, Item, List, Provider, Text } from '~/components';
-import type { Theme } from '~/types';
+import { Button, ButtonGroup, Heading, Icon, Item, List, Provider, Text, Tooltip } from '~/components';
+import type { Theme } from '~/theme';
 
 import styles from './App.module.scss';
 
@@ -10,7 +10,7 @@ import routes from './routes';
 import GitHubIcon from './assets/github.svg?react';
 
 export default function App() {
-    const [theme, setTheme] = useState<Theme>('dark');
+    const [theme, setTheme] = useState<Theme>();
 
     return (
         <Provider theme={theme}>
@@ -26,11 +26,18 @@ export default function App() {
                                 size="m"
                             />
 
-                            <ButtonGroup gap="xxs">
+                            <ButtonGroup gap="s">
                                 <Button
-                                    icon={`${theme}_mode`}
+                                    icon
                                     onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                                />
+                                >
+                                    <Tooltip
+                                        content={theme ? `${theme} theme` : 'System theme'}
+                                        placement="bottom"
+                                    >
+                                        <Icon name={theme ? `${theme}_mode` : 'settings_night_sight'} />
+                                    </Tooltip>
+                                </Button>
 
                                 <Button as="a" href="https://github.com/olegpolyakov/kantanui" target='_blank' icon>
                                     <GitHubIcon />
