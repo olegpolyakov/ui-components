@@ -117,8 +117,6 @@
         }
     }
 
-    // TODO Add other placements (top-left, top-right, etc.)
-
     @include component.sizes(Popover.$sizes);
 
     .filled {
