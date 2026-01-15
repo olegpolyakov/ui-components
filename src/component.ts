@@ -19,7 +19,7 @@ import { cn, isObject, isString } from './utils';
 
 import baseClassNames from './styles/classes.module.scss';
 
-export function  resolveChildren<T>(children: Children, items: T[]): T[] {
+export function resolveChildren<T>(children: Children, items: T[]): T[] {
     return items.length > 0
         ? items
         : ReactChildren.toArray(children)

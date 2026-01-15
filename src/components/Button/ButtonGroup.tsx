@@ -1,4 +1,4 @@
-import { cn, resolveChildren } from '../../component';
+import { cn, renderChildren } from '../../component';
 import type { ComponentProps, ElementType, Orientation, PropsWithKey, Size } from '../../types';
 
 import Button, { ButtonProps } from './Button';
@@ -48,17 +48,13 @@ export default function ButtonGroup<T extends ElementType = 'div'>({
             className={classNames}
             {...props}
         >
-            {resolveChildren(children, buttons).map(({ key, ...props }) =>
-                <Button
-                    key={key}
-                    className={styles.button}
-                    color={color}
-                    shape={shape}
-                    size={size}
-                    variant={variant}
-                    {...props}
-                />
-            )}
+            {renderChildren(children, buttons, Button, {
+                className: styles.button,
+                color,
+                shape,
+                size,
+                variant
+            })}
         </Root>
     );
 }
