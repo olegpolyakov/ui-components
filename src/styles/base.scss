@@ -1,7 +1,7 @@
 @use 'sass:map';
 
-@use 'utils/css';
-@use 'utils/type';
+@use './utils/css';
+@use './utils/type';
 
 $prefix: 'kui' !default;
 $root: ':root' !default;

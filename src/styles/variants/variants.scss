@@ -1,10 +1,10 @@
 @use 'sass:map';
 
-@use 'base' as *;
-@use 'colors';
-@use 'colors/states';
-@use 'utils/color';
-@use 'utils/css';
+@use '../base' as *;
+@use '../colors';
+@use '../colors/states';
+@use '../utils/color';
+@use '../utils/css';
 
 @use './plain';
 @use './filled';

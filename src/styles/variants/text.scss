@@ -1,8 +1,8 @@
-@use 'base';
-@use 'colors';
-@use 'colors/palettes';
-@use 'colors/states';
-@use 'utils/color';
+@use '../base';
+@use '../colors';
+@use '../colors/palettes';
+@use '../colors/states';
+@use '../utils/color';
 
 @mixin classes {
     .text {

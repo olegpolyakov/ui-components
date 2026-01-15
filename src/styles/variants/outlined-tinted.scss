@@ -1,9 +1,9 @@
-@use 'base';
-@use 'colors';
-@use 'colors/palettes';
-@use 'colors/states';
-@use 'utils/color';
-@use 'utils/css';
+@use '../base';
+@use '../colors';
+@use '../colors/palettes';
+@use '../colors/states';
+@use '../utils/color';
+@use '../utils/css';
 
 @mixin classes {
     .outlined-tinted {
