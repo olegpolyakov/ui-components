@@ -21,7 +21,8 @@ const common = {
         'object-curly-spacing': ['warn', 'always'],
         'quotes': ['error', 'single'],
         'semi': ['error', 'always'],
-        'react/react-in-jsx-scope': 'off'
+        'react/react-in-jsx-scope': 'off',
+        'react-hooks/refs': 'warn'
     },
     settings: {
         react: {
