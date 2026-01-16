@@ -1,7 +1,8 @@
 import { cn } from '../../component';
 import type {
     AspectRatio,
-    Color,
+    BaseColor,
+    PaletteColor,
     ComponentProps,
     ElementType,
     Padding,
@@ -15,8 +16,7 @@ import baseStyles from '../../styles/classes.module.scss';
 import styles from './Box.module.scss';
 
 export type BoxProps = {
-    as?: 'div';
-    color?: Color;
+    color?: BaseColor | PaletteColor;
     shape?: Shape;
     shadow?: Shadow;
     shadowHover?: Shadow;
@@ -50,10 +50,10 @@ export default function Box<T extends ElementType = 'div'>({
     content = children,
     color,
     shape,
-    variant = 'plain',
+    variant,
     shadow,
     shadowHover,
-    interactive = false,
+    interactive,
     aspectRatio,
     ar = aspectRatio,
     padding,

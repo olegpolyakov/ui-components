@@ -6,5 +6,12 @@
 @include component.define(Box, Box.$vars) {
     .root {
         box-sizing: border-box;
+        background-color: component.var(background-color);
     }
+
+    @include component.classes((
+        primary: (background-color: base.var(background-primary-color)),
+        secondary: (background-color: base.var(background-secondary-color)),
+        tertiary: (background-color: base.var(background-tertiary-color))
+    ));
 }
