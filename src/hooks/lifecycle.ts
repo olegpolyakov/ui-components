@@ -1,4 +1,4 @@
-import { DependencyList, useEffect, useLayoutEffect, useState } from 'react';
+import { DependencyList, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export function useCreated(fn: () => void) {
     const [created, setCreated] = useState(false);
@@ -15,20 +15,24 @@ export function useMounted(fn: () => void) {
 }
 
 export function useUpdated(fn: () => void, deps: DependencyList) {
-    const [mounted, setMounted] = useState(false);
+    const mountedRef = useRef(false);
 
     useEffect(() => {
-        if (!mounted) return setMounted(true);
+        if (mountedRef.current) return;
+        
+        mountedRef.current = true;
 
         return fn();
     }, deps);
 }
 
 export function useUpdatedSync(fn: () => void, deps: DependencyList) {
-    const [mounted, setMounted] = useState(false);
+    const mountedRef = useRef(false);
 
     useLayoutEffect(() => {
-        if (!mounted) return setMounted(true);
+        if (mountedRef.current) return;
+        
+        mountedRef.current = true;
 
         return fn();
     }, deps);
