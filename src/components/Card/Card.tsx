@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 
 import { cn } from '../../component';
-import type { Color, ComponentProps, ElementType, Shadow, Shape, SizeExtended, Variant } from '../../types';
+import type { PaletteColor, ComponentProps, ElementType, Shadow, Shape, SizeExtended, Variant } from '../../types';
 
 import styles from './Card.module.scss';
 
 export type CardProps = {
     content?: ReactNode;
-    color?: Color;
+    color?: PaletteColor;
     size?: SizeExtended;
     shape?: Exclude<Shape, 'circular'>;
     shadow?: Shadow;

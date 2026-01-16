@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 
 import { cn } from '../../component';
-import type { Color, ComponentProps, ElementType, Shadow, Shape, SizeExtended, SizeFull, Variant } from '../../types';
+import type { PaletteColor, ComponentProps, ElementType, Shadow, Shape, SizeExtended, SizeFull, Variant } from '../../types';
 
 import Icon, { IconProps } from '../Icon';
 import Slot, { Slotted } from '../Slot';
@@ -17,7 +17,7 @@ export type ButtonProps = {
     end?: ReactNode;
     endIcon?: Slotted<IconProps>;
     spinner?: Slotted<SpinnerProps>;
-    color?: Color;
+    color?: PaletteColor;
     shape?: Shape;
     size?: SizeExtended;
     variant?: Variant | 'text';

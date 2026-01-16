@@ -2,7 +2,7 @@ import { Children as ReactChildren, ReactElement, isValidElement, createElement,
 
 import type {
     Children,
-    Color,
+    PaletteColor,
     Shadow,
     Shape,
     Variant,
@@ -78,7 +78,7 @@ export function getComponentClassNames(
         ...rest
     }: {
         root?: boolean;
-        color?: Color | TextColor;
+        color?: PaletteColor | TextColor;
         size?: Size | SizeExtended | SizeFull | 'inherit';
         shape?: Shape;
         variant?: Variant | 'text';
@@ -129,13 +129,13 @@ export function getComponentClassNames(
 
         ...Object.entries(rest).map(([key, value]) => value && (componentClassNames[key] || baseClassNames[key])),
         
-        getVariantClassNames(
+        variant ? getVariantClassNames(
             variant,
             color,
             active,
             interactive === false,
             classNames
-        ),
+        ) : classNames[color || ''],
         
         shape && classNames[shape],
 
@@ -161,7 +161,7 @@ export function getComponentClassNames(
 
 function getVariantClassNames(
     variant: Variant | 'text' | undefined,
-    color: Color | TextColor | undefined,
+    color: PaletteColor | TextColor | undefined,
     active: boolean | undefined,
     nonInteractive: boolean | undefined,
     classNames: Record<string, string | boolean | undefined>

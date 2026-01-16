@@ -9,7 +9,7 @@ export type TextProps = {
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-    color?: TextColor;
+    color?: TextColor | 'inherit';
     size?: SizeFull;
     weight?: Weight;
     align?: Align;

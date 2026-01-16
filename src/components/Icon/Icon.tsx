@@ -8,7 +8,7 @@ import styles from './Icon.module.scss';
 
 export type IconProps = {
     name?: string;
-    color?: TextColor;
+    color?: TextColor | 'inherit';
     size?: SizeExtended | 'inherit';
     opacity?: Opacity;
     weight?: number | string;

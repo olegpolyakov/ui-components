@@ -2,7 +2,7 @@ import { ReactNode, ElementType } from 'react';
 
 import { cn } from '../../component';
 import { useImage } from '../../hooks/image';
-import type { Color, ComponentProps, Shadow, Shape, Size, Slotted, Variant } from '../../types';
+import type { PaletteColor, ComponentProps, Shadow, Shape, Size, Slotted, Variant } from '../../types';
 
 import Icon, { IconProps } from '../Icon';
 import Slot from '../Slot';
@@ -13,7 +13,7 @@ export type AvatarProps = {
     src?: string;
     content?: ReactNode;
     icon?: Slotted<IconProps>;
-    color?: Color;
+    color?: PaletteColor;
     size?: Size;
     shape?: Shape;
     shadow?: Shadow;

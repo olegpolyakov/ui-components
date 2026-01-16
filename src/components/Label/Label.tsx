@@ -9,7 +9,7 @@ export type LabelProps = {
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-    color?: TextColor;
+    color?: TextColor | 'inherit';
     size?: Size;
     inline?: boolean;
 };

@@ -10,7 +10,7 @@ import {
 
 import { cn } from '../../component';
 import { Key } from '../../constants';
-import type{ Color, ComponentProps, Shape, Variant } from '../../types';
+import type{ PaletteColor, ComponentProps, Shape, Variant } from '../../types';
 import { getEventKey } from '../../utils';
 
 import Button from '../Button';
@@ -32,7 +32,7 @@ export type ToastProps = {
     icon?: Slotted<IconProps>;
     action?: ReactNode;
     dismissIcon?: Slotted<IconProps>;
-    color?: Color;
+    color?: PaletteColor;
     variant?: Variant;
     shape?: Shape;
     appear?: boolean;

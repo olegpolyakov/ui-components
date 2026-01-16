@@ -1,5 +1,5 @@
 import { Flex, Heading } from '~/components';
-import { Color as ColorType } from '~/types';
+import { PaletteColor as ColorType } from '~/types';
 
 import Color from '@/components/Color';
 

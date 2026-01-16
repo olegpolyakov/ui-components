@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { cn } from '../../component';
-import type { Align, Color, ComponentProps, ElementType, Opacity, SizeFull, Space, TextColor, Weight } from '../../types';
+import type { Align, PaletteColor, ComponentProps, ElementType, Opacity, SizeFull, Space, TextColor, Weight } from '../../types';
 
 import styles from './Heading.module.scss';
 
@@ -9,7 +9,7 @@ export type HeadingProps = {
     content?: ReactNode;
     start?: ReactNode;
     end?: ReactNode;
-    color?: Color | TextColor;
+    color?: PaletteColor | TextColor | 'inherit';
     size?: SizeFull; 
     align?: Align;
     weight?: Weight;

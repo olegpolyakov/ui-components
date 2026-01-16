@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 
 import { cn } from '../../component';
-import type { Color, ComponentProps, ElementType } from '../../types';
+import type { PaletteColor, ComponentProps, ElementType } from '../../types';
 
 import { TextProps } from '../Text';
 
@@ -27,7 +27,7 @@ export default function Link<T extends ElementType | FunctionComponent = 'a'>({
     const classNames = cn(
         className,
         {
-            color: color as Color,
+            color: color as PaletteColor,
             disabled
         },
         styles

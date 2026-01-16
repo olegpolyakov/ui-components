@@ -1,10 +1,10 @@
 import { cn } from '../../component';
-import type { Orientation, Color, ComponentProps, ElementType } from '../../types';
+import type { Orientation, PaletteColor, ComponentProps, ElementType } from '../../types';
 
 import styles from './Divider.module.scss';
 
 export type DividerProps = {
-    color?: Color;
+    color?: PaletteColor;
     orientation?: Orientation;
 };
 

@@ -1,10 +1,10 @@
-import type { Color, ComponentProps, ElementType, SizeFull } from '../../types';
+import type { PaletteColor, ComponentProps, ElementType, SizeFull } from '../../types';
 import { cn } from '../../utils';
 
 import styles from './Spinner.module.scss';
 
 export type SpinnerProps = {
-    color?: 'inherit' | Color;
+    color?: 'inherit' | PaletteColor;
     size?: SizeFull;
 };
 

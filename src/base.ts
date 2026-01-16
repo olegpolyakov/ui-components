@@ -1,7 +1,7 @@
 import { THEME_PREFIX } from './constants';
 
 import classNames from './styles/classes.module.scss';
-import type { AspectRatio, Color, Opacity, Shadow, Shape, SizeExtended, Space, Variant, Weight } from './types';
+import type { AspectRatio, PaletteColor, Opacity, Shadow, Shape, SizeExtended, Space, Variant, Weight } from './types';
 import { cn, joinClasses } from './utils';
 
 export function baseClassName(className: string) {
@@ -34,7 +34,7 @@ export function baseClassNames({
     disabled,
     interactive
 }: {
-        color?: Color;
+        color?: PaletteColor;
         size?: SizeExtended;
         shape?: Shape;
         variant?: Variant | 'text';

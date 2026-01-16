@@ -1,7 +1,7 @@
 import { type ReactElement, type ReactNode, cloneElement, isValidElement } from 'react';
 
 import { cn } from '../../component';
-import type { Color, ComponentProps, Orientation, Size, TextColor } from '../../types';
+import type { PaletteColor, ComponentProps, Orientation, Size, TextColor } from '../../types';
 
 import Label from '../Label';
 import Slot from '../Slot';
@@ -13,7 +13,7 @@ Field.displayName = 'Field';
 export type FieldProps = {
     label?: ReactNode;
     content?: ReactNode;
-    color?: Color | TextColor;
+    color?: PaletteColor | TextColor | 'inherit';
     size?: Size;
     orientation?: Orientation;
     required?: boolean;

@@ -57,8 +57,9 @@ export type HTMLTextareaProps = React.TextareaHTMLAttributes<HTMLTextAreaElement
 
 export type Align = 'start' | 'center' | 'end';
 export type AspectRatio = '16/10' | '16/9' | '4/3' | '3/2' | '2/1' | '1/1';
-export type Color = 'brand' | 'accent' | 'danger' | 'info' | 'success' | 'warning';
-export type TextColor = 'primary' | 'secondary' | 'tertiary' | Color | 'inherit';
+export type BaseColor = 'primary' | 'secondary' | 'tertiary';
+export type PaletteColor = 'brand' | 'accent' | 'danger' | 'info' | 'success' | 'warning';
+export type TextColor = BaseColor | PaletteColor | 'inherit';
 export type Emphasis = 'low' | 'medium' | 'high';
 export type Gender = 'unknown' | 'male' | 'female';
 export type IconPosition = 'before' | 'after';

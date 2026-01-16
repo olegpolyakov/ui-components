@@ -1,10 +1,10 @@
 import { cn } from '../../component';
-import type { Color, ComponentProps, ElementType, Shadow, Shape } from '../../types';
+import type { PaletteColor, ComponentProps, ElementType, Shadow, Shape } from '../../types';
 
 import styles from './Image.module.scss';
 
 export type ImageProps = {
-    color?: Color;
+    color?: PaletteColor;
     shape?: Shape;
     shadow?: Shadow;
     inline?: boolean;

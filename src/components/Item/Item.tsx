@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { cn } from '../../component';
-import type { Color, Variant, Shape, ComponentProps, ElementType, Size, Slotted, Shadow } from '../../types';
+import type { PaletteColor, Variant, Shape, ComponentProps, ElementType, Size, Slotted, Shadow } from '../../types';
 
 import { Icon, IconProps } from '../Icon';
 import Slot from '../Slot';
@@ -13,7 +13,7 @@ export type ItemProps = {
     icon?: Slotted<IconProps>;
     start?: ReactNode;
     end?: ReactNode;
-    color?: Color;
+    color?: PaletteColor;
     size?: Size;
     shape?: Shape;
     shadow?: Shadow;

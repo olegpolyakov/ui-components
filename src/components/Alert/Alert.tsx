@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { cn } from '../../component';
-import type { Color, ComponentProps, ElementType, Intent, Shadow, Shape, Size, SizeExtended, Slotted, Variant } from '../../types';
+import type { PaletteColor, ComponentProps, ElementType, Intent, Shadow, Shape, Size, SizeExtended, Slotted, Variant } from '../../types';
 
 import Button, { ButtonProps } from '../Button';
 import Icon, { IconProps } from '../Icon';
@@ -16,7 +16,7 @@ export type AlertProps = {
     end?: ReactNode;
     closeButton?: Slotted<ButtonProps>;
     intent?: Intent;
-    color?: Color;
+    color?: PaletteColor;
     size?: Size;
     shape?: Shape;
     shadow?: Shadow;

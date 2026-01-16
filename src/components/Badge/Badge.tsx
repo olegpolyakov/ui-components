@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 
 import { cn } from '../../component';
-import type { Color, ComponentProps, ElementType, Size, Variant } from '../../types';
+import type { PaletteColor, ComponentProps, ElementType, Size, Variant } from '../../types';
 
 import styles from './Badge.module.scss';
 
 export type BadgeProps = {
     content?: ReactNode;
-    color?: Color;
+    color?: PaletteColor;
     size?: Size;
     variant?: Variant;
     interactive?: boolean;
