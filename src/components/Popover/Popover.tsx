@@ -12,7 +12,8 @@ import {
     useEffect,
     useLayoutEffect,
     useRef,
-    useState
+    useState,
+    Fragment
 } from 'react';
 
 import {
@@ -74,7 +75,6 @@ export default function Popover({
     anchorRef,
     anchorElement = anchorRef?.current,
     placement,
-    fallbackPlacements,
     open,
     defaultOpen = false,
     arrow: showArrow = true,
@@ -208,7 +208,7 @@ export default function Popover({
     );
 
     return (
-        <>
+        <Fragment>
             {isValidElement(trigger) &&
                 cloneElement(trigger, {
                     ref: refs.setReference,
@@ -270,6 +270,6 @@ export default function Popover({
                     </div>
                 </Portal>
             }
-        </>
+        </Fragment>
     );
 };

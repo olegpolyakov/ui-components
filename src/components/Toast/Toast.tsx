@@ -1,4 +1,5 @@
 import {
+    Fragment,
     KeyboardEvent,
     ReactNode,
     cloneElement,
@@ -86,7 +87,7 @@ export default function Toast({
         }
 
         return () => clearTimeout(timeoutRef.current);
-    }, [open]);
+    }, [open, timeout, onClose]);
 
     const handleKeyDown = useCallback((event: KeyboardEvent) => {
         const key = getEventKey(event);
@@ -133,30 +134,32 @@ export default function Toast({
                     <Item
                         icon={icon}
                         content={content}
-                        end={<>
-                            {isValidElement<{className: string}>(action) &&
-                                cloneElement(action, {
-                                    className: styles.action
-                                })
-                            }
+                        end={
+                            <Fragment>
+                                {isValidElement<{className: string}>(action) &&
+                                    cloneElement(action, {
+                                        className: styles.action
+                                    })
+                                }
 
-                            {dismissible && (isValidElement<{className: string, onClick: () => void}>(dismissIcon) ?
-                                cloneElement(dismissIcon, {
-                                    className: styles.dismiss,
-                                    onClick: onClose
-                                })
-                                :
-                                <Button
-                                    icon={dismissIcon}
-                                    className={styles.dismiss}
-                                    size="s"
-                                    onClick={onClose}
-                                />
-                            )}
+                                {dismissible && (isValidElement<{className: string, onClick: () => void}>(dismissIcon) ?
+                                    cloneElement(dismissIcon, {
+                                        className: styles.dismiss,
+                                        onClick: onClose
+                                    })
+                                    :
+                                    <Button
+                                        icon={dismissIcon}
+                                        className={styles.dismiss}
+                                        size="s"
+                                        onClick={onClose}
+                                    />
+                                )}
 
-                        </>}
+                            </Fragment>
+                        }
                         color={color}
-                        // @ts-ignore TODO pass correct type
+                        // @ts-expect-error TODO pass correct type
                         variant={variant}
                         shape={shape}
                     />

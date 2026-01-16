@@ -8,7 +8,8 @@ import {
     isValidElement,
     useCallback,
     useState,
-    useRef
+    useRef,
+    Fragment
 } from 'react';
 
 import {
@@ -47,9 +48,9 @@ export default function Tooltip({
     arrow: showArrow = true
 }: ComponentProps<TooltipProps, 'div'>) {
     const arrowRef = useRef<SVGSVGElement>(null);
+    const timeoutRef = useRef<number | null>(null);
 
     const [isOpen, setIsOpen] = useState(false);
-    const timeoutRef = useRef<number | null>(null);
 
     const {
         refs,
@@ -68,11 +69,11 @@ export default function Tooltip({
             offset(8),
             showArrow && arrow({
                 element: arrowRef
-            }),
+            })
         ].filter(Boolean)
     });
 
-    const handleMouseEnter = useCallback<MouseEventHandler<HTMLDivElement>>((event) => {
+    const handleMouseEnter = useCallback<MouseEventHandler<HTMLDivElement>>(event => {
         timeoutRef.current = window.setTimeout(() => {
             setIsOpen(true);
         }, 500);
@@ -85,7 +86,7 @@ export default function Tooltip({
         }
     }, [children]);
 
-    const handleMouseLeave = useCallback<MouseEventHandler<HTMLDivElement>>((event) => {
+    const handleMouseLeave = useCallback<MouseEventHandler<HTMLDivElement>>(event => {
         setIsOpen(false);
 
         window.clearTimeout(timeoutRef.current!);
@@ -120,7 +121,7 @@ export default function Tooltip({
     );
 
     return (
-        <>
+        <Fragment>
             {isValidElement(children) ?
                 cloneElement(children as ReactElement<ComponentPropsWithRef<'div'>>, {
                     ref: refs.setReference,
@@ -176,6 +177,6 @@ export default function Tooltip({
                     {content}
                 </div>
             }
-        </>
+        </Fragment>
     );
 }

@@ -5,7 +5,8 @@ import {
     useCallback,
     Children,
     isValidElement,
-    type ChangeEvent
+    type ChangeEvent,
+    Fragment
 } from 'react';
 
 import type { Placement } from '@floating-ui/react';
@@ -174,11 +175,6 @@ export default function Select({
         styles[placement],
         open && styles.open
     );
-    
-    const dropdownClassNames = cn(
-        styles.dropdown,
-        styles[placement]
-    );
 
     return (
         <Dropdown
@@ -187,29 +183,31 @@ export default function Select({
                     className={rootClassNames}
                     label={label}
                     start={start}
-                    end={<>
-                        {clearable && hasValue && !disabled &&
-                            <Button
-                                icon={{
-                                    name: 'close',
-                                    color: 'tertiary',
-                                    size: 's'
-                                }}
-                                size="xs"
-                                onClick={handleClearClick}
+                    end={
+                        <Fragment>
+                            {clearable && hasValue && !disabled &&
+                                <Button
+                                    icon={{
+                                        name: 'close',
+                                        color: 'tertiary',
+                                        size: 's'
+                                    }}
+                                    size="xs"
+                                    onClick={handleClearClick}
+                                />
+                            }
+
+                            <Icon
+                                className={styles.arrow}
+                                name="arrow_drop_down"
+                                color="tertiary"
+                                size="m"
+                                inline
                             />
-                        }
 
-                        <Icon
-                            className={styles.arrow}
-                            name="arrow_drop_down"
-                            color="tertiary"
-                            size="m"
-                            inline
-                        />
-
-                        {end}
-                    </>}
+                            {end}
+                        </Fragment>
+                    }
                     size={size}
                     variant={variant}
                     active={active}

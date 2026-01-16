@@ -1,4 +1,6 @@
-import { cn, resolveChildren } from '../../component'
+import React from 'react';
+
+import { cn, resolveChildren } from '../../component';
 import type { ComponentProps, ElementType, HTMLProps, PropsWithKey, Size, Space } from '../../types';
 
 import Link, { LinkProps } from '../Link';
@@ -36,19 +38,20 @@ export default function Breadcrumbs<T extends ElementType = 'div'>({
 
     return (
         <Root className={classNames} {...props}>
-            {resolvedItems.map(({ key, ...props }, index) => <>
-                <Link
-                    key={key}
-                    size={size}
-                    {...props}
-                />
+            {resolvedItems.map(({ key, ...props }, index) => (
+                <React.Fragment key={key}>
+                    <Link
+                        size={size}
+                        {...props}
+                    />
 
-                {index < resolvedItems.length - 1 &&
-                    <Slot fallback="span" className={styles.separator}>
-                        {separator}
-                    </Slot>
-                }
-            </>)}
+                    {index < resolvedItems.length - 1 &&
+                        <Slot fallback="span" className={styles.separator}>
+                            {separator}
+                        </Slot>
+                    }
+                </React.Fragment>
+            ))}
         </Root>
     );
 }
