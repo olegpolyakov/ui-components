@@ -37,7 +37,6 @@ export default function Tab({
     end,
     size = 'm',
     variant = 'plain',
-    active,
     onClick,
     ...props
 }: ComponentProps<TabProps, 'button'>) {
