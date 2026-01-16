@@ -3,13 +3,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { cn } from '../../component';
 import type { ComponentProps, ElementType } from '../../types';
 
-import Context from './TabsContext';
+import Context, { type TabValue } from './TabsContext';
 import Group, { TabGroupProps } from './TabGroup';
 import Panel from './TabPanel';
 
 import styles from './Tabs.module.scss';
-
-type TabValue = string | number | readonly string[] | undefined;
 
 export type TabsProps = {
     value?: TabValue;
