@@ -1,5 +1,6 @@
 @use './base' as *;
 @use './colors/palettes';
+@use './media';
 @use './themes';
 @use './themes/dark';
 @use './themes/light';
@@ -39,7 +40,7 @@
         @include var(shadow-#{$size}, $value);
     }
 
-    @each $size, $value in $screen-sizes {
+    @each $size, $value in media.$breakpoints {
         @include var(screen-#{$size}, $value);
     }
 

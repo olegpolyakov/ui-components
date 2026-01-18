@@ -78,6 +78,7 @@ export type Shape = 'circular' | 'rectangular' | 'rounded-xs' | 'rounded-s' | 'r
 export type Space = SizeFull | 'none';
 export type Variant = 'plain' | 'filled' | 'outlined' | 'tinted' | 'outlined-filled' | 'outlined-tinted';
 export type Weight = 'light' | 'normal' | 'semibold' | 'bold';
+export type ScreenSize = 'mobile' | 'tablet' | 'desktop';
 
 export type MouseInteractionEvent<T extends HTMLElement = HTMLElement> =
     MouseEvent |

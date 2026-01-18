@@ -2,6 +2,7 @@
 
 @use './base';
 @use './colors';
+@use './media';
 
 :export {
     prefix: string.unquote(base.$prefix);
@@ -12,4 +13,11 @@
     infoColor: colors.$info;
     successColor: colors.$success;
     warningColor: colors.$warning;
+    bpXxs: media.$xxs;
+    bpXs: media.$xs;
+    bpS: media.$s;
+    bpM: media.$m;
+    bpL: media.$l;
+    bpXl: media.$xl;
+    bpXxl: media.$xxl;
 }

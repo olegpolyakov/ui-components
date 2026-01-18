@@ -81,22 +81,6 @@ $shadows: (
     xxl-: 0 -32px 40px 0
 ) !default;
 
-$screen-sizes: (
-    xxs: 360px,
-    xs: 480px,
-    s: 640px,
-    m: 768px,
-    l: 1024px,
-    xl: 1280px,
-    xxl: 1440px
-) !default;
-
-$breakpoints: (
-    s: map.get($screen-sizes, s),
-    m: map.get($screen-sizes, m),
-    l: map.get($screen-sizes, l)
-) !default;
-
 @function var($name, $default-value: null) {
     @if $default-value != null {
         @return css.var('#{$prefix}-#{$name}', $default-value);

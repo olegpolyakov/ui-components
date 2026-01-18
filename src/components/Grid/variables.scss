@@ -4,8 +4,8 @@
 @use 'media';
 
 $breakpoints: (
-    desktop: media.$bp-m,
-    tablet: media.$bp-s,
+    desktop: media.$m,
+    tablet: media.$s,
     phone: 0px
 ) !default;
 

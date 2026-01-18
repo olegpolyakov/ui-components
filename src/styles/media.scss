@@ -2,34 +2,55 @@
 
 @use './base';
 
-$bp-s: map.get(base.$breakpoints, s);
-$bp-m: map.get(base.$breakpoints, m);
-$bp-l: map.get(base.$breakpoints, l);
-
 $breakpoints: (
-    sm: '(max-width: #{$bp-s - 1})',
-    gt-sm: '(min-width: #{$bp-s})',
+    xxs: 360px,
+    xs: 480px,
+    s: 640px,
+    m: 768px,
+    l: 1024px,
+    xl: 1280px,
+    xxl: 1440px
+) !default;
 
-    lt-md: '(max-width: #{$bp-s - 1})',
-    md: '(min-width: #{$bp-s}) and (max-width: #{$bp-m - 1})',
-    md-up: '(min-width: #{$bp-s})',
-    gt-md: '(min-width: #{$bp-m})',
+$xxs: map.get($breakpoints, xxs);
+$xs: map.get($breakpoints, xs);
+$s: map.get($breakpoints, s);
+$m: map.get($breakpoints, m);
+$l: map.get($breakpoints, l);
+$xl: map.get($breakpoints, xl);
+$xxl: map.get($breakpoints, xxl);
 
-    lt-lg: '(max-width: #{$bp-m - 1})',
-    lg: '(min-width: #{$bp-m}) and (max-width: #{$bp-l - 1})',
-    lg-up: '(min-width: #{$bp-m})',
-    gt-lg: '(min-width: #{$bp-l})',
-
-    xl: '(min-width: #{$bp-l})'
-);
-
-@mixin query($size) {
-    $breakpoint: map.get($breakpoints, $size);
-
-    @if not $breakpoint {
-        @error 'Invalid breakpoint';
+@mixin from($bp) {
+    @if map.has-key($breakpoints, $bp) {
+        @media screen and (min-width: map.get($breakpoints, $bp)) {
+            @content;
+        }
     } @else {
-        @media #{$breakpoint} {
+        @media screen and (min-width: $bp) {
+            @content;
+        }
+    }
+}
+  
+@mixin to($bp) {
+    @if map.has-key($breakpoints, $bp) {
+        @media screen and (max-width: #{map.get($breakpoints, $bp) - 1}) {
+            @content;
+        }
+    } @else {
+        @media screen and (max-width: #{$bp - 1}) {
+            @content;
+        }
+    }
+}
+  
+@mixin between($from, $to) {
+    @if map.has-key($breakpoints, $from) and map.has-key($breakpoints, $to) {
+        @media screen and (min-width: #{map.get($breakpoints, $from)}) and (max-width: #{map.get($breakpoints, $to) - 1}) {
+            @content;
+        }
+    } @else {
+        @media screen and (min-width: #{$from}) and (max-width: #{$to - 1}) {
             @content;
         }
     }
