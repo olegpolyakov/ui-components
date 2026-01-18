@@ -52,4 +52,10 @@
     }
 
     @include component.sizes(Dialog.$sizes);
+
+    @include component.classes((
+        primary: (background-color: base.var(background-primary-color)),
+        secondary: (background-color: base.var(background-secondary-color)),
+        tertiary: (background-color: base.var(background-tertiary-color))
+    ));
 }

@@ -1,7 +1,7 @@
 import { MouseEvent, ReactNode, useCallback, useEffect, useRef } from 'react';
 
 import { cn as ccn } from '../../component';
-import type { ComponentProps, Shadow, Shape, Size, SizeExtended, Slotted } from '../../types';
+import type { BaseColor, ComponentProps, Shadow, Shape, Size, SizeExtended, Slotted } from '../../types';
 import { cn } from '../../utils';
 
 import Button, { type ButtonProps } from '../Button';
@@ -20,6 +20,7 @@ export type DialogProps = {
     closeButtonPosition?: 'inside' | 'outside';
     closeOnClickOutside?: boolean;
     disableScroll?: boolean;
+    color?: BaseColor;
     size?: Size;
     shape?: Exclude<Shape, 'circular'>;
     shadow?: Shadow;
@@ -45,6 +46,7 @@ export default function Dialog({
     closeButtonPosition = 'inside',
     closeOnClickOutside = false,
     disableScroll,
+    color,
     size = 'm',
     shape,
     shadow,
@@ -86,6 +88,7 @@ export default function Dialog({
     );
     const surfaceClassNames = ccn(styles.surface, {
         root: false,
+        color,
         shape,
         shadow
     }, styles);
