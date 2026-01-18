@@ -73,7 +73,7 @@ export default function Tooltip({
         ].filter(Boolean)
     });
 
-    const handleMouseEnter = useCallback<MouseEventHandler<HTMLDivElement>>(event => {
+    const handleTargetMouseEnter = useCallback<MouseEventHandler<HTMLDivElement>>(event => {
         timeoutRef.current = window.setTimeout(() => {
             setIsOpen(true);
         }, 500);
@@ -86,7 +86,7 @@ export default function Tooltip({
         }
     }, [children]);
 
-    const handleMouseLeave = useCallback<MouseEventHandler<HTMLDivElement>>(event => {
+    const handleTargetMouseLeave = useCallback<MouseEventHandler<HTMLDivElement>>(event => {
         setIsOpen(false);
 
         window.clearTimeout(timeoutRef.current!);
@@ -99,15 +99,26 @@ export default function Tooltip({
             children.props.onMouseLeave(event);
         }
     }, [children]);
+    
+    const handleTargetClick = useCallback<MouseEventHandler<HTMLDivElement>>(event => {
+        window.clearTimeout(timeoutRef.current!);
 
-    const handleMouseEnterTooltip = useCallback((event: MouseEvent<HTMLDivElement>) => {
+        if (
+            isValidElement<{onClick: MouseEventHandler<HTMLDivElement>}>(children) &&
+            isFunction(children.props.onClick)
+        ) {
+            children.props.onClick(event);
+        }
+    }, [children]);
+
+    const handleTooltipMouseEnter = useCallback((event: MouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
         event.preventDefault();
 
         setIsOpen(true);
     }, []);
 
-    const handleMouseLeaveTooltip = useCallback((event: MouseEvent<HTMLDivElement>) => {
+    const handleTooltipMouseLeave = useCallback((event: MouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
         event.preventDefault();
 
@@ -125,14 +136,15 @@ export default function Tooltip({
             {isValidElement(children) ?
                 cloneElement(children as ReactElement<ComponentPropsWithRef<'div'>>, {
                     ref: refs.setReference,
-                    onMouseEnter: handleMouseEnter,
-                    onMouseLeave: handleMouseLeave
+                    onMouseEnter: handleTargetMouseEnter,
+                    onMouseLeave: handleTargetMouseLeave,
+                    onClick: handleTargetClick
                 })
                 :
                 <div
                     ref={refs.setReference}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
+                    onMouseEnter={handleTargetMouseEnter}
+                    onMouseLeave={handleTargetMouseLeave}
                 >
                     {children}
                 </div>
@@ -144,8 +156,8 @@ export default function Tooltip({
                     className={classNames}
                     style={floatingStyles}
                     data-placement={currentPlacement}
-                    onMouseEnter={handleMouseEnterTooltip}
-                    onMouseLeave={handleMouseLeaveTooltip}
+                    onMouseEnter={handleTooltipMouseEnter}
+                    onMouseLeave={handleTooltipMouseLeave}
                 >
                     <svg
                         ref={arrowRef}
