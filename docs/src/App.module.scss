@@ -5,6 +5,7 @@
     min-height: 100dvh;
     
     @include media.from(m) {
+        height: 100dvh;
         display: grid;
         grid-template-columns: max-content auto;
         overflow: hidden;
@@ -37,7 +38,6 @@
 
 .link {
     text-decoration: none;
-    color: initial;
 }
 
 .subtitle {
