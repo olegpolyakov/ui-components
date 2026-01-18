@@ -16,8 +16,13 @@
     grid-area: main;
     position: relative;
     box-sizing: border-box;
-    padding: 16px 36px 16px 16px;
+    display: flex;
     overflow: hidden;
+}
+
+.content {
+    width: 100%;
+    padding: 16px;
 }
 
 .drawer {
@@ -30,10 +35,9 @@
 }
 
 .actions {
-    position: absolute;
-    top: 12px;
-    right: 12px;
     display: flex;
+    flex-direction: column;
+    padding: 12px;
     gap: 4px;
     z-index: 1;
 }

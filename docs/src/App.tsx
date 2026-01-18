@@ -1,8 +1,9 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, useLocation } from 'react-router-dom';
 
-import { Button, ButtonGroup, Heading, Icon, Item, List, Provider, Text, Tooltip } from '~/components';
+import { Button, ButtonGroup, Drawer, Heading, Icon, Item, List, Provider, Text, Tooltip } from '~/components';
 import type { Theme } from '~/theme';
+import { useIsMobile } from '~/hooks/media';
 
 import styles from './App.module.scss';
 
@@ -11,12 +12,21 @@ import GitHubIcon from './assets/github.svg?react';
 
 export default function App() {
     const [theme, setTheme] = useState<Theme>();
+    const isMobile = useIsMobile();
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
     return (
         <Provider theme={theme}>
             <Router basename={import.meta.env.BASE_URL}>
                 <div className={styles.root}>
-                    <aside className={styles.aside}>
+                    <Drawer
+                        type={isMobile ? 'modal' : 'inline'}
+                        open={isMobile ? isDrawerOpen : true}
+                        header={null}
+                        closeButton={null}
+                        closeOnClickOutside
+                        onClose={() => setIsDrawerOpen(false)}
+                    >
                         <header className={styles.header}>
                             <Heading
                                 as={Link}
@@ -45,8 +55,8 @@ export default function App() {
                             </ButtonGroup>
                         </header>
 
-                        <Nav />
-                    </aside>
+                        <Nav onItemClick={() => setIsDrawerOpen(false)} />
+                    </Drawer>
 
                     <main className={styles.main}>
                         <article className="markdown">
@@ -66,6 +76,15 @@ export default function App() {
                                     ))}
                             </Switch>
                         </article>
+
+                        {isMobile && (
+                            <Button
+                                className={styles.menuButton} 
+                                icon="menu"
+                                variant="filled"
+                                onClick={() => setIsDrawerOpen(true)}
+                            />
+                        )}
                     </main>
                 </div>
             </Router>
@@ -73,7 +92,7 @@ export default function App() {
     );
 }
 
-function Nav() {
+function Nav({ onItemClick }: { onItemClick?: () => void }) {
     const location = useLocation();
 
     const ref = useRef<HTMLElement>(null);
@@ -108,7 +127,9 @@ function Nav() {
                                     shape="rectangular"
                                     active={location.pathname === route.path}
                                     size="m"
+                                    variant="plain"
                                     interactive
+                                    onClick={onItemClick}
                                 />
                             )}
                         </List>
@@ -123,7 +144,9 @@ function Nav() {
                         shape="rectangular"
                         active={location.pathname === route.path}
                         size="m"
+                        variant="plain"
                         interactive
+                        onClick={onItemClick}
                     />
                 ))}
         </nav>

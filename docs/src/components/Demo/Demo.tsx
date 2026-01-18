@@ -7,6 +7,7 @@ import Code from '@/components/Code';
 import Settings, { Setting } from '@/components/Settings';
 
 import styles from './Demo.module.scss';
+import { useIsMobile } from '~/hooks/media';
 
 const filteredOutSettingNames = [
     'as',
@@ -32,6 +33,8 @@ export default function Demo<T extends Props = Props>({
     props?: T;
     children?: ReactElement | ((data: T, setData: (data: T) => void) => ReactElement);
 }) {
+    const isMobile = useIsMobile();
+
     const filteredSettings = useMemo(() =>
         Object.values(settings).filter(setting =>
             !filteredOutSettingNames.includes(setting.name) &&
@@ -57,7 +60,7 @@ export default function Demo<T extends Props = Props>({
             }, {} as Record<string, any>) as T;
     });
     
-    const [isSettingsOpen, setSettingsOpen] = useState(true);
+    const [isSettingsOpen, setSettingsOpen] = useState(isMobile ? false : true);
     const [isCodeOpen, setCodeOpen] = useState(false);
 
     const setupContent = typeof setup === 'function'
@@ -83,28 +86,28 @@ export default function Demo<T extends Props = Props>({
             {...rest}
         >
             <div className={styles.main}>
+                <div className={styles.content}>
+                    {setupContent}
+                    {wrappedContent}
+                </div>
+
                 <div className={styles.actions}>
+                    {settings && (!isSettingsOpen || isMobile) &&
+                    <Button
+                        icon="settings"
+                        title="Open settings"
+                        size="s"
+                        onClick={() => setSettingsOpen(true)}
+                    />
+                    }
+
                     <Button
                         icon={isCodeOpen ? 'code_off' : 'code'}
                         title={isCodeOpen ? 'Hide code' : 'Show code'}
                         size="s"
                         onClick={() => setCodeOpen(v => !v)}
                     />
-
-                    {settings && !isSettingsOpen &&
-                        <Button
-                            icon="settings"
-                            title="Open settings"
-                            size="s"
-                            onClick={() => setSettingsOpen(true)}
-                        />
-                    }
                 </div>
-                
-
-                {setupContent}
-
-                {wrappedContent}
             </div>
 
             {isCodeOpen &&
@@ -115,13 +118,18 @@ export default function Demo<T extends Props = Props>({
                 </div>
             }
 
-            {settings && isSettingsOpen &&
+            {settings &&
                 <Drawer
                     className={styles.drawer}
                     title="Settings"
-                    position="right"
-                    type="inline"
-                    open
+                    type={isMobile ? 'modal' : 'inline'}
+                    position={isMobile ? 'bottom' : 'right'}
+                    size="s"
+                    open={isSettingsOpen}
+                    closeOnClickOutside={isMobile}
+                    color={isMobile ? 'secondary' : undefined}
+                    shadow={isMobile ? 'm': undefined}
+                    backdrop={false}
                     onClose={() => setSettingsOpen(false)}
                 >
                     <Settings<T>
