@@ -1,8 +1,7 @@
-import { ReactNode, useRef } from 'react';
+import { ReactNode, useCallback, useRef, type MouseEventHandler } from 'react';
 
 import { cn as ccn } from '../../component';
-import type { ComponentProps, ElementType, Shadow, Shape, Size, SizeExtended, Slotted } from '../../types';
-import { cn } from '../../utils';
+import type { BaseColor, ComponentProps, ElementType, Shadow, Shape, Size, SizeExtended, Slotted } from '../../types';
 
 import Button, { ButtonProps } from '../Button';
 import Heading, { HeadingProps } from '../Heading';
@@ -20,11 +19,13 @@ export type DrawerProps = {
     closeButton?: Slotted<ButtonProps>;
     type?: 'inline' | 'overlay' | 'modal';
     position?: 'left' | 'right' | 'top' | 'bottom';
+    color?: BaseColor;
     size?: Size;
     shape?: Exclude<Shape, 'circular'>;
     shadow?: Shadow;
     backdrop?: boolean;
     inset?: boolean;
+    closeOnClickOutside?: boolean;
     onClose?: () => void;
 };
 
@@ -48,29 +49,46 @@ export default function Drawer<T extends ElementType = 'div'>({
     closeButton = { icon: 'close' },
     type = 'inline',
     position = 'left',
-    size = 'm',
+    color,
+    size,
     shadow,
     shape,
     backdrop = true,
     inset = false,
+    closeOnClickOutside = false,
     onClose,
     ...props
 }: ComponentProps<DrawerProps, T>) {
     const surfaceRef = useRef<HTMLDivElement>(null);
 
+    const handleRootClick = useCallback(() => {
+        if (closeOnClickOutside) {
+            onClose?.();
+        }
+    }, [closeOnClickOutside, onClose]);
+    
+    const handleSurfaceClick = useCallback<MouseEventHandler<HTMLDivElement>>(event => {
+        if (closeOnClickOutside) {
+            event.stopPropagation();
+        }
+    }, [closeOnClickOutside]);
+
+    if (type === 'inline' && !open) {
+        return null;
+    }
+
     const Component = as || 'div';
-    const rootClassNames = cn(
-        className,
-        styles.root,
-        styles[type],
-        styles[size],
-        styles[position],
-        inset && styles.inset
-    );
+    const rootClassNames = ccn(className, {
+        [type]: type,
+        [position]: position,
+        color,
+        size,
+        inset
+    }, styles);
     const surfaceClassNames = ccn(styles.surface, {
         root: false,
         shape,
-        shadow
+        shadow: shadow && position === 'bottom' ? `shadow-${shadow}-` as Shadow : shadow
     }, styles);
 
     const rootContent = (
@@ -79,6 +97,7 @@ export default function Drawer<T extends ElementType = 'div'>({
             tabIndex={-1}
             data-open={open ? true : undefined}
             data-position={position}
+            onClick={handleRootClick}
             {...props}
         >
             <Transition
@@ -92,14 +111,15 @@ export default function Drawer<T extends ElementType = 'div'>({
                 <div
                     ref={surfaceRef}
                     className={surfaceClassNames}
+                    onClick={handleSurfaceClick}
                 >
-                    {(title || header || onClose) &&
+                    {(title || header) &&
                         <div className={styles.header}>
                             {title &&
                                 <Slot
                                     fallback={Heading}
                                     className={styles.title}
-                                    size={sizeMap[size]}
+                                    size={sizeMap[size ?? 'm']}
                                 >
                                     {title}
                                 </Slot>
@@ -112,7 +132,7 @@ export default function Drawer<T extends ElementType = 'div'>({
                                     fallback={Button}
                                     className={styles.closeButton}
                                     icon="close"
-                                    size={sizeMap[size]}
+                                    size={sizeMap[size ?? 'm']}
                                     aria-label="Close dialog"
                                     onClick={onClose}
                                 />
@@ -129,7 +149,11 @@ export default function Drawer<T extends ElementType = 'div'>({
     );
 
     return type === 'modal' ?
-        <Modal open={open} backdrop={backdrop} fixed>
+        <Modal
+            open={open}
+            backdrop={backdrop}
+            fixed
+        >
             {rootContent}
         </Modal> :
         rootContent;

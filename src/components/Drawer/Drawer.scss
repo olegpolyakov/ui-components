@@ -24,14 +24,14 @@ $sizes: (
     l: $l
 ) !default;
 
-$width: 360px !default;
+$width: max-content !default;
 $height: 100% !default;
 $margin: 0px !default;
 $border-color: base.var(border-color) !default;
 $border-width: 1px !default;
 $background-color: base.var(background-color) !default;
-$padding-x: map.get($m, padding) !default;
-$padding-y: map.get($m, padding) !default;
+$padding-x: 0 !default;
+$padding-y: 0 !default;
 $radius: base.var(radius-m) !default;
 $shadow: base.var(shadow-m) !default;
 $z-index: 1000 !default;
