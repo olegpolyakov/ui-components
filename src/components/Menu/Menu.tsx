@@ -7,15 +7,15 @@ import type { ComponentProps, ElementType, PropsOf, PropsWithKey } from '../../t
 import { isObject } from '../../utils';
 
 import Divider from '../Divider';
-import Heading from '../Heading';
 import Icon from '../Icon';
 import Item from '../Item';
+import Text from '../Text';
 import Popover, { type PopoverProps } from '../Popover';
 
 import styles from './Menu.module.scss';
 
 type MenuItemProps = {
-    type?: string;
+    type?: 'item' | 'divider' | 'heading';
     items?: PropsWithKey<MenuItemProps>[];
     selected?: boolean;
 } & PropsOf<typeof Item>;
@@ -96,7 +96,7 @@ export default function Menu<T extends ElementType = 'div'>({
         >
             <Root className={classNames}>
                 {resolvedItems?.map(item => {
-                    const { key, type, items, selected, ...rest } = item;
+                    const { key, type = 'item', items, selected, ...rest } = item;
 
                     if (type === 'divider') {
                         return (
@@ -107,11 +107,11 @@ export default function Menu<T extends ElementType = 'div'>({
                         );
                     } else if (type === 'heading') {
                         return (
-                            <Heading
+                            <Text
                                 key={key}
                                 className={styles.heading}
                                 content={item.content}
-                                size="s"
+                                size="xs"
                                 color="secondary"
                             />
                         );
