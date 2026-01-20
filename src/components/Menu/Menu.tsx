@@ -122,6 +122,7 @@ export default function Menu<T extends ElementType = 'div'>({
                                 trigger={
                                     <Item
                                         shape="rectangular"
+                                        variant="plain"
                                         {...rest}
                                         end={
                                             <Icon
@@ -146,6 +147,7 @@ export default function Menu<T extends ElementType = 'div'>({
                         return (
                             <Item
                                 key={key}
+                                variant="plain"
                                 {...rest}
                                 interactive
                                 active={selected}
