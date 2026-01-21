@@ -23,102 +23,15 @@ export type TransitionProps = CSSTransitionProps<HTMLDivElement> & {
     disabled?: boolean;
 };
 
-const blurClassNames: CSSTransitionClassNames = {
-    enter: styles.blurEnter,
-    enterActive: styles.blurEnterActive,
-    enterDone: styles.blurEnterDone,
-    exit: styles.blurExit,
-    exitActive: styles.blurExitActive,
-    exitDone: styles.blurExitDone
-};
-
-const collapseClassNames: CSSTransitionClassNames = {
-    enter: styles.collapseEnter,
-    enterActive: styles.collapseEnterActive,
-    enterDone: styles.collapseEnterDone,
-    exit: styles.collapseExit,
-    exitActive: styles.collapseExitActive,
-    exitDone: styles.collapseExitDone
-};
-
-const fadeClassNames: CSSTransitionClassNames = {
-    appear: styles.fadeAppear,
-    appearActive: styles.fadeAppearActive,
-    appearDone: styles.fadeAppearDone,
-    enter: styles.fadeEnter,
-    enterActive: styles.fadeEnterActive,
-    enterDone: styles.fadeEnterDone,
-    exit: styles.fadeExit,
-    exitActive: styles.fadeExitActive,
-    exitDone: styles.fadeExitDone
-};
-
-const scaleClassNames: CSSTransitionClassNames = {
-    appear: styles.scaleAppear,
-    appearActive: styles.scaleAppearActive,
-    appearDone: styles.scaleAppearDone,
-    enter: styles.scaleEnter,
-    enterActive: styles.scaleEnterActive,
-    enterDone: styles.scaleEnterDone,
-    exit: styles.scaleExit,
-    exitActive: styles.scaleExitActive,
-    exitDone: styles.scaleExitDone
-};
-
-const slideLeftClassNames: CSSTransitionClassNames = {
-    appear: styles.slideLeftAppear,
-    appearActive: styles.slideLeftAppearActive,
-    appearDone: styles.slideLeftAppearDone,
-    enter: styles.slideLeftEnter,
-    enterActive: styles.slideLeftEnterActive,
-    enterDone: styles.slideLeftEnterDone,
-    exit: styles.slideLeftExit,
-    exitActive: styles.slideLeftExitActive,
-    exitDone: styles.slideLeftExitDone
-};
-
-const slideRightClassNames: CSSTransitionClassNames = {
-    appear: styles.slideRightAppear,
-    appearActive: styles.slideRightAppearActive,
-    appearDone: styles.slideRightAppearDone,
-    enter: styles.slideRightEnter,
-    enterActive: styles.slideRightEnterActive,
-    enterDone: styles.slideRightEnterDone,
-    exit: styles.slideRightExit,
-    exitActive: styles.slideRightExitActive,
-    exitDone: styles.slideRightExitDone
-};
-
-const slideTopClassNames: CSSTransitionClassNames = {
-    appear: styles.slideTopAppear,
-    appearActive: styles.slideTopAppearActive,
-    appearDone: styles.slideTopAppearDone,
-    enter: styles.slideTopEnter,
-    enterActive: styles.slideTopEnterActive,
-    enterDone: styles.slideTopEnterDone,
-    exit: styles.slideTopExit,
-    exitActive: styles.slideTopExitActive,
-    exitDone: styles.slideTopExitDone
-};
-
-const slideBottomClassNames: CSSTransitionClassNames = {
-    appear: styles.slideBottomAppear,
-    appearActive: styles.slideBottomAppearActive,
-    appearDone: styles.slideBottomAppearDone,
-    enter: styles.slideBottomEnter,
-    enterActive: styles.slideBottomEnterActive,
-    enterDone: styles.slideBottomEnterDone,
-    exit: styles.slideBottomExit,
-    exitActive: styles.slideBottomExitActive,
-    exitDone: styles.slideBottomExitDone
-};
-
-const zoomClassNames: CSSTransitionClassNames = {
-    enter: styles.zoomEnter,
-    enterActive: styles.zoomEnterActive,
-    exit: styles.zoomExit,
-    exitActive: styles.zoomExitActive
-};
+const blurClassNames = createTransitionClassNames('blur');
+const collapseClassNames = createTransitionClassNames('collapse');
+const fadeClassNames = createTransitionClassNames('fade');
+const scaleClassNames = createTransitionClassNames('scale');
+const slideLeftClassNames = createTransitionClassNames('slideLeft');
+const slideRightClassNames = createTransitionClassNames('slideRight');
+const slideTopClassNames = createTransitionClassNames('slideTop');
+const slideBottomClassNames = createTransitionClassNames('slideBottom');
+const zoomClassNames = createTransitionClassNames('zoom');
 
 const typeToClassNames: Record<string, CSSTransitionClassNames> = {
     blur: blurClassNames,
@@ -164,4 +77,18 @@ export default function Transition({
             {children}
         </CSSTransition>
     );
+}
+
+function createTransitionClassNames(prefix: string): CSSTransitionClassNames {
+    return {
+        appear: styles[`${prefix}Appear`],
+        appearActive: styles[`${prefix}AppearActive`],
+        appearDone: styles[`${prefix}AppearDone`],
+        enter: styles[`${prefix}Enter`],
+        enterActive: styles[`${prefix}EnterActive`],
+        enterDone: styles[`${prefix}EnterDone`],
+        exit: styles[`${prefix}Exit`],
+        exitActive: styles[`${prefix}ExitActive`],
+        exitDone: styles[`${prefix}ExitDone`]
+    };
 }
