@@ -81,6 +81,7 @@ export default function Button<T extends ElementType = 'button'>({
         <Slot
             fallback={Icon}
             className={styles.icon}
+            color="inherit"
             size={size}
         >
             {iconContent}
@@ -90,6 +91,8 @@ export default function Button<T extends ElementType = 'button'>({
     return (
         <Root
             className={classNames}
+            data-active={active}
+            data-loading={loading}
             {...props}
         >
             {(start || startIcon) &&
