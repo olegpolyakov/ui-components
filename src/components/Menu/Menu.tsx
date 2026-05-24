@@ -107,13 +107,18 @@ export default function Menu<T extends ElementType = 'div'>({
                         );
                     } else if (type === 'heading') {
                         return (
-                            <Text
+                            <Item
                                 key={key}
                                 className={styles.heading}
-                                content={item.content}
-                                size="xs"
-                                color="secondary"
-                            />
+                                size={size}
+                                interactive={false}
+                            >
+                                <Text
+                                    content={item.content}
+                                    size="xs"
+                                    color="secondary"
+                                />
+                            </Item>
                         );
                     } else if (items) {
                         return (
@@ -121,6 +126,8 @@ export default function Menu<T extends ElementType = 'div'>({
                                 key={key}
                                 trigger={
                                     <Item
+                                        className={styles.item}
+                                        size={size}
                                         shape="rectangular"
                                         variant="plain"
                                         {...rest}
@@ -147,6 +154,8 @@ export default function Menu<T extends ElementType = 'div'>({
                         return (
                             <Item
                                 key={key}
+                                className={styles.item}
+                                size={size}
                                 variant="plain"
                                 {...rest}
                                 interactive

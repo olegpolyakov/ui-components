@@ -11,9 +11,11 @@
         overflow-y: auto;
     }
 
+    .item {
+    }
+    
     .heading {
-        padding: 4px 12px;
-        user-select: none;
+        min-height: auto;
     }
 
     .divider {
