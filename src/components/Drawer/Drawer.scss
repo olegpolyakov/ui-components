@@ -4,16 +4,19 @@
 @use 'component';
 
 $s: (
+    width: 240px,
     padding: base.var(space-s),
     font-size: base.var(font-size-s)
 ) !default;
 
 $m: (
+    width: 320px,
     padding: base.var(space-m),
     font-size: base.var(font-size-m)
 ) !default;
 
 $l: (
+    width: 480px,
     padding: base.var(space-l),
     font-size: base.var(font-size-l)
 ) !default;
