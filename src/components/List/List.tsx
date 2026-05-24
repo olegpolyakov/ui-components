@@ -32,7 +32,7 @@ export default function List<T extends ElementType = 'ul'>({
     const Component = as || 'ul';
     const classNames = cn(
         className,
-        { gap, shape, variant, interactive: false },
+        { gap, interactive: false },
         styles
     );
 
@@ -40,6 +40,8 @@ export default function List<T extends ElementType = 'ul'>({
         <Component className={classNames} {...props}>
             {renderChildren(children, items, Item, {
                 size,
+                shape,
+                variant,
                 interactive
             })}
         </Component>
