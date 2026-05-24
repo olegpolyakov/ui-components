@@ -38,7 +38,11 @@ export type { Placement, VirtualElement };
 export type PopoverTrigger = 
     ReactElement<RefAttributes<HTMLElement> & 
     HTMLAttributes<HTMLElement> & 
-    {active?: boolean, disabled?: boolean}>;
+    {
+        active?: boolean;
+        disabled?: boolean;
+        onClick?: (event: ReactMouseEvent) => void;
+    }>;
 
 export type PopoverProps = PropsWithChildren<{
     containerElement?: HTMLElement;
@@ -178,13 +182,14 @@ export default function Popover({
         };
     }, [open, internalOpen, internalPlacement, isUncontrolled, onOpen, onClose]);
 
-    const handleTriggerClick = useCallback(() => {
+    const handleTriggerClick = useCallback((event: ReactMouseEvent) => {
         if (isUncontrolled) {
             setInternalOpen(true);
         }
 
         onOpen?.(internalPlacement);
-    }, [isUncontrolled, internalPlacement, onOpen]);
+        trigger?.props.onClick?.(event);
+    }, [trigger, isUncontrolled, internalPlacement, onOpen]);
 
     const handlePopoverClick = useCallback((event: ReactMouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
@@ -213,7 +218,7 @@ export default function Popover({
                 cloneElement(trigger, {
                     ref: refs.setReference,
                     active: trigger.props.active ?? (open || internalOpen),
-                    disabled: disabled,
+                    disabled: trigger.props.disabled ?? disabled,
                     onClick: handleTriggerClick
                 })
             }
