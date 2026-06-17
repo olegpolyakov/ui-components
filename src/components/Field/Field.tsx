@@ -1,4 +1,4 @@
-import { type ReactElement, type ReactNode, cloneElement, isValidElement } from 'react';
+import { type ReactNode, cloneElement, isValidElement } from 'react';
 
 import { cn } from '../../component';
 import type { PaletteColor, ComponentProps, Orientation, Size, TextColor } from '../../types';
@@ -54,8 +54,10 @@ export default function Field({
                 </Slot>
             }
 
-            {isValidElement(content) 
-                ? cloneElement(content as ReactElement<{size: Size}>, { size })
+            {isValidElement<{size: Size}>(content) 
+                ? cloneElement<{size: Size}>(content, {
+                    size: content.props.size ?? size
+                })
                 : content
             }
         </Root>
