@@ -22,6 +22,7 @@
       "sass": "./dist/styles/_index.scss"
     },
     "./styles/*": {
+      "import": "./dist/styles/*",
       "sass": "./dist/styles/*"
     }
   },
