@@ -37,7 +37,7 @@ export default function AvatarGroup<T extends ElementType>({
     maxCount = 0,
     ...props
 }: ComponentProps<AvatarGroupProps, T>) {
-    const resolvedChildren = resolveChildren(children, avatars);
+    const resolvedChildren = resolveChildren(children, avatars, Avatar);
     const shownChildren = (maxCount > 0 && resolvedChildren.length > maxCount)
         ? resolvedChildren.slice(0, maxCount)
         : resolvedChildren;

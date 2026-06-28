@@ -32,7 +32,7 @@ export default function PillGroup<T extends ElementType = 'div'>({
     interactive,
     ...props
 }: ComponentProps<PillGroupProps, T>) {
-    const resolvedChildren = resolveChildren(children, pills);
+    const resolvedChildren = resolveChildren(children, pills, Pill);
     const shownChildren = (maxCount > 0 && resolvedChildren.length > maxCount)
         ? resolvedChildren.slice(0, maxCount)
         : resolvedChildren;

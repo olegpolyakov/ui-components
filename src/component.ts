@@ -13,16 +13,30 @@ import type {
     Weight,
     SizeFull,
     Size,
-    TextColor
+    TextColor,
+    ElementType
 } from './types';
-import { cn, isObject, isString } from './utils';
+import { cn, isFunction, isObject, isString } from './utils';
 
 import baseClassNames from './styles/classes.module.scss';
 
-export function resolveChildren<T>(children: Children, items: T[]): T[] {
+/**
+ * Resolves children from both props and React children, giving precedence to props.
+ * 
+ * If items are provided via props, they will be used directly. Otherwise, the function will fall back to using React children.
+ * The function filters out any non-element children and maps the valid elements to their props. If a `type` is provided, it will filter the React children to only include elements of that type.
+ */
+export function resolveChildren<T>(children: Children, items: T[], type?: ElementType): T[] {
+    const array = ReactChildren.toArray(children);
+
+    if (type && !array.every(child => isValidElement<T>(child) && child.type === type)) {
+        console.error(`All children must be valid React elements of type ${isFunction(type) ? type.name : type}.`);
+        return items;
+    }
+
     return items.length > 0
         ? items
-        : ReactChildren.toArray(children)
+        : array
             .filter((child): child is ReactElement<T> => isValidElement<T>(child))
             .map(child => child.props);
 }

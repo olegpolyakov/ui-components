@@ -31,7 +31,7 @@ export default function Accordion<T extends ElementType = 'div'>({
 
     return (
         <Root className={classNames} {...props}>
-            {resolveChildren(children, items).map((item, index) =>
+            {resolveChildren(children, items, AccordionItem).map((item, index) =>
                 <AccordionItem
                     key={item.key || index}
                     size={size}

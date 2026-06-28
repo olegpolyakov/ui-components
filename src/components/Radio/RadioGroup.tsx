@@ -41,7 +41,7 @@ export default function RadioGroup<T extends ElementType = 'div'>({
 
     return (
         <Root className={classNames} {...props}>
-            {resolveChildren(children, radios).map(({ key, ...props }) =>
+            {resolveChildren(children, radios, Radio).map(({ key, ...props }) =>
                 <Radio
                     key={key}
                     className={styles.radio}
