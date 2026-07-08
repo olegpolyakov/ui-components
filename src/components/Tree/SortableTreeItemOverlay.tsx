@@ -4,7 +4,7 @@ import Badge from '../Badge';
 import Icon from '../Icon';
 import Item from '../Item';
 
-import styles from './TreeItem.module.scss';
+import styles from './SortableTreeItem.module.scss';
 
 export type SortableTreeItemOverlayProps = {
   id: UniqueIdentifier;
