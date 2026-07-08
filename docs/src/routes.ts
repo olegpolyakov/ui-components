@@ -49,6 +49,7 @@ import Text from './pages/components/Text.mdx';
 import Textarea from './pages/components/Textarea.mdx';
 import Toast from './pages/components/Toast.mdx';
 import Tooltip from './pages/components/Tooltip.mdx';
+import Tree from './pages/components/Tree.mdx';
 
 export default [
     { path: '/', component: Home, title: 'Introduction', exact: true, hidden: true },
@@ -110,7 +111,8 @@ export default [
             { path: '/text', component: Text, title: 'Text' },
             { path: '/textarea', component: Textarea, title: 'Textarea' },
             { path: '/toast', component: Toast, title: 'Toast' },
-            { path: '/tooltip', component: Tooltip, title: 'Tooltip' }
+            { path: '/tooltip', component: Tooltip, title: 'Tooltip' },
+            { path: '/tree', component: Tree, title: 'Tree' }
         ]
     }
 ];

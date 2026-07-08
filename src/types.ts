@@ -30,7 +30,7 @@ export type PropsWithKey<
     CustomProps,
     BuiltinProps = HTMLProps
 > = Merge<Props<CustomProps, BuiltinProps>, {
-    key?: string;
+    key: string;
 }>;
 
 export type PropsWithRef<P, E extends ElementType> = ComponentProps<P, E>;
