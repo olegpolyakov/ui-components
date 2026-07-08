@@ -35,10 +35,10 @@ export default function TabGroup<T extends ElementType = 'div'>({
 
     return (
         <Component className={classNames} {...props}>
-            {tabs?.map(tab =>
+            {tabs?.map(({ key, ...rest }) =>
                 <Tab
-                    key={tab.key}
-                    {...tab}
+                    key={key}
+                    {...rest}
                 />
             )}
 
