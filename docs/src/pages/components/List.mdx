@@ -1,7 +1,7 @@
 import Demo from '@/components/Demo';
 import Section from '@/components/Section';
 
-import { List } from '~/components/List';
+import { List, SortableList } from '~/components/List';
 import { Item } from '~/components/Item';
 
 # List
@@ -15,3 +15,16 @@ List is a component that displays a collection of items in a structured format, 
         <Item>Item 3</Item>
     </List>
 </Demo>
+
+## Sortable List
+
+<Section>
+    <SortableList
+        items={[
+            { id: 1, content: 'Item 1' },
+            { id: 2, content: 'Item 2' },
+            { id: 3, content: 'Item 3' },
+        ]}
+        onChange={console.log}
+    />
+</Section>

@@ -1,0 +1,30 @@
+@use 'sass:map';
+
+@use 'base';
+@use 'component';
+
+$s: (
+    indent: base.var(space-m)
+);
+
+$m: (
+    indent: base.var(space-l)
+);
+
+$l: (
+    indent: base.var(space-xl)
+);
+
+$sizes: (
+    s: $s,
+    m: $m,
+    l: $l
+) !default;
+
+$gap: 0 !default;
+$indent: map.get($m, indent) !default;
+
+$vars: component.vars(Tree, (
+    gap: $gap,
+    indent: $indent
+));

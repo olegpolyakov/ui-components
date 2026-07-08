@@ -1,0 +1,68 @@
+import Demo from '@/components/Demo';
+import Section from '@/components/Section';
+
+import { Tree, SortableTree } from '~/components/Tree';
+import { Item } from '~/components/Item';
+
+# Tree
+
+Tree is a component that displays a collection of items in a structured tree format, supporting various styles and interactions.
+
+<Demo settings={Tree.settings}>
+    <Tree
+        items={[
+            { content: 'Home' },
+            {
+                content: 'Collections',
+                children: [
+                    { content: 'Spring' },
+                    { content: 'Summer' },
+                    { content: 'Fall' },
+                    { content: 'Winter' }
+                ]
+            },
+            { content: 'About Us' },
+            {
+                content: 'My Account',
+                children: [
+                    { content: 'Addresses' },
+                    { content: 'Order History' }
+                ]
+            }
+        ]}
+    />
+</Demo>
+
+## Sortable Tree
+
+<Section>
+    <SortableTree
+        items={[
+             {
+                id: 'Home',
+                children: [],
+            },
+            {
+                id: 'Collections',
+                children: [
+                    {id: 'Spring', children: []},
+                    {id: 'Summer', children: []},
+                    {id: 'Fall', children: []},
+                    {id: 'Winter', children: []},
+                ],
+            },
+            {
+                id: 'About Us',
+                children: [],
+            },
+            {
+                id: 'My Account',
+                children: [
+                    {id: 'Addresses', children: []},
+                    {id: 'Order History', children: []},
+                ],
+            },
+        ]}
+        onChange={() => {}}
+    />
+</Section>

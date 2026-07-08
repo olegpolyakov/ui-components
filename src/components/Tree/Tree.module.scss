@@ -1,0 +1,29 @@
+@use 'base';
+@use 'component';
+
+@use './Tree';
+
+@include component.define(Tree, Tree.$vars) {
+    .root {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+        gap: component.var(gap);
+    }
+
+    @include component.gaps((
+        s: base.var(space-xxs),
+        m: base.var(space-xs),
+        l: base.var(space-s)
+    ));
+
+    @include component.sizes(Tree.$sizes);
+
+    .root {
+        [data-depth] {
+            margin-left: calc(attr(data-depth number) * component.var(indent));
+        }
+    }
+}
