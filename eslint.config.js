@@ -61,7 +61,8 @@ export default [
         },
         rules: {
             ...typeScriptPlugin.configs.recommended.rules,
-            ...common.rules
+            ...common.rules,
+            '@typescript-eslint/no-unused-vars': 'warn'
         },
         settings: {
             ...common.settings
