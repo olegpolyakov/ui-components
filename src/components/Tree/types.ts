@@ -1,6 +1,6 @@
 export interface Item {
     id: string;
-    content: string;
+    content?: string;
     children: Item[];
     collapsed?: boolean;
 }
