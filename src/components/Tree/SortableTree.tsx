@@ -19,7 +19,7 @@ import useSortableTree from './useSortableTree';
 import baseStyles from './Tree.module.scss';
 import sortableStyles from './SortableTree.module.scss';
 
-export type SortableTreeProps = TreeProps & {
+export type SortableTreeProps = Omit<TreeProps, 'renderItem'> & {
   items: TreeItem[];
   indentation?: number;
   renderItem?: (item: FlattenedItem, sortable: SortableApi, removeItem: () => void) => ReactElement;
@@ -126,23 +126,19 @@ export default function SortableTree<T extends ElementType = 'ul'>({
             </Component>
             
             <DragOverlay style={{ width: 'fit-content' }}>
-                {draggable => {
-                    const item = flattenedItems.find(i => i.id === draggable.id)!;
-
-                    return (
-                        <Item
-                            start={
-                                <Icon name="drag_indicator" size="s" />
-                            }
-                            content={item.content}
-                            end={sourceChildren.current.length > 0 &&
+                {draggable => renderOverlay?.(draggable, sourceChildren.current.length) ?? (
+                    <Item
+                        start={
+                            <Icon name="drag_indicator" size="s" />
+                        }
+                        content={flattenedItems.find(i => i.id === draggable.id)!.content}
+                        end={sourceChildren.current.length > 0 &&
                                 <Badge content={sourceChildren.current.length} />
-                            }
-                            active
-                            data-overlay
-                        />
-                    );
-                }}
+                        }
+                        active
+                        data-overlay
+                    />
+                )}
             </DragOverlay>
         </DragDropProvider>
     );
