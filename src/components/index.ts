@@ -22,6 +22,7 @@ export * from './Label';
 export * from './Layer';
 export * from './Link';
 export * from './List';
+export * from './Logo';
 export * from './Menu';
 export * from './Pill';
 export * from './Popover';

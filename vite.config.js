@@ -9,6 +9,10 @@ export default defineConfig({
         copy({
             targets: [
                 {
+                    src: 'src/images',
+                    dest: '.'
+                },
+                {
                     src: 'src/styles',
                     dest: '.'
                 }

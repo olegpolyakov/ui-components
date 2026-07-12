@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch, useLocation } from 'react-router-dom';
 
-import { Button, ButtonGroup, Drawer, Heading, Icon, Item, List, Provider, Text, Tooltip } from '~/components';
+import { Button, ButtonGroup, Drawer, Heading, Icon, Item, List, Logo, Provider, Text, Tooltip } from '~/components';
 import type { Theme } from '~/theme';
 import { useIsMobile } from '~/hooks/media';
 
@@ -31,8 +31,9 @@ export default function App() {
                             <Heading
                                 as={Link}
                                 to="/"
+                                start={<Logo size="l" />}
                                 className={styles.title}
-                                content="Kantan UI"
+                                content="OP UI"
                                 size="m"
                             />
 
