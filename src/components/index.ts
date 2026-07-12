@@ -31,6 +31,7 @@ export * from './Progress';
 export * from './Radio';
 export * from './Select';
 export * from './Slider';
+export * from './Sortable';
 export * from './Spinner';
 export * from './State';
 export * from './Switch';
