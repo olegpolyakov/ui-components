@@ -104,9 +104,9 @@ export default function SortableTree<T extends ElementType = 'ul'>({
                     >
                         {sortable => renderItem?.(item, sortable, () => removeItem(item)) ?? (
                             <Item
-                                className={baseStyles.root}
                                 start={
                                     <Icon
+                                        className={sortableStyles.handle}
                                         ref={sortable.handleRef}
                                         name="drag_indicator"
                                         size="s"
@@ -126,20 +126,23 @@ export default function SortableTree<T extends ElementType = 'ul'>({
             </Component>
             
             <DragOverlay style={{ width: 'fit-content' }}>
-                {draggable => renderOverlay?.(draggable, sourceChildren.current.length) ?? (
-                    <Item
-                        className={baseStyles.root}
-                        start={
-                            <Icon name="drag_indicator" size="s" />
-                        }
-                        content={draggable.id}
-                        end={sourceChildren.current.length > 0 &&
-                            <Badge content={sourceChildren.current.length} />
-                        }
-                        active
-                        data-overlay
-                    />
-                )}
+                {draggable => {
+                    const item = items.find(i => i.id === draggable.id)!;
+
+                    return renderOverlay?.(draggable, sourceChildren.current.length) ?? (
+                        <Item
+                            start={
+                                <Icon name="drag_indicator" size="s" />
+                            }
+                            content={item.content}
+                            end={sourceChildren.current.length > 0 &&
+                                <Badge content={sourceChildren.current.length} />
+                            }
+                            active
+                            data-overlay
+                        />
+                    );
+                }}
             </DragOverlay>
         </DragDropProvider>
     );
