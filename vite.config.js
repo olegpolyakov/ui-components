@@ -40,11 +40,11 @@ export default defineConfig({
                 const file = path.basename(filename, '.module.scss');
             
                 if (file === 'classes') {
-                    return `kui-${name}`;
+                    return `ui-${name}`;
                 } else if (name === 'root') {
-                    return `kui-${file}`;
+                    return `ui-${file}`;
                 } else {
-                    return `kui-${file}-${name}`;
+                    return `ui-${file}-${name}`;
                 }
             }
         },
