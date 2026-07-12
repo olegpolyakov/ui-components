@@ -127,9 +127,9 @@ export default function SortableTree<T extends ElementType = 'ul'>({
             
             <DragOverlay style={{ width: 'fit-content' }}>
                 {draggable => {
-                    const item = items.find(i => i.id === draggable.id)!;
+                    const item = flattenedItems.find(i => i.id === draggable.id)!;
 
-                    return renderOverlay?.(draggable, sourceChildren.current.length) ?? (
+                    return (
                         <Item
                             start={
                                 <Icon name="drag_indicator" size="s" />
