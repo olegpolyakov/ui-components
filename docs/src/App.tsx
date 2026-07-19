@@ -50,7 +50,7 @@ export default function App() {
                                     </Tooltip>
                                 </Button>
 
-                                <Button as="a" href="https://github.com/olegpolyakov/kantanui" target='_blank' icon>
+                                <Button as="a" href="https://github.com/olegpolyakov/ui" target='_blank' icon>
                                     <GitHubIcon />
                                 </Button>
                             </ButtonGroup>
